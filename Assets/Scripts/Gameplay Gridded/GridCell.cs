@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GridCell : MonoBehaviour
+{
+    public int Row;
+    public int Cell;
+
+    public List<GridCell> Neighbors = new List<GridCell>();
+    public float DistanceToClosestNeighbor = float.MaxValue;
+
+    public float LatitudeMin;
+    public float LatitudeMax;
+    public float LongitudeMin;
+    public float LongitudeMax;
+
+    public int? Color = null;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    public void Initialize(int numRows, int numCellsInRow, int row, int cell)
+    {
+        Row = row;
+        Cell = cell;
+
+        float height = 180f / numRows;
+        float width = 360f / numCellsInRow;
+
+        float heightOffset = 90f - height * Row;
+        float widthOffset = width * Cell;
+
+        LatitudeMin = heightOffset;
+        LatitudeMax = heightOffset - height;
+
+        LongitudeMin = widthOffset;
+        LongitudeMax = widthOffset + width;
+
+        var middleLat = (LatitudeMin + LatitudeMax) / 2;
+        var middleLong = (LongitudeMin + LongitudeMax) / 2;
+
+        // Special case (single-node poles)
+        if(LongitudeMax - LongitudeMin == 360f)
+        {
+            if (LatitudeMin == 90f)
+            {
+                transform.localPosition = PolarVector3.ToCartesian(90f, 0);
+            }
+            else if(LatitudeMax == -90f)
+            {
+                transform.localPosition = PolarVector3.ToCartesian(-90f, 0);
+            }
+        }
+        else
+        {
+            transform.localPosition = PolarVector3.ToCartesian(middleLat, middleLong);
+        }
+    }
+
+    public bool ObstructedForColor(int color) => Color != 0 && Color != color;
+}
