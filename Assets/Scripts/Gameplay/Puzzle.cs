@@ -33,8 +33,6 @@ public class Puzzle : MonoBehaviour
     private float PathCollisionDistance = 0.07f;
     private float NodeCollisionDistance = 0.15f;
 
-    public bool Panning { get; private set; }
-
     [Header("Debug")]
     public GriddedPuzzleConfig DEBUG_PUZZLE_CONFIG;
     public bool GridVisible = false;
@@ -46,9 +44,6 @@ public class Puzzle : MonoBehaviour
 
         PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
         NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
-
-        Debug.Log($"PathCollisionDistance: {PathCollisionDistance}");
-        Debug.Log($"NodeCollisionDistance: {NodeCollisionDistance}");
 
         Current = this;
         if(DEBUG_PUZZLE_CONFIG != null)
@@ -74,7 +69,7 @@ public class Puzzle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Panning)
+        if(Input.GetMouseButton(0))
         {
             if(ActiveNode)
             {
@@ -100,18 +95,6 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private void OnMouseDrag()
-    {
-        Panning = true;
-    }
-    private void OnMouseExit()
-    {
-        Panning = false;
-    }
-    private void OnMouseUp()
-    {
-        Panning = false;
-    }
     public void NodeOnMouseUp(Node n)
     {
         if (!PuzzleCameraMotor.Panning && PuzzleCameraMotor.PanAmountThisDrag < PanInsteadOfSelectionThreshold)
