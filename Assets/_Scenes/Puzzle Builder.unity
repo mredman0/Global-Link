@@ -583,7 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grid: {fileID: 958230423}
   Camera: {fileID: 1597844642907996185}
-  CameraMotor: {fileID: 4521173174046847540}
+  CameraController: {fileID: 4521173174046847540}
   NodePrefab: {fileID: 3768504839285652863, guid: 7f98b0e5532feaf418aa98315587572b,
     type: 3}
   WallPrefab: {fileID: 8237476992170656197, guid: 2435f99bed0399249815e234652057bd,
@@ -596,6 +596,12 @@ MonoBehaviour:
   Nodes: []
   Walls: []
   Rocks: []
+  CameraArmStart: {x: 0, y: 0, z: 0, w: 0}
+  SnapCameraArmStartToCurrent: 0
+  SnapCameraArmToStart: 0
+  CameraDistance: 0
+  CameraFoV: 0
+  SnapToCameraSettings: 0
   GeneratorSeed: 
   WallAmount: 0
   WallClustering: 0

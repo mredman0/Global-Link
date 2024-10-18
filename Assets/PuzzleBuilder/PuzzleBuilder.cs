@@ -11,7 +11,7 @@ public class PuzzleBuilder : MonoBehaviour
     [Header("Required References")]
     public PuzzleGrid Grid;
     public Camera Camera;
-    public CameraMotor CameraMotor;
+    public CameraController CameraController;
 
     [Header("Prefabs")]
     public GameObject NodePrefab;
@@ -30,6 +30,15 @@ public class PuzzleBuilder : MonoBehaviour
     public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
     public List<PuzzleObjectRock> Rocks = new List<PuzzleObjectRock>();
 
+    [Header("Camera Settings")]
+    public Quaternion CameraArmStart;
+    public bool SnapCameraArmStartToCurrent;
+    public bool SnapCameraArmToStart;
+
+    public float CameraDistance;
+    public float CameraFoV;
+    public bool SnapToCameraSettings;
+
     [Header("Generator")]
     public string GeneratorSeed = "";
     [Range(0, 1)]
@@ -46,7 +55,7 @@ public class PuzzleBuilder : MonoBehaviour
     public bool SavePuzzle = false;
 
     [Header("Loading")]
-    public GriddedPuzzleConfig ConfigToLoad;
+    public PuzzleConfig ConfigToLoad;
     public bool LoadPuzzle = false;
 
     [Header("Debug")]
@@ -63,7 +72,7 @@ public class PuzzleBuilder : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonUp(0) && CameraMotor.PanAmountThisDrag < 1f) // Left click, no dragging
+        if(Input.GetMouseButtonUp(0) && CameraController.PanAmountThisDrag < 1f) // Left click, no dragging
         {
             var ray = Camera.ScreenPointToRay(Input.mousePosition);
             var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, MAIN_SPHERE_LAYER_MASK);
@@ -146,6 +155,21 @@ public class PuzzleBuilder : MonoBehaviour
             StartGeneration = false;
             Clear();
             GeneratePuzzle();
+        }
+        if(SnapCameraArmStartToCurrent)
+        {
+            SnapCameraArmStartToCurrent = false;
+            CameraArmStart = CameraController.CameraArm.transform.rotation;
+        }
+        if(SnapCameraArmToStart)
+        {
+            SnapCameraArmToStart = false;
+            CameraController.SnapTo(CameraArmStart, CameraController.Camera.transform.position.magnitude, CameraController.Camera.fieldOfView);
+        }
+        if(SnapToCameraSettings)
+        {
+            SnapToCameraSettings = false;
+            CameraController.SnapTo(CameraController.CameraArm.transform.rotation, CameraDistance, CameraFoV);
         }
     }
 
@@ -490,10 +514,12 @@ public class PuzzleBuilder : MonoBehaviour
 	#region Saving/Loading
     public void Save(string puzzleName)
     {
-        var newPuzzleConfig = ScriptableObject.CreateInstance<GriddedPuzzleConfig>();
+        var newPuzzleConfig = ScriptableObject.CreateInstance<PuzzleConfig>();
 
+        // Grid
         newPuzzleConfig.GridCellsPerRow = GridCellsPerRow;
 
+        // Nodes
         newPuzzleConfig.NodePositions = new Vector2Int[Nodes.Count];
         newPuzzleConfig.NodeColors = new int[Nodes.Count];
         int i = 0;
@@ -507,18 +533,21 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
 
+        // Walls
         newPuzzleConfig.WallPositions = new Vector2Int[Walls.Count];
         for (i = 0; i < Walls.Count; i++)
         {
             newPuzzleConfig.WallPositions[i] = new Vector2Int(Walls[i].Cell.Row, Walls[i].Cell.Cell);
         }
 
+        // Rocks
         newPuzzleConfig.RockPositions = new Vector2Int[Rocks.Count];
         for(i = 0; i < Rocks.Count; i++)
         {
             newPuzzleConfig.RockPositions[i] = new Vector2Int(Rocks[i].Cell.Row, Rocks[i].Cell.Cell);
         }
 
+        // Solutions
         var solutions = new List<GridCell>();
         var solutionLengths = new int[6];
         for(int color = 0; color < 6; color++)
@@ -545,7 +574,7 @@ public class PuzzleBuilder : MonoBehaviour
                     current = next;
                 }
             }
-            else
+            else if(nodes.Any())
             {
                 Debug.LogWarning($"Color {color} does not have exactly 2 nodes, not storing solution.");
             }
@@ -555,14 +584,21 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.SolutionLengths = solutionLengths;
         newPuzzleConfig.Solutions = solutions.Select(c => new Vector2Int(c.Row, c.Cell)).ToArray();
 
+        // Camera Settings
+        newPuzzleConfig.CameraArmStart = CameraArmStart;
+        newPuzzleConfig.CameraDistance = CameraDistance;
+        newPuzzleConfig.CameraFoV = CameraFoV;
+
         AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Puzzles/{puzzleName}.asset");
     }
 
-    public void Load(GriddedPuzzleConfig cfg)
+    public void Load(PuzzleConfig cfg)
     {
         Clear();
+        // Grid
         GridCellsPerRow = cfg.GridCellsPerRow;
         RebuildGrid();
+        // Nodes
         PaintMode = PuzzleBuilderPaintMode.Node;
         for(int i = 0; i < cfg.NodePositions.Length; i++)
         {
@@ -571,6 +607,7 @@ public class PuzzleBuilder : MonoBehaviour
             PaintNodeColor = cfg.NodeColors.Length > i ? cfg.NodeColors[i] : Mathf.FloorToInt(i / 2f);
             Paint(Grid.CellsByRow[row][rowCell]);
         }
+        // Walls
         PaintMode = PuzzleBuilderPaintMode.Wall;
         for (int i = 0; i < cfg.WallPositions.Length; i++)
         {
@@ -578,6 +615,7 @@ public class PuzzleBuilder : MonoBehaviour
             var rowCell = cfg.WallPositions[i].y;
             Paint(Grid.CellsByRow[row][rowCell]);
         }
+        // Rocks
         PaintMode = PuzzleBuilderPaintMode.Rock;
         for(int i = 0; i < cfg.RockPositions.Length; i++)
         {
@@ -585,6 +623,7 @@ public class PuzzleBuilder : MonoBehaviour
             var rowCell = cfg.RockPositions[i].y;
             Paint(Grid.CellsByRow[row][rowCell]);
         }
+        // Solutions
         PaintMode = PuzzleBuilderPaintMode.Node;
         var currentStep = 0;
         for(int i = 0; i < 6; i++)
@@ -599,6 +638,13 @@ public class PuzzleBuilder : MonoBehaviour
                 ColorCell(Grid.CellsByRow[row][rowCell]);
             }
         }
+
+        // Camera Settings
+        CameraArmStart = cfg.CameraArmStart;
+        CameraDistance = cfg.CameraDistance;
+        CameraFoV = cfg.CameraFoV;
+        SnapCameraArmToStart = true;
+        SnapToCameraSettings = true;
     }
 	#endregion
 }

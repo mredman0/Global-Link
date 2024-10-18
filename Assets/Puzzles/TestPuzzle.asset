@@ -94,3 +94,6 @@ MonoBehaviour:
   - {x: 4, y: 4}
   - {x: 5, y: 5}
   - {x: 6, y: 15}
+  CameraArmStart: {x: -0.6427876, y: 0, z: 0, w: 0.76604444}
+  CameraDistance: 0
+  CameraFoV: 0

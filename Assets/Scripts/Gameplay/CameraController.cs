@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMotor : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [Header("Required References")]
     public GameObject CameraArm;
@@ -22,10 +22,13 @@ public class CameraMotor : MonoBehaviour
     public bool Panning { get; set; } = false;
     public float PanAmountThisDrag { get; set; } = 0f;
 
+
+    public Camera Camera { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
-
+        Camera = GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -98,10 +101,7 @@ public class CameraMotor : MonoBehaviour
 
             if(!AllowRoll)
             {
-                var rot = CameraArm.transform.localEulerAngles;
-                rot.x = InverseClamp(rot.x, 90f - PitchInvalidLow, 270 + PitchInvalidHigh);
-                rot.z = 0;
-                CameraArm.transform.rotation = Quaternion.Euler(rot);
+                FixRoll();
             }
         }
         else
@@ -116,11 +116,39 @@ public class CameraMotor : MonoBehaviour
         CameraArm.transform.LookAt(n.transform.position, CameraArm.transform.up);
         if(!AllowRoll)
         {
-            var rot = CameraArm.transform.localEulerAngles;
-            rot.x = InverseClamp(rot.x, 90f - PitchInvalidLow, 270 + PitchInvalidHigh);
-            rot.z = 0;
-            CameraArm.transform.rotation = Quaternion.Euler(rot);
+            FixRoll();
         }
+    }
+
+    public void SnapTo(Quaternion armRotation, float cameraDistance, float cameraFoV)
+    {
+        CameraArm.transform.rotation = armRotation;
+        if(!AllowRoll)
+        {
+            FixRoll();
+        }
+
+        if(cameraDistance <= 0)
+        {
+            // Safe value
+            cameraDistance = 5.73f;
+        }
+        if(cameraFoV <= 0)
+        {
+            // Safe value
+            cameraFoV = 25.8f;
+        }
+
+        Camera.transform.localPosition = Vector3.forward * cameraDistance;
+        Camera.fieldOfView = cameraFoV;
+    }
+
+    private void FixRoll()
+    {
+        var rot = CameraArm.transform.localEulerAngles;
+        rot.x = InverseClamp(rot.x, 90f - PitchInvalidLow, 270 + PitchInvalidHigh);
+        rot.z = 0;
+        CameraArm.transform.rotation = Quaternion.Euler(rot);
     }
 
     private static float InverseClamp(float value, float lowBound, float highBound)

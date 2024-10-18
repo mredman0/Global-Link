@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GriddedPuzzleConfig", order = 1)]
-public class GriddedPuzzleConfig : ScriptableObject
+public class PuzzleConfig : ScriptableObject
 {
 	[Header("Grid")]
 	public int[] GridCellsPerRow;
@@ -18,4 +18,9 @@ public class GriddedPuzzleConfig : ScriptableObject
 	public int[] NodeColors;
 	public int[] SolutionLengths;
 	public Vector2Int[] Solutions;
+
+	[Header("Start View")]
+	public Quaternion CameraArmStart;
+	public float CameraDistance;
+	public float CameraFoV;
 }

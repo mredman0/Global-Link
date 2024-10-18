@@ -16,7 +16,7 @@ public class Puzzle : MonoBehaviour
     [Header("Required References")]
     public PuzzleGrid Grid;
     public Camera PuzzleViewCamera;
-    public CameraMotor PuzzleCameraMotor;
+    public CameraController CameraController;
 
     [Header("Settings")]
     public float PanInsteadOfSelectionThreshold = 1f;
@@ -33,25 +33,42 @@ public class Puzzle : MonoBehaviour
     private float PathCollisionDistance = 0.07f;
     private float NodeCollisionDistance = 0.15f;
 
+    private PuzzleConfig PuzzleConfig;
+
     [Header("Debug")]
-    public GriddedPuzzleConfig DEBUG_PUZZLE_CONFIG;
     public bool GridVisible = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        Grid.Initialize(DEBUG_PUZZLE_CONFIG.GridCellsPerRow, gridVisible: GridVisible);
+        var puzzleProvider = FindObjectOfType<PuzzleProvider>();
+        if(!puzzleProvider)
+        {
+            Debug.LogError("No puzzle provider found!");
+            return;
+        }
+        if(!puzzleProvider.PuzzleConfig)
+        {
+            Debug.LogError("Puzzle provider has no puzzle config!");
+            return;
+        }
+        PuzzleConfig = puzzleProvider.PuzzleConfig;
+
+        Grid.Initialize(PuzzleConfig.GridCellsPerRow, gridVisible: GridVisible);
 
         PathConnectToNodeDistance = Grid.ClosestDistanceBetweenNeighbors * 0.6f;
         PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
         NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
 
         Current = this;
-        if(DEBUG_PUZZLE_CONFIG != null)
+        if(PuzzleConfig != null)
         {
-            SetupPuzzle(DEBUG_PUZZLE_CONFIG);
+            SetupPuzzle(PuzzleConfig);
         }
         ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
+
+        // Camera setup
+        CameraController.SnapTo(PuzzleConfig.CameraArmStart, PuzzleConfig.CameraDistance, PuzzleConfig.CameraFoV);
     }
 
     private void OnDestroy()
@@ -98,7 +115,7 @@ public class Puzzle : MonoBehaviour
 
     public void NodeOnMouseUp(Node n)
     {
-        if (!PuzzleCameraMotor.Panning && PuzzleCameraMotor.PanAmountThisDrag < PanInsteadOfSelectionThreshold)
+        if (!CameraController.Panning && CameraController.PanAmountThisDrag < PanInsteadOfSelectionThreshold)
         {
             SetActiveNode(n);
         }
@@ -114,7 +131,7 @@ public class Puzzle : MonoBehaviour
             return;
         }
 
-        PuzzleCameraMotor.SnapToNode(n);
+        CameraController.SnapToNode(n);
 
         if(ActiveNode)
         {
@@ -138,14 +155,14 @@ public class Puzzle : MonoBehaviour
     }
 
 	#region Setup
-	public void SetupPuzzle(GriddedPuzzleConfig cfg)
+	public void SetupPuzzle(PuzzleConfig cfg)
     {
         SetupNodes(cfg);
         SetupObstacles(cfg);
     }
 
     private const float NODE_VISUAL_SCALE_FACTOR = 2.24f;
-    private void SetupNodes(GriddedPuzzleConfig cfg)
+    private void SetupNodes(PuzzleConfig cfg)
     {
         ActiveNode = null;
         var children = new List<GameObject>();
@@ -207,13 +224,13 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private void SetupObstacles(GriddedPuzzleConfig cfg)
+    private void SetupObstacles(PuzzleConfig cfg)
     {
         SetupRocks(cfg);
         SetupWalls(cfg);
     }
 
-    private void SetupRocks(GriddedPuzzleConfig cfg)
+    private void SetupRocks(PuzzleConfig cfg)
     {
         for (int i = 0; i < cfg.RockPositions.Length; i++)
         {
@@ -235,7 +252,7 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private void SetupWalls(GriddedPuzzleConfig cfg)
+    private void SetupWalls(PuzzleConfig cfg)
     {
         for (int i = 0; i < cfg.WallPositions.Length; i++)
         {
