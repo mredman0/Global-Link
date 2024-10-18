@@ -6,7 +6,6 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public Puzzle Puzzle;
-    public GriddedPuzzle GriddedPuzzle;
     public int Color;
     public bool Connected = false;
     public bool Active = false;
@@ -37,10 +36,6 @@ public class Node : MonoBehaviour
         {
             Puzzle.NodeOnMouseUp(this);
         }
-        if(GriddedPuzzle)
-        {
-            GriddedPuzzle.NodeOnMouseUp(this);
-        }
     }
 
     public void Activate()
@@ -60,10 +55,6 @@ public class Node : MonoBehaviour
         if(Puzzle)
         {
             Path.transform.parent = Puzzle.transform;
-        }
-        else if(GriddedPuzzle)
-        {
-            Path.transform.parent = GriddedPuzzle.transform;
         }
 
         Path.positionCount++;

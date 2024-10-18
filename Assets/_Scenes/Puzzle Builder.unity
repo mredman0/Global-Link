@@ -583,7 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grid: {fileID: 958230423}
   Camera: {fileID: 1597844642907996185}
-  CameraMotor: {fileID: 7200441470003382026}
+  CameraMotor: {fileID: 4521173174046847540}
   NodePrefab: {fileID: 3768504839285652863, guid: 7f98b0e5532feaf418aa98315587572b,
     type: 3}
   WallPrefab: {fileID: 8237476992170656197, guid: 2435f99bed0399249815e234652057bd,
@@ -596,6 +596,11 @@ MonoBehaviour:
   Nodes: []
   Walls: []
   Rocks: []
+  GeneratorSeed: 
+  WallAmount: 0
+  WallClustering: 0
+  MaxNodePairs: 6
+  StartGeneration: 0
   PuzzleName: Puzzle
   SavePuzzle: 0
   ConfigToLoad: {fileID: 0}
@@ -792,7 +797,7 @@ GameObject:
   - component: {fileID: 1597844642907996185}
   - component: {fileID: 402032583340506099}
   - component: {fileID: 4521173174046847539}
-  - component: {fileID: 7200441470003382026}
+  - component: {fileID: 4521173174046847540}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -829,22 +834,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3214733947121139044}
-  m_Father: {fileID: 4094281536026640574}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4094281536026640574
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7186788712887164792}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3314316980391027595}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4521173174046847539
@@ -891,6 +880,25 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &4521173174046847540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718389979423810581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fde26580e2d4834daf168489c90888d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraArm: {fileID: 4871654701976255400}
+  Puzzle: {fileID: 0}
+  Speed: 2000
+  MaxSpeed: 1.75
+  AllowRoll: 0
+  PitchInvalidLow: 5
+  PitchInvalidHigh: 5
 --- !u!1 &4871654701976255400
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,40 +983,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc8ce1dcc880f541bbfc3631192ca85, type: 3}
---- !u!1 &7186788712887164792
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4094281536026640574}
-  m_Layer: 0
-  m_Name: Focus
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &7200441470003382026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2718389979423810581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3a66f5191bfe643b0a3026abbed620, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraArm: {fileID: 4871654701976255400}
-  Puzzle: {fileID: 0}
-  PitchInvalidLow: 5
-  PitchInvalidHigh: 5
-  Speed: 8
-  MaxSpeed: 1.75
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1016,7 +990,7 @@ SceneRoots:
   - {fileID: 5239221767574777596}
   - {fileID: 1937260428}
   - {fileID: 958230424}
-  - {fileID: 4094281536026640574}
+  - {fileID: 3314316980391027595}
   - {fileID: 2058847980}
   - {fileID: 705507995}
   - {fileID: 1891050456}
