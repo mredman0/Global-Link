@@ -23,7 +23,7 @@ public class UserSettings : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        DontDestroyOnLoad(gameObject);
     }
 
 

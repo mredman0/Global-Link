@@ -41,7 +41,6 @@ public class Puzzle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 120;
         InitializePuzzle();
     }
 
@@ -91,7 +90,7 @@ public class Puzzle : MonoBehaviour
     {
         ResetPuzzle();
 
-        var puzzleProvider = FindObjectOfType<PuzzleProvider>();
+        var puzzleProvider = PuzzleProvider.Instance;
         if (!puzzleProvider)
         {
             Debug.LogError("No puzzle provider found!");
