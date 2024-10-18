@@ -42,6 +42,7 @@ public class Puzzle : MonoBehaviour
     {
         Grid.Initialize(DEBUG_PUZZLE_CONFIG.GridCellsPerRow, gridVisible: GridVisible);
 
+        PathConnectToNodeDistance = Grid.ClosestDistanceBetweenNeighbors * 0.6f;
         PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
         NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
 

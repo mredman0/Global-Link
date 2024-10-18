@@ -9,7 +9,7 @@ public class Wall : MonoBehaviour
     public MeshRenderer MeshRenderer;
 
     [Header("Settings")]
-    public int VertexDensity = 10;
+    public float VerticesPerDegree = 0.5f;
 
     public GridCell GridCell { get; set; }
 
@@ -22,6 +22,8 @@ public class Wall : MonoBehaviour
     public void SetGridCell(GridCell cell)
     {
         GridCell = cell;
-        MeshFilter.sharedMesh = MeshGenerator.GenerateSphereSector(cell.LatitudeMin, cell.LatitudeMax, cell.LongitudeMin, cell.LongitudeMax, 1f, VertexDensity, VertexDensity);
+        var latitudeSegments = Mathf.CeilToInt(VerticesPerDegree * Mathf.Abs(cell.LatitudeMin - cell.LatitudeMax));
+        var longitudeSegments = Mathf.CeilToInt(VerticesPerDegree * Mathf.Abs(cell.LongitudeMin - cell.LongitudeMax));
+        MeshFilter.sharedMesh = MeshGenerator.GenerateSphereSector(cell.LatitudeMin, cell.LatitudeMax, cell.LongitudeMin, cell.LongitudeMax, 1f, latitudeSegments, longitudeSegments);
     }
 }

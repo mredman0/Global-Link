@@ -16,5 +16,6 @@ public class GriddedPuzzleConfig : ScriptableObject
 	[Header("Nodes")]
 	public Vector2Int[] NodePositions;
 	public int[] NodeColors;
-	public List<Vector2Int[]> Solutions;
+	public int[] SolutionLengths;
+	public Vector2Int[] Solutions;
 }

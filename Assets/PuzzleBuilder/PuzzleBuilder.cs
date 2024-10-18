@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PuzzleBuilder : MonoBehaviour
 {
@@ -28,6 +30,17 @@ public class PuzzleBuilder : MonoBehaviour
     public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
     public List<PuzzleObjectRock> Rocks = new List<PuzzleObjectRock>();
 
+    [Header("Generator")]
+    public string GeneratorSeed = "";
+    [Range(0, 1)]
+    public float WallAmount = 0f;
+    [Range(0, 1)]
+    [Tooltip("0 means each wall is selected individually,\n0.25 means walls will be grouped into ~4 clusters,\n0.5 means ~2 clusters,\n1 means a single cluster")]
+    public float WallClustering = 0f;
+    [Range(1, 6)]
+    public int MaxNodePairs = 6;
+    public bool StartGeneration = false;
+
     [Header("Saving")]
     public string PuzzleName = "Puzzle";
     public bool SavePuzzle = false;
@@ -46,26 +59,6 @@ public class PuzzleBuilder : MonoBehaviour
     {
         MAIN_SPHERE_LAYER_MASK = LayerMask.GetMask("InputCatch");
         RebuildGrid();
-    }
-
-    private void OnValidate()
-    {
-        if(SavePuzzle)
-        {
-            SavePuzzle = false;
-            Save(PuzzleName);
-        }
-        if(LoadPuzzle)
-        {
-            LoadPuzzle = false;
-            Load(ConfigToLoad);
-        }
-        if(DoGridRebuild)
-        {
-            DoGridRebuild = false;
-            Clear();
-            RebuildGrid();
-        }
     }
 
     void Update()
@@ -126,9 +119,38 @@ public class PuzzleBuilder : MonoBehaviour
                 }
             }
         }
+
+        HandleActionBools();
     }
 
-    public void Paint(GridCell cell)
+    private void HandleActionBools()
+    {
+        if (SavePuzzle)
+        {
+            SavePuzzle = false;
+            Save(PuzzleName);
+        }
+        if (LoadPuzzle)
+        {
+            LoadPuzzle = false;
+            Load(ConfigToLoad);
+        }
+        if (DoGridRebuild)
+        {
+            DoGridRebuild = false;
+            Clear();
+            RebuildGrid();
+        }
+        if (StartGeneration)
+        {
+            StartGeneration = false;
+            Clear();
+            GeneratePuzzle();
+        }
+    }
+
+	#region Operations
+	public void Paint(GridCell cell)
     {
         if(PlacedObjects.ContainsKey(cell))
         {
@@ -167,6 +189,7 @@ public class PuzzleBuilder : MonoBehaviour
 
             var newWall = newWallGO.GetComponent<PuzzleObjectWall>();
             newWall.Cell = cell;
+            ColorCell(cell, -1);
 
             Walls.Add(newWall);
             PlacedObjects[cell] = newWall;
@@ -180,6 +203,7 @@ public class PuzzleBuilder : MonoBehaviour
 
             var newRock = newRockGO.GetComponent<PuzzleObjectRock>();
             newRock.Cell = cell;
+            ColorCell(cell, -1);
 
             Rocks.Add(newRock);
             PlacedObjects[cell] = newRock;
@@ -221,9 +245,9 @@ public class PuzzleBuilder : MonoBehaviour
     }
 
     private Color Gray = Color.gray;
-    private void ColorCell(GridCell cell, int color)
+    private void ColorCell(GridCell cell, int? color)
     {
-        var col = color == -1 ? Gray : ColorMapController.Instance.ApplyActiveColorMap(color);
+        var col = color is null || color == -1 ? Gray : ColorMapController.Instance.ApplyActiveColorMap(color.Value);
         Grid.IntersectionBallsByCell[cell].material.SetColor("_Color", col);
         cell.Color = color;
 
@@ -269,45 +293,191 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
     }
+	#endregion
+
+	#region Generator
+    public void GeneratePuzzle()
+    {
+        SetRandomSeed();
+
+        GenerateWalls();
+        GenerateNodesAndPaths();
+    }
+
+    private void SetRandomSeed()
+    {
+        int seed = string.IsNullOrEmpty(GeneratorSeed) ? (int)DateTime.Now.Ticks : GeneratorSeed.GetHashCode();
+        if (int.TryParse(GeneratorSeed, out int seedNumber))
+        {
+            seed = seedNumber;
+        }
+        Random.InitState(seed);
+    }
+	
+    private void GenerateWalls()
+    {
+        PaintMode = PuzzleBuilderPaintMode.Wall;
+        var targetWalls = Mathf.RoundToInt(Grid.Cells.Count * WallAmount);
+
+        if(targetWalls < 1)
+        {
+            return;
+        }
+
+        if(WallClustering == 0)
+        {
+            var availableCells = new List<GridCell>();
+            availableCells.AddRange(Grid.Cells);
+
+            for(int i = 0; i < targetWalls; i++)
+            {
+                var randomIndex = Random.Range(0, availableCells.Count);
+                Paint(availableCells[randomIndex]);
+                availableCells.RemoveAt(randomIndex);
+            }
+            return;
+        }
+
+        // Chance to end cluster should be ((numInCluster / targetClusterSize) / 2) ^ 2
+        var targetClusterSize = targetWalls * WallClustering;
+        var wallsGenerated = 0;
+        var wallsInCluster = new List<GridCell>();
+        var availableNeighbors = new List<GridCell>();
+        var startNewCluster = true;
+        while(wallsGenerated < targetWalls)
+        {
+            if(startNewCluster)
+            {
+                availableNeighbors.Clear();
+                availableNeighbors.AddRange(GetOpenCells(Grid.Cells));
+                var randomIndex = Random.Range(0, availableNeighbors.Count);
+                var cell = availableNeighbors[randomIndex];
+                Paint(cell);
+                availableNeighbors.Clear();
+                availableNeighbors.AddRange(GetOpenCells(cell.Neighbors));
+                wallsInCluster.Add(cell);
+                wallsGenerated++;
+                startNewCluster = false;
+            }
+            else if(!availableNeighbors.Any())
+            {
+                startNewCluster = true;
+            }
+            else if(Random.value < Mathf.Pow(((wallsInCluster.Count / targetClusterSize) / 2), 2))
+            {
+                startNewCluster = true;
+            }
+            else
+            {
+                var randomIndex = Random.Range(0, availableNeighbors.Count);
+                var cell = availableNeighbors[randomIndex];
+                Paint(cell);
+                availableNeighbors.RemoveAll(c => c == cell);
+                availableNeighbors.AddRange(GetOpenCells(cell.Neighbors));
+                wallsInCluster.Add(cell);
+                wallsGenerated++;
+            }
+        }
+    }
+
+    private void GenerateNodesAndPaths()
+    {
+        PaintMode = PuzzleBuilderPaintMode.Node;
+        List<List<GridCell>> contiguousGroupsOfCells;
+        for(int i = 0; i < MaxNodePairs; i++)
+        {
+            PaintNodeColor = i;
+            contiguousGroupsOfCells = GetContiguousGroupsOfCells();
+
+            List<GridCell> biggestGroup = null;
+            int biggestGroupSize = 0;
+            foreach(var group in contiguousGroupsOfCells)
+            {
+                if(group.Count > biggestGroupSize)
+                {
+                    biggestGroup = group;
+                    biggestGroupSize = group.Count;
+                }
+            }
+
+            if(biggestGroupSize < 2)
+            {
+                break; // Can't place any more node pairs
+            }
+
+            var firstNode = biggestGroup[Random.Range(0, biggestGroup.Count)];
+            biggestGroup.Remove(firstNode);
+            var secondNode = biggestGroup[Random.Range(0, biggestGroup.Count)];
+
+            foreach(var cell in Grid.GetShortestPath(firstNode, secondNode, cell => cell.Color != null))
+            {
+                ColorCell(cell);
+            }
+            Paint(firstNode);
+            Paint(secondNode);
+        }
+    }
+
+    private List<List<GridCell>> GetContiguousGroupsOfCells()
+    {
+        var groups = new List<List<GridCell>>();
+        var ungroupedCells = GetOpenCells(Grid.Cells).ToList();
+        while(ungroupedCells.Any())
+        {
+            var group = new List<GridCell>();
+            groups.Add(group);
+            group.AddRange(Grid.GetContiguousCells(ungroupedCells.First(), cell => cell.Color != null));
+            foreach(var cell in group)
+            {
+                ungroupedCells.Remove(cell);
+            }
+        }
+        return groups;
+    }
+
+    private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null);
+    #endregion
 
 	#region Reset Functions
 	public void Clear()
     {
         ClearNodes();
-        //ClearPaths();
         ClearObstacles();
+        ResetGridCellColors();
     }
 
     public void ClearNodes()
     {
         foreach(var node in Nodes)
         {
+            PlacedObjects.Remove(node.Cell);
             Destroy(node.gameObject);
         }
         Nodes.Clear();
     }
 
-    //public void ClearPaths()
-    //{
-    //    foreach(var kvp in Puzzle.Paths)
-    //    {
-    //        Destroy(kvp.Item2.gameObject);
-    //    }
-    //    Puzzle.Paths.Clear();
-    //}
-
     public void ClearObstacles()
     {
         foreach (var wall in Walls)
         {
-            Destroy(wall);
+            PlacedObjects.Remove(wall.Cell);
+            Destroy(wall.gameObject);
         }
         Walls.Clear();
         foreach (var rock in Rocks)
         {
+            PlacedObjects.Remove(rock.Cell);
             Destroy(rock);
         }
         Rocks.Clear();
+    }
+
+    private void ResetGridCellColors()
+    {
+        foreach(var cell in Grid.Cells)
+        {
+            ColorCell(cell, null);
+        }
     }
 
     public void RebuildGrid()
@@ -349,6 +519,42 @@ public class PuzzleBuilder : MonoBehaviour
             newPuzzleConfig.RockPositions[i] = new Vector2Int(Rocks[i].Cell.Row, Rocks[i].Cell.Cell);
         }
 
+        var solutions = new List<GridCell>();
+        var solutionLengths = new int[6];
+        for(int color = 0; color < 6; color++)
+        {
+            var steps = new List<GridCell>();
+            var nodes = Nodes.Where(n => n.Color == color).ToList();
+            if(nodes.Count == 2)
+            {
+                var start = nodes[0].Cell;
+                var end = nodes[1].Cell;
+                var current = start;
+                while(current != end)
+                {
+                    var next = current.Neighbors.FirstOrDefault(n => n.Color == color && n != start && !steps.Contains(n));
+                    if(!next)
+                    {
+                        Debug.LogWarning($"Could not follow solution path for color {color}");
+                        break;
+                    }
+                    if(next != end)
+                    {
+                        steps.Add(next);
+                    }
+                    current = next;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Color {color} does not have exactly 2 nodes, not storing solution.");
+            }
+            solutions.AddRange(steps);
+            solutionLengths[color] = steps.Count;
+        }
+        newPuzzleConfig.SolutionLengths = solutionLengths;
+        newPuzzleConfig.Solutions = solutions.Select(c => new Vector2Int(c.Row, c.Cell)).ToArray();
+
         AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Puzzles/{puzzleName}.asset");
     }
 
@@ -378,6 +584,20 @@ public class PuzzleBuilder : MonoBehaviour
             var row = cfg.RockPositions[i].x;
             var rowCell = cfg.RockPositions[i].y;
             Paint(Grid.CellsByRow[row][rowCell]);
+        }
+        PaintMode = PuzzleBuilderPaintMode.Node;
+        var currentStep = 0;
+        for(int i = 0; i < 6; i++)
+        {
+            var lengthOfSolution = cfg.SolutionLengths[i];
+            var end = currentStep + lengthOfSolution;
+            PaintNodeColor = i;
+            for(; currentStep < end; currentStep++)
+            {
+                var row = cfg.Solutions[currentStep].x;
+                var rowCell = cfg.Solutions[currentStep].y;
+                ColorCell(Grid.CellsByRow[row][rowCell]);
+            }
         }
     }
 	#endregion

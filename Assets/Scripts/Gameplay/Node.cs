@@ -49,7 +49,10 @@ public class Node : MonoBehaviour
 
         GridPath.Clear();
         GridPath.Add(GridCell);
-        Destroy(Path);
+        if(Path)
+        {
+            Destroy(Path.gameObject);
+        }
         Path = Instantiate(PathPrefab).GetComponent<LineRenderer>();
 
         var pathColor = ColorMapController.Instance.ApplyActiveColorMap(Color);

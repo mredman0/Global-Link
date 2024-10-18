@@ -301,6 +301,37 @@ public class PuzzleGrid : MonoBehaviour
     }
 
     #region Pathfinding
+    public List<GridCell> GetContiguousCells(GridCell from, Func<GridCell, bool> obstructed)
+    {
+        // Queue for BFS
+        Queue<GridCell> queue = new Queue<GridCell>();
+        // Set for tracking visited cells
+        HashSet<GridCell> visited = new HashSet<GridCell>();
+
+        // Initialize
+        queue.Enqueue(from);
+        visited.Add(from);
+
+        while (queue.Count > 0)
+        {
+            GridCell current = queue.Dequeue();
+
+            // Explore neighbors
+            foreach (var neighbor in current.Neighbors)
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    if (!obstructed(neighbor))
+                    {
+                        visited.Add(neighbor);
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+        }
+
+        return visited.ToList();
+    }
     public List<GridCell> GetShortestPath(GridCell from, GridCell to, Func<GridCell, bool> obstructed = null)
     {
         obstructed ??= cell => false;

@@ -457,67 +457,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291012865}
   m_Mesh: {fileID: -7628182941106214636, guid: 70ea41091973f5a47be9271767bf4a6e, type: 3}
---- !u!1 &323937751
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 323937753}
-  - component: {fileID: 323937752}
-  m_Layer: 0
-  m_Name: PuzzleGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &323937752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323937751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3d3c82658a5fdb468f23a4fc6ef194c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PathPrefab: {fileID: 2145597075948167739, guid: 1c49c9c26cd8ead4f950d57b43c73297,
-    type: 3}
-  NodePrefab: {fileID: 8237476992170656197, guid: c446b142a9731694cbc5010330be1856,
-    type: 3}
-  VertexPrefab: {fileID: 8237476992170656197, guid: 889fd262885499c4d8270e3064ec5859,
-    type: 3}
-  NumVertices: 8
-  VertexSize: 0.015
-  ShowVertices: 1
-  DebugStartLat: 0
-  DebugStartLon: 0
-  DebugGoalLat: 0
-  DebugGoalLon: 0
-  DebugPathStepSize: 0.02
-  DebugDrawPath: 0
-  SphericalPointPrefab: {fileID: 8237476992170656197, guid: ec2f16e8213525d4cafabf1b1870e0ad,
-    type: 3}
---- !u!4 &323937753
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323937751}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &419488176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,57 +1877,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624669308}
   m_CullTransparentMesh: 1
---- !u!1 &1671404062
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1671404064}
-  - component: {fileID: 1671404063}
-  m_Layer: 0
-  m_Name: Vertex Test
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1671404063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671404062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3e344c25c675564cb8622bf38dd29ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PathPrefab: {fileID: 0}
-  NodePrefab: {fileID: 8237476992170656197, guid: c446b142a9731694cbc5010330be1856,
-    type: 3}
-  VertexPrefab: {fileID: 8237476992170656197, guid: 889fd262885499c4d8270e3064ec5859,
-    type: 3}
-  NumVertices: 200
-  VertexSize: 0.015
---- !u!4 &1671404064
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1671404062}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1701197997
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,7 +2358,7 @@ MonoBehaviour:
   ActiveNode: {fileID: 0}
   Rocks: []
   Walls: []
-  DEBUG_PUZZLE_CONFIG: {fileID: 11400000, guid: 957e6322c0aa5cd42bff0765728f2473,
+  DEBUG_PUZZLE_CONFIG: {fileID: 11400000, guid: a4dfc4dbc7c2255448b46a66c01a7eeb,
     type: 2}
   GridVisible: 0
   LineSmoothDistanceWeight: 1
@@ -2557,5 +2445,3 @@ SceneRoots:
   - {fileID: 958230424}
   - {fileID: 147975633}
   - {fileID: 1328298365}
-  - {fileID: 1671404064}
-  - {fileID: 323937753}
