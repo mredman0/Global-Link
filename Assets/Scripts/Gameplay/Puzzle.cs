@@ -23,9 +23,9 @@ public class Puzzle : MonoBehaviour
 
     [Header("State")]
     public List<Node> Nodes;
-    public Dictionary<int, List<Node>> NodesByColor;
+    public Dictionary<int, List<Node>> NodesByColor = new Dictionary<int, List<Node>>();
     public Node ActiveNode;
-    public List<(int, LineRenderer)> Paths;
+    public List<(int, LineRenderer)> Paths = new List<(int, LineRenderer)>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
 
@@ -41,34 +41,8 @@ public class Puzzle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var puzzleProvider = FindObjectOfType<PuzzleProvider>();
-        if(!puzzleProvider)
-        {
-            Debug.LogError("No puzzle provider found!");
-            return;
-        }
-        if(!puzzleProvider.PuzzleConfig)
-        {
-            Debug.LogError("Puzzle provider has no puzzle config!");
-            return;
-        }
-        PuzzleConfig = puzzleProvider.PuzzleConfig;
-
-        Grid.Initialize(PuzzleConfig.GridCellsPerRow, gridVisible: GridVisible);
-
-        PathConnectToNodeDistance = Grid.ClosestDistanceBetweenNeighbors * 0.6f;
-        PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
-        NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
-
-        Current = this;
-        if(PuzzleConfig != null)
-        {
-            SetupPuzzle(PuzzleConfig);
-        }
-        ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
-
-        // Camera setup
-        CameraController.SnapTo(PuzzleConfig.CameraArmStart, PuzzleConfig.CameraDistance, PuzzleConfig.CameraFoV);
+        Application.targetFrameRate = 120;
+        InitializePuzzle();
     }
 
     private void OnDestroy()
@@ -111,6 +85,40 @@ public class Puzzle : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void InitializePuzzle()
+    {
+        ResetPuzzle();
+
+        var puzzleProvider = FindObjectOfType<PuzzleProvider>();
+        if (!puzzleProvider)
+        {
+            Debug.LogError("No puzzle provider found!");
+            return;
+        }
+        if (!puzzleProvider.PuzzleConfig)
+        {
+            Debug.LogError("Puzzle provider has no puzzle config!");
+            return;
+        }
+        PuzzleConfig = puzzleProvider.PuzzleConfig;
+
+        Grid.Initialize(PuzzleConfig.GridCellsPerRow, gridVisible: GridVisible);
+
+        PathConnectToNodeDistance = Grid.ClosestDistanceBetweenNeighbors * 0.6f;
+        PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
+        NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
+
+        Current = this;
+        if (PuzzleConfig != null)
+        {
+            SetupPuzzle(PuzzleConfig);
+        }
+        ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
+
+        // Camera setup
+        CameraController.SnapTo(PuzzleConfig.CameraArmStart, PuzzleConfig.CameraDistance, PuzzleConfig.CameraFoV);
     }
 
     public void NodeOnMouseUp(Node n)
@@ -222,6 +230,46 @@ public class Puzzle : MonoBehaviour
             first.SetPairedNode(second);
             second.SetPairedNode(first);
         }
+    }
+
+    private void ResetPuzzle()
+    {
+        if(Nodes != null)
+        {
+            foreach (var node in Nodes)
+            {
+                Destroy(node.gameObject);
+            }
+            Nodes.Clear();
+            NodesByColor.Clear();
+        }
+        ActiveNode = null;
+        if(Paths != null)
+        {
+            foreach(var kvp in Paths)
+            {
+                Destroy(kvp.Item2.gameObject);
+            }
+            Paths.Clear();
+        }
+        if(Walls != null)
+        {
+            foreach (var wall in Walls)
+            {
+                Destroy(wall.gameObject);
+            }
+            Walls.Clear();
+        }
+        if(Rocks != null)
+        {
+            foreach (var rock in Rocks)
+            {
+                Destroy(rock.gameObject);
+            }
+            Rocks.Clear();
+        }
+
+        Grid.Clear();
     }
 
     private void SetupObstacles(PuzzleConfig cfg)
@@ -337,18 +385,8 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-    public void AutoConnectColor(int color)
-    {
-        var nodes = NodesByColor[color];
-        if(nodes[0].Connected)
-        {
-            return;
-        }
-
-        nodes[0].AutoConnectToPairedNode();
-    }
-
-    [Header("Line Smoothing")]
+	#region Line Smoothing
+	[Header("Line Smoothing")]
     public float LineSmoothDistanceWeight = 1f;
     public float LineSmoothAngleWeight = 1f;
     public float MaxSharpness = 10f;
@@ -457,4 +495,5 @@ public class Puzzle : MonoBehaviour
             Debug.Log("Dejittered!");
         }
     }
+	#endregion
 }

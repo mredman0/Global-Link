@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     [Header("Generic Settings")]
     public float Speed = 8f;
     public float MaxSpeed = 1f;
+    public float Friction = 1f;
 
     [Header("Locked Roll Settings")]
     public bool AllowRoll = true;
@@ -21,9 +22,9 @@ public class CameraController : MonoBehaviour
 
     public bool Panning { get; set; } = false;
     public float PanAmountThisDrag { get; set; } = 0f;
-
-
     public Camera Camera { get; set; }
+
+    private Vector2 Momentum;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +37,8 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            var mouseX = Input.GetAxis("Mouse X") * UserSettings.Instance.PanSpeed * Speed * Time.deltaTime;
-            var mouseY = Input.GetAxis("Mouse Y") * UserSettings.Instance.PanSpeed * Speed * Time.deltaTime;
+            var mouseX = Input.GetAxis("Mouse X") * UserSettings.Instance.PanSpeed * Speed;
+            var mouseY = Input.GetAxis("Mouse Y") * UserSettings.Instance.PanSpeed * Speed;
 
             if (mouseX > 0 || mouseY > 0)
             {
@@ -64,21 +65,21 @@ public class CameraController : MonoBehaviour
                 motion.x *= Mathf.Cos(Mathf.Deg2Rad * pitch);
             }
 
-            CameraArm.transform.Rotate(Vector3.up, motion.x);
-            CameraArm.transform.Rotate(Vector3.right, motion.y);
+            CameraArm.transform.Rotate(Vector3.up, motion.x * Time.deltaTime);
+            CameraArm.transform.Rotate(Vector3.right, motion.y * Time.deltaTime);
 
+            var lastTryMotion = new Vector2(motion.x, motion.y);
             if (Puzzle)
             {
                 var tryNum = 0;
                 var maxTries = 6;
                 var rotateEveryOtherTry = 18f;
                 var currentRotate = 0f;
-                var lastTryMotion = new Vector2(motion.x, motion.y);
                 while (!Puzzle.IsCameraPositionValid())
                 {
                     // Revert previous try
-                    CameraArm.transform.Rotate(Vector3.right, lastTryMotion.y * -1);
-                    CameraArm.transform.Rotate(Vector3.up, lastTryMotion.x * -1);
+                    CameraArm.transform.Rotate(Vector3.right, lastTryMotion.y * -1 * Time.deltaTime);
+                    CameraArm.transform.Rotate(Vector3.up, lastTryMotion.x * -1 * Time.deltaTime);
 
                     if (tryNum > maxTries)
                     {
@@ -92,11 +93,16 @@ public class CameraController : MonoBehaviour
                         currentRotate += rotateEveryOtherTry;
                     }
                     lastTryMotion = Quaternion.Euler(0, 0, currentRotate * rotationDirection) * new Vector3(motion.x, motion.y, 0);
-                    CameraArm.transform.Rotate(Vector3.up, lastTryMotion.x);
-                    CameraArm.transform.Rotate(Vector3.right, lastTryMotion.y);
+                    CameraArm.transform.Rotate(Vector3.up, lastTryMotion.x * Time.deltaTime);
+                    CameraArm.transform.Rotate(Vector3.right, lastTryMotion.y * Time.deltaTime);
 
                     tryNum++;
                 }
+            }
+
+            if(!Puzzle || !Puzzle.ActiveNode)
+            {
+                Momentum = lastTryMotion;
             }
 
             if(!AllowRoll)
@@ -108,6 +114,19 @@ public class CameraController : MonoBehaviour
         {
             Panning = false;
             PanAmountThisDrag = 0f;
+
+            if((!Puzzle || !Puzzle.ActiveNode) && (Momentum.x != 0 || Momentum.y != 0))
+            {
+                CameraArm.transform.Rotate(Vector3.up, Momentum.x * Time.deltaTime);
+                CameraArm.transform.Rotate(Vector3.right, Momentum.y * Time.deltaTime);
+
+                Momentum *= (1 - Mathf.Clamp(Friction*Time.deltaTime, 0, 1));
+
+                if (!AllowRoll)
+                {
+                    FixRoll();
+                }
+            }
         }
     }
 
@@ -136,7 +155,7 @@ public class CameraController : MonoBehaviour
         if(cameraFoV <= 0)
         {
             // Safe value
-            cameraFoV = 25.8f;
+            cameraFoV = 38.4f;
         }
 
         Camera.transform.localPosition = Vector3.forward * cameraDistance;

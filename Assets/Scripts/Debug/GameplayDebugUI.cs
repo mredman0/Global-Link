@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class GameplayDebugUI : MonoBehaviour
 {
+    public Puzzle Puzzle;
+    public PuzzleProvider PuzzleProvider;
+
     public TMP_Dropdown ColorMapDropdown;
+    public TMP_Dropdown PuzzleDropdown;
+    public List<PuzzleConfig> PuzzleDropdownOptions;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +31,12 @@ public class GameplayDebugUI : MonoBehaviour
             }
             index++;
         }
+    }
+
+    public void LoadPuzzle()
+    {
+        PuzzleProvider.PuzzleConfig = PuzzleDropdownOptions[PuzzleDropdown.value];
+        Puzzle.InitializePuzzle();
     }
 
 	#region UI Event Handlers

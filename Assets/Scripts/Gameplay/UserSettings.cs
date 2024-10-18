@@ -6,7 +6,7 @@ public class UserSettings : MonoBehaviour
 {
     public static UserSettings Instance { get; set; }
 
-    [Range(0.5f, 2f)]
+    [Range(0.1f, 10f)]
     public float PanSpeed = 1;
 
     public string SelectedColorMap
