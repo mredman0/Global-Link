@@ -375,9 +375,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraArm: {fileID: 5687308665073173405}
   Puzzle: {fileID: 601003590338323296}
-  Speed: 250
-  MaxSpeed: 500
+  Speed: 0.25
+  MaxSpeed: 5
   Friction: 1
+  AllowMomentumWithActiveNode: 1
   AllowRoll: 1
   PitchInvalidLow: 5
   PitchInvalidHigh: 5

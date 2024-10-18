@@ -30,14 +30,6 @@ public class Node : MonoBehaviour
         
     }
 
-    private void OnMouseUp()
-    {
-        if(Puzzle)
-        {
-            Puzzle.NodeOnMouseUp(this);
-        }
-    }
-
     public void Activate()
     {
         Active = true;
@@ -83,24 +75,20 @@ public class Node : MonoBehaviour
     }
 
 
-    private const float MINIMUM_POINT_ADD_DISTANCE_SQ = 0.0005f;
-    private const float LOOP_MERGE_DISTANCE_SQ = 0.0005f;
     public void Draw(Vector3 point)
     {
+        var LoopMergeDistance = Path.endWidth * 0.8f;
         int mergeLoop;
-        for (mergeLoop = 0; mergeLoop < Path.positionCount-1; mergeLoop++)
+        for (mergeLoop = 0; mergeLoop < Path.positionCount-3; mergeLoop++)
         {
-            if (Vector3.SqrMagnitude(point - Path.GetPosition(mergeLoop)) < LOOP_MERGE_DISTANCE_SQ)
+            if ((point - Path.GetPosition(mergeLoop)).magnitude < LoopMergeDistance)
             {
+                Path.positionCount = mergeLoop + 1;
                 break;
             }
         }
-        if(mergeLoop < Path.positionCount - 2)
-        {
-            Path.positionCount = mergeLoop+1;
-        }
 
-        if(Vector3.SqrMagnitude(point - Path.GetPosition(Path.positionCount - 1)) > MINIMUM_POINT_ADD_DISTANCE_SQ)
+        if((point - Path.GetPosition(Path.positionCount - 1)).magnitude > LoopMergeDistance/6f)
         {
             Path.positionCount++;
             Path.SetPosition(Path.positionCount - 1, point);

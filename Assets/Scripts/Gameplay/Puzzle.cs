@@ -42,11 +42,13 @@ public class Puzzle : MonoBehaviour
     void Start()
     {
         InitializePuzzle();
+        InputManager.Instance.Tap += OnTap;
     }
 
     private void OnDestroy()
     {
         ColorMapController.Instance.ColorMapChanged -= OnColorMapChanged;
+        InputManager.Instance.Tap -= OnTap;
     }
 
     private void OnColorMapChanged()
@@ -60,29 +62,37 @@ public class Puzzle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0))
+        if(ActiveNode)
         {
-            if(ActiveNode)
-            {
-                var point = PuzzleViewCamera.transform.position.normalized;
-                ActiveNode.Draw(point);
-                SmoothEndOfLine(ActiveNode.Path);
-                DejitterEndOfLine(ActiveNode.Path);
+            HandleDrawingForActiveNode();
+        }
+    }
 
-                if(Vector3.Distance(ActiveNode.PairedNode.transform.position, point) < PathConnectToNodeDistance)
-                {
-                    ActiveNode.Draw(ActiveNode.PairedNode.transform.position);
-                    SmoothEndOfLine(ActiveNode.Path);
-                    DejitterEndOfLine(ActiveNode.Path);
-                    if (ActiveNode.PairedNode.Path)
-                    {
-                        Destroy(ActiveNode.PairedNode.Path.gameObject);
-                    }
-                    Paths.RemoveAll(p => !p.Item2);
-                    ActiveNode.PairedNode.Path = ActiveNode.Path;
-                    SetConnected(ActiveNode, ActiveNode.PairedNode);
-                }
+    private Vector3 PreviousDrawPoint;
+    private void HandleDrawingForActiveNode()
+    {
+        var point = PuzzleViewCamera.transform.position.normalized;
+        if (point == PreviousDrawPoint)
+        {
+            return;
+        }
+
+        ActiveNode.Draw(point);
+        SmoothEndOfLine(ActiveNode.Path);
+        DejitterEndOfLine(ActiveNode.Path);
+
+        if (Vector3.Distance(ActiveNode.PairedNode.transform.position, point) < PathConnectToNodeDistance)
+        {
+            ActiveNode.Draw(ActiveNode.PairedNode.transform.position);
+            SmoothEndOfLine(ActiveNode.Path);
+            DejitterEndOfLine(ActiveNode.Path);
+            if (ActiveNode.PairedNode.Path)
+            {
+                Destroy(ActiveNode.PairedNode.Path.gameObject);
             }
+            Paths.RemoveAll(p => !p.Item2);
+            ActiveNode.PairedNode.Path = ActiveNode.Path;
+            SetConnected(ActiveNode, ActiveNode.PairedNode);
         }
     }
 
@@ -120,12 +130,21 @@ public class Puzzle : MonoBehaviour
         CameraController.SnapTo(PuzzleConfig.CameraArmStart, PuzzleConfig.CameraDistance, PuzzleConfig.CameraFoV);
     }
 
-    public void NodeOnMouseUp(Node n)
+    private void OnTap(Vector2 tapPosition)
     {
-        if (!CameraController.Panning && CameraController.PanAmountThisDrag < PanInsteadOfSelectionThreshold)
+        var nodeLayerMask = LayerMask.GetMask("Node");
+        var ray = CameraController.Camera.ScreenPointToRay(tapPosition);
+        var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, nodeLayerMask);
+        if(anyHit)
         {
-            SetActiveNode(n);
+            var node = hitInfo.collider.GetComponent<Node>();
+            OnNodeTapped(node);
         }
+    }
+
+    public void OnNodeTapped(Node n)
+    {
+        SetActiveNode(n);
     }
 
     public bool IsComplete() => Nodes.TrueForAll(n => n.Connected);
