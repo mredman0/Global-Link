@@ -123,6 +123,74 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &114879728
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 621.3862
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1063.549
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -30.729961
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376172169582089754, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6957219907176009310, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2,
+        type: 3}
+      propertyPath: m_Name
+      value: Input Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b5dbab91a6f0eba44a0eb0794e8dcaa2, type: 3}
 --- !u!1 &147975629
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,9 +671,10 @@ MonoBehaviour:
   CameraFoV: 0
   SnapToCameraSettings: 0
   GeneratorSeed: 
-  WallAmount: 0
+  InitialWallAmount: 0
   WallClustering: 0
   MaxNodePairs: 6
+  AdditionalWallAmount: 0
   StartGeneration: 0
   PuzzleName: Puzzle
   SavePuzzle: 0
@@ -902,6 +971,8 @@ MonoBehaviour:
   Puzzle: {fileID: 0}
   Speed: 2000
   MaxSpeed: 1.75
+  Friction: 1
+  AllowMomentumWithActiveNode: 0
   AllowRoll: 0
   PitchInvalidLow: 5
   PitchInvalidHigh: 5
@@ -994,6 +1065,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 5239221767574777596}
+  - {fileID: 114879728}
   - {fileID: 1937260428}
   - {fileID: 958230424}
   - {fileID: 3314316980391027595}

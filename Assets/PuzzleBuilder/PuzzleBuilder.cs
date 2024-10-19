@@ -43,12 +43,14 @@ public class PuzzleBuilder : MonoBehaviour
     [Header("Generator")]
     public string GeneratorSeed = "";
     [Range(0, 1)]
-    public float WallAmount = 0f;
+    public float InitialWallAmount = 0f;
     [Range(0, 1)]
     [Tooltip("0 means each wall is selected individually,\n0.25 means walls will be grouped into ~4 clusters,\n0.5 means ~2 clusters,\n1 means a single cluster")]
     public float WallClustering = 0f;
     [Range(1, 6)]
     public int MaxNodePairs = 6;
+    [Range(0, 1)]
+    public float AdditionalWallAmount = 0f;
     public bool StartGeneration = false;
 
     [Header("Saving")]
@@ -69,37 +71,38 @@ public class PuzzleBuilder : MonoBehaviour
     {
         MAIN_SPHERE_LAYER_MASK = LayerMask.GetMask("InputCatch");
         RebuildGrid();
+        InputManager.Instance.Tap += OnTap;
+    }
+
+    private void OnTap(Vector2 tapPosition)
+    {
+        var ray = Camera.ScreenPointToRay(tapPosition);
+        var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, MAIN_SPHERE_LAYER_MASK);
+        if (anyHit)
+        {
+            var hitPoint = hitInfo.point;
+            GridCell closestCell = null;
+            float closestCellDistance = float.MaxValue;
+            foreach (var cell in Grid.Cells)
+            {
+                var dist = Vector3.Distance(cell.transform.position, hitPoint);
+                if (dist < closestCellDistance)
+                {
+                    closestCell = cell;
+                    closestCellDistance = dist;
+                }
+            }
+            if (closestCell is null)
+            {
+                Debug.LogWarning("Could not find cell to paint to");
+                return;
+            }
+            Paint(closestCell);
+        }
     }
 
     void Update()
     {
-        if(Input.GetMouseButtonUp(0) && CameraController.PanAmountThisDrag < 1f) // Left click, no dragging
-        {
-            var ray = Camera.ScreenPointToRay(Input.mousePosition);
-            var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, MAIN_SPHERE_LAYER_MASK);
-            if(anyHit)
-            {
-                var hitPoint = hitInfo.point;
-                GridCell closestCell = null;
-                float closestCellDistance = float.MaxValue;
-                foreach(var cell in Grid.Cells)
-                {
-                    var dist = Vector3.Distance(cell.transform.position, hitPoint);
-                    if (dist < closestCellDistance)
-                    {
-                        closestCell = cell;
-                        closestCellDistance = dist;
-                    }
-                }
-                if(closestCell is null)
-                {
-                    Debug.LogWarning("Could not find cell to paint to");
-                    return;
-                }
-                Paint(closestCell);
-            }
-        }
-
         if(Input.GetMouseButtonDown(1)) // Right click
         {
             var ray = Camera.ScreenPointToRay(Input.mousePosition);
@@ -325,8 +328,9 @@ public class PuzzleBuilder : MonoBehaviour
     {
         SetRandomSeed();
 
-        GenerateWalls();
+        GenerateInitialWalls();
         GenerateNodesAndPaths();
+        GenerateAdditionalWalls();
     }
 
     private void SetRandomSeed()
@@ -339,10 +343,10 @@ public class PuzzleBuilder : MonoBehaviour
         Random.InitState(seed);
     }
 	
-    private void GenerateWalls()
+    private void GenerateInitialWalls()
     {
         PaintMode = PuzzleBuilderPaintMode.Wall;
-        var targetWalls = Mathf.RoundToInt(Grid.Cells.Count * WallAmount);
+        var targetWalls = Mathf.RoundToInt(Grid.Cells.Count * InitialWallAmount);
 
         if(targetWalls < 1)
         {
@@ -458,6 +462,22 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
         return groups;
+    }
+
+    private void GenerateAdditionalWalls()
+    {
+        PaintMode = PuzzleBuilderPaintMode.Wall;
+
+        var availableCells = GetOpenCells(Grid.Cells).ToList();
+        var targetWalls = Mathf.RoundToInt(availableCells.Count * AdditionalWallAmount);
+        
+        for (int i = 0; i < targetWalls; i++)
+        {
+            var randomIndex = Random.Range(0, availableCells.Count);
+            Paint(availableCells[randomIndex]);
+            availableCells.RemoveAt(randomIndex);
+        }
+        return;
     }
 
     private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null);
@@ -590,7 +610,21 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.CameraDistance = CameraDistance;
         newPuzzleConfig.CameraFoV = CameraFoV;
 
-        AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Puzzles/{puzzleName}.asset");
+        var puzzleNameSplitByUnderscore = puzzleName.Split('_');
+        if(puzzleNameSplitByUnderscore.Length == 2)
+        {
+            var pack = puzzleNameSplitByUnderscore[0];
+            var puzzleId = puzzleNameSplitByUnderscore[1];
+            if(!AssetDatabase.IsValidFolder($"Assets/Resources/Puzzles/{pack}"))
+            {
+                AssetDatabase.CreateFolder("Assets/Resources/Puzzles", pack);
+            }
+            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{pack}/{puzzleName}.asset");
+        }
+        else
+        {
+            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{puzzleName}.asset");
+        }
     }
 
     public void Load(PuzzleConfig cfg)
