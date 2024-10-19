@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b4c26d9886e31643a66f4613f1b2170, type: 3}
   m_Name: Tutorial_1
   m_EditorClassIdentifier: 
+  ID: Tutorial_1
   GridCellsPerRow: 01000000060000000a00000010000000140000001a00000014000000100000000a0000000600000001000000
   RockPositions: []
   WallPositions: []

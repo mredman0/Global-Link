@@ -366,6 +366,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 601003590338323296, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: GridVisible
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1871923337125213430, guid: 93f4298d2122bb44783bdac9d639fc53,
         type: 3}
       propertyPath: m_Name
@@ -476,6 +481,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 527496460037744327, guid: cb730efbf058ede46a38ebcc04080e58,
+        type: 3}
+      propertyPath: PuzzleConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: f8e214e64393e4d40891cafe3e418885,
+        type: 2}
     - target: {fileID: 901141210369616810, guid: cb730efbf058ede46a38ebcc04080e58,
         type: 3}
       propertyPath: m_Name
@@ -677,8 +688,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1092238546896889364}
+  - {fileID: 3346794943173595699}
   - {fileID: 5239221767574777596}
   - {fileID: 8789607662138683727}
-  - {fileID: 3346794943173595699}
   - {fileID: 902412702}
   - {fileID: 109453473218722139}

@@ -6,6 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GriddedPuzzleConfig", order = 1)]
 public class PuzzleConfig : ScriptableObject
 {
+	[Header("Metadata")]
+	// Contains information about both what pack it belongs in and what number it is in that pack
+	public string ID;
+
 	[Header("Grid")]
 	public int[] GridCellsPerRow;
 
@@ -19,7 +23,8 @@ public class PuzzleConfig : ScriptableObject
 	public int[] SolutionLengths;
 	public Vector2Int[] Solutions;
 
-	[Header("Start View")]
+	[Header("View")]
+	public bool OpaqueSphere;
 	public Quaternion CameraArmStart;
 	public float CameraDistance;
 	public float CameraFoV;

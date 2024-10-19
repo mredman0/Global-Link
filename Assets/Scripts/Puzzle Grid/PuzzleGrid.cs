@@ -31,7 +31,7 @@ public class PuzzleGrid : MonoBehaviour
         AddCells(cellsPerRow);
         SetCellNeighbors();
 
-        DrawCellConnections(cellsPerRow);
+        DrawCellConnections();
 
         SetVisible(gridVisible);
     }
@@ -59,64 +59,7 @@ public class PuzzleGrid : MonoBehaviour
         }
     }
 
-    //private void DrawCellWalls(int[] cellsPerRow)
-    //{
-    //    int totalRows = cellsPerRow.Length;
-
-    //    float wallLineStep = 1f; // Degrees
-    //    float rowHeight = 180f / totalRows;
-    //    for (int row = 1; row < totalRows; row++)
-    //    {
-    //        var newLineGO = Instantiate(CellWallPrefab, transform);
-    //        newLineGO.name = $"H Cell Wall {row}";
-    //        var newLine = newLineGO.GetComponent<LineRenderer>();
-
-    //        var positions = new List<Vector3>();
-    //        var topLatitude = 90f - rowHeight * row;
-    //        for (float longitude = 0f; longitude < 360f; longitude += wallLineStep)
-    //        {
-    //            positions.Add(PolarVector3.ToCartesian(topLatitude, longitude));
-    //        }
-    //        newLine.positionCount = positions.Count;
-    //        newLine.SetPositions(positions.ToArray());
-    //        newLine.loop = true;
-    //        CellWalls.Add(newLine);
-    //    }
-
-    //    for (int row = 0; row < totalRows; row++)
-    //    {
-    //        var cells = cellsPerRow[row];
-    //        if (cells < 2)
-    //        {
-    //            continue;
-    //        }
-    //        float width = 360f / cells;
-
-    //        var topLatitude = 90f - rowHeight * row;
-    //        var bottomLatitude = topLatitude - rowHeight;
-
-    //        for (int cell = 0; cell < cells; cell++)
-    //        {
-    //            float longitude = width * cell;
-
-    //            var newLineGO = Instantiate(CellWallPrefab, transform);
-    //            newLineGO.name = $"V Cell Wall r{row}c{cell}";
-    //            var newLine = newLineGO.GetComponent<LineRenderer>();
-
-    //            var positions = new List<Vector3>();
-    //            for (float latitude = topLatitude; latitude >= bottomLatitude; latitude -= wallLineStep)
-    //            {
-    //                positions.Add(PolarVector3.ToCartesian(latitude, longitude));
-    //            }
-    //            newLine.positionCount = positions.Count;
-    //            newLine.SetPositions(positions.ToArray());
-    //            newLine.loop = false;
-    //            CellWalls.Add(newLine);
-    //        }
-    //    }
-    //}
-
-    private void DrawCellConnections(int[] cellsPerRow)
+    private void DrawCellConnections()
     {
         float connectionLineStep = 1f; // Degrees
         var drawn = new Dictionary<GridCell, List<GridCell>>();
@@ -220,7 +163,7 @@ public class PuzzleGrid : MonoBehaviour
         }
     }
 
-    private const float SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS = 10f;
+    private const float SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS = 6f;
     private void AddCellVerticalNeighbors(GridCell cell)
     {
         var rowAbove = cell.Row - 1;

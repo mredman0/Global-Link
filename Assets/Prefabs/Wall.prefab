@@ -98,4 +98,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeshFilter: {fileID: 6054633531001342055}
   MeshRenderer: {fileID: 9100823686766118214}
-  VertexDensity: 10
+  VerticesPerDegree: 1

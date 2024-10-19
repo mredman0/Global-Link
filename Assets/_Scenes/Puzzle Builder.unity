@@ -491,7 +491,7 @@ MonoBehaviour:
   CellWallPrefab: {fileID: 2145597075948167739, guid: 10b9ab1751a91d144af1b686be2d748d,
     type: 3}
   Cells: []
-  ClosestDistanceBetweenNeighbors: 3.4028235e+38
+  ClosestDistanceBetweenNeighbors: 3.402823e+38
 --- !u!4 &958230424
 Transform:
   m_ObjectHideFlags: 0

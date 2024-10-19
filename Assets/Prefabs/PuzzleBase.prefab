@@ -984,6 +984,7 @@ MonoBehaviour:
   Grid: {fileID: 1072919042163802289}
   PuzzleViewCamera: {fileID: 4888107425489301318}
   CameraController: {fileID: 2855318531089526206}
+  MainSphere: {fileID: 7705329155531252493}
   PanInsteadOfSelectionThreshold: 1
   Nodes: []
   ActiveNode: {fileID: 0}

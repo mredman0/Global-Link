@@ -17,6 +17,7 @@ public class Puzzle : MonoBehaviour
     public PuzzleGrid Grid;
     public Camera PuzzleViewCamera;
     public CameraController CameraController;
+    public MeshRenderer MainSphere;
 
     [Header("Settings")]
     public float PanInsteadOfSelectionThreshold = 1f;
@@ -76,6 +77,7 @@ public class Puzzle : MonoBehaviour
         {
             return;
         }
+        PreviousDrawPoint = point;
 
         ActiveNode.Draw(point);
         SmoothEndOfLine(ActiveNode.Path);
@@ -125,9 +127,6 @@ public class Puzzle : MonoBehaviour
             SetupPuzzle(PuzzleConfig);
         }
         ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
-
-        // Camera setup
-        CameraController.SnapTo(PuzzleConfig.CameraArmStart, PuzzleConfig.CameraDistance, PuzzleConfig.CameraFoV);
     }
 
     private void OnTap(Vector2 tapPosition)
@@ -185,6 +184,7 @@ public class Puzzle : MonoBehaviour
     {
         SetupNodes(cfg);
         SetupObstacles(cfg);
+        SetupView(cfg);
     }
 
     private const float NODE_VISUAL_SCALE_FACTOR = 2.24f;
@@ -340,7 +340,18 @@ public class Puzzle : MonoBehaviour
             Walls.Add(newWall);
         }
     }
-	#endregion
+
+    private void SetupView(PuzzleConfig cfg)
+    {
+        if(cfg.OpaqueSphere)
+        {
+            MainSphere.material.SetFloat("_Opacity", 1f);
+        }
+
+        // Camera setup
+        CameraController.SnapTo(cfg.CameraArmStart, cfg.CameraDistance, cfg.CameraFoV);
+    }
+    #endregion
 
     private const float ROCK_COLLISION_DISTANCE = 0.18f;
     public bool IsCameraPositionValid()

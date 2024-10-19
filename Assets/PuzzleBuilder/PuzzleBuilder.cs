@@ -31,7 +31,8 @@ public class PuzzleBuilder : MonoBehaviour
     public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
     public List<PuzzleObjectRock> Rocks = new List<PuzzleObjectRock>();
 
-    [Header("Camera Settings")]
+    [Header("View Settings")]
+    public bool OpaqueSphere;
     public Quaternion CameraArmStart;
     public bool SnapCameraArmStartToCurrent;
     public bool SnapCameraArmToStart;
@@ -535,7 +536,16 @@ public class PuzzleBuilder : MonoBehaviour
 	#region Saving/Loading
     public void Save(string puzzleName)
     {
+        if(string.IsNullOrWhiteSpace(puzzleName))
+        {
+            Debug.LogError("Cannot save puzzle with empty name");
+            return;
+        }
+
         var newPuzzleConfig = ScriptableObject.CreateInstance<PuzzleConfig>();
+
+        // Metadata
+        newPuzzleConfig.ID = puzzleName;
 
         // Grid
         newPuzzleConfig.GridCellsPerRow = GridCellsPerRow;
@@ -605,7 +615,8 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.SolutionLengths = solutionLengths;
         newPuzzleConfig.Solutions = solutions.Select(c => new Vector2Int(c.Row, c.Cell)).ToArray();
 
-        // Camera Settings
+        // View Settings
+        newPuzzleConfig.OpaqueSphere = OpaqueSphere;
         newPuzzleConfig.CameraArmStart = CameraArmStart;
         newPuzzleConfig.CameraDistance = CameraDistance;
         newPuzzleConfig.CameraFoV = CameraFoV;
@@ -630,9 +641,15 @@ public class PuzzleBuilder : MonoBehaviour
     public void Load(PuzzleConfig cfg)
     {
         Clear();
+
+        // Metadata
+        PuzzleName = cfg.ID;
+
         // Grid
-        GridCellsPerRow = cfg.GridCellsPerRow;
+        GridCellsPerRow = new int[cfg.GridCellsPerRow.Length];
+        cfg.GridCellsPerRow.CopyTo(GridCellsPerRow, 0);
         RebuildGrid();
+
         // Nodes
         PaintMode = PuzzleBuilderPaintMode.Node;
         for(int i = 0; i < cfg.NodePositions.Length; i++)
@@ -642,6 +659,7 @@ public class PuzzleBuilder : MonoBehaviour
             PaintNodeColor = cfg.NodeColors.Length > i ? cfg.NodeColors[i] : Mathf.FloorToInt(i / 2f);
             Paint(Grid.CellsByRow[row][rowCell]);
         }
+
         // Walls
         PaintMode = PuzzleBuilderPaintMode.Wall;
         for (int i = 0; i < cfg.WallPositions.Length; i++)
@@ -650,6 +668,7 @@ public class PuzzleBuilder : MonoBehaviour
             var rowCell = cfg.WallPositions[i].y;
             Paint(Grid.CellsByRow[row][rowCell]);
         }
+
         // Rocks
         PaintMode = PuzzleBuilderPaintMode.Rock;
         for(int i = 0; i < cfg.RockPositions.Length; i++)
@@ -658,6 +677,7 @@ public class PuzzleBuilder : MonoBehaviour
             var rowCell = cfg.RockPositions[i].y;
             Paint(Grid.CellsByRow[row][rowCell]);
         }
+
         // Solutions
         PaintMode = PuzzleBuilderPaintMode.Node;
         var currentStep = 0;
@@ -674,7 +694,8 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
 
-        // Camera Settings
+        // View Settings
+        OpaqueSphere = cfg.OpaqueSphere;
         CameraArmStart = cfg.CameraArmStart;
         CameraDistance = cfg.CameraDistance;
         CameraFoV = cfg.CameraFoV;
