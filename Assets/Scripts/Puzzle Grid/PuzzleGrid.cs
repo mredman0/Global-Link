@@ -244,8 +244,10 @@ public class PuzzleGrid : MonoBehaviour
     }
 
     #region Pathfinding
-    public List<GridCell> GetContiguousCells(GridCell from, Func<GridCell, bool> obstructed)
+    public List<GridCell> GetContiguousCells(GridCell from, Predicate<GridCell> obstructed = null)
     {
+        obstructed ??= cell => cell.Color != null;
+
         // Queue for BFS
         Queue<GridCell> queue = new Queue<GridCell>();
         // Set for tracking visited cells
@@ -275,9 +277,11 @@ public class PuzzleGrid : MonoBehaviour
 
         return visited.ToList();
     }
-    public List<GridCell> GetShortestPath(GridCell from, GridCell to, Func<GridCell, bool> obstructed = null)
+    public int DistanceBetween(GridCell from, GridCell to, Predicate<GridCell> obstructed = null) =>
+        GetShortestPath(from, to, obstructed).Count + 1;
+    public List<GridCell> GetShortestPath(GridCell from, GridCell to, Predicate<GridCell> obstructed = null)
     {
-        obstructed ??= cell => false;
+        obstructed ??= cell => cell.Color != null;
 
         // Queue for BFS
         Queue<GridCell> queue = new Queue<GridCell>();
@@ -327,7 +331,7 @@ public class PuzzleGrid : MonoBehaviour
             path.Add(current);
             current = cameFrom[current];
         }
-        path.Add(start);
+        path.Remove(goal);
         path.Reverse(); // Reverse to get the path from start to goal
         return path;
     }

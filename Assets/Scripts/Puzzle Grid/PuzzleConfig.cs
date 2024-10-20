@@ -20,6 +20,12 @@ public class PuzzleConfig : ScriptableObject
 	[Header("Nodes")]
 	public Vector2Int[] NodePositions;
 	public int[] NodeColors;
+
+	[Header("Waypoints")]
+	public Vector2Int[] WaypointPositions;
+	public int[] WaypointColors;
+
+	[Header("Solutions")]
 	public int[] SolutionLengths;
 	public Vector2Int[] Solutions;
 

@@ -16,6 +16,7 @@ public class PuzzleBuilder : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject NodePrefab;
+    public GameObject WaypointPrefab;
     public GameObject WallPrefab;
     public GameObject RockPrefab;
 
@@ -28,6 +29,7 @@ public class PuzzleBuilder : MonoBehaviour
     public int PaintNodeColor = 0;
     public Dictionary<GridCell, PuzzleObject> PlacedObjects = new Dictionary<GridCell, PuzzleObject>();
     public List<PuzzleObjectNode> Nodes = new List<PuzzleObjectNode>();
+    public List<PuzzleObjectWaypoint> Waypoints = new List<PuzzleObjectWaypoint>();
     public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
     public List<PuzzleObjectRock> Rocks = new List<PuzzleObjectRock>();
 
@@ -43,13 +45,17 @@ public class PuzzleBuilder : MonoBehaviour
 
     [Header("Generator")]
     public string GeneratorSeed = "";
+    public string PreviousSeed;
     [Range(0, 1)]
     public float InitialWallAmount = 0f;
     [Range(0, 1)]
     [Tooltip("0 means each wall is selected individually,\n0.25 means walls will be grouped into ~4 clusters,\n0.5 means ~2 clusters,\n1 means a single cluster")]
     public float WallClustering = 0f;
     [Range(1, 6)]
-    public int MaxNodePairs = 6;
+    public int TargetNodePairs = 6;
+    [Range(0, 6)]
+    public int TargetWaypoints = 0;
+    public int MinimumDistanceBetweenNodes = 4;
     [Range(0, 1)]
     public float AdditionalWallAmount = 0f;
     public bool StartGeneration = false;
@@ -209,6 +215,26 @@ public class PuzzleBuilder : MonoBehaviour
             Nodes.Add(newNode);
             PlacedObjects[cell] = newNode;
         }
+        else if(PaintMode == PuzzleBuilderPaintMode.Waypoint)
+        {
+            var newWaypointGO = Instantiate(WaypointPrefab);
+            newWaypointGO.transform.parent = transform;
+            newWaypointGO.transform.position = cell.transform.position;
+            newWaypointGO.transform.LookAt(transform);
+
+            var newWaypoint = newWaypointGO.GetComponent<PuzzleObjectWaypoint>();
+            newWaypointGO.name = $"{ColorMapController.Instance.ColorName(PaintNodeColor)} Waypoint";
+            newWaypoint.SetColor(PaintNodeColor);
+            newWaypoint.Cell = cell;
+
+            if (cell.Color != PaintNodeColor)
+            {
+                ColorCell(cell);
+            }
+
+            Waypoints.Add(newWaypoint);
+            PlacedObjects[cell] = newWaypoint;
+        }
         else if (PaintMode == PuzzleBuilderPaintMode.Wall)
         {
             var newWallGO = Instantiate(WallPrefab);
@@ -247,6 +273,10 @@ public class PuzzleBuilder : MonoBehaviour
         {
             Nodes.Remove(node);
             ColorCell(cell, -1);
+        }
+        else if (objectToDelete is PuzzleObjectWaypoint waypoint)
+        {
+            Waypoints.Remove(waypoint);
         }
         else if (objectToDelete is PuzzleObjectWall wall)
         {
@@ -330,7 +360,7 @@ public class PuzzleBuilder : MonoBehaviour
         SetRandomSeed();
 
         GenerateInitialWalls();
-        GenerateNodesAndPaths();
+        GenerateNodesPathsAndWaypoints();
         GenerateAdditionalWalls();
     }
 
@@ -341,6 +371,7 @@ public class PuzzleBuilder : MonoBehaviour
         {
             seed = seedNumber;
         }
+        PreviousSeed = string.IsNullOrEmpty(GeneratorSeed) ? seed.ToString() : GeneratorSeed;
         Random.InitState(seed);
     }
 	
@@ -410,13 +441,29 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void GenerateNodesAndPaths()
+    private Dictionary<int, List<GridCell>> GeneratedSolutionPaths = new Dictionary<int, List<GridCell>>();
+    private void GenerateNodesPathsAndWaypoints()
     {
         PaintMode = PuzzleBuilderPaintMode.Node;
         List<List<GridCell>> contiguousGroupsOfCells;
-        for(int i = 0; i < MaxNodePairs; i++)
+        var colors = new List<int>();
+        for(int i = 0; i < 6; i++)
         {
-            PaintNodeColor = i;
+            colors.Add(i);
+        }
+        var colorOrder = new int[colors.Count];
+        for(int i = 0; i < colorOrder.Length; i++)
+        {
+            var randInd = Random.Range(0, colors.Count);
+            colorOrder[i] = colors[randInd];
+            colors.RemoveAt(randInd);
+        }
+
+        var waypointsLeftToGenerate = TargetWaypoints;
+
+        for(int i = 0; i < TargetNodePairs; i++)
+        {
+            PaintNodeColor = colorOrder[i];
             contiguousGroupsOfCells = GetContiguousGroupsOfCells();
 
             List<GridCell> biggestGroup = null;
@@ -430,21 +477,87 @@ public class PuzzleBuilder : MonoBehaviour
                 }
             }
 
-            if(biggestGroupSize < 2)
+            var generateWaypoint = waypointsLeftToGenerate > 0;
+
+            if(biggestGroupSize < 4)
             {
                 break; // Can't place any more node pairs
             }
 
-            var firstNode = biggestGroup[Random.Range(0, biggestGroup.Count)];
-            biggestGroup.Remove(firstNode);
-            var secondNode = biggestGroup[Random.Range(0, biggestGroup.Count)];
-
-            foreach(var cell in Grid.GetShortestPath(firstNode, secondNode, cell => cell.Color != null))
+            if(generateWaypoint)
             {
-                ColorCell(cell);
+                var possibleWaypoints = biggestGroup.Where(cell => !cell.IsDeadEnd()).ToList();
+                var waypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
+                biggestGroup.Remove(waypoint);
+                var cellsFarEnoughAway = biggestGroup.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes).ToList();
+                if (!cellsFarEnoughAway.Any())
+                {
+                    // We tried to prefer something further away, but just give up
+                    cellsFarEnoughAway = biggestGroup;
+                }
+                var firstNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
+                var pathToFirstNode = Grid.GetShortestPath(waypoint, firstNode);
+                foreach (var cell in pathToFirstNode)
+                {
+                    ColorCell(cell);
+                }
+                ColorCell(firstNode);
+                var cellsToConsiderForSecondNode = Grid.GetContiguousCells(waypoint);
+                cellsToConsiderForSecondNode.Remove(waypoint);
+                cellsFarEnoughAway = cellsToConsiderForSecondNode.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes).ToList();
+                if (!cellsFarEnoughAway.Any())
+                {
+                    // We tried to prefer something further away, but just give up
+                    cellsFarEnoughAway = cellsToConsiderForSecondNode;
+                }
+                var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
+                var pathToSecondNode = Grid.GetShortestPath(waypoint, secondNode);
+                foreach (var cell in pathToSecondNode)
+                {
+                    ColorCell(cell);
+                }
+                var completePath = new List<GridCell>();
+                completePath.AddRange(pathToFirstNode);
+                completePath.Reverse();
+                completePath.Add(waypoint);
+                completePath.AddRange(pathToSecondNode);
+                GeneratedSolutionPaths[colorOrder[i]] = completePath;
+
+                PaintMode = PuzzleBuilderPaintMode.Waypoint;
+                Paint(waypoint);
+                waypointsLeftToGenerate--;
+
+                PaintMode = PuzzleBuilderPaintMode.Node;
+                Paint(firstNode);
+                Paint(secondNode);
             }
-            Paint(firstNode);
-            Paint(secondNode);
+            else
+            {
+                var firstNode = biggestGroup[Random.Range(0, biggestGroup.Count)];
+                biggestGroup.Remove(firstNode);
+                var cellsFarEnoughAway = biggestGroup.Where(cell => Grid.DistanceBetween(firstNode, cell) >= MinimumDistanceBetweenNodes).ToList();
+                if (!cellsFarEnoughAway.Any())
+                {
+                    // We tried to prefer something further away, but just give up
+                    cellsFarEnoughAway = biggestGroup;
+                }
+                var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
+
+                var path = Grid.GetShortestPath(firstNode, secondNode);
+                foreach (var cell in path)
+                {
+                    ColorCell(cell);
+                }
+                GeneratedSolutionPaths[colorOrder[i]] = path;
+
+                PaintMode = PuzzleBuilderPaintMode.Node;
+                Paint(firstNode);
+                Paint(secondNode);
+            }
+        }
+        if(waypointsLeftToGenerate > 0)
+        {
+            Debug.LogWarning($"Only generated {TargetWaypoints - waypointsLeftToGenerate} out of the requested {TargetWaypoints} waypoints");
         }
     }
 
@@ -456,7 +569,7 @@ public class PuzzleBuilder : MonoBehaviour
         {
             var group = new List<GridCell>();
             groups.Add(group);
-            group.AddRange(Grid.GetContiguousCells(ungroupedCells.First(), cell => cell.Color != null));
+            group.AddRange(Grid.GetContiguousCells(ungroupedCells.First()));
             foreach(var cell in group)
             {
                 ungroupedCells.Remove(cell);
@@ -488,6 +601,8 @@ public class PuzzleBuilder : MonoBehaviour
 	public void Clear()
     {
         ClearNodes();
+        ClearWaypoints();
+        GeneratedSolutionPaths.Clear();
         ClearObstacles();
         ResetGridCellColors();
     }
@@ -500,6 +615,15 @@ public class PuzzleBuilder : MonoBehaviour
             Destroy(node.gameObject);
         }
         Nodes.Clear();
+    }
+    public void ClearWaypoints()
+    {
+        foreach (var waypoint in Waypoints)
+        {
+            PlacedObjects.Remove(waypoint.Cell);
+            Destroy(waypoint.gameObject);
+        }
+        Waypoints.Clear();
     }
 
     public void ClearObstacles()
@@ -564,6 +688,15 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
 
+        // Waypoints
+        newPuzzleConfig.WaypointPositions = new Vector2Int[Waypoints.Count];
+        newPuzzleConfig.WaypointColors = new int[Waypoints.Count];
+        for (i = 0; i < Waypoints.Count; i++)
+        {
+            newPuzzleConfig.WaypointPositions[i] = new Vector2Int(Waypoints[i].Cell.Row, Waypoints[i].Cell.Cell);
+            newPuzzleConfig.WaypointColors[i] = Waypoints[i].Color;
+        }
+
         // Walls
         newPuzzleConfig.WallPositions = new Vector2Int[Walls.Count];
         for (i = 0; i < Walls.Count; i++)
@@ -583,34 +716,43 @@ public class PuzzleBuilder : MonoBehaviour
         var solutionLengths = new int[6];
         for(int color = 0; color < 6; color++)
         {
-            var steps = new List<GridCell>();
-            var nodes = Nodes.Where(n => n.Color == color).ToList();
-            if(nodes.Count == 2)
+            if(GeneratedSolutionPaths.ContainsKey(color))
             {
-                var start = nodes[0].Cell;
-                var end = nodes[1].Cell;
-                var current = start;
-                while(current != end)
+                solutions.AddRange(GeneratedSolutionPaths[color]);
+                solutionLengths[color] = GeneratedSolutionPaths[color].Count;
+            }
+            else
+            {
+                // If we don't have a generated path to store, try figuring it out... dumbly
+                var steps = new List<GridCell>();
+                var nodes = Nodes.Where(n => n.Color == color).ToList();
+                if (nodes.Count == 2)
                 {
-                    var next = current.Neighbors.FirstOrDefault(n => n.Color == color && n != start && !steps.Contains(n));
-                    if(!next)
+                    var start = nodes[0].Cell;
+                    var end = nodes[1].Cell;
+                    var current = start;
+                    while (current != end)
                     {
-                        Debug.LogWarning($"Could not follow solution path for color {color}");
-                        break;
+                        var next = current.Neighbors.FirstOrDefault(n => n.Color == color && n != start && !steps.Contains(n));
+                        if (!next)
+                        {
+                            Debug.LogWarning($"Could not follow solution path for color {color}");
+                            break;
+                        }
+                        if (next != end)
+                        {
+                            steps.Add(next);
+                        }
+                        current = next;
                     }
-                    if(next != end)
-                    {
-                        steps.Add(next);
-                    }
-                    current = next;
                 }
+                else if (nodes.Any())
+                {
+                    Debug.LogWarning($"Color {color} does not have exactly 2 nodes, not storing solution.");
+                }
+                solutions.AddRange(steps);
+                solutionLengths[color] = steps.Count;
             }
-            else if(nodes.Any())
-            {
-                Debug.LogWarning($"Color {color} does not have exactly 2 nodes, not storing solution.");
-            }
-            solutions.AddRange(steps);
-            solutionLengths[color] = steps.Count;
         }
         newPuzzleConfig.SolutionLengths = solutionLengths;
         newPuzzleConfig.Solutions = solutions.Select(c => new Vector2Int(c.Row, c.Cell)).ToArray();
@@ -660,6 +802,16 @@ public class PuzzleBuilder : MonoBehaviour
             Paint(Grid.CellsByRow[row][rowCell]);
         }
 
+        // Waypoints
+        PaintMode = PuzzleBuilderPaintMode.Waypoint;
+        for (int i = 0; i < cfg.WaypointPositions.Length; i++)
+        {
+            var row = cfg.NodePositions[i].x;
+            var rowCell = cfg.NodePositions[i].y;
+            PaintNodeColor = cfg.WaypointColors[i];
+            Paint(Grid.CellsByRow[row][rowCell]);
+        }
+
         // Walls
         PaintMode = PuzzleBuilderPaintMode.Wall;
         for (int i = 0; i < cfg.WallPositions.Length; i++)
@@ -683,6 +835,7 @@ public class PuzzleBuilder : MonoBehaviour
         var currentStep = 0;
         for(int i = 0; i < 6; i++)
         {
+            var solution = new List<GridCell>();
             var lengthOfSolution = cfg.SolutionLengths[i];
             var end = currentStep + lengthOfSolution;
             PaintNodeColor = i;
@@ -691,7 +844,9 @@ public class PuzzleBuilder : MonoBehaviour
                 var row = cfg.Solutions[currentStep].x;
                 var rowCell = cfg.Solutions[currentStep].y;
                 ColorCell(Grid.CellsByRow[row][rowCell]);
+                solution.Add(Grid.CellsByRow[row][rowCell]);
             }
+            GeneratedSolutionPaths[i] = solution;
         }
 
         // View Settings
@@ -709,6 +864,7 @@ public enum PuzzleBuilderPaintMode
 {
     Erase,
     Node,
+    Waypoint,
     Wall,
     Rock,
 }

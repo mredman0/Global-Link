@@ -47,3 +47,8 @@ MonoBehaviour:
   Row: 0
   Cell: 0
   Neighbors: []
+  DistanceToClosestNeighbor: 3.402823e+38
+  LatitudeMin: 0
+  LatitudeMax: 0
+  LongitudeMin: 0
+  LongitudeMax: 0

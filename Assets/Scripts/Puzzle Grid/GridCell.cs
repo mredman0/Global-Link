@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridCell : MonoBehaviour
@@ -62,4 +64,15 @@ public class GridCell : MonoBehaviour
     }
 
     public bool ObstructedForColor(int color) => Color != 0 && Color != color;
+
+    public int NumFreeNeighbors(Predicate<GridCell> obstructed = null)
+    {
+        obstructed ??= cell => cell.Color != null;
+        return Neighbors.Count(n => !obstructed(n));
+    }
+    public bool IsDeadEnd(Predicate<GridCell> obstructed = null)
+    {
+        obstructed ??= cell => cell.Color != null;
+        return NumFreeNeighbors(obstructed) < 2;
+    }
 }

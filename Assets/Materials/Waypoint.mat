@@ -87,12 +87,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Border_Intensity: 1
+    - _Border_Thickness: 0.25
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Fresnel_Strength: 1
-    - _Fresnel_Thickness: 0.5
+    - _Fresnel_Strength: 0.41
+    - _Fresnel_Thickness: 0.9
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1

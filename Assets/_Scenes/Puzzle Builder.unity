@@ -654,6 +654,8 @@ MonoBehaviour:
   CameraController: {fileID: 4521173174046847540}
   NodePrefab: {fileID: 3768504839285652863, guid: 7f98b0e5532feaf418aa98315587572b,
     type: 3}
+  WaypointPrefab: {fileID: 8237476992170656197, guid: d25beebee1db3c74e97ce66fbad026ba,
+    type: 3}
   WallPrefab: {fileID: 8237476992170656197, guid: 2435f99bed0399249815e234652057bd,
     type: 3}
   RockPrefab: {fileID: 8237476992170656197, guid: 610b31c6ebaa8de458b0cbd8d7b91620,
@@ -662,8 +664,10 @@ MonoBehaviour:
   PaintMode: 0
   PaintNodeColor: 0
   Nodes: []
+  Waypoints: []
   Walls: []
   Rocks: []
+  OpaqueSphere: 0
   CameraArmStart: {x: 0, y: 0, z: 0, w: 0}
   SnapCameraArmStartToCurrent: 0
   SnapCameraArmToStart: 0

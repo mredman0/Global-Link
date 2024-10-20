@@ -10,6 +10,7 @@ public class Puzzle : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject NodePrefab;
+    public GameObject WaypointPrefab;
     public GameObject RockPrefab;
     public GameObject WallPrefab;
 
@@ -23,9 +24,11 @@ public class Puzzle : MonoBehaviour
     public float PanInsteadOfSelectionThreshold = 1f;
 
     [Header("State")]
+    public Node ActiveNode;
     public List<Node> Nodes;
     public Dictionary<int, List<Node>> NodesByColor = new Dictionary<int, List<Node>>();
-    public Node ActiveNode;
+    public List<Waypoint> Waypoints;
+    public Dictionary<int, List<Waypoint>> WaypointsByColor = new Dictionary<int, List<Waypoint>>();
     public List<(int, LineRenderer)> Paths = new List<(int, LineRenderer)>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
@@ -179,10 +182,52 @@ public class Puzzle : MonoBehaviour
         ActiveNode = null;
     }
 
-	#region Setup
-	public void SetupPuzzle(PuzzleConfig cfg)
+
+    private void ResetPuzzle()
+    {
+        if (Nodes != null)
+        {
+            foreach (var node in Nodes)
+            {
+                Destroy(node.gameObject);
+            }
+            Nodes.Clear();
+            NodesByColor.Clear();
+        }
+        ActiveNode = null;
+        if (Paths != null)
+        {
+            foreach (var kvp in Paths)
+            {
+                Destroy(kvp.Item2.gameObject);
+            }
+            Paths.Clear();
+        }
+        if (Walls != null)
+        {
+            foreach (var wall in Walls)
+            {
+                Destroy(wall.gameObject);
+            }
+            Walls.Clear();
+        }
+        if (Rocks != null)
+        {
+            foreach (var rock in Rocks)
+            {
+                Destroy(rock.gameObject);
+            }
+            Rocks.Clear();
+        }
+
+        Grid.Clear();
+    }
+
+    #region Setup
+    public void SetupPuzzle(PuzzleConfig cfg)
     {
         SetupNodes(cfg);
+        SetupWaypoints(cfg);
         SetupObstacles(cfg);
         SetupView(cfg);
     }
@@ -250,44 +295,25 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private void ResetPuzzle()
+    private void SetupWaypoints(PuzzleConfig cfg)
     {
-        if(Nodes != null)
+        for (int i = 0; i < cfg.WaypointPositions.Length; i++)
         {
-            foreach (var node in Nodes)
-            {
-                Destroy(node.gameObject);
-            }
-            Nodes.Clear();
-            NodesByColor.Clear();
-        }
-        ActiveNode = null;
-        if(Paths != null)
-        {
-            foreach(var kvp in Paths)
-            {
-                Destroy(kvp.Item2.gameObject);
-            }
-            Paths.Clear();
-        }
-        if(Walls != null)
-        {
-            foreach (var wall in Walls)
-            {
-                Destroy(wall.gameObject);
-            }
-            Walls.Clear();
-        }
-        if(Rocks != null)
-        {
-            foreach (var rock in Rocks)
-            {
-                Destroy(rock.gameObject);
-            }
-            Rocks.Clear();
-        }
+            var row = cfg.WaypointPositions[i].x;
+            var rowCell = cfg.WaypointPositions[i].y;
 
-        Grid.Clear();
+            var newWaypointGO = Instantiate(WaypointPrefab);
+            newWaypointGO.transform.parent = transform;
+            newWaypointGO.name = $"Waypoint r{row}c{rowCell}";
+
+            var cell = Grid.CellsByRow[row][rowCell];
+            cell.Color = -1;
+
+            var newWaypoint = newWaypointGO.GetComponent<Waypoint>();
+            newWaypoint.SetGridCell(cell);
+
+            Waypoints.Add(newWaypoint);
+        }
     }
 
     private void SetupObstacles(PuzzleConfig cfg)
@@ -400,13 +426,14 @@ public class Puzzle : MonoBehaviour
                 return false;
             }
         }
-        var wallPathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg;
+        var wallPathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg * 0.9f;
         var pointPolar = position.ToPolar();
+        var wallPathCollisionPaddingLongitude = wallPathCollisionPadding;// / Mathf.Cos(pointPolar.Latitude * Mathf.Deg2Rad);
         foreach (var wall in Walls)
         {
             // Latitude "minimum" is the top, so it's actually the max
-            if(pointPolar.Latitude < wall.GridCell.LatitudeMin + wallPathCollisionPadding && pointPolar.Latitude > wall.GridCell.LatitudeMax - wallPathCollisionPadding &&
-                pointPolar.Longitude > wall.GridCell.LongitudeMin - wallPathCollisionPadding && pointPolar.Longitude < wall.GridCell.LongitudeMax + wallPathCollisionPadding)
+            if(pointPolar.Latitude < wall.GridCell.LatitudeMin + wallPathCollisionPadding && pointPolar.Latitude > wall.GridCell.LatitudeMax - wallPathCollisionPaddingLongitude &&
+                pointPolar.Longitude > wall.GridCell.LongitudeMin - wallPathCollisionPadding && pointPolar.Longitude < wall.GridCell.LongitudeMax + wallPathCollisionPaddingLongitude)
             {
                 return false;
             }

@@ -977,6 +977,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodePrefab: {fileID: 8237476992170656197, guid: c446b142a9731694cbc5010330be1856,
     type: 3}
+  WaypointPrefab: {fileID: 8059110723922232405, guid: 6f62e8f190fc1024496e30927958f3b6,
+    type: 3}
   RockPrefab: {fileID: 8237476992170656197, guid: ff875ff6e5681564bb631888db8e7f0b,
     type: 3}
   WallPrefab: {fileID: 8059110723922232405, guid: 96c27b21bd140d34caef584e1b42d7cb,
@@ -986,8 +988,9 @@ MonoBehaviour:
   CameraController: {fileID: 2855318531089526206}
   MainSphere: {fileID: 7705329155531252493}
   PanInsteadOfSelectionThreshold: 1
-  Nodes: []
   ActiveNode: {fileID: 0}
+  Nodes: []
+  Waypoints: []
   Rocks: []
   Walls: []
   GridVisible: 0
