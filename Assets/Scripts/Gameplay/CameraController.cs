@@ -16,6 +16,8 @@ public class CameraController : MonoBehaviour
     public float MaxSpeed = 1f;
     public float Friction = 1f;
     public bool AllowMomentumWithActiveNode = false;
+    public int InputLocks = 0;
+    public bool DoPuzzleCompleteSpin;
 
     private int DragInputsToStore = 5;
 
@@ -39,6 +41,11 @@ public class CameraController : MonoBehaviour
         InputManager.Instance.Press += OnPress;
         InputManager.Instance.Release += OnRelease;
         InputManager.Instance.Drag += OnDrag;
+
+        if(Puzzle)
+        {
+            Puzzle.PuzzleCompleted += OnPuzzleCompleted;
+        }
     }
 
     private void OnDestroy()
@@ -46,15 +53,30 @@ public class CameraController : MonoBehaviour
         InputManager.Instance.Press -= OnPress;
         InputManager.Instance.Release -= OnRelease;
         InputManager.Instance.Drag -= OnDrag;
+        
+        if(Puzzle)
+        {
+            Puzzle.PuzzleCompleted -= OnPuzzleCompleted;
+        }
     }
 
     private void OnPress(Vector2 position)
     {
+        if(InputLocks > 0)
+        {
+            return;
+        }
+        DoPuzzleCompleteSpin = false;
         Momentum = Vector2.zero;
     }
 
     private void OnRelease(Vector2 position)
     {
+        if (InputLocks > 0)
+        {
+            return;
+        }
+        DoPuzzleCompleteSpin = false;
         var avgOfLatestDrags = Vector2.zero;
         foreach(var drag in LastDragMotions)
         {
@@ -73,8 +95,19 @@ public class CameraController : MonoBehaviour
 
     private void OnDrag(Vector2 drag)
     {
+        if (InputLocks > 0)
+        {
+            return;
+        }
+        DoPuzzleCompleteSpin = false;
         Panning = true;
         HandleDrag(drag);
+    }
+
+    private void OnPuzzleCompleted()
+    {
+        DoPuzzleCompleteSpin = true;
+        Panning = false;
     }
 
     private void HandleDrag(Vector2 drag)
@@ -153,6 +186,10 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(DoPuzzleCompleteSpin)
+        {
+            Momentum = Vector2.right * Mathf.Sin(Time.time + Mathf.PI/2f) + Vector2.up * Mathf.Cos(Time.time/2f);
+        }
         if (!Panning)
         {
             if ((AllowMomentumWithActiveNode || !Puzzle || !Puzzle.ActiveNode) && (Momentum.x != 0 || Momentum.y != 0))
@@ -162,6 +199,9 @@ public class CameraController : MonoBehaviour
             }
         }
     }
+
+    public void LockInput() => InputLocks++;
+    public void FreeInput() => InputLocks = Mathf.Max(InputLocks - 1, 0);
 
     public void SnapToNode(Node n)
     {

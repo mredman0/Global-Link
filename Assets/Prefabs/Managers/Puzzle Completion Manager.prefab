@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &292526688618264052
+--- !u!1 &2671757210387117111
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5844635740961434604}
-  - component: {fileID: 280485070439819314}
+  - component: {fileID: 6454841597224849050}
+  - component: {fileID: 9097729542690108642}
   m_Layer: 0
-  m_Name: Game Manager
+  m_Name: Puzzle Completion Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5844635740961434604
+--- !u!4 &6454841597224849050
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292526688618264052}
+  m_GameObject: {fileID: 2671757210387117111}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,15 +32,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &280485070439819314
+--- !u!114 &9097729542690108642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292526688618264052}
+  m_GameObject: {fileID: 2671757210387117111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f61b432ca838144b798878f11725cb, type: 3}
+  m_Script: {fileID: 11500000, guid: e71e3c584ad5fbe45916d73c156cd1c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PacksToManage:
+  - Tutorial
+  - Beginner

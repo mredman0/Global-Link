@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public string DefaultSceneToLoad;
+    public bool Additive = false;
 
     public void LoadScene(string name = "")
     {
@@ -13,6 +14,6 @@ public class SceneLoader : MonoBehaviour
         {
             name = DefaultSceneToLoad;
         }
-        SceneManager.LoadScene(name);
+        SceneManager.LoadScene(name, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
     }
 }

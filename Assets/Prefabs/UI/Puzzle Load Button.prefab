@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8280480867270012946}
   - component: {fileID: 8095363286140271913}
   - component: {fileID: 2667064921450707320}
+  - component: {fileID: 7447920733571310536}
   - component: {fileID: 7459537278482917389}
   m_Layer: 5
   m_Name: Puzzle Load Button
@@ -68,8 +69,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: f6f8f89d818b2934ab9853e863e9c878, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -99,11 +100,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
-    m_HighlightedColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
-    m_PressedColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
-    m_SelectedColor: {r: 0.1882353, g: 0.1882353, b: 0.1882353, a: 1}
-    m_DisabledColor: {r: 0, g: 0, b: 0, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+    m_PressedColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
+    m_SelectedColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+    m_DisabledColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -134,6 +135,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7447920733571310536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4281820168914642997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3615ce55b802e14681561e4241e801a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 2667064921450707320}
+  PuzzleLoader: {fileID: 7459537278482917389}
+  UncompletedSprite: {fileID: 21300000, guid: f6f8f89d818b2934ab9853e863e9c878, type: 3}
+  CompletedSprite: {fileID: 21300000, guid: b342d96626aadb04392d087bafe0e1e2, type: 3}
+  PuzzlePack: 
+  PuzzleIdInPack: 
 --- !u!114 &7459537278482917389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d63968151f58c04d9224fabe9ea5c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PuzzleToLoad: {fileID: 0}
+  PuzzlePack: 
+  PuzzleIdInPack: 
 --- !u!1 &6302150504266804561
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,8 +241,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294046193
-  m_fontColor: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -245,7 +265,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

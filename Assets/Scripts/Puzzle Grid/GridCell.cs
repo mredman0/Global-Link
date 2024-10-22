@@ -63,8 +63,6 @@ public class GridCell : MonoBehaviour
         }
     }
 
-    public bool ObstructedForColor(int color) => Color != 0 && Color != color;
-
     public int NumFreeNeighbors(Predicate<GridCell> obstructed = null)
     {
         obstructed ??= cell => cell.Color != null;

@@ -690,11 +690,9 @@ public class PuzzleBuilder : MonoBehaviour
 
         // Waypoints
         newPuzzleConfig.WaypointPositions = new Vector2Int[Waypoints.Count];
-        newPuzzleConfig.WaypointColors = new int[Waypoints.Count];
         for (i = 0; i < Waypoints.Count; i++)
         {
             newPuzzleConfig.WaypointPositions[i] = new Vector2Int(Waypoints[i].Cell.Row, Waypoints[i].Cell.Cell);
-            newPuzzleConfig.WaypointColors[i] = Waypoints[i].Color;
         }
 
         // Walls
@@ -793,60 +791,78 @@ public class PuzzleBuilder : MonoBehaviour
         RebuildGrid();
 
         // Nodes
-        PaintMode = PuzzleBuilderPaintMode.Node;
-        for(int i = 0; i < cfg.NodePositions.Length; i++)
+        if(cfg.NodePositions != null && cfg.NodeColors != null)
         {
-            var row = cfg.NodePositions[i].x;
-            var rowCell = cfg.NodePositions[i].y;
-            PaintNodeColor = cfg.NodeColors.Length > i ? cfg.NodeColors[i] : Mathf.FloorToInt(i / 2f);
-            Paint(Grid.CellsByRow[row][rowCell]);
+            PaintMode = PuzzleBuilderPaintMode.Node;
+            for (int i = 0; i < cfg.NodePositions.Length; i++)
+            {
+                var row = cfg.NodePositions[i].x;
+                var rowCell = cfg.NodePositions[i].y;
+                PaintNodeColor = cfg.NodeColors.Length > i ? cfg.NodeColors[i] : Mathf.FloorToInt(i / 2f);
+                Paint(Grid.CellsByRow[row][rowCell]);
+            }
         }
 
         // Waypoints
-        PaintMode = PuzzleBuilderPaintMode.Waypoint;
-        for (int i = 0; i < cfg.WaypointPositions.Length; i++)
+        if(cfg.WaypointPositions != null)
         {
-            var row = cfg.NodePositions[i].x;
-            var rowCell = cfg.NodePositions[i].y;
-            PaintNodeColor = cfg.WaypointColors[i];
-            Paint(Grid.CellsByRow[row][rowCell]);
+            PaintMode = PuzzleBuilderPaintMode.Waypoint;
+            for (int i = 0; i < cfg.WaypointPositions.Length; i++)
+            {
+                var row = cfg.WaypointPositions[i].x;
+                var rowCell = cfg.WaypointPositions[i].y;
+                Paint(Grid.CellsByRow[row][rowCell]);
+            }
         }
 
         // Walls
-        PaintMode = PuzzleBuilderPaintMode.Wall;
-        for (int i = 0; i < cfg.WallPositions.Length; i++)
+        if(cfg.WallPositions != null)
         {
-            var row = cfg.WallPositions[i].x;
-            var rowCell = cfg.WallPositions[i].y;
-            Paint(Grid.CellsByRow[row][rowCell]);
+            PaintMode = PuzzleBuilderPaintMode.Wall;
+            for (int i = 0; i < cfg.WallPositions.Length; i++)
+            {
+                var row = cfg.WallPositions[i].x;
+                var rowCell = cfg.WallPositions[i].y;
+                Paint(Grid.CellsByRow[row][rowCell]);
+            }
         }
 
         // Rocks
-        PaintMode = PuzzleBuilderPaintMode.Rock;
-        for(int i = 0; i < cfg.RockPositions.Length; i++)
+        if(cfg.RockPositions != null)
         {
-            var row = cfg.RockPositions[i].x;
-            var rowCell = cfg.RockPositions[i].y;
-            Paint(Grid.CellsByRow[row][rowCell]);
+            PaintMode = PuzzleBuilderPaintMode.Rock;
+            for (int i = 0; i < cfg.RockPositions.Length; i++)
+            {
+                var row = cfg.RockPositions[i].x;
+                var rowCell = cfg.RockPositions[i].y;
+                Paint(Grid.CellsByRow[row][rowCell]);
+            }
         }
 
         // Solutions
-        PaintMode = PuzzleBuilderPaintMode.Node;
-        var currentStep = 0;
-        for(int i = 0; i < 6; i++)
+        if(cfg.SolutionLengths != null && cfg.Solutions != null)
         {
-            var solution = new List<GridCell>();
-            var lengthOfSolution = cfg.SolutionLengths[i];
-            var end = currentStep + lengthOfSolution;
-            PaintNodeColor = i;
-            for(; currentStep < end; currentStep++)
+            PaintMode = PuzzleBuilderPaintMode.Node;
+            var currentStep = 0;
+            for (int i = 0; i < 6; i++)
             {
-                var row = cfg.Solutions[currentStep].x;
-                var rowCell = cfg.Solutions[currentStep].y;
-                ColorCell(Grid.CellsByRow[row][rowCell]);
-                solution.Add(Grid.CellsByRow[row][rowCell]);
+                var solution = new List<GridCell>();
+                var lengthOfSolution = cfg.SolutionLengths[i];
+                var end = currentStep + lengthOfSolution;
+                PaintNodeColor = i;
+                for (; currentStep < end; currentStep++)
+                {
+                    var row = cfg.Solutions[currentStep].x;
+                    var rowCell = cfg.Solutions[currentStep].y;
+
+                    if (Grid.CellsByRow[row][rowCell].Color != PaintNodeColor)
+                    {
+                        ColorCell(Grid.CellsByRow[row][rowCell]);
+                    }
+                    solution.Add(Grid.CellsByRow[row][rowCell]);
+                }
+                GeneratedSolutionPaths[i] = solution;
             }
-            GeneratedSolutionPaths[i] = solution;
         }
 
         // View Settings

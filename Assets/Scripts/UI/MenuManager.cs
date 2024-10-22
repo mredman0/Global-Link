@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    public static string SavedPage;
+    public static Dictionary<string, string> SavedPages = new Dictionary<string, string>();
 
     public string MenuID;
     private readonly List<MenuPage> Pages = new List<MenuPage>();
@@ -16,20 +16,23 @@ public class MenuManager : MonoBehaviour
     {
         Pages.AddRange(GetComponentsInChildren<MenuPage>(includeInactive: true));
         CurrentPage = Pages.FirstOrDefault(p => p.gameObject.activeSelf);
-        if(!string.IsNullOrWhiteSpace(SavedPage))
+        if(SavedPages.TryGetValue(MenuID, out string savedPage))
         {
-            var pageToReturnTo = Pages.FirstOrDefault(p => p.name == SavedPage);
-            if(pageToReturnTo)
+            if (!string.IsNullOrWhiteSpace(savedPage))
             {
-                GotoPage(pageToReturnTo);
+                var pageToReturnTo = Pages.FirstOrDefault(p => p.name == savedPage);
+                if (pageToReturnTo)
+                {
+                    GotoPage(pageToReturnTo);
+                }
             }
+            SavedPages.Remove(MenuID);
         }
-        SavedPage = null;
     }
 
     private void OnDestroy()
     {
-        SavedPage = CurrentPage ? CurrentPage.name : null;
+        SavedPages.Add(MenuID, CurrentPage ? CurrentPage.name : null);
     }
 
     public void GotoPage(MenuPage page)

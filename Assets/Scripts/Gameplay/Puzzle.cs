@@ -8,6 +8,13 @@ public class Puzzle : MonoBehaviour
 {
     public static Puzzle Current { get; set; }
 
+    public event Action<Node> NodeSelected;
+    public event Action NodeDeselected;
+    public event Action<Node, Node> NodesConnected;
+    public event Action<Waypoint> WaypointColored;
+    public event Action<Waypoint> WaypointUncolored;
+    public event Action PuzzleCompleted;
+
     [Header("Prefabs")]
     public GameObject NodePrefab;
     public GameObject WaypointPrefab;
@@ -28,10 +35,13 @@ public class Puzzle : MonoBehaviour
     public List<Node> Nodes;
     public Dictionary<int, List<Node>> NodesByColor = new Dictionary<int, List<Node>>();
     public List<Waypoint> Waypoints;
-    public Dictionary<int, List<Waypoint>> WaypointsByColor = new Dictionary<int, List<Waypoint>>();
+    public Dictionary<GridCell, Waypoint> WaypointsByGridCell = new Dictionary<GridCell, Waypoint>();
     public List<(int, LineRenderer)> Paths = new List<(int, LineRenderer)>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
+
+    public int InputLocks = 0;
+    public bool Completed;
 
     private float PathConnectToNodeDistance = 0.1f;
     private float PathCollisionDistance = 0.07f;
@@ -42,11 +52,25 @@ public class Puzzle : MonoBehaviour
     [Header("Debug")]
     public bool GridVisible = false;
 
+    private void Awake()
+    {
+        Current = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         InitializePuzzle();
         InputManager.Instance.Tap += OnTap;
+
+        if(TutorialInstructionsProvider.Instance)
+        {
+            var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.ID);
+            if(tutorialInstructions)
+            {
+                Instantiate(tutorialInstructions);
+            }
+        }
     }
 
     private void OnDestroy()
@@ -82,22 +106,78 @@ public class Puzzle : MonoBehaviour
         }
         PreviousDrawPoint = point;
 
-        ActiveNode.Draw(point);
-        SmoothEndOfLine(ActiveNode.Path);
-        DejitterEndOfLine(ActiveNode.Path);
+        Draw(ActiveNode, point);
+        SmoothEndOfLine(ActiveNode.Path, ActiveNode.Color);
+        DejitterEndOfLine(ActiveNode.Path, ActiveNode.Color);
 
         if (Vector3.Distance(ActiveNode.PairedNode.transform.position, point) < PathConnectToNodeDistance)
         {
-            ActiveNode.Draw(ActiveNode.PairedNode.transform.position);
-            SmoothEndOfLine(ActiveNode.Path);
-            DejitterEndOfLine(ActiveNode.Path);
-            if (ActiveNode.PairedNode.Path)
-            {
-                Destroy(ActiveNode.PairedNode.Path.gameObject);
-            }
+            Draw(ActiveNode, ActiveNode.PairedNode.transform.position);
+            SmoothEndOfLine(ActiveNode.Path, ActiveNode.Color);
+            DejitterEndOfLine(ActiveNode.Path, ActiveNode.Color);
             Paths.RemoveAll(p => !p.Item2);
             ActiveNode.PairedNode.Path = ActiveNode.Path;
             SetConnected(ActiveNode, ActiveNode.PairedNode);
+        }
+    }
+
+    private void Draw(Node node, Vector3 point)
+    {
+        var path = node.Path;
+        var LoopMergeDistance = path.endWidth * 0.8f;
+        int mergeLoop;
+        for (mergeLoop = 0; mergeLoop < path.positionCount - 3; mergeLoop++)
+        {
+            if ((point - path.GetPosition(mergeLoop)).magnitude < LoopMergeDistance)
+            {
+                for(int i = mergeLoop + 1; i < path.positionCount; i++)
+                {
+                    NotifyWaypointsOfLinePointRemoved(path.GetPosition(i));
+                }
+                path.positionCount = mergeLoop + 1;
+                break;
+            }
+        }
+
+        if ((point - path.GetPosition(path.positionCount - 1)).magnitude > LoopMergeDistance / 6f)
+        {
+            path.positionCount++;
+            path.SetPosition(path.positionCount - 1, point);
+            NotifyWaypointsOfLinePointDrawn(point, node.Color);
+        }
+    }
+
+    private void NotifyWaypointsOfLinePointDrawn(Vector3 point, int color)
+    {
+        var cell = Grid.GetLookingAtCell(point.ToPolar());
+        if(!WaypointsByGridCell.ContainsKey(cell))
+        {
+            return;
+        }
+        var waypoint = WaypointsByGridCell[cell];
+        var previousWaypointColor = waypoint.Color;
+        waypoint.LinePointDrawnInCell(point, color);
+        var newWaypointColor = waypoint.Color;
+        if(previousWaypointColor != newWaypointColor)
+        {
+            WaypointColored?.Invoke(waypoint);
+        }
+    }
+
+    public void NotifyWaypointsOfLinePointRemoved(Vector3 point)
+    {
+        var cell = Grid.GetLookingAtCell(point.ToPolar());
+        if (!WaypointsByGridCell.ContainsKey(cell))
+        {
+            return;
+        }
+        var waypoint = WaypointsByGridCell[cell];
+        var previousWaypointColor = waypoint.Color;
+        WaypointsByGridCell[cell].LinePointRemovedFromCell(point);
+        var newWaypointColor = waypoint.Color;
+        if (previousWaypointColor != newWaypointColor)
+        {
+            WaypointUncolored?.Invoke(waypoint);
         }
     }
 
@@ -124,7 +204,6 @@ public class Puzzle : MonoBehaviour
         PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
         NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
 
-        Current = this;
         if (PuzzleConfig != null)
         {
             SetupPuzzle(PuzzleConfig);
@@ -134,28 +213,76 @@ public class Puzzle : MonoBehaviour
 
     private void OnTap(Vector2 tapPosition)
     {
-        var nodeLayerMask = LayerMask.GetMask("Node");
+        if(Completed || InputLocks > 0)
+        {
+            return;
+        }
+        var nodeLayerMask = LayerMask.GetMask("Node", "InputCatch");
         var ray = CameraController.Camera.ScreenPointToRay(tapPosition);
         var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, nodeLayerMask);
         if(anyHit)
         {
             var node = hitInfo.collider.GetComponent<Node>();
-            OnNodeTapped(node);
+            if(node)
+            {
+                OnNodeTapped(node);
+            }
+            else
+            {
+                SetActiveNode(null);
+                NodeDeselected?.Invoke();
+            }
         }
     }
 
     public void OnNodeTapped(Node n)
     {
         SetActiveNode(n);
+        NodeSelected?.Invoke(n);
     }
 
-    public bool IsComplete() => Nodes.TrueForAll(n => n.Connected);
+    public void LockInput() => InputLocks++;
+    public void FreeInput() => InputLocks = Mathf.Max(InputLocks - 1, 0);
+
+    public bool IsComplete()
+    {
+        // Make sure all pairs of nodes are connected
+        var nodesAllConnected = Nodes.TrueForAll(n => n.Connected);
+        if(!nodesAllConnected)
+        {
+            return false;
+        }
+        // Make sure all waypoints have been hit
+        var waypointsAllColored = Waypoints.TrueForAll(w => w.Color >= 0);
+        if(!waypointsAllColored)
+        {
+            return false;
+        }
+        // Make sure no two waypoints have the same color
+        var waypointColors = new HashSet<int>();
+        foreach(var waypoint in Waypoints)
+        {
+            if(waypointColors.Contains(waypoint.Color))
+            {
+                return false;
+            }
+            waypointColors.Add(waypoint.Color);
+        }
+
+        return true;
+    }
 
     private const float PATH_SIZE_RELATIVE_TO_NODE_SIZE = 0.43f;
     public void SetActiveNode(Node n)
     {
         if(!n)
         {
+            if(ActiveNode)
+            {
+                ActiveNode.Deactivate();
+                ActiveNode.PairedNode.Deactivate();
+                ActiveNode = null;
+            }
             return;
         }
 
@@ -166,11 +293,31 @@ public class Puzzle : MonoBehaviour
             ActiveNode.Deactivate();
         }
         ActiveNode = n;
+        if (ActiveNode.Path)
+        {
+            DeleteNodePath(ActiveNode);
+        }
+        if (ActiveNode.PairedNode.Path)
+        {
+            DeleteNodePath(ActiveNode.PairedNode);
+        }
         n.Activate();
         Paths.RemoveAll(p => !p.Item2);
         Paths.Add((n.Color, n.Path));
         n.Path.startWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
         n.Path.endWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+    }
+
+    private void DeleteNodePath(Node node)
+    {
+        if(node.Path)
+        {
+            for(int i = 0; i < node.Path.positionCount; i++)
+            {
+                NotifyWaypointsOfLinePointRemoved(node.Path.GetPosition(i));
+            }
+            Destroy(node.Path.gameObject);
+        }
     }
 
     public void SetConnected(Node a, Node b)
@@ -180,6 +327,18 @@ public class Puzzle : MonoBehaviour
         a.Deactivate();
         b.Deactivate();
         ActiveNode = null;
+
+        NodesConnected?.Invoke(a, b);
+
+        if(IsComplete())
+        {
+            PuzzleCompleted?.Invoke();
+            if(PuzzleCompletionManager.Instance)
+            {
+                PuzzleCompletionManager.Instance.SetPuzzleCompleted(PuzzleConfig.ID);
+            }
+            Completed = true;
+        }
     }
 
 
@@ -221,6 +380,7 @@ public class Puzzle : MonoBehaviour
         }
 
         Grid.Clear();
+        Completed = false;
     }
 
     #region Setup
@@ -266,7 +426,6 @@ public class Puzzle : MonoBehaviour
 
             var cell = Grid.CellsByRow[nodePosition.x][nodePosition.y];
             newNode.GridCell = cell;
-            cell.Color = colorIndex;
             newNode.transform.position = cell.transform.position;
 
             newNode.transform.localScale = new Vector3(nodeVisualScale, nodeVisualScale, nodeVisualScale);
@@ -297,6 +456,10 @@ public class Puzzle : MonoBehaviour
 
     private void SetupWaypoints(PuzzleConfig cfg)
     {
+        if(cfg.WaypointPositions is null)
+        {
+            return;
+        }
         for (int i = 0; i < cfg.WaypointPositions.Length; i++)
         {
             var row = cfg.WaypointPositions[i].x;
@@ -307,12 +470,13 @@ public class Puzzle : MonoBehaviour
             newWaypointGO.name = $"Waypoint r{row}c{rowCell}";
 
             var cell = Grid.CellsByRow[row][rowCell];
-            cell.Color = -1;
 
             var newWaypoint = newWaypointGO.GetComponent<Waypoint>();
             newWaypoint.SetGridCell(cell);
+            newWaypoint.Color = -1;
 
             Waypoints.Add(newWaypoint);
+            WaypointsByGridCell.Add(cell, newWaypoint);
         }
     }
 
@@ -324,6 +488,10 @@ public class Puzzle : MonoBehaviour
 
     private void SetupRocks(PuzzleConfig cfg)
     {
+        if (cfg.RockPositions is null)
+        {
+            return;
+        }
         for (int i = 0; i < cfg.RockPositions.Length; i++)
         {
             var row = cfg.RockPositions[i].x;
@@ -336,7 +504,6 @@ public class Puzzle : MonoBehaviour
             var rockPosition = cfg.RockPositions[i];
 
             var cell = Grid.CellsByRow[rockPosition.x][rockPosition.y];
-            cell.Color = -1;
             newRockGO.transform.position = cell.transform.position;
             newRockGO.transform.LookAt(transform);
 
@@ -346,6 +513,10 @@ public class Puzzle : MonoBehaviour
 
     private void SetupWalls(PuzzleConfig cfg)
     {
+        if (cfg.WallPositions is null)
+        {
+            return;
+        }
         for (int i = 0; i < cfg.WallPositions.Length; i++)
         {
             var row = cfg.WallPositions[i].x;
@@ -358,7 +529,6 @@ public class Puzzle : MonoBehaviour
             var wallPosition = cfg.WallPositions[i];
 
             var cell = Grid.CellsByRow[wallPosition.x][wallPosition.y];
-            cell.Color = -1;
 
             var newWall = newWallGO.GetComponent<Wall>();
             newWall.SetGridCell(cell);
@@ -428,12 +598,27 @@ public class Puzzle : MonoBehaviour
         }
         var wallPathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg * 0.9f;
         var pointPolar = position.ToPolar();
-        var wallPathCollisionPaddingLongitude = wallPathCollisionPadding;// / Mathf.Cos(pointPolar.Latitude * Mathf.Deg2Rad);
         foreach (var wall in Walls)
         {
             // Latitude "minimum" is the top, so it's actually the max
-            if(pointPolar.Latitude < wall.GridCell.LatitudeMin + wallPathCollisionPadding && pointPolar.Latitude > wall.GridCell.LatitudeMax - wallPathCollisionPaddingLongitude &&
-                pointPolar.Longitude > wall.GridCell.LongitudeMin - wallPathCollisionPadding && pointPolar.Longitude < wall.GridCell.LongitudeMax + wallPathCollisionPaddingLongitude)
+            if(pointPolar.Latitude < wall.GridCell.LatitudeMin + wallPathCollisionPadding && pointPolar.Latitude > wall.GridCell.LatitudeMax - wallPathCollisionPadding &&
+                pointPolar.Longitude > wall.GridCell.LongitudeMin - wallPathCollisionPadding && pointPolar.Longitude < wall.GridCell.LongitudeMax + wallPathCollisionPadding)
+            {
+                return false;
+            }
+        }
+
+        var waypointPathCollisionPadding = wallPathCollisionPadding;
+        foreach (var waypoint in Waypoints)
+        {
+            if(waypoint.Color < 0 || waypoint.Color == excludeColor)
+            {
+                continue;
+            }
+
+            // Latitude "minimum" is the top, so it's actually the max
+            if (pointPolar.Latitude < waypoint.GridCell.LatitudeMin + waypointPathCollisionPadding && pointPolar.Latitude > waypoint.GridCell.LatitudeMax - waypointPathCollisionPadding &&
+                pointPolar.Longitude > waypoint.GridCell.LongitudeMin - waypointPathCollisionPadding && pointPolar.Longitude < waypoint.GridCell.LongitudeMax + waypointPathCollisionPadding)
             {
                 return false;
             }
@@ -475,7 +660,7 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-    public void SmoothEndOfLine(LineRenderer renderer)
+    public void SmoothEndOfLine(LineRenderer renderer, int lineColor)
     {
         var positionCount = renderer.positionCount;
         if(positionCount < 3)
@@ -489,7 +674,9 @@ public class Puzzle : MonoBehaviour
 
         if(SmoothLineSegment(p1, p2, p3, out Vector3 resultingP2))
         {
+            NotifyWaypointsOfLinePointRemoved(p2);
             renderer.SetPosition(positionCount - 2, resultingP2);
+            NotifyWaypointsOfLinePointDrawn(resultingP2, lineColor);
         }
     }
 
@@ -531,7 +718,7 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-    public void DejitterEndOfLine(LineRenderer renderer)
+    public void DejitterEndOfLine(LineRenderer renderer, int lineColor)
     {
         var positionCount = renderer.positionCount;
         if (positionCount < 4)
@@ -546,9 +733,12 @@ public class Puzzle : MonoBehaviour
 
         if (DejitterLineSegment(p1, p2, p3, p4, out Vector3 resultingP2, out Vector3 resultingP3))
         {
+            NotifyWaypointsOfLinePointRemoved(p2);
             renderer.SetPosition(positionCount - 3, resultingP2);
+            NotifyWaypointsOfLinePointDrawn(resultingP2, lineColor);
+            NotifyWaypointsOfLinePointRemoved(p3);
             renderer.SetPosition(positionCount - 2, resultingP3);
-            Debug.Log("Dejittered!");
+            NotifyWaypointsOfLinePointDrawn(resultingP3, lineColor);
         }
     }
 	#endregion

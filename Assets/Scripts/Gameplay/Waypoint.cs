@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Waypoint : MonoBehaviour
@@ -18,32 +19,41 @@ public class Waypoint : MonoBehaviour
 
     public GridCell GridCell { get; set; }
 
+    private List<Vector3> DrawnPointsInCell = new List<Vector3>();
+
     // Start is called before the first frame update
     void Start()
     {
-        //MeshRenderer.material = new Material(MeshRenderer.material);
+
     }
 
-    private float SetColorInterval = 0.5f;
-    private float NextColorChange = 0f;
     void Update()
     {
-        if(Time.time > NextColorChange)
-        {
-            NextColorChange = Time.time + SetColorInterval + Random.Range(0f, 1f);
-            Color++;
-            if(Color > 1)
-            {
-                Color = -1;
-            }
-            SetColor(Color);
-        }
+
     }
 
-    public void SetColor(int colorIndex)
+    private void SetColor(int colorIndex)
     {
         Color = colorIndex;
         Animator.SetInteger("ColorIndex", colorIndex);
+    }
+
+    public void LinePointDrawnInCell(Vector3 point, int color)
+    {
+        if(!DrawnPointsInCell.Any())
+        {
+            SetColor(color);
+        }
+        DrawnPointsInCell.Add(point);
+    }
+
+    public void LinePointRemovedFromCell(Vector3 point)
+    {
+        DrawnPointsInCell.Remove(point);
+        if(!DrawnPointsInCell.Any())
+        {
+            SetColor(-1);
+        }
     }
 
     public void SetGridCell(GridCell cell)

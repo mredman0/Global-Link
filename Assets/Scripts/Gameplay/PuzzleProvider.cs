@@ -5,6 +5,7 @@ using UnityEngine;
 public class PuzzleProvider : MonoBehaviour
 {
 	public static PuzzleProvider Instance;
+	
 	public PuzzleConfig PuzzleConfig;
 
 	public PuzzleProvider()

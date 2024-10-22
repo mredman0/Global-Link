@@ -16,17 +16,24 @@ MonoBehaviour:
   GridCellsPerRow: 01000000060000000a00000010000000140000001a00000014000000100000000a0000000600000001000000
   RockPositions: []
   WallPositions:
-  - {x: 5, y: 5}
   - {x: 4, y: 4}
-  - {x: 5, y: 6}
-  - {x: 4, y: 5}
-  - {x: 5, y: 7}
-  - {x: 6, y: 5}
   - {x: 6, y: 4}
+  - {x: 4, y: 3}
+  - {x: 6, y: 3}
+  - {x: 4, y: 5}
+  - {x: 4, y: 6}
+  - {x: 6, y: 5}
+  - {x: 6, y: 6}
+  - {x: 6, y: 7}
+  - {x: 6, y: 2}
+  - {x: 4, y: 2}
+  - {x: 4, y: 7}
+  - {x: 5, y: 6}
   NodePositions:
   - {x: 5, y: 4}
   - {x: 5, y: 8}
   NodeColors: 0000000000000000
+  WaypointPositions: []
   SolutionLengths: 060000000000000000000000000000000000000000000000
   Solutions:
   - {x: 4, y: 3}
@@ -35,6 +42,7 @@ MonoBehaviour:
   - {x: 3, y: 4}
   - {x: 3, y: 5}
   - {x: 4, y: 6}
+  OpaqueSphere: 0
   CameraArmStart: {x: 0, y: 0, z: 0, w: 0}
   CameraDistance: 0
   CameraFoV: 0

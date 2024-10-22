@@ -128,6 +128,14 @@ public class MeshGenerator : MonoBehaviour
         for (int lat = 0; lat <= latitudeSegments; lat++)
         {
             float v = (float)lat / latitudeSegments;
+            if (minLatitude == 90f)
+            {
+                v = Mathf.Max(lat, latitudeSegments * 0.5f) / latitudeSegments;
+            }
+            else if(maxLatitude == -90f)
+            {
+                v = Mathf.Min(lat, latitudeSegments * 0.5f) / latitudeSegments;
+            }
             float latitude = minLatitude + lat * latStep;
             float latRad = latitude * Mathf.Deg2Rad;
 
@@ -158,6 +166,10 @@ public class MeshGenerator : MonoBehaviour
                 vertices[vertexIndex] = new Vector3(x, y, z);
 
                 float u = (float)lon / longitudeSegments;
+                if(minLatitude == 90f || maxLatitude == -90f)
+                {
+                    u = 0.5f;
+                }
                 uv[vertexIndex] = new Vector2(u, v);
                 vertexIndex++;
 
