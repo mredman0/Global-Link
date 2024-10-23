@@ -48,11 +48,11 @@ public class GridCell : MonoBehaviour
         // Special case (single-node poles)
         if(LongitudeMax - LongitudeMin == 360f)
         {
-            if (LatitudeMin == 90f)
+            if (Mathf.Abs(LatitudeMin - 90f) < 0.01f)
             {
                 transform.localPosition = PolarVector3.ToCartesian(90f, 0);
             }
-            else if(LatitudeMax == -90f)
+            else if(Mathf.Abs(LatitudeMax + 90f) < 0.01f)
             {
                 transform.localPosition = PolarVector3.ToCartesian(-90f, 0);
             }
