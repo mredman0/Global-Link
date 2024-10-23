@@ -47,3 +47,6 @@ MonoBehaviour:
   PacksToManage:
   - Tutorial
   - Beginner
+  - Intermediate
+  - Expert
+  ExpectedTutorialLevels: 6

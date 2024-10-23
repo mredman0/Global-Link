@@ -196,7 +196,7 @@ public class PuzzleGrid : MonoBehaviour
     {
         int totalRows = CellsByRow.Count;
         float rowHeight = 180f / totalRows;
-        var lookingAtRow = Mathf.FloorToInt((90f - pov.Latitude) / rowHeight);
+        var lookingAtRow = Mathf.Clamp(Mathf.FloorToInt((90f - pov.Latitude) / rowHeight), 0, totalRows-1);
 
         var cellsInRow = CellsByRow[lookingAtRow].Count;
         float cellWidth = 360f / cellsInRow;

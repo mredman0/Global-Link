@@ -788,6 +788,7 @@ GameObject:
   - component: {fileID: 5289942633850591293}
   - component: {fileID: 2855318531089526206}
   - component: {fileID: 7707340602658377250}
+  - component: {fileID: 1425111536490317898}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -936,6 +937,20 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1425111536490317898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369736196211217494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deb73aa142f4f01408cd008229a49c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 4888107425489301318}
+  desiredHorizontalFOV: 22.2
 --- !u!1 &1490471349989519301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,6 +1232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultSceneToLoad: Main Menu
+  Additive: 0
 --- !u!1 &1704817976743781675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1994,6 +2010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultSceneToLoad: Main Menu
+  Additive: 0
 --- !u!1 &5074381972729828714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,6 +2137,21 @@ MonoBehaviour:
     type: 3}
   WallPrefab: {fileID: 8059110723922232405, guid: 96c27b21bd140d34caef584e1b42d7cb,
     type: 3}
+  NodesConnectedEffects:
+  - {fileID: 1996972786158677437, guid: 72bf56c3d482ea742ac5b9baf48d0d2f, type: 3}
+  - {fileID: 1996972786158677437, guid: 1d1d39c54b9058e43b24a9246166a062, type: 3}
+  - {fileID: 1996972786158677437, guid: d5ef255b8ef92454ab5a7662b5c27f13, type: 3}
+  - {fileID: 1996972786158677437, guid: 3d05296f9a87c654e95016f082476e4b, type: 3}
+  - {fileID: 1996972786158677437, guid: 921ad42942e7ab345b3f4a86ac615e92, type: 3}
+  WaypointColoredEffects:
+  - {fileID: 1996972786158677437, guid: 41bdf54fbabf0e946aac9fa6fff78676, type: 3}
+  - {fileID: 1996972786158677437, guid: a9ec3be6c2337e1408c0fdd193e639ac, type: 3}
+  - {fileID: 1996972786158677437, guid: ddda5c2290c91714ba681d235d4f9faa, type: 3}
+  - {fileID: 1996972786158677437, guid: 280753155fd884b4c9e79daeb6e10fb6, type: 3}
+  - {fileID: 1996972786158677437, guid: 5247b3e9a44d95744808fb9481ae73e7, type: 3}
+  - {fileID: 1996972786158677437, guid: 0a85c95dc89f4da4e8fe1bf63f9b0d61, type: 3}
+  PuzzleCompleteEffect: {fileID: 1996972786158677437, guid: 27f89bee096b3a44a8a65824d20b4b3b,
+    type: 3}
   Grid: {fileID: 1072919042163802289}
   PuzzleViewCamera: {fileID: 4888107425489301318}
   CameraController: {fileID: 2855318531089526206}
@@ -2130,6 +2162,7 @@ MonoBehaviour:
   Waypoints: []
   Rocks: []
   Walls: []
+  InputLocks: 0
   Completed: 0
   GridVisible: 0
   LineSmoothDistanceWeight: 1
@@ -2727,6 +2760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultSceneToLoad: Main Menu
+  Additive: 0
 --- !u!1 &7417231618868603614
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,7 +2845,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

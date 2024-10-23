@@ -228,11 +228,20 @@ public class CameraController : MonoBehaviour
         if(cameraFoV <= 0)
         {
             // Safe value
-            cameraFoV = 38.4f;
+            cameraFoV = 22.2f;
         }
 
         Camera.transform.localPosition = Vector3.forward * cameraDistance;
-        Camera.fieldOfView = cameraFoV;
+        var fovFixer = GetComponent<MaintainHorizontalFOV>();
+        if(fovFixer)
+        {
+            fovFixer.desiredHorizontalFOV = cameraFoV;
+            fovFixer.UpdateCameraFOV();
+        }
+        else
+        {
+            Camera.fieldOfView = cameraFoV;
+        }
     }
 
     private void FixRoll()

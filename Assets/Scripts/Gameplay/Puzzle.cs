@@ -21,6 +21,11 @@ public class Puzzle : MonoBehaviour
     public GameObject RockPrefab;
     public GameObject WallPrefab;
 
+    [Header("Effects")]
+    public List<GameObject> NodesConnectedEffects;
+    public List<GameObject> WaypointColoredEffects;
+    public GameObject PuzzleCompleteEffect;
+
     [Header("Required References")]
     public PuzzleGrid Grid;
     public Camera PuzzleViewCamera;
@@ -161,6 +166,9 @@ public class Puzzle : MonoBehaviour
         if(previousWaypointColor != newWaypointColor)
         {
             WaypointColored?.Invoke(waypoint);
+            var coloredWaypoints = Waypoints.Count(w => w.Color >= 0);
+            var effectToUse = WaypointColoredEffects[Mathf.Clamp(coloredWaypoints-1, 0, WaypointColoredEffects.Count - 1)];
+            Instantiate(effectToUse);
         }
     }
 
@@ -310,7 +318,10 @@ public class Puzzle : MonoBehaviour
 
     private void DeleteNodePath(Node node)
     {
-        if(node.Path)
+        node.Connected = false;
+        node.PairedNode.Connected = false;
+
+        if (node.Path)
         {
             for(int i = 0; i < node.Path.positionCount; i++)
             {
@@ -338,6 +349,22 @@ public class Puzzle : MonoBehaviour
                 PuzzleCompletionManager.Instance.SetPuzzleCompleted(PuzzleConfig.ID);
             }
             Completed = true;
+            if(PuzzleCompleteEffect)
+            {
+                Instantiate(PuzzleCompleteEffect);
+            }
+        }
+        else if(NodesConnectedEffects.Any())
+        {
+            var numConnectedPairs = NodesByColor.Count(kvp => kvp.Value.First().Connected);
+            var totalPairs = NodesByColor.Count;
+            var percentDone = 0f;
+            if(totalPairs > 1)
+            {
+                percentDone = (float)(numConnectedPairs - 1) / (totalPairs - 1);
+            }
+            var effectToUse = NodesConnectedEffects[Mathf.CeilToInt(Mathf.Lerp(0, NodesConnectedEffects.Count-1, percentDone))];
+            Instantiate(effectToUse);
         }
     }
 

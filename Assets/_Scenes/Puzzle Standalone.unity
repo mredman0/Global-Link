@@ -297,7 +297,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PuzzleConfig
       value: 
-      objectReference: {fileID: 11400000, guid: 426131eff6770804a9492cac602caf2c,
+      objectReference: {fileID: 11400000, guid: f9222a1309b889f41aa3a535e0b1b836,
         type: 2}
     - target: {fileID: 3377955947608396545, guid: 64ee6bd3d6249bb429b74644871c5de2,
         type: 3}
