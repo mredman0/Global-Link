@@ -8,9 +8,11 @@ public class Puzzle : MonoBehaviour
 {
     public static Puzzle Current { get; set; }
 
+    public event Action PuzzleInitialized;
     public event Action<Node> NodeSelected;
     public event Action NodeDeselected;
     public event Action<Node, Node> NodesConnected;
+    public event Action<Node, Node> NodesDisconnected;
     public event Action<Waypoint> WaypointColored;
     public event Action<Waypoint> WaypointUncolored;
     public event Action PuzzleCompleted;
@@ -37,6 +39,7 @@ public class Puzzle : MonoBehaviour
     public List<RectTransform> IgnoreInputRegions = new List<RectTransform>();
 
     [Header("State")]
+    public bool Initialized = false;
     public Node ActiveNode;
     public List<Node> Nodes;
     public Dictionary<int, List<Node>> NodesByColor = new Dictionary<int, List<Node>>();
@@ -67,9 +70,11 @@ public class Puzzle : MonoBehaviour
     void Start()
     {
         InitializePuzzle();
-        InputManager.Instance.Tap += OnTap;
 
-        if(TutorialInstructionsProvider.Instance)
+        InputManager.Instance.Tap += OnTap;
+        ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
+
+        if (TutorialInstructionsProvider.Instance)
         {
             var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.ID);
             if(tutorialInstructions)
@@ -132,7 +137,7 @@ public class Puzzle : MonoBehaviour
         var path = node.Path;
         var LoopMergeDistance = path.endWidth * 0.8f;
         int mergeLoop;
-        for (mergeLoop = 0; mergeLoop < path.positionCount - 3; mergeLoop++)
+        for (mergeLoop = 0; mergeLoop < path.positionCount - 4; mergeLoop++)
         {
             if ((point - path.GetPosition(mergeLoop)).magnitude < LoopMergeDistance)
             {
@@ -192,6 +197,7 @@ public class Puzzle : MonoBehaviour
 
     public void InitializePuzzle()
     {
+        Initialized = false;
         ResetPuzzle();
 
         var puzzleProvider = PuzzleProvider.Instance;
@@ -217,7 +223,8 @@ public class Puzzle : MonoBehaviour
         {
             SetupPuzzle(PuzzleConfig);
         }
-        ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
+        Initialized = true;
+        PuzzleInitialized?.Invoke();
     }
 
     private void OnTap(Vector2 tapPosition)
@@ -307,8 +314,7 @@ public class Puzzle : MonoBehaviour
     {
         if(n.Connected)
         {
-            n.Connected = false;
-            n.PairedNode.Connected = false;
+            SetDisconnected(n);
         }
 
         TrimPathToPoint(n.Path, tappedPoint);
@@ -428,8 +434,7 @@ public class Puzzle : MonoBehaviour
 
     private void DeleteNodePath(Node node)
     {
-        node.Connected = false;
-        node.PairedNode.Connected = false;
+        SetDisconnected(node);
 
         if (node.Path)
         {
@@ -478,6 +483,16 @@ public class Puzzle : MonoBehaviour
         }
     }
 
+    public void SetDisconnected(Node a)
+    {
+        var wasConnected = a.Connected;
+        a.Connected = false;
+        a.PairedNode.Connected = false;
+        if(wasConnected)
+        {
+            NodesDisconnected?.Invoke(a, a.PairedNode);
+        }
+    }
 
     private void ResetPuzzle()
     {
