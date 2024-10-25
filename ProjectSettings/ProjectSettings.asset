@@ -66,7 +66,7 @@ PlayerSettings:
   use32BitDisplayBuffer: 0
   preserveFramebufferAlpha: 0
   disableDepthAndStencilBuffers: 0
-  androidStartInFullscreen: 1
+  androidStartInFullscreen: 0
   androidRenderOutsideSafeArea: 0
   androidUseSwappy: 0
   androidBlitType: 2
@@ -161,7 +161,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.RedPrismGames.Globalink
+    Android: com.MarkRedman.GlobalLink
     Standalone: com.Mark-Redman.Global-Link
   buildNumber:
     Standalone: 0
@@ -740,7 +740,7 @@ PlayerSettings:
   platformArchitecture: {}
   scriptingBackend:
     Android: 1
-    Standalone: 1
+    Standalone: 0
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration:
     Android: 1

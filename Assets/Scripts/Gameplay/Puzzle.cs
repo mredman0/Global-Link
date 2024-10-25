@@ -34,6 +34,7 @@ public class Puzzle : MonoBehaviour
 
     [Header("Settings")]
     public float PanInsteadOfSelectionThreshold = 1f;
+    public List<RectTransform> IgnoreInputRegions = new List<RectTransform>();
 
     [Header("State")]
     public Node ActiveNode;
@@ -41,7 +42,7 @@ public class Puzzle : MonoBehaviour
     public Dictionary<int, List<Node>> NodesByColor = new Dictionary<int, List<Node>>();
     public List<Waypoint> Waypoints;
     public Dictionary<GridCell, Waypoint> WaypointsByGridCell = new Dictionary<GridCell, Waypoint>();
-    public List<(int, LineRenderer)> Paths = new List<(int, LineRenderer)>();
+    public Dictionary<int, LineRenderer> Paths = new Dictionary<int, LineRenderer>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
 
@@ -120,7 +121,7 @@ public class Puzzle : MonoBehaviour
             Draw(ActiveNode, ActiveNode.PairedNode.transform.position);
             SmoothEndOfLine(ActiveNode.Path, ActiveNode.Color);
             DejitterEndOfLine(ActiveNode.Path, ActiveNode.Color);
-            Paths.RemoveAll(p => !p.Item2);
+            //Paths.RemoveAll(p => !p.Item2);
             ActiveNode.PairedNode.Path = ActiveNode.Path;
             SetConnected(ActiveNode, ActiveNode.PairedNode);
         }
@@ -221,7 +222,7 @@ public class Puzzle : MonoBehaviour
 
     private void OnTap(Vector2 tapPosition)
     {
-        if(Completed || InputLocks > 0)
+        if(Completed || InputLocks > 0 || ShouldIgnoreInputPosition(tapPosition))
         {
             return;
         }
@@ -237,15 +238,88 @@ public class Puzzle : MonoBehaviour
             }
             else
             {
-                SetActiveNode(null);
-                NodeDeselected?.Invoke();
+                // Selection by line
+                Node selectedNodeByLine = null;
+                Vector3? tappedPoint = null;
+
+                foreach (var kvp in Paths)
+                {
+                    var numPoints = kvp.Value.positionCount;
+                    var points = new Vector3[numPoints];
+                    kvp.Value.GetPositions(points);
+                    for(int i = 0; i < numPoints; i++)
+                    {
+                        if(Vector3.Distance(points[i], hitInfo.point) < kvp.Value.endWidth)
+                        {
+                            tappedPoint = points[i];
+                            break;
+                        }
+                    }
+                    if(tappedPoint.HasValue)
+                    {
+                        var nodesOfColor = Nodes.Where(n => n.Color == kvp.Key);
+                        foreach(var nodeOfColor in nodesOfColor)
+                        {
+                            if(nodeOfColor.Path == kvp.Value && nodeOfColor.transform.position == kvp.Value.GetPosition(0))
+                            {
+                                selectedNodeByLine = nodeOfColor;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if(selectedNodeByLine)
+                {
+                    OnPathTapped(selectedNodeByLine, tappedPoint.Value);
+                }
+                else if (ActiveNode)
+                {
+                    SetActiveNode(null, fromExistingLine: false);
+                    NodeDeselected?.Invoke();
+                }
             }
         }
+        else if(ActiveNode)
+        {
+            SetActiveNode(null, fromExistingLine: false);
+            NodeDeselected?.Invoke();
+        }
+    }
+
+    private bool ShouldIgnoreInputPosition(Vector2 position)
+    {
+        if(IgnoreInputRegions is null)
+        {
+            return false;
+        }
+        foreach(var rect in IgnoreInputRegions)
+        {
+            if(RectTransformUtility.RectangleContainsScreenPoint(rect, position))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void OnPathTapped(Node n, Vector3 tappedPoint)
+    {
+        if(n.Connected)
+        {
+            n.Connected = false;
+            n.PairedNode.Connected = false;
+        }
+
+        TrimPathToPoint(n.Path, tappedPoint);
+
+        SetActiveNode(n, fromExistingLine: true);
+        NodeSelected?.Invoke(n);
     }
 
     public void OnNodeTapped(Node n)
     {
-        SetActiveNode(n);
+        SetActiveNode(n, fromExistingLine: false);
         NodeSelected?.Invoke(n);
     }
 
@@ -281,7 +355,7 @@ public class Puzzle : MonoBehaviour
     }
 
     private const float PATH_SIZE_RELATIVE_TO_NODE_SIZE = 0.43f;
-    public void SetActiveNode(Node n)
+    public void SetActiveNode(Node n, bool fromExistingLine)
     {
         if(!n)
         {
@@ -294,26 +368,62 @@ public class Puzzle : MonoBehaviour
             return;
         }
 
-        CameraController.SnapToNode(n);
+        if(fromExistingLine)
+        {
+            CameraController.SnapToNodeEndOfPath(n);
+        }
+        else
+        {
+            CameraController.SnapToNode(n);
+        }
 
         if(ActiveNode)
         {
             ActiveNode.Deactivate();
         }
         ActiveNode = n;
-        if (ActiveNode.Path)
+
+        if(!fromExistingLine)
         {
-            DeleteNodePath(ActiveNode);
+            if (ActiveNode.Path)
+            {
+                DeleteNodePath(ActiveNode);
+            }
+            if (ActiveNode.PairedNode.Path)
+            {
+                DeleteNodePath(ActiveNode.PairedNode);
+            }
+            Paths.Remove(ActiveNode.Color);
         }
-        if (ActiveNode.PairedNode.Path)
+        n.Activate(newPath: !fromExistingLine);
+        if(!fromExistingLine)
         {
-            DeleteNodePath(ActiveNode.PairedNode);
+            Paths[n.Color] = n.Path;
+            n.Path.startWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+            n.Path.endWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
         }
-        n.Activate();
-        Paths.RemoveAll(p => !p.Item2);
-        Paths.Add((n.Color, n.Path));
-        n.Path.startWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
-        n.Path.endWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+    }
+
+    private void TrimPathToPoint(LineRenderer path, Vector3 point)
+    {
+        var numPoints = path.positionCount;
+        var points = new Vector3[numPoints];
+        path.GetPositions(points);
+        int i = 0;
+        for(; i < numPoints; i++)
+        {
+            if(points[i] == point)
+            {
+                break;
+            }
+        }
+
+        path.positionCount = i + 1;
+        i++;
+        for(; i< numPoints; i++)
+        {
+            NotifyWaypointsOfLinePointRemoved(points[i]);
+        }
     }
 
     private void DeleteNodePath(Node node)
@@ -385,9 +495,18 @@ public class Puzzle : MonoBehaviour
         {
             foreach (var kvp in Paths)
             {
-                Destroy(kvp.Item2.gameObject);
+                Destroy(kvp.Value.gameObject);
             }
             Paths.Clear();
+        }
+        if(Waypoints != null)
+        {
+            foreach(var waypoint in Waypoints)
+            {
+                Destroy(waypoint.gameObject);
+            }
+            Waypoints.Clear();
+            WaypointsByGridCell.Clear();
         }
         if (Walls != null)
         {
@@ -410,6 +529,16 @@ public class Puzzle : MonoBehaviour
         Completed = false;
     }
 
+    public void Undo()
+    {
+        Debug.Log("TODO, undo!");
+    }
+
+    public void RevealHint()
+    {
+        Debug.Log("TODO, reveal hint!");
+    }
+
     #region Setup
     public void SetupPuzzle(PuzzleConfig cfg)
     {
@@ -429,7 +558,7 @@ public class Puzzle : MonoBehaviour
 
         Nodes = new List<Node>();
         NodesByColor = new Dictionary<int, List<Node>>();
-        Paths = new List<(int, LineRenderer)>();
+        Paths = new Dictionary<int, LineRenderer>();
 
         float nodeVisualScale = NodeCollisionDistance * NODE_VISUAL_SCALE_FACTOR;
 
@@ -601,11 +730,11 @@ public class Puzzle : MonoBehaviour
             }
         }
         var pathPathCollisionDistance = PathCollisionDistance * 2;
-        foreach (var pair in Paths)
+        foreach (var kvp in Paths)
         {
-            if (pair.Item1 != excludeColor)
+            if (kvp.Key != excludeColor)
             {
-                var path = pair.Item2;
+                var path = kvp.Value;
                 for (int i = 0; i < path.positionCount; i++)
                 {
                     if (Vector3.Distance(position, path.GetPosition(i)) < pathPathCollisionDistance)

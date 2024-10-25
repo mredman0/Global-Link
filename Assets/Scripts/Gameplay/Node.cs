@@ -11,7 +11,6 @@ public class Node : MonoBehaviour
     public bool Active = false;
 
     public GameObject PathPrefab;
-    public List<GridCell> GridPath = new List<GridCell>();
     public LineRenderer Path;
 
     public GridCell GridCell;
@@ -30,23 +29,24 @@ public class Node : MonoBehaviour
         
     }
 
-    public void Activate()
+    public void Activate(bool newPath)
     {
         Active = true;
 
-        GridPath.Clear();
-        GridPath.Add(GridCell);
-        Path = Instantiate(PathPrefab).GetComponent<LineRenderer>();
-
-        var pathColor = ColorMapController.Instance.ApplyActiveColorMap(Color);
-        Path.material.SetColor("_Color", pathColor);
-        if(Puzzle)
+        if(newPath)
         {
-            Path.transform.parent = Puzzle.transform;
-        }
+            Path = Instantiate(PathPrefab).GetComponent<LineRenderer>();
 
-        Path.positionCount++;
-        Path.SetPosition(0, transform.position);
+            var pathColor = ColorMapController.Instance.ApplyActiveColorMap(Color);
+            Path.material.SetColor("_Color", pathColor);
+            if (Puzzle)
+            {
+                Path.transform.parent = Puzzle.transform;
+            }
+
+            Path.positionCount++;
+            Path.SetPosition(0, transform.position);
+        }
     }
 
     public void Deactivate()

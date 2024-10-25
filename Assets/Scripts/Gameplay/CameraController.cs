@@ -33,10 +33,17 @@ public class CameraController : MonoBehaviour
     private List<Vector2> LastDragMotions = new List<Vector2>();
     private Vector2 Momentum;
 
+    private bool InvertFreeLook;
+    private bool InvertDrawing;
+    private float Sensitivity;
+
     // Start is called before the first frame update
     void Start()
     {
         Camera = GetComponent<Camera>();
+
+        SettingsManager.Instance.BoolSettingChanged += OnBoolSettingChanged;
+        SettingsManager.Instance.FloatSettingChanged += OnFloatSettingChanged;
 
         InputManager.Instance.Press += OnPress;
         InputManager.Instance.Release += OnRelease;
@@ -46,10 +53,17 @@ public class CameraController : MonoBehaviour
         {
             Puzzle.PuzzleCompleted += OnPuzzleCompleted;
         }
+
+        InvertFreeLook = SettingsManager.Instance.GetBool(INVERT_FREE_LOOK_KEY);
+        InvertDrawing = SettingsManager.Instance.GetBool(INVERT_DRAWING_KEY);
+        Sensitivity = SettingsManager.Instance.GetFloat(SENSITIVITY_KEY);
     }
 
     private void OnDestroy()
     {
+        SettingsManager.Instance.BoolSettingChanged -= OnBoolSettingChanged;
+        SettingsManager.Instance.FloatSettingChanged -= OnFloatSettingChanged;
+
         InputManager.Instance.Press -= OnPress;
         InputManager.Instance.Release -= OnRelease;
         InputManager.Instance.Drag -= OnDrag;
@@ -57,6 +71,29 @@ public class CameraController : MonoBehaviour
         if(Puzzle)
         {
             Puzzle.PuzzleCompleted -= OnPuzzleCompleted;
+        }
+    }
+
+    private const string INVERT_FREE_LOOK_KEY = "ControlsInvertFreeLook";
+    private const string INVERT_DRAWING_KEY = "ControlsInvertDrawing";
+    private void OnBoolSettingChanged(string setting, bool value)
+    {
+        if(setting == INVERT_FREE_LOOK_KEY)
+        {
+            InvertFreeLook = value;
+        }
+        else if(setting == INVERT_DRAWING_KEY)
+        {
+            InvertDrawing = value;
+        }
+    }
+
+    private const string SENSITIVITY_KEY = "ControlsSensitivity";
+    private void OnFloatSettingChanged(string setting, float value)
+    {
+        if(setting == SENSITIVITY_KEY)
+        {
+            Sensitivity = value;
         }
     }
 
@@ -112,16 +149,16 @@ public class CameraController : MonoBehaviour
 
     private void HandleDrag(Vector2 drag)
     {
-        var motion = drag * UserSettings.Instance.PanSpeed * Speed;
+        var motion = drag * Sensitivity * Speed;
         if (motion.magnitude > MaxSpeed)
         {
             motion *= MaxSpeed / motion.magnitude;
         }
 
-        //if(Puzzle.ActiveNode)
-        //{
-        //    motion *= -1f;
-        //}
+        if(Puzzle.ActiveNode && InvertDrawing || !Puzzle.ActiveNode && InvertFreeLook)
+        {
+            motion *= -1f;
+        }
 
         PanAmountThisDrag += motion.magnitude;
 
@@ -202,6 +239,20 @@ public class CameraController : MonoBehaviour
 
     public void LockInput() => InputLocks++;
     public void FreeInput() => InputLocks = Mathf.Max(InputLocks - 1, 0);
+
+    public void SnapToNodeEndOfPath(Node n)
+    {
+        if(!n.Path)
+        {
+            Debug.LogError($"{n} does not have a line to snap the camera to the end of!");
+            return;
+        }
+        CameraArm.transform.LookAt(n.Path.GetPosition(n.Path.positionCount - 1), CameraArm.transform.up);
+        if(!AllowRoll)
+        {
+            FixRoll();
+        }
+    }
 
     public void SnapToNode(Node n)
     {
