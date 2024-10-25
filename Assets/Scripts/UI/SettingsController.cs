@@ -55,15 +55,13 @@ public class SettingsController : MonoBehaviour
 
     #region Volume
     private const string VOLUME_SETTING_KEY = "AudioVolume";
-    // User controls volume between 0 and 100, but value is used between 0 and 1
-    private const float VOLUME_DISPLAY_FACTOR = 100f;
     private void LoadVolume()
     {
-        AudioVolumeIncrementor.SetValueWithoutNotify(SettingsManager.Instance.GetFloat(VOLUME_SETTING_KEY) * VOLUME_DISPLAY_FACTOR);
+        AudioVolumeIncrementor.SetValueWithoutNotify(SettingsManager.Instance.GetFloat(VOLUME_SETTING_KEY));
     }
     public void SetVolume(float vol)
     {
-        SettingsManager.Instance.SetFloat(VOLUME_SETTING_KEY, vol / VOLUME_DISPLAY_FACTOR);
+        SettingsManager.Instance.SetFloat(VOLUME_SETTING_KEY, vol);
     }
     #endregion
 

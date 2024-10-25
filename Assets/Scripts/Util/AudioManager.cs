@@ -55,5 +55,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void SetFinalVolume() => AudioListener.volume = UnmutedVolume * (Muted ? 0 : 1);
+    private const float VOLUME_SETTING_FACTOR = 100f;
+    private void SetFinalVolume() => AudioListener.volume = (UnmutedVolume / VOLUME_SETTING_FACTOR) * (Muted ? 0 : 1);
 }
