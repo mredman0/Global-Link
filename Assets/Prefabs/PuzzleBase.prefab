@@ -1566,6 +1566,13 @@ MonoBehaviour:
   Row: {fileID: 3886309152673000398}
   NodeDisplayPrefab: {fileID: 8973884967953904091, guid: 9870caeb71ba00944bea3fd2dcc48f94,
     type: 3}
+  ColorIconSprites:
+  - {fileID: 21300000, guid: cc3231c677f404a429ede3fc60149b28, type: 3}
+  - {fileID: 21300000, guid: 16f84cc46e1365043acee1f629b60e8e, type: 3}
+  - {fileID: 21300000, guid: 9ae6947dc944f4649824e3cb93b2d483, type: 3}
+  - {fileID: 21300000, guid: 07616daf9fd7dd1498b68233cde61ac9, type: 3}
+  - {fileID: 21300000, guid: e5308668302203a4aa61edb717fdbf15, type: 3}
+  - {fileID: 21300000, guid: 89e8bfdbd702a0448b61a8018164c7d2, type: 3}
 --- !u!1 &3877660668335619127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,6 +3262,13 @@ MonoBehaviour:
   Row2: {fileID: 578547410648786408}
   WaypointDisplayPrefab: {fileID: 6240303807326873875, guid: e16d27d2864d12b48b10a8c5c3262ff6,
     type: 3}
+  ColorIconSprites:
+  - {fileID: 21300000, guid: cc3231c677f404a429ede3fc60149b28, type: 3}
+  - {fileID: 21300000, guid: 16f84cc46e1365043acee1f629b60e8e, type: 3}
+  - {fileID: 21300000, guid: 9ae6947dc944f4649824e3cb93b2d483, type: 3}
+  - {fileID: 21300000, guid: 07616daf9fd7dd1498b68233cde61ac9, type: 3}
+  - {fileID: 21300000, guid: e5308668302203a4aa61edb717fdbf15, type: 3}
+  - {fileID: 21300000, guid: 89e8bfdbd702a0448b61a8018164c7d2, type: 3}
 --- !u!1 &8155254694511485865
 GameObject:
   m_ObjectHideFlags: 0

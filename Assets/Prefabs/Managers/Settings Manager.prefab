@@ -48,7 +48,8 @@ MonoBehaviour:
   - AudioMute
   - ControlsInvertFreeLook
   - ControlsInvertDrawing
-  BoolDefaultValues: 000000
+  - AccessibilityShowColorIcons
+  BoolDefaultValues: 00000000
   IntSettings: []
   IntDefaultValues: 
   FloatSettings:

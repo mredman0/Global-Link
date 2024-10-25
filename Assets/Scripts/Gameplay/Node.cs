@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
+    public List<Material> ColorIconMaterials;
+
     public Puzzle Puzzle;
     public int Color;
     public bool Connected = false;
@@ -13,6 +15,9 @@ public class Node : MonoBehaviour
     public GameObject PathPrefab;
     public LineRenderer Path;
 
+    public GameObject ColorIconArm;
+    public MeshRenderer ColorIconRenderer;
+
     public GridCell GridCell;
 
     public Node PairedNode { get; private set; }
@@ -20,13 +25,22 @@ public class Node : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        ColorIconArm.SetActive(SettingsManager.Instance.GetBool(SHOW_COLOR_ICONS_KEY));
+        SettingsManager.Instance.BoolSettingChanged += OnBoolSettingChanged;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
+        SettingsManager.Instance.BoolSettingChanged -= OnBoolSettingChanged;
+    }
+
+    private const string SHOW_COLOR_ICONS_KEY = "AccessibilityShowColorIcons";
+    private void OnBoolSettingChanged(string setting, bool value)
+    {
+        if (setting == SHOW_COLOR_ICONS_KEY)
+        {
+            ColorIconArm.SetActive(value);
+        }
     }
 
     public void Activate(bool newPath)
@@ -63,6 +77,7 @@ public class Node : MonoBehaviour
         {
             Path.material.SetColor("_Color", mappedColor);
         }
+        ColorIconRenderer.material = ColorIconMaterials[Color];
     }
 
     public void SetPairedNode(Node other)

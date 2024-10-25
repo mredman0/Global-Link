@@ -12,6 +12,7 @@ public class SettingsController : MonoBehaviour
     public Toggle ControlsInvertFreeLookToggle;
     public Toggle ControlsInvertDrawingToggle;
     public Incrementor ControlsSensitivityIncrementor;
+    public Toggle ColorLabelsToggle;
 
     public ConfirmationDialog ResetProgressConfirmDialog;
 
@@ -23,6 +24,7 @@ public class SettingsController : MonoBehaviour
         LoadInvertFreeLook();
         LoadInvertDrawing();
         LoadSensitivity();
+        LoadColorLabels();
 
         if (Puzzle.Current)
         {
@@ -65,6 +67,7 @@ public class SettingsController : MonoBehaviour
     }
     #endregion
 
+
     #region Invert Free Look
     private const string INVERT_FREE_LOOK_SETTING_KEY = "ControlsInvertFreeLook";
     private void LoadInvertFreeLook()
@@ -100,6 +103,20 @@ public class SettingsController : MonoBehaviour
         SettingsManager.Instance.SetFloat(SENSITIVITY_KEY, sensitivity);
     }
     #endregion
+
+
+    #region Color Labels
+    private const string COLOR_LABEL_SETTING_KEY = "AccessibilityShowColorIcons";
+    private void LoadColorLabels()
+    {
+        ColorLabelsToggle.SetIsOnWithoutNotify(SettingsManager.Instance.GetBool(COLOR_LABEL_SETTING_KEY));
+    }
+    public void SetColorLabels(bool show)
+    {
+        SettingsManager.Instance.SetBool(COLOR_LABEL_SETTING_KEY, show);
+    }
+    #endregion
+
 
     #region Progress Reset
     public void RequestResetAllProgress()
