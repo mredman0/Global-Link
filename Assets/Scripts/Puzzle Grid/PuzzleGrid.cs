@@ -163,23 +163,25 @@ public class PuzzleGrid : MonoBehaviour
         }
     }
 
-    private const float SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS = 6f;
+    private const float EQUATOR_SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS = 10f;
     private void AddCellVerticalNeighbors(GridCell cell)
     {
         var rowAbove = cell.Row - 1;
         var rowBelow = cell.Row + 1;
 
-        void AddneighborsForRow(int row)
+        void AddneighborsForRow(int row, bool isAbove)
         {
             if(row < 0 || row >= CellsByRow.Count)
             {
                 return;
             }
 
-            foreach(var otherCell in CellsByRow[row])
+            var sharedLatitude = isAbove ? cell.LatitudeMin : cell.LatitudeMax;
+            var requiredSharedDegrees = EQUATOR_SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS / Mathf.Cos(Mathf.Deg2Rad * sharedLatitude);
+            foreach (var otherCell in CellsByRow[row])
             {
-                var paddedStart = otherCell.LongitudeMin + SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS;
-                var paddedEnd = otherCell.LongitudeMax - SHARED_DEGREES_TO_BE_VERTICAL_NEIGHBORS;
+                var paddedStart = otherCell.LongitudeMin + requiredSharedDegrees;
+                var paddedEnd = otherCell.LongitudeMax - requiredSharedDegrees;
                 if(cell.LongitudeMin <= paddedEnd && cell.LongitudeMax >= paddedStart)
                 {
                     cell.Neighbors.Add(otherCell);
@@ -187,8 +189,8 @@ public class PuzzleGrid : MonoBehaviour
             }
         }
 
-        AddneighborsForRow(rowAbove);
-        AddneighborsForRow(rowBelow);
+        AddneighborsForRow(rowAbove, isAbove: true);
+        AddneighborsForRow(rowBelow, isAbove: false);
     }
 	#endregion
 

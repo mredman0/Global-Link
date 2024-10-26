@@ -12,7 +12,7 @@ public class PuzzleBuilder : MonoBehaviour
     [Header("Required References")]
     public PuzzleGrid Grid;
     public Camera Camera;
-    public CameraController CameraController;
+    public PuzzleBuilderCameraController CameraController;
 
     [Header("Prefabs")]
     public GameObject NodePrefab;

@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.sohne.colorblindness": "https://github.com/SOHNE/Colorblindness.git#upm",
     "com.unity.burst": "1.8.18",
     "com.unity.collab-proxy": "2.4.3",
     "com.unity.ide.visualstudio": "2.0.22",

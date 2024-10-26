@@ -132,14 +132,16 @@ public class Puzzle : MonoBehaviour
         }
     }
 
+    private const float MINIMUM_DRAW_STEP = 0.01f;
     private void Draw(Node node, Vector3 point)
     {
         var path = node.Path;
-        var LoopMergeDistance = path.endWidth * 0.8f;
+        var loopMergeDistance = path.endWidth * 0.8f;
         int mergeLoop;
-        for (mergeLoop = 0; mergeLoop < path.positionCount - 4; mergeLoop++)
+        int mergeIgnoreMostRecent = Mathf.FloorToInt(loopMergeDistance / MINIMUM_DRAW_STEP);
+        for (mergeLoop = 0; mergeLoop < path.positionCount - mergeIgnoreMostRecent; mergeLoop++)
         {
-            if ((point - path.GetPosition(mergeLoop)).magnitude < LoopMergeDistance)
+            if ((point - path.GetPosition(mergeLoop)).magnitude < loopMergeDistance)
             {
                 for(int i = mergeLoop + 1; i < path.positionCount; i++)
                 {
@@ -150,7 +152,7 @@ public class Puzzle : MonoBehaviour
             }
         }
 
-        if ((point - path.GetPosition(path.positionCount - 1)).magnitude > LoopMergeDistance / 6f)
+        if ((point - path.GetPosition(path.positionCount - 1)).magnitude > MINIMUM_DRAW_STEP)
         {
             path.positionCount++;
             path.SetPosition(path.positionCount - 1, point);
@@ -215,8 +217,8 @@ public class Puzzle : MonoBehaviour
 
         Grid.Initialize(PuzzleConfig.GridCellsPerRow, gridVisible: GridVisible);
 
-        PathConnectToNodeDistance = Grid.ClosestDistanceBetweenNeighbors * 0.6f;
-        PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.3f;
+        PathConnectToNodeDistance = Grid.ClosestDistanceBetweenNeighbors * 0.9f;
+        PathCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.4f;
         NodeCollisionDistance = Grid.ClosestDistanceBetweenNeighbors * 0.5f;
 
         if (PuzzleConfig != null)
@@ -360,7 +362,7 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-    private const float PATH_SIZE_RELATIVE_TO_NODE_SIZE = 0.43f;
+    private const float PATH_SIZE_RELATIVE_TO_NODE_SIZE = 0.6f;
     public void SetActiveNode(Node n, bool fromExistingLine)
     {
         if(!n)

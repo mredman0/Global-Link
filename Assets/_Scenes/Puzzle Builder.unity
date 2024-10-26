@@ -292,51 +292,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &419488176
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 419488178}
-  - component: {fileID: 419488179}
-  m_Layer: 0
-  m_Name: UserSettings
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &419488178
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419488176}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &419488179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419488176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4389016a7071c9e41ae35c6541cbe753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanSpeed: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,9 +630,12 @@ MonoBehaviour:
   CameraFoV: 0
   SnapToCameraSettings: 0
   GeneratorSeed: 
+  PreviousSeed: 
   InitialWallAmount: 0
   WallClustering: 0
-  MaxNodePairs: 6
+  TargetNodePairs: 6
+  TargetWaypoints: 0
+  MinimumDistanceBetweenNodes: 4
   AdditionalWallAmount: 0
   StartGeneration: 0
   PuzzleName: Puzzle
@@ -968,15 +926,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2718389979423810581}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fde26580e2d4834daf168489c90888d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7560cad6aaeb8c04dacf46aafb207af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CameraArm: {fileID: 4871654701976255400}
-  Puzzle: {fileID: 0}
-  Speed: 2000
-  MaxSpeed: 1.75
+  Speed: 10
+  MaxSpeed: 4
   Friction: 1
-  AllowMomentumWithActiveNode: 0
+  AllowMomentumWithActiveNode: 1
+  InputLocks: 0
   AllowRoll: 0
   PitchInvalidLow: 5
   PitchInvalidHigh: 5
@@ -1076,6 +1034,5 @@ SceneRoots:
   - {fileID: 2058847980}
   - {fileID: 705507995}
   - {fileID: 1891050456}
-  - {fileID: 419488178}
   - {fileID: 147975633}
   - {fileID: 1328298365}
