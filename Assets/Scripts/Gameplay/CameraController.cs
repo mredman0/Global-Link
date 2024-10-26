@@ -254,10 +254,10 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void SnapToNode(Node n)
+    public void SnapToGridCell(GridCell cell)
     {
-        CameraArm.transform.LookAt(n.transform.position, CameraArm.transform.up);
-        if(!AllowRoll)
+        CameraArm.transform.LookAt(cell.transform.position, CameraArm.transform.up);
+        if (!AllowRoll)
         {
             FixRoll();
         }

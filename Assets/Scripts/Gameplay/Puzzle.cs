@@ -20,6 +20,7 @@ public class Puzzle : MonoBehaviour
     [Header("Prefabs")]
     public GameObject NodePrefab;
     public GameObject WaypointPrefab;
+    public GameObject WarpPrefab;
     public GameObject RockPrefab;
     public GameObject WallPrefab;
 
@@ -45,6 +46,8 @@ public class Puzzle : MonoBehaviour
     public Dictionary<int, List<Node>> NodesByColor = new Dictionary<int, List<Node>>();
     public List<Waypoint> Waypoints;
     public Dictionary<GridCell, Waypoint> WaypointsByGridCell = new Dictionary<GridCell, Waypoint>();
+    public List<Warp> Warps;
+    public Dictionary<GridCell, Warp> WarpsByGridCell = new Dictionary<GridCell, Warp>();
     public Dictionary<int, LineRenderer> Paths = new Dictionary<int, LineRenderer>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
@@ -146,6 +149,7 @@ public class Puzzle : MonoBehaviour
                 for(int i = mergeLoop + 1; i < path.positionCount; i++)
                 {
                     NotifyWaypointsOfLinePointRemoved(path.GetPosition(i));
+                    NotifyWarpsOfLinePointRemoved(path.GetPosition(i));
                 }
                 path.positionCount = mergeLoop + 1;
                 break;
@@ -157,6 +161,7 @@ public class Puzzle : MonoBehaviour
             path.positionCount++;
             path.SetPosition(path.positionCount - 1, point);
             NotifyWaypointsOfLinePointDrawn(point, node.Color);
+            NotifyWarpsOfLinePointDrawn(path, point, node.Color);
         }
     }
 
@@ -180,6 +185,27 @@ public class Puzzle : MonoBehaviour
         }
     }
 
+    private void NotifyWarpsOfLinePointDrawn(LineRenderer path, Vector3 point, int color)
+    {
+        var cell = Grid.GetLookingAtCell(point.ToPolar());
+        if (!WarpsByGridCell.ContainsKey(cell))
+        {
+            return;
+        }
+        var warp = WarpsByGridCell[cell];
+        if(warp.Role == Warp.WarpRole.Open)
+        {
+            warp.TakeWarp(path, point, color);
+            CameraController.SnapToGridCell(warp.PairedWarp.GridCell);
+        }
+        //if (previousWaypointColor != newWaypointColor)
+        //{
+        //    var coloredWaypoints = Waypoints.Count(w => w.Color >= 0);
+        //    var effectToUse = WaypointColoredEffects[Mathf.Clamp(coloredWaypoints - 1, 0, WaypointColoredEffects.Count - 1)];
+        //    Instantiate(effectToUse);
+        //}
+    }
+
     public void NotifyWaypointsOfLinePointRemoved(Vector3 point)
     {
         var cell = Grid.GetLookingAtCell(point.ToPolar());
@@ -189,12 +215,23 @@ public class Puzzle : MonoBehaviour
         }
         var waypoint = WaypointsByGridCell[cell];
         var previousWaypointColor = waypoint.Color;
-        WaypointsByGridCell[cell].LinePointRemovedFromCell(point);
+        waypoint.LinePointRemovedFromCell(point);
         var newWaypointColor = waypoint.Color;
         if (previousWaypointColor != newWaypointColor)
         {
             WaypointUncolored?.Invoke(waypoint);
         }
+    }
+
+    private void NotifyWarpsOfLinePointRemoved(Vector3 point)
+    {
+        var cell = Grid.GetLookingAtCell(point.ToPolar());
+        if (!WarpsByGridCell.ContainsKey(cell))
+        {
+            return;
+        }
+        var warp = WarpsByGridCell[cell];
+        warp.LinePointRemovedFromCell(point);
     }
 
     public void InitializePuzzle()
@@ -382,7 +419,7 @@ public class Puzzle : MonoBehaviour
         }
         else
         {
-            CameraController.SnapToNode(n);
+            CameraController.SnapToGridCell(n.GridCell);
         }
 
         if(ActiveNode)
@@ -431,6 +468,7 @@ public class Puzzle : MonoBehaviour
         for(; i< numPoints; i++)
         {
             NotifyWaypointsOfLinePointRemoved(points[i]);
+            NotifyWarpsOfLinePointRemoved(points[i]);
         }
     }
 
@@ -443,6 +481,7 @@ public class Puzzle : MonoBehaviour
             for(int i = 0; i < node.Path.positionCount; i++)
             {
                 NotifyWaypointsOfLinePointRemoved(node.Path.GetPosition(i));
+                NotifyWarpsOfLinePointRemoved(node.Path.GetPosition(i));
             }
             Destroy(node.Path.gameObject);
         }
@@ -525,6 +564,22 @@ public class Puzzle : MonoBehaviour
             Waypoints.Clear();
             WaypointsByGridCell.Clear();
         }
+        if(Warps != null)
+        {
+            foreach(var warp in Warps)
+            {
+                if(warp.WarpPreviewLine)
+                {
+                    Destroy(warp.WarpPreviewLine.gameObject);
+                }
+            }
+            foreach(var warp in Warps)
+            {
+                Destroy(warp.gameObject);
+            }
+            Warps.Clear();
+            WarpsByGridCell.Clear();
+        }
         if (Walls != null)
         {
             foreach (var wall in Walls)
@@ -561,6 +616,7 @@ public class Puzzle : MonoBehaviour
     {
         SetupNodes(cfg);
         SetupWaypoints(cfg);
+        SetupWarps(cfg);
         SetupObstacles(cfg);
         SetupView(cfg);
     }
@@ -650,6 +706,44 @@ public class Puzzle : MonoBehaviour
 
             Waypoints.Add(newWaypoint);
             WaypointsByGridCell.Add(cell, newWaypoint);
+        }
+    }
+
+    private void SetupWarps(PuzzleConfig cfg)
+    {
+        if (cfg.WarpPositions is null)
+        {
+            return;
+        }
+
+        Warp makeWarp(int row, int rowCell)
+        {
+            var newWarpGO = Instantiate(WarpPrefab);
+            newWarpGO.transform.parent = transform;
+            newWarpGO.name = $"Warp r{row}c{rowCell}";
+
+            var cell = Grid.CellsByRow[row][rowCell];
+
+            var newWarp = newWarpGO.GetComponent<Warp>();
+            newWarp.SetGridCell(cell);
+
+            Warps.Add(newWarp);
+            WarpsByGridCell.Add(cell, newWarp);
+
+            return newWarp;
+        }
+
+        for(int i = 0; i < cfg.WarpPositions.Length-1; i += 2)
+        {
+            var row1 = cfg.WarpPositions[i].x;
+            var rowCell1 = cfg.WarpPositions[i].y;
+            var row2 = cfg.WarpPositions[i + 1].x;
+            var rowCell2 = cfg.WarpPositions[i + 1].y;
+
+            var warp1 = makeWarp(row1, rowCell1);
+            var warp2 = makeWarp(row2, rowCell2);
+
+            warp1.SetPairedWarp(warp2);
         }
     }
 
@@ -799,7 +893,9 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-	#region Line Smoothing
+    #region Line Smoothing
+    public float DISTANCE_TO_ASSUME_WARP = 0.1f;
+
 	[Header("Line Smoothing")]
     public float LineSmoothDistanceWeight = 1f;
     public float LineSmoothAngleWeight = 1f;
@@ -844,6 +940,12 @@ public class Puzzle : MonoBehaviour
         var p1 = renderer.GetPosition(positionCount - 3);
         var p2 = renderer.GetPosition(positionCount - 2);
         var p3 = renderer.GetPosition(positionCount - 1);
+
+        if(Vector3.Distance(p1, p2) > DISTANCE_TO_ASSUME_WARP ||
+            Vector3.Distance(p2, p3) > DISTANCE_TO_ASSUME_WARP)
+        {
+            return;
+        }
 
         if(SmoothLineSegment(p1, p2, p3, out Vector3 resultingP2))
         {
@@ -903,6 +1005,13 @@ public class Puzzle : MonoBehaviour
         var p2 = renderer.GetPosition(positionCount - 3);
         var p3 = renderer.GetPosition(positionCount - 2);
         var p4 = renderer.GetPosition(positionCount - 1);
+
+        if (Vector3.Distance(p1, p2) > DISTANCE_TO_ASSUME_WARP ||
+            Vector3.Distance(p2, p3) > DISTANCE_TO_ASSUME_WARP ||
+            Vector3.Distance(p3, p4) > DISTANCE_TO_ASSUME_WARP)
+        {
+            return;
+        }
 
         if (DejitterLineSegment(p1, p2, p3, p4, out Vector3 resultingP2, out Vector3 resultingP3))
         {

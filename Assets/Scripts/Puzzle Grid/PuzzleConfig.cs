@@ -24,6 +24,9 @@ public class PuzzleConfig : ScriptableObject
 	[Header("Waypoints")]
 	public Vector2Int[] WaypointPositions;
 
+	[Header("Warps")]
+	public Vector2Int[] WarpPositions;
+
 	[Header("Solutions")]
 	public int[] SolutionLengths;
 	public Vector2Int[] Solutions;

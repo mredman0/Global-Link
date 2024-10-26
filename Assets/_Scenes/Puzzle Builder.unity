@@ -611,15 +611,19 @@ MonoBehaviour:
     type: 3}
   WaypointPrefab: {fileID: 8237476992170656197, guid: d25beebee1db3c74e97ce66fbad026ba,
     type: 3}
+  WarpPrefab: {fileID: 8237476992170656197, guid: 255354594201fc84e967a573119f0640,
+    type: 3}
   WallPrefab: {fileID: 8237476992170656197, guid: 2435f99bed0399249815e234652057bd,
     type: 3}
   RockPrefab: {fileID: 8237476992170656197, guid: 610b31c6ebaa8de458b0cbd8d7b91620,
     type: 3}
-  GridCellsPerRow: 01000000060000000a00000010000000140000001a00000014000000100000000a0000000600000001000000
+  GridCellsPerRow: 01000000060000000a00000010000000140000001900000014000000100000000a0000000600000001000000
   PaintMode: 0
   PaintNodeColor: 0
   Nodes: []
   Waypoints: []
+  Warps: []
+  LastPlacedWarp: {fileID: 0}
   Walls: []
   Rocks: []
   OpaqueSphere: 0

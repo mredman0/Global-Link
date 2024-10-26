@@ -61,6 +61,6 @@ public class Waypoint : MonoBehaviour
         GridCell = cell;
         var latitudeSegments = Mathf.CeilToInt(VerticesPerDegree * Mathf.Abs(cell.LatitudeMin - cell.LatitudeMax));
         var longitudeSegments = Mathf.CeilToInt(VerticesPerDegree * Mathf.Abs(cell.LongitudeMin - cell.LongitudeMax));
-        MeshFilter.sharedMesh = MeshGenerator.GenerateSphereSectorRounded(cell.LatitudeMin, cell.LatitudeMax, cell.LongitudeMin, cell.LongitudeMax, 1f, latitudeSegments, longitudeSegments, 0.25f);
+        MeshFilter.sharedMesh = MeshGenerator.GenerateSphereSectorRounded(cell.LatitudeMin, cell.LatitudeMax, cell.LongitudeMin, cell.LongitudeMax, 0.95f, latitudeSegments, longitudeSegments, 0.25f);
     }
 }

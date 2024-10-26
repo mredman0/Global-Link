@@ -1912,6 +1912,8 @@ MonoBehaviour:
     type: 3}
   WaypointPrefab: {fileID: 8059110723922232405, guid: 6f62e8f190fc1024496e30927958f3b6,
     type: 3}
+  WarpPrefab: {fileID: 8059110723922232405, guid: 8950d8a56bc1d6943985f20126539701,
+    type: 3}
   RockPrefab: {fileID: 8237476992170656197, guid: ff875ff6e5681564bb631888db8e7f0b,
     type: 3}
   WallPrefab: {fileID: 8059110723922232405, guid: 96c27b21bd140d34caef584e1b42d7cb,
@@ -1944,11 +1946,13 @@ MonoBehaviour:
   ActiveNode: {fileID: 0}
   Nodes: []
   Waypoints: []
+  Warps: []
   Rocks: []
   Walls: []
   InputLocks: 0
   Completed: 0
   GridVisible: 0
+  DISTANCE_TO_ASSUME_WARP: 0.1
   LineSmoothDistanceWeight: 1
   LineSmoothAngleWeight: 1
   MaxSharpness: 25
@@ -2470,8 +2474,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.94, y: 0.94, z: 0.94}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1525626333828675268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2544,10 +2548,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.99
+  m_Radius: 1
   m_Height: 0
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -0.15}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7145327244464089430
 GameObject:
   m_ObjectHideFlags: 0

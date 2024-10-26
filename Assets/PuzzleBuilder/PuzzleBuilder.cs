@@ -17,6 +17,7 @@ public class PuzzleBuilder : MonoBehaviour
     [Header("Prefabs")]
     public GameObject NodePrefab;
     public GameObject WaypointPrefab;
+    public GameObject WarpPrefab;
     public GameObject WallPrefab;
     public GameObject RockPrefab;
 
@@ -30,6 +31,8 @@ public class PuzzleBuilder : MonoBehaviour
     public Dictionary<GridCell, PuzzleObject> PlacedObjects = new Dictionary<GridCell, PuzzleObject>();
     public List<PuzzleObjectNode> Nodes = new List<PuzzleObjectNode>();
     public List<PuzzleObjectWaypoint> Waypoints = new List<PuzzleObjectWaypoint>();
+    public List<PuzzleObjectWarp> Warps = new List<PuzzleObjectWarp>();
+    public PuzzleObjectWarp LastPlacedWarp;
     public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
     public List<PuzzleObjectRock> Rocks = new List<PuzzleObjectRock>();
 
@@ -235,6 +238,27 @@ public class PuzzleBuilder : MonoBehaviour
             Waypoints.Add(newWaypoint);
             PlacedObjects[cell] = newWaypoint;
         }
+        else if(PaintMode == PuzzleBuilderPaintMode.Warp)
+        {
+            var newWarpGO = Instantiate(WarpPrefab);
+            newWarpGO.transform.parent = transform;
+            newWarpGO.transform.position = cell.transform.position;
+            newWarpGO.transform.LookAt(transform);
+
+            var newWarp = newWarpGO.GetComponent<PuzzleObjectWarp>();
+            newWarpGO.name = $"Warp r{cell.Row}c{cell.Cell}";
+            newWarp.Cell = cell;
+
+            if(LastPlacedWarp && !LastPlacedWarp.PairedWarp)
+            {
+                LastPlacedWarp.SetPairedWarp(newWarp);
+                newWarp.SetPairedWarp(LastPlacedWarp);
+            }
+            LastPlacedWarp = newWarp;
+
+            Warps.Add(newWarp);
+            PlacedObjects[cell] = newWarp;
+        }
         else if (PaintMode == PuzzleBuilderPaintMode.Wall)
         {
             var newWallGO = Instantiate(WallPrefab);
@@ -277,6 +301,14 @@ public class PuzzleBuilder : MonoBehaviour
         else if (objectToDelete is PuzzleObjectWaypoint waypoint)
         {
             Waypoints.Remove(waypoint);
+        }
+        else if (objectToDelete is PuzzleObjectWarp warp)
+        {
+            Warps.Remove(warp);
+            if(warp.PairedWarp)
+            {
+                warp.Unpair();
+            }
         }
         else if (objectToDelete is PuzzleObjectWall wall)
         {
@@ -602,6 +634,7 @@ public class PuzzleBuilder : MonoBehaviour
     {
         ClearNodes();
         ClearWaypoints();
+        ClearWarps();
         GeneratedSolutionPaths.Clear();
         ClearObstacles();
         ResetGridCellColors();
@@ -624,6 +657,15 @@ public class PuzzleBuilder : MonoBehaviour
             Destroy(waypoint.gameObject);
         }
         Waypoints.Clear();
+    }
+    public void ClearWarps()
+    {
+        foreach(var warp in Warps)
+        {
+            warp.Unpair();
+            Destroy(warp.gameObject);
+        }
+        Warps.Clear();
     }
 
     public void ClearObstacles()
@@ -693,6 +735,27 @@ public class PuzzleBuilder : MonoBehaviour
         for (i = 0; i < Waypoints.Count; i++)
         {
             newPuzzleConfig.WaypointPositions[i] = new Vector2Int(Waypoints[i].Cell.Row, Waypoints[i].Cell.Cell);
+        }
+
+        // Warps
+        var warpsInPairedOrder = new List<PuzzleObjectWarp>();
+        foreach(var warp in Warps)
+        {
+            if(!warp.PairedWarp)
+            {
+                Debug.LogWarning($"{warp.name} does not have a paired warp and will not be saved");
+                continue;
+            }
+            if(!warpsInPairedOrder.Contains(warp))
+            {
+                warpsInPairedOrder.Add(warp);
+                warpsInPairedOrder.Add(warp.PairedWarp);
+            }
+        }
+        newPuzzleConfig.WarpPositions = new Vector2Int[warpsInPairedOrder.Count];
+        for(i = 0; i < warpsInPairedOrder.Count; i++)
+        {
+            newPuzzleConfig.WarpPositions[i] = new Vector2Int(warpsInPairedOrder[i].Cell.Row, warpsInPairedOrder[i].Cell.Cell);
         }
 
         // Walls
@@ -815,6 +878,18 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
 
+        // Warps
+        if(cfg.WarpPositions != null)
+        {
+            PaintMode = PuzzleBuilderPaintMode.Warp;
+            for(int i = 0; i < cfg.WarpPositions.Length; i++)
+            {
+                var row = cfg.WarpPositions[i].x;
+                var rowCell = cfg.WarpPositions[i].y;
+                Paint(Grid.CellsByRow[row][rowCell]);
+            }
+        }
+
         // Walls
         if(cfg.WallPositions != null)
         {
@@ -881,6 +956,7 @@ public enum PuzzleBuilderPaintMode
     Erase,
     Node,
     Waypoint,
+    Warp,
     Wall,
     Rock,
 }
