@@ -271,7 +271,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PuzzleConfig
       value: 
-      objectReference: {fileID: 11400000, guid: ee8078b6d75bc974e85abd1f0cc7f116,
+      objectReference: {fileID: 11400000, guid: 8a46b05369dae26478c3f9a540a25dd3,
         type: 2}
     - target: {fileID: 3377955947608396545, guid: 64ee6bd3d6249bb429b74644871c5de2,
         type: 3}
@@ -571,6 +571,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 984179319354629197, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277006168620317627, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277006168620317627, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277006168620317627, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277006168620317627, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277006168620317627, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1277006168620317627, guid: 93f4298d2122bb44783bdac9d639fc53,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0

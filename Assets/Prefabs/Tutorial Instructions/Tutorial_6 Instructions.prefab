@@ -118,7 +118,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Waypoints can only have one color pass through them.
+  m_text: 'Tunnels allow lines to cut through The Orb to end up on the surface somewhere
+    else.
 
 
     (Tap to continue)'
@@ -255,7 +256,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Connect one pair of Nodes, going through the Waypoint.
+  m_text: The Walls completely block the path between these Red Nodes on the surface.
+    Draw a line to one of the Tunnel entrances.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -389,8 +391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The other color is now blocked from taking the short route, and must go
-    around.
+  m_text: Now connect the line to the other Node.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -468,7 +469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942685002987515443}
-  - component: {fileID: 3205268170594798185}
+  - component: {fileID: 3949247335040678293}
   m_Layer: 5
   m_Name: Step 1
   m_TagString: Untagged
@@ -496,7 +497,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3205268170594798185
+--- !u!114 &3949247335040678293
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -505,13 +506,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6193456373413350317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308bb68c9f3920f4890c2df4cc45b06e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b42f18d1e3c59a4ebb326015f10b9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1123691272206170677}
   LockCameraInput: 0
   LockPuzzleInput: 0
-  Color: -1
 --- !u!1 &7938000407467786203
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,9 +667,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb4f1a014c9efa43b17f7e856dbd9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 3205268170594798185}
+  Next: {fileID: 3949247335040678293}
   LockCameraInput: 1
   LockPuzzleInput: 1
+  StartupDelay: 0.2
 --- !u!222 &1482848474239209862
 CanvasRenderer:
   m_ObjectHideFlags: 0

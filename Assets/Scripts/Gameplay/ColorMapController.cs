@@ -21,6 +21,13 @@ public class ColorMapController : MonoBehaviour
     private const string VIOLET = "Violet";
     private const string RAINFOREST_GREEN = "Rainforest Green";
 
+    private const string FLOW_RED = "Flow_Red";
+    private const string FLOW_GREEN = "Flow_Green";
+    private const string FLOW_BLUE = "Flow_Blue";
+    private const string FLOW_CYAN = "Flow_Cyan";
+    private const string FLOW_YELLOW = "Flow_Yellow";
+    private const string FLOW_ORANGE = "Flow_Orange";
+
     public static readonly Dictionary<string, Color> Colors = new Dictionary<string, Color>()
     {
         { RED, Color.red },
@@ -36,6 +43,13 @@ public class ColorMapController : MonoBehaviour
         { INDIGO, new Color(.29f, 0, .51f) },
         { VIOLET, new Color(.5f, 0, 1) },
         { RAINFOREST_GREEN, new Color(0, .5f, .33f) },
+
+        { FLOW_RED, new Color(.992f, 0.04f, 0) },
+        { FLOW_GREEN, new Color(0, 0.553f, 0) },
+        { FLOW_BLUE, new Color(0.051f, 0.157f, 0.996f) },
+        { FLOW_CYAN, Color.cyan },
+        { FLOW_YELLOW, new Color(0.918f, 0.871f, 0) },
+        { FLOW_ORANGE, new Color(0.988f, 0.533f, 0) },
     };
 
     public static readonly Dictionary<string, Color[]> ColorMaps = new Dictionary<string, Color[]>()
@@ -48,6 +62,14 @@ public class ColorMapController : MonoBehaviour
             Colors[MAGENTA],
             Colors[YELLOW],
         }},
+        //{ "Default", new Color[] {
+        //    Colors[FLOW_RED],
+        //    Colors[FLOW_BLUE],
+        //    Colors[FLOW_GREEN],
+        //    Colors[FLOW_CYAN],
+        //    Colors[FLOW_YELLOW],
+        //    Colors[FLOW_ORANGE],
+        //}},
         { "Hot", new Color[] {
             Colors[RED],
             Colors[ORANGE],

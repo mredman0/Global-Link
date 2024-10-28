@@ -9,23 +9,19 @@ public class NodesUI : MonoBehaviour
     [Header("Required References")]
     public Puzzle Puzzle;
 
-    public HorizontalLayoutGroup Row;
+    public HorizontalLayoutGroup Row1;
+    public HorizontalLayoutGroup Row2;
 
     public GameObject NodeDisplayPrefab;
 
-    public List<Sprite> ColorIconSprites;
+    [Header("Settings")]
+    public int ColorsPerRow = 3;
 
-    private Dictionary<int, GameObject> NodeDisplays = new Dictionary<int, GameObject>();
-    private Dictionary<int, Image> NodeDisplayLineImages = new Dictionary<int, Image>();
-    private Dictionary<int, List<Image>> NodeDisplayColorIcons = new Dictionary<int, List<Image>>();
-    private bool ShowColorIcons;
+    private Dictionary<int, NodePairDisplay> NodeDisplays = new Dictionary<int, NodePairDisplay>();
 
     // Start is called before the first frame update
     void Start()
     {
-        ShowColorIcons = SettingsManager.Instance.GetBool(SHOW_COLOR_ICONS_KEY);
-        SettingsManager.Instance.BoolSettingChanged += OnBoolSettingChanged;
-
         Puzzle.PuzzleInitialized += OnPuzzleInitialized;
         if (Puzzle.Initialized)
         {
@@ -34,94 +30,59 @@ public class NodesUI : MonoBehaviour
 
         Puzzle.NodesConnected += OnNodesConnected;
         Puzzle.NodesDisconnected += OnNodesDisconnected;
+        Puzzle.WaypointReached += OnWaypointReached;
+        Puzzle.WaypointUnreached += OnWaypointUnreached;
     }
 
     private void OnDestroy()
     {
-        SettingsManager.Instance.BoolSettingChanged -= OnBoolSettingChanged;
-
         Puzzle.PuzzleInitialized -= OnPuzzleInitialized;
+
         Puzzle.NodesConnected -= OnNodesConnected;
         Puzzle.NodesDisconnected -= OnNodesDisconnected;
-    }
-
-    private const string SHOW_COLOR_ICONS_KEY = "AccessibilityShowColorIcons";
-    private void OnBoolSettingChanged(string setting, bool value)
-    {
-        if (setting == SHOW_COLOR_ICONS_KEY)
-        {
-            ShowColorIcons = value;
-            UpdateColorIcons();
-        }
+        Puzzle.WaypointReached -= OnWaypointReached;
+        Puzzle.WaypointUnreached -= OnWaypointUnreached;
     }
 
     private void OnPuzzleInitialized()
     {
         foreach (var kvp in NodeDisplays)
         {
-            Destroy(kvp.Value);
+            Destroy(kvp.Value.gameObject);
         }
         NodeDisplays.Clear();
-        NodeDisplayLineImages.Clear();
-        NodeDisplayColorIcons.Clear();
 
+        var colorsAdded = 0;
         foreach (var kvp in Puzzle.NodesByColor)
         {
             var color = kvp.Key;
-            
-            var nodesDisplayGO = Instantiate(NodeDisplayPrefab, Row.transform);
-            var allImages = nodesDisplayGO.GetComponentsInChildren<Image>(includeInactive: true);
-            var imagesToTint = allImages.Where(img => !img.CompareTag("Color Icon"));
-            foreach(var img in imagesToTint)
-            {
-                img.color = ColorMapController.Instance.ApplyActiveColorMap(color);
-            }
-            var nodesDisplayLineImage = imagesToTint.First(img => img.gameObject.name.Contains("Line"));
 
-            nodesDisplayLineImage.gameObject.SetActive(false);
+            var row = colorsAdded < ColorsPerRow ? Row1 : Row2;
+            var nodesDisplayGO = Instantiate(NodeDisplayPrefab, row.transform);
+            var nodesDisplay = nodesDisplayGO.GetComponent<NodePairDisplay>();
+            nodesDisplay.SetColorAndHasWaypoint(color, Puzzle.Waypoints.Any(w => w.Color == color));
 
-            NodeDisplays.Add(color, nodesDisplayGO);
-            NodeDisplayLineImages.Add(color, nodesDisplayLineImage);
-            NodeDisplayColorIcons.Add(color, allImages.Where(img => img.CompareTag("Color Icon")).ToList());
+            NodeDisplays.Add(color, nodesDisplayGO.GetComponent<NodePairDisplay>());
+            colorsAdded++;
         }
-
-        UpdateColorIcons();
     }
 
     private void OnNodesConnected(Node a, Node b)
     {
-        NodeDisplayLineImages[a.Color].gameObject.SetActive(true);
+        NodeDisplays[a.Color].SetNodesConnected(true);
     }
     private void OnNodesDisconnected(Node a, Node b)
     {
-        NodeDisplayLineImages[a.Color].gameObject.SetActive(false);
+        NodeDisplays[a.Color].SetNodesConnected(false);
     }
 
-    private void UpdateColorIcons()
+    private void OnWaypointReached(Waypoint waypoint)
     {
-        foreach (var kvp in NodeDisplayColorIcons)
-        {
-            UpdateColorIcons(kvp.Key);
-        }
+        NodeDisplays[waypoint.Color].SetWaypointReached(Puzzle.Waypoints.Where(w => w.Color == waypoint.Color).All(w => w.Reached));
     }
 
-    private void UpdateColorIcons(int color)
+    private void OnWaypointUnreached(Waypoint waypoint)
     {
-        if (ShowColorIcons)
-        {
-            foreach(var img in NodeDisplayColorIcons[color])
-            {
-                img.gameObject.SetActive(true);
-                img.sprite = ColorIconSprites[color];
-            }
-        }
-        else
-        {
-            foreach (var img in NodeDisplayColorIcons[color])
-            {
-                img.sprite = null;
-                img.gameObject.SetActive(false);
-            }
-        }
+        NodeDisplays[waypoint.Color].SetWaypointReached(false);
     }
 }
