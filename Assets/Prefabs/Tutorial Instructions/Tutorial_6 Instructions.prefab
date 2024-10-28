@@ -512,7 +512,6 @@ MonoBehaviour:
   Next: {fileID: 1123691272206170677}
   LockCameraInput: 0
   LockPuzzleInput: 0
-  Color: -1
 --- !u!1 &7938000407467786203
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +670,7 @@ MonoBehaviour:
   Next: {fileID: 3949247335040678293}
   LockCameraInput: 1
   LockPuzzleInput: 1
-  StartupDelay: 0.5
+  StartupDelay: 0.2
 --- !u!222 &1482848474239209862
 CanvasRenderer:
   m_ObjectHideFlags: 0

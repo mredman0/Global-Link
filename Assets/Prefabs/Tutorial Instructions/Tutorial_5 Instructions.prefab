@@ -669,7 +669,7 @@ MonoBehaviour:
   Next: {fileID: 3205268170594798185}
   LockCameraInput: 1
   LockPuzzleInput: 1
-  StartupDelay: 0.5
+  StartupDelay: 0.2
 --- !u!222 &7066956158968697737
 CanvasRenderer:
   m_ObjectHideFlags: 0
