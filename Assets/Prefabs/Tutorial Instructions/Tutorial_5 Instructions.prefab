@@ -118,7 +118,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Each waypoint must have a unique color.
+  m_text: 'Waypoints do not allow other colors through.
 
 
     (Tap to continue)'
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Connect a pair of Nodes, going through only one of the Waypoints.
+  m_text: Connect the Blue Nodes, going through the Waypoint.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now connect the other Nodes, going through the remaining Waypoint.
+  m_text: Now connect the Red Nodes, going around the Blue Waypoint and the Walls.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -669,6 +669,7 @@ MonoBehaviour:
   Next: {fileID: 3205268170594798185}
   LockCameraInput: 1
   LockPuzzleInput: 1
+  StartupDelay: 0.5
 --- !u!222 &7066956158968697737
 CanvasRenderer:
   m_ObjectHideFlags: 0

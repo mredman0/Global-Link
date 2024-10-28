@@ -13,8 +13,10 @@ public class Puzzle : MonoBehaviour
     public event Action NodeDeselected;
     public event Action<Node, Node> NodesConnected;
     public event Action<Node, Node> NodesDisconnected;
-    public event Action<Waypoint> WaypointColored;
-    public event Action<Waypoint> WaypointUncolored;
+    public event Action<Waypoint> WaypointReached;
+    public event Action<Waypoint> WaypointUnreached;
+    public event Action<Warp, Warp> WarpTaken;
+    public event Action<Warp, Warp> WarpUntaken;
     public event Action PuzzleCompleted;
 
     [Header("Prefabs")]
@@ -173,14 +175,14 @@ public class Puzzle : MonoBehaviour
             return;
         }
         var waypoint = WaypointsByGridCell[cell];
-        var previousWaypointColor = waypoint.Color;
+        var previouslyReached = waypoint.Reached;
         waypoint.LinePointDrawnInCell(point, color);
-        var newWaypointColor = waypoint.Color;
-        if(previousWaypointColor != newWaypointColor)
+        var nowReached = waypoint.Reached;
+        if (nowReached && !previouslyReached)
         {
-            WaypointColored?.Invoke(waypoint);
-            var coloredWaypoints = Waypoints.Count(w => w.Color >= 0);
-            var effectToUse = WaypointColoredEffects[Mathf.Clamp(coloredWaypoints-1, 0, WaypointColoredEffects.Count - 1)];
+            WaypointReached?.Invoke(waypoint);
+            var reachedWaypoints = Waypoints.Count(w => w.Reached);
+            var effectToUse = WaypointColoredEffects[Mathf.Clamp(reachedWaypoints - 1, 0, WaypointColoredEffects.Count - 1)];
             Instantiate(effectToUse);
         }
     }
@@ -196,6 +198,7 @@ public class Puzzle : MonoBehaviour
         if(warp.Role == Warp.WarpRole.Open)
         {
             warp.TakeWarp(path, point, color);
+            WarpTaken?.Invoke(warp, warp.PairedWarp);
             CameraController.SnapToGridCell(warp.PairedWarp.GridCell);
         }
         //if (previousWaypointColor != newWaypointColor)
@@ -214,12 +217,12 @@ public class Puzzle : MonoBehaviour
             return;
         }
         var waypoint = WaypointsByGridCell[cell];
-        var previousWaypointColor = waypoint.Color;
+        var previouslyReached = waypoint.Reached;
         waypoint.LinePointRemovedFromCell(point);
-        var newWaypointColor = waypoint.Color;
-        if (previousWaypointColor != newWaypointColor)
+        var nowReached = waypoint.Reached;
+        if (previouslyReached && !nowReached)
         {
-            WaypointUncolored?.Invoke(waypoint);
+            WaypointUnreached?.Invoke(waypoint);
         }
     }
 
@@ -231,7 +234,11 @@ public class Puzzle : MonoBehaviour
             return;
         }
         var warp = WarpsByGridCell[cell];
-        warp.LinePointRemovedFromCell(point);
+        bool warpUntaken = warp.LinePointRemovedFromCell(point);
+        if(warpUntaken)
+        {
+            WarpUntaken?.Invoke(warp, warp.PairedWarp);
+        }
     }
 
     public void InitializePuzzle()
@@ -380,20 +387,10 @@ public class Puzzle : MonoBehaviour
             return false;
         }
         // Make sure all waypoints have been hit
-        var waypointsAllColored = Waypoints.TrueForAll(w => w.Color >= 0);
-        if(!waypointsAllColored)
+        var waypointsAllReached = Waypoints.TrueForAll(w => w.Reached);
+        if(!waypointsAllReached)
         {
             return false;
-        }
-        // Make sure no two waypoints have the same color
-        var waypointColors = new HashSet<int>();
-        foreach(var waypoint in Waypoints)
-        {
-            if(waypointColors.Contains(waypoint.Color))
-            {
-                return false;
-            }
-            waypointColors.Add(waypoint.Color);
         }
 
         return true;
@@ -691,6 +688,8 @@ public class Puzzle : MonoBehaviour
         }
         for (int i = 0; i < cfg.WaypointPositions.Length; i++)
         {
+            var color = cfg.WaypointColors[i];
+
             var row = cfg.WaypointPositions[i].x;
             var rowCell = cfg.WaypointPositions[i].y;
 
@@ -702,7 +701,7 @@ public class Puzzle : MonoBehaviour
 
             var newWaypoint = newWaypointGO.GetComponent<Waypoint>();
             newWaypoint.SetGridCell(cell);
-            newWaypoint.Color = -1;
+            newWaypoint.SetColor(color);
 
             Waypoints.Add(newWaypoint);
             WaypointsByGridCell.Add(cell, newWaypoint);
@@ -878,7 +877,7 @@ public class Puzzle : MonoBehaviour
         var waypointPathCollisionPadding = wallPathCollisionPadding;
         foreach (var waypoint in Waypoints)
         {
-            if(waypoint.Color < 0 || waypoint.Color == excludeColor)
+            if(waypoint.Color == excludeColor)
             {
                 continue;
             }

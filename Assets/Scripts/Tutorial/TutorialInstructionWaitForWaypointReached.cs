@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialInstructionWaitForWaypointColored : TutorialInstructionStep
+public class TutorialInstructionWaitForWaypointReached : TutorialInstructionStep
 {
     public int Color = -1;
 
@@ -12,15 +12,15 @@ public class TutorialInstructionWaitForWaypointColored : TutorialInstructionStep
 
     private void Start()
     {
-        Puzzle.WaypointColored += OnWaypointColored;
+        Puzzle.WaypointReached += OnWaypointReached;
     }
 
     private void OnDestroy()
     {
-        Puzzle.WaypointColored -= OnWaypointColored;
+        Puzzle.WaypointUnreached -= OnWaypointReached;
     }
 
-    private void OnWaypointColored(Waypoint waypoint)
+    private void OnWaypointReached(Waypoint waypoint)
     {
         Reached = Color < 0 || waypoint.Color == Color;
     }

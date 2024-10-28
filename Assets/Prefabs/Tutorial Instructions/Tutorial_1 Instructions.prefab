@@ -208,6 +208,10 @@ MonoBehaviour:
     This is The Orb.
 
 
+    Go to the Settings
+    menu for accessibility options.
+
+
     (Tap to continue)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -868,6 +872,7 @@ MonoBehaviour:
   Next: {fileID: 9156956760849994796}
   LockCameraInput: 1
   LockPuzzleInput: 1
+  StartupDelay: 0.5
 --- !u!222 &4291126914623955988
 CanvasRenderer:
   m_ObjectHideFlags: 0

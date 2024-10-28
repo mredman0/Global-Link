@@ -732,9 +732,11 @@ public class PuzzleBuilder : MonoBehaviour
 
         // Waypoints
         newPuzzleConfig.WaypointPositions = new Vector2Int[Waypoints.Count];
+        newPuzzleConfig.WaypointColors = new int[Waypoints.Count];
         for (i = 0; i < Waypoints.Count; i++)
         {
             newPuzzleConfig.WaypointPositions[i] = new Vector2Int(Waypoints[i].Cell.Row, Waypoints[i].Cell.Cell);
+            newPuzzleConfig.WaypointColors[i] = Waypoints[i].Color;
         }
 
         // Warps
@@ -872,6 +874,7 @@ public class PuzzleBuilder : MonoBehaviour
             PaintMode = PuzzleBuilderPaintMode.Waypoint;
             for (int i = 0; i < cfg.WaypointPositions.Length; i++)
             {
+                PaintNodeColor = cfg.WaypointColors[i];
                 var row = cfg.WaypointPositions[i].x;
                 var rowCell = cfg.WaypointPositions[i].y;
                 Paint(Grid.CellsByRow[row][rowCell]);

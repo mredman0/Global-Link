@@ -13,39 +13,38 @@ MonoBehaviour:
   m_Name: Tutorial_6
   m_EditorClassIdentifier: 
   ID: Tutorial_6
-  GridCellsPerRow: 01000000060000000a00000010000000140000001a00000014000000100000000a0000000600000001000000
+  GridCellsPerRow: 01000000060000000a00000010000000140000001900000014000000100000000a0000000600000001000000
   RockPositions: []
   WallPositions:
-  - {x: 1, y: 3}
-  - {x: 1, y: 0}
-  - {x: 2, y: 6}
-  - {x: 2, y: 5}
-  - {x: 2, y: 1}
-  - {x: 2, y: 0}
-  - {x: 2, y: 8}
-  - {x: 2, y: 3}
+  - {x: 4, y: 9}
+  - {x: 5, y: 11}
+  - {x: 6, y: 9}
+  - {x: 6, y: 10}
+  - {x: 4, y: 10}
+  - {x: 4, y: 11}
+  - {x: 6, y: 12}
+  - {x: 6, y: 11}
+  - {x: 6, y: 13}
+  - {x: 5, y: 16}
+  - {x: 4, y: 12}
+  - {x: 4, y: 13}
   NodePositions:
-  - {x: 1, y: 1}
-  - {x: 1, y: 4}
-  - {x: 1, y: 2}
-  - {x: 1, y: 5}
-  NodeColors: 00000000000000000100000001000000
-  WaypointPositions:
-  - {x: 0, y: 0}
-  SolutionLengths: 010000000a00000000000000000000000000000000000000
-  Solutions:
-  - {x: 0, y: 0}
-  - {x: 2, y: 4}
+  - {x: 5, y: 12}
   - {x: 3, y: 6}
+  NodeColors: 0000000000000000
+  WaypointPositions: []
+  WaypointColors: 
+  WarpPositions:
+  - {x: 5, y: 15}
+  - {x: 4, y: 6}
+  SolutionLengths: 050000000000000000000000000000000000000000000000
+  Solutions:
+  - {x: 5, y: 13}
+  - {x: 5, y: 14}
+  - {x: 5, y: 15}
+  - {x: 4, y: 6}
   - {x: 3, y: 5}
-  - {x: 3, y: 4}
-  - {x: 3, y: 3}
-  - {x: 3, y: 2}
-  - {x: 3, y: 1}
-  - {x: 3, y: 0}
-  - {x: 3, y: 15}
-  - {x: 2, y: 9}
   OpaqueSphere: 0
-  CameraArmStart: {x: 0.5703884, y: -0.3864871, z: -0.34622315, w: -0.6367216}
+  CameraArmStart: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   CameraDistance: 0
   CameraFoV: 0

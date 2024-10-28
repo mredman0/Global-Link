@@ -122,7 +122,7 @@ MonoBehaviour:
 
 
     All Waypoints must have
-    a line going through them.
+    a line of their color going though them.
 
 
     (Tap to continue)'
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select a Node, then draw a line that intersects with the Waypoint area.
+  m_text: Select a Node, then draw a line that goes through the Waypoint area.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -393,8 +393,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now, keeping the line going through the Waypoint, finish connecting the
-    Nodes.
+  m_text: Now, with the line going through the Waypoint, finish connecting the Nodes.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -674,6 +673,7 @@ MonoBehaviour:
   Next: {fileID: 1116952585734106449}
   LockCameraInput: 1
   LockPuzzleInput: 1
+  StartupDelay: 0.5
 --- !u!222 &7229370033707944376
 CanvasRenderer:
   m_ObjectHideFlags: 0

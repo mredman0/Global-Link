@@ -33,7 +33,7 @@ public class Warp : MonoBehaviour
     private void SetColor(int colorIndex)
     {
         Color = colorIndex;
-        Animator.SetInteger("ColorIndex", colorIndex);
+        //Animator.SetInteger("ColorIndex", colorIndex);
     }
 
     public void LinePointDrawnInCell(LineRenderer path, Vector3 point, int color)
@@ -68,7 +68,7 @@ public class Warp : MonoBehaviour
         path.SetPosition(path.positionCount - 1, PairedWarp.GridCell.transform.position);
     }
 
-    public void LinePointRemovedFromCell(Vector3 point)
+    public bool LinePointRemovedFromCell(Vector3 point)
     {
         if(PointDrawnInCell == point)
         {
@@ -81,7 +81,9 @@ public class Warp : MonoBehaviour
             SetColor(-1);
             PairedWarp.SetColor(-1);
             WarpPreviewLine.gameObject.SetActive(true);
+            return true;
         }
+        return false;
     }
 
     public void SetGridCell(GridCell cell)
