@@ -74,31 +74,29 @@ public class PuzzlePackGenerator : MonoBehaviour
         var masterSeedInt = CalculateMasterSeed();
         Random.InitState(masterSeedInt);
 
-        var seeds = new int[max - min + 1];
-        var seedsForPrinting = new SeedsForPrinting()
-        {
-            Seeds = new Vector2Int[seeds.Length]
-        };
-        for(int i = 0; i < seeds.Length; i++)
-        {
-            seeds[i] = Random.Range(int.MinValue, int.MaxValue);
-            seedsForPrinting.Seeds[i] = new Vector2Int(i + min, seeds[i]);
-        }
-
-        var seedsTextPath = Path.Combine(Application.dataPath, $"Editor/Resources/Pack Generation/{pack}_seeds_{min}-{max}.txt");
-        File.WriteAllText(seedsTextPath, JsonUtility.ToJson(seedsForPrinting, prettyPrint: true));
-
         NodePairProbabilities = DiscretizeCustomRangeCurve(Config.TargetNodePairs, Config.MinNodePairs, Config.MaxNodePairs);
         WarpPairProbabilities = DiscretizeCustomRangeCurve(Config.TargetWarpPairs, Config.MinWarpPairs, Config.MaxWarpPairs);
         PreWallingProbabilities = DiscretizeFloat01Curve(Config.PreWalling);
         PreWallClusteringProbabilities = DiscretizeFloat01Curve(Config.PreWallClustering);
         PostWallingProbabilities = DiscretizeFloat01Curve(Config.PostWalling);
 
-        int seedToUse = 0;
+        var parameters = new PackGenerationParameters()
+        {
+            Id = pack,
+            MasterSeed = masterSeedInt,
+            PuzzleParameters = new List<PuzzleGenerationParameters>()
+        };
+        for(int i = min; i <= max; i++)
+        {
+            parameters.PuzzleParameters.Add(GeneratePuzzleParameters(i, Random.Range(int.MinValue, int.MaxValue)));
+        }
+
+        var seedsTextPath = Path.Combine(Application.dataPath, $"Editor/Resources/Pack Generation/{pack}_params_{min}-{max}.txt");
+        File.WriteAllText(seedsTextPath, JsonUtility.ToJson(parameters, prettyPrint: true));
+
         for (int i = min; i <= max; i++)
         {
-            GeneratePuzzle(i, seeds[seedToUse]);
-            seedToUse++;
+            GeneratePuzzle(parameters.PuzzleParameters[i-min]);
         }
     }
 
@@ -194,14 +192,16 @@ public class PuzzlePackGenerator : MonoBehaviour
         return seed;
     }
 
-
-    private void GeneratePuzzle(int puzzleIdInPack, int seed)
+    private PuzzleGenerationParameters GeneratePuzzleParameters(int puzzleNum, int seed)
     {
-        Builder.Clear();
-        Builder.RebuildGrid();
+        var parameters = new PuzzleGenerationParameters()
+        {
+            Id = puzzleNum,
+            Seed = seed
+        };
 
         var nodePairs = RandomIntFromCurve(NodePairProbabilities, Config.MinNodePairs);
-        
+
         var waypointProbabilities = DiscretizeCustomRangeCurve(Config.TargetWaypoints, 0, nodePairs);
         var waypoints = RandomIntFromCurve(waypointProbabilities, 0);
 
@@ -211,16 +211,31 @@ public class PuzzlePackGenerator : MonoBehaviour
         var preWallClustering = RandomFloat01FromCurve(PreWallClusteringProbabilities);
         var postWalling = RandomFloat01FromCurve(PostWallingProbabilities);
 
-        Builder.GeneratorSeed = seed.ToString();
+        parameters.NodePairs = nodePairs;
+        parameters.Waypoints = waypoints;
+        parameters.WarpPairs = warps;
+        parameters.InitialWalling = preWalling;
+        parameters.WallClustering = preWallClustering;
+        parameters.AdditionalWalling = postWalling;
 
-        Builder.TargetNodePairs = nodePairs;
-        Builder.TargetWaypoints = waypoints;
-        Builder.TargetWarpPairs = warps;
-        Builder.InitialWallAmount = preWalling;
-        Builder.WallClustering = preWallClustering;
-        Builder.AdditionalWallAmount = postWalling;
+        return parameters;
+    }
 
-        Builder.PuzzleName = $"{Config.PackId}_{puzzleIdInPack}";
+    private void GeneratePuzzle(PuzzleGenerationParameters parameters)
+    {
+        Builder.Clear();
+        Builder.RebuildGrid();
+
+        Builder.GeneratorSeed = parameters.Seed.ToString();
+
+        Builder.TargetNodePairs = parameters.NodePairs;
+        Builder.TargetWaypoints = parameters.Waypoints;
+        Builder.TargetWarpPairs = parameters.WarpPairs;
+        Builder.InitialWallAmount = parameters.InitialWalling;
+        Builder.WallClustering = parameters.WallClustering;
+        Builder.AdditionalWallAmount = parameters.AdditionalWalling;
+
+        Builder.PuzzleName = $"{Config.PackId}_{parameters.Id}";
         Builder.GeneratePuzzle();
         Builder.Save();
     }
@@ -281,9 +296,25 @@ public class PuzzlePackGenerator : MonoBehaviour
     }
 
     [Serializable]
-    private class SeedsForPrinting
+    private class PackGenerationParameters
     {
-        public Vector2Int[] Seeds;
+        public string Id;
+        public int MasterSeed;
+        public List<PuzzleGenerationParameters> PuzzleParameters;
+    }
+
+    [Serializable]
+    private class PuzzleGenerationParameters
+    {
+        public int Id;
+        public int Seed;
+
+        public int NodePairs;
+        public int Waypoints;
+        public int WarpPairs;
+        public float InitialWalling;
+        public float WallClustering;
+        public float AdditionalWalling;
     }
 }
 #endif
