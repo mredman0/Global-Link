@@ -115,6 +115,10 @@ public class Puzzle : MonoBehaviour
     private Vector3 PreviousDrawPoint;
     private void HandleDrawingForActiveNode()
     {
+        if(InputLocks > 0)
+        {
+            return;
+        }
         var point = PuzzleViewCamera.transform.position.normalized;
         if (point == PreviousDrawPoint)
         {
@@ -199,7 +203,7 @@ public class Puzzle : MonoBehaviour
         {
             warp.TakeWarp(path, point, color);
             WarpTaken?.Invoke(warp, warp.PairedWarp);
-            CameraController.SnapToGridCell(warp.PairedWarp.GridCell);
+            CameraController.GradualSnapToGridCell(warp.PairedWarp.GridCell);
         }
         //if (previousWaypointColor != newWaypointColor)
         //{
@@ -416,7 +420,7 @@ public class Puzzle : MonoBehaviour
         }
         else
         {
-            CameraController.SnapToGridCell(n.GridCell);
+            CameraController.GradualSnapToGridCell(n.GridCell);
         }
 
         if(ActiveNode)

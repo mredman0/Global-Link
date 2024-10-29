@@ -19,7 +19,7 @@ public class PuzzleObjectWarp : PuzzleObject
 
     public void SetPairedWarp(PuzzleObjectWarp other)
     {
-        Unpair();
+        Unpair(issueWarning: false);
         PairedWarp = other;
 
         var linePoints = new Vector3[2];
@@ -35,11 +35,14 @@ public class PuzzleObjectWarp : PuzzleObject
         Cell.Neighbors.Add(PairedWarp.Cell);
     }
 
-    public void Unpair()
+    public void Unpair(bool issueWarning = false)
     {
         if (PairedWarp)
         {
-            Debug.LogWarning($"Warp in {PairedWarp.Cell.name} no longer linked (previously linked to {Cell.name})");
+            if(issueWarning)
+            {
+                Debug.LogWarning($"Warp in {PairedWarp.Cell.name} no longer linked (previously linked to {Cell.name})");
+            }
 
             Cell.Neighbors.Remove(PairedWarp.Cell);
             PairedWarp.Cell.Neighbors.Remove(Cell);

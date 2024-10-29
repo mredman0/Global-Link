@@ -281,6 +281,41 @@ public class PuzzleGrid : MonoBehaviour
     }
     public int DistanceBetween(GridCell from, GridCell to, Predicate<GridCell> obstructed = null) =>
         GetShortestPath(from, to, obstructed).Count + 1;
+    public List<GridCell> GetShortestPathPreferringWarps(GridCell from, GridCell to, List<PuzzleObjectWarp> warps, Predicate<GridCell> obstructed = null)
+    {
+        var placedWarps = new Dictionary<GridCell, PuzzleObjectWarp>();
+        foreach(var warp in warps)
+        {
+            placedWarps.Add(warp.Cell, warp);
+        }
+        obstructed ??= cell => cell.Color != null;
+
+        var path1 = GetShortestPath(from, to, obstructed);
+        bool ignoredWarp = false;
+        for (int i = 0; i < path1.Count; i++)
+        {
+            if (placedWarps.ContainsKey(path1[i]) && placedWarps[path1[i]] is PuzzleObjectWarp warp)
+            {
+                if (i > 0 && placedWarps.ContainsKey(path1[i - 1]) && warp.PairedWarp == placedWarps[path1[i - 1]])
+                {
+                    continue;
+                }
+                if (i < path1.Count - 1 && placedWarps.ContainsKey(path1[i + 1]) && warp.PairedWarp == placedWarps[path1[i + 1]])
+                {
+                    continue;
+                }
+                ignoredWarp = true;
+            }
+        }
+
+        if(!ignoredWarp)
+        {
+            return path1;
+        }
+
+        Predicate<GridCell> newObstructed = (cell) => obstructed(cell) || placedWarps.ContainsKey(cell);
+        return GetShortestPath(from, to, newObstructed) ?? path1;
+    }
     public List<GridCell> GetShortestPath(GridCell from, GridCell to, Predicate<GridCell> obstructed = null)
     {
         obstructed ??= cell => cell.Color != null;

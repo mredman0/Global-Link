@@ -26,6 +26,15 @@ public class CameraController : MonoBehaviour
     public float PitchInvalidLow = 5f;
     public float PitchInvalidHigh = 5f;
 
+    [Header("Gradual Snap Settings")]
+    public float GradualSnapDegreesPerSecond = 500f;
+
+    [Header("Gradual Snap State")]
+    public float GradualSnapDuration;
+    public float GradualSnapTime;
+    public Quaternion GradualSnapStart;
+    public Quaternion GradualSnapEnd;
+
     public bool Panning { get; set; } = false;
     public float PanAmountThisDrag { get; set; } = 0f;
     public Camera Camera { get; set; }
@@ -223,6 +232,24 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(GradualSnapDuration > 0)
+        {
+            Momentum = Vector3.zero;
+            GradualSnapTime += Time.fixedDeltaTime;
+
+            var t = Mathf.Clamp01(GradualSnapTime / GradualSnapDuration);
+            CameraArm.transform.rotation = Quaternion.Lerp(GradualSnapStart, GradualSnapEnd, t);
+            if (!AllowRoll)
+            {
+                FixRoll();
+            }
+
+            if (GradualSnapTime >= GradualSnapDuration)
+            {
+                GradualSnapComplete();
+            }
+        }
+
         if(DoPuzzleCompleteSpin)
         {
             Momentum = Vector2.right * Mathf.Sin(Time.time + Mathf.PI/2f) + Vector2.up * Mathf.Cos(Time.time/2f);
@@ -293,6 +320,39 @@ public class CameraController : MonoBehaviour
         {
             Camera.fieldOfView = cameraFoV;
         }
+    }
+
+    public void GradualSnapToGridCell(GridCell cell)
+    {
+        var end = Quaternion.LookRotation(cell.transform.position - CameraArm.transform.position, CameraArm.transform.up);
+        GradualSnap(CameraArm.transform.rotation, end);
+    }
+
+    public void GradualSnap(Quaternion end) => GradualSnap(CameraArm.transform.rotation, end);
+
+    public void GradualSnap(Quaternion start, Quaternion end)
+    {
+        var degreesBetween = Quaternion.Angle(start, end);
+        if(degreesBetween == 0)
+        {
+            return;
+        }
+        if (GradualSnapDuration == 0)
+        {
+            LockInput();
+            Puzzle.LockInput();
+        }
+        GradualSnapStart = start;
+        GradualSnapEnd = end;
+        GradualSnapDuration = degreesBetween / GradualSnapDegreesPerSecond;
+        GradualSnapTime = 0f;
+    }
+
+    private void GradualSnapComplete()
+    {
+        FreeInput();
+        Puzzle.FreeInput();
+        GradualSnapDuration = 0f;
     }
 
     private void FixRoll()

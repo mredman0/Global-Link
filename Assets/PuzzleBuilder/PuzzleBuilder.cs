@@ -49,6 +49,9 @@ public class PuzzleBuilder : MonoBehaviour
     [Header("Generator")]
     public string GeneratorSeed = "";
     public string PreviousSeed;
+    [Range(0, 8)]
+    public int TargetWarpPairs = 0;
+    public int MinimumWarpDistance = 3;
     [Range(0, 1)]
     public float InitialWallAmount = 0f;
     [Range(0, 1)]
@@ -107,7 +110,7 @@ public class PuzzleBuilder : MonoBehaviour
                 Debug.LogWarning("Could not find cell to paint to");
                 return;
             }
-            Paint(closestCell);
+            Paint(closestCell, isManual: true);
         }
     }
 
@@ -151,7 +154,7 @@ public class PuzzleBuilder : MonoBehaviour
         if (SavePuzzle)
         {
             SavePuzzle = false;
-            Save(PuzzleName);
+            Save();
         }
         if (LoadPuzzle)
         {
@@ -168,6 +171,7 @@ public class PuzzleBuilder : MonoBehaviour
         {
             StartGeneration = false;
             Clear();
+            RebuildGrid();
             GeneratePuzzle();
         }
         if(SnapCameraArmStartToCurrent)
@@ -188,11 +192,11 @@ public class PuzzleBuilder : MonoBehaviour
     }
 
 	#region Operations
-	public void Paint(GridCell cell)
+	public void Paint(GridCell cell, bool isManual = false)
     {
         if(PlacedObjects.ContainsKey(cell))
         {
-            EraseObject(cell);
+            EraseObject(cell, isManual: isManual);
         }
         if(PaintMode == PuzzleBuilderPaintMode.Erase)
         {
@@ -289,7 +293,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void EraseObject(GridCell cell)
+    private void EraseObject(GridCell cell, bool isManual)
     {
         var objectToDelete = PlacedObjects[cell];
 
@@ -307,7 +311,7 @@ public class PuzzleBuilder : MonoBehaviour
             Warps.Remove(warp);
             if(warp.PairedWarp)
             {
-                warp.Unpair();
+                warp.Unpair(issueWarning: isManual);
             }
         }
         else if (objectToDelete is PuzzleObjectWall wall)
@@ -391,8 +395,10 @@ public class PuzzleBuilder : MonoBehaviour
     {
         SetRandomSeed();
 
+        GenerateWarps();
         GenerateInitialWalls();
         GenerateNodesPathsAndWaypoints();
+        RemoveUnusedWarps();
         GenerateAdditionalWalls();
     }
 
@@ -407,6 +413,40 @@ public class PuzzleBuilder : MonoBehaviour
         Random.InitState(seed);
     }
 	
+    private void GenerateWarps()
+    {
+        var warpCells = new List<GridCell>();
+        var availableCells = GetOpenCells(Grid.Cells).ToList();
+        for(int pair = 0; pair < TargetWarpPairs; pair++)
+        {
+            var warp1Cell = availableCells[Random.Range(0, availableCells.Count)];
+            availableCells.Remove(warp1Cell);
+
+            var cellsFarEnoughAway = availableCells.Where(cell => Grid.DistanceBetween(warp1Cell, cell) >= MinimumWarpDistance).ToList();
+            var warp2Cell = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
+            availableCells.Remove(warp2Cell);
+
+            warpCells.Add(warp1Cell);
+            warpCells.Add(warp2Cell);
+        }
+
+        PaintMode = PuzzleBuilderPaintMode.Warp;
+        for(int i = 0; i < warpCells.Count; i+=2)
+        {
+            Paint(warpCells[i]);
+            Paint(warpCells[i + 1]);
+        }
+
+        Debug.Log($"Generated {Warps.Count} warps");
+        foreach (var warp in Warps)
+        {
+            if (!warp.PairedWarp)
+            {
+                Debug.LogWarning($"Warp {warp.name} does not have a paired warp!");
+            }
+        }
+    }
+
     private void GenerateInitialWalls()
     {
         PaintMode = PuzzleBuilderPaintMode.Wall;
@@ -518,17 +558,17 @@ public class PuzzleBuilder : MonoBehaviour
 
             if(generateWaypoint)
             {
-                var possibleWaypoints = biggestGroup.Where(cell => !cell.IsDeadEnd()).ToList();
+                var possibleWaypoints = biggestGroup.Where(cell => !cell.IsDeadEnd() && !PlacedObjects.ContainsKey(cell)).ToList();
                 var waypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
                 biggestGroup.Remove(waypoint);
-                var cellsFarEnoughAway = biggestGroup.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes).ToList();
+                var cellsFarEnoughAway = biggestGroup.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes && !PlacedObjects.ContainsKey(cell)).ToList();
                 if (!cellsFarEnoughAway.Any())
                 {
                     // We tried to prefer something further away, but just give up
                     cellsFarEnoughAway = biggestGroup;
                 }
                 var firstNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
-                var pathToFirstNode = Grid.GetShortestPath(waypoint, firstNode);
+                var pathToFirstNode = Grid.GetShortestPathPreferringWarps(waypoint, firstNode, Warps);
                 foreach (var cell in pathToFirstNode)
                 {
                     ColorCell(cell);
@@ -536,14 +576,14 @@ public class PuzzleBuilder : MonoBehaviour
                 ColorCell(firstNode);
                 var cellsToConsiderForSecondNode = Grid.GetContiguousCells(waypoint);
                 cellsToConsiderForSecondNode.Remove(waypoint);
-                cellsFarEnoughAway = cellsToConsiderForSecondNode.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes).ToList();
+                cellsFarEnoughAway = cellsToConsiderForSecondNode.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes && !PlacedObjects.ContainsKey(cell)).ToList();
                 if (!cellsFarEnoughAway.Any())
                 {
                     // We tried to prefer something further away, but just give up
                     cellsFarEnoughAway = cellsToConsiderForSecondNode;
                 }
                 var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
-                var pathToSecondNode = Grid.GetShortestPath(waypoint, secondNode);
+                var pathToSecondNode = Grid.GetShortestPathPreferringWarps(waypoint, secondNode, Warps);
                 foreach (var cell in pathToSecondNode)
                 {
                     ColorCell(cell);
@@ -565,9 +605,10 @@ public class PuzzleBuilder : MonoBehaviour
             }
             else
             {
-                var firstNode = biggestGroup[Random.Range(0, biggestGroup.Count)];
-                biggestGroup.Remove(firstNode);
-                var cellsFarEnoughAway = biggestGroup.Where(cell => Grid.DistanceBetween(firstNode, cell) >= MinimumDistanceBetweenNodes).ToList();
+                var possibleNodes = biggestGroup.Where(cell => !PlacedObjects.ContainsKey(cell)).ToList();
+                var firstNode = possibleNodes[Random.Range(0, possibleNodes.Count)];
+                possibleNodes.Remove(firstNode);
+                var cellsFarEnoughAway = possibleNodes.Where(cell => Grid.DistanceBetween(firstNode, cell) >= MinimumDistanceBetweenNodes).ToList();
                 if (!cellsFarEnoughAway.Any())
                 {
                     // We tried to prefer something further away, but just give up
@@ -575,7 +616,7 @@ public class PuzzleBuilder : MonoBehaviour
                 }
                 var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
 
-                var path = Grid.GetShortestPath(firstNode, secondNode);
+                var path = Grid.GetShortestPathPreferringWarps(firstNode, secondNode, Warps);
                 foreach (var cell in path)
                 {
                     ColorCell(cell);
@@ -590,6 +631,42 @@ public class PuzzleBuilder : MonoBehaviour
         if(waypointsLeftToGenerate > 0)
         {
             Debug.LogWarning($"Only generated {TargetWaypoints - waypointsLeftToGenerate} out of the requested {TargetWaypoints} waypoints");
+        }
+    }
+
+    private void RemoveUnusedWarps()
+    {
+        var warpsToRemove = new List<PuzzleObjectWarp>();
+        foreach(var kvp in GeneratedSolutionPaths)
+        {
+            var path = kvp.Value;
+
+            for(int i = 0; i < path.Count; i++)
+            {
+                if(PlacedObjects.ContainsKey(path[i]) && PlacedObjects[path[i]] is PuzzleObjectWarp warp)
+                {
+                    if(i > 0 && PlacedObjects.ContainsKey(path[i-1]) && PlacedObjects[path[i-1]] is PuzzleObjectWarp otherWarpPrev && warp.PairedWarp == otherWarpPrev)
+                    {
+                        continue;
+                    }
+                    if (i < path.Count-1 && PlacedObjects.ContainsKey(path[i + 1]) && PlacedObjects[path[i + 1]] is PuzzleObjectWarp otherWarpNext && warp.PairedWarp == otherWarpNext)
+                    {
+                        continue;
+                    }
+                    warpsToRemove.Add(warp);
+                    warpsToRemove.Add(warp.PairedWarp);
+                }
+            }
+        }
+        warpsToRemove = warpsToRemove.Distinct().ToList();
+
+        if(warpsToRemove.Count > 0)
+        {
+            Debug.Log($"Removing {warpsToRemove.Count} unused warps after generating solution paths");
+        }
+        foreach(var warp in warpsToRemove)
+        {
+            EraseObject(warp.Cell, isManual: false);
         }
     }
 
@@ -626,11 +703,11 @@ public class PuzzleBuilder : MonoBehaviour
         return;
     }
 
-    private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null);
+    private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null && !PlacedObjects.ContainsKey(c));
     #endregion
 
-	#region Reset Functions
-	public void Clear()
+    #region Reset Functions
+    public void Clear()
     {
         ClearNodes();
         ClearWaypoints();
@@ -662,10 +739,12 @@ public class PuzzleBuilder : MonoBehaviour
     {
         foreach(var warp in Warps)
         {
-            warp.Unpair();
+            PlacedObjects.Remove(warp.Cell);
+            warp.Unpair(issueWarning: false);
             Destroy(warp.gameObject);
         }
         Warps.Clear();
+        LastPlacedWarp = null;
     }
 
     public void ClearObstacles()
@@ -700,9 +779,9 @@ public class PuzzleBuilder : MonoBehaviour
 	#endregion
 
 	#region Saving/Loading
-    public void Save(string puzzleName)
+    public void Save()
     {
-        if(string.IsNullOrWhiteSpace(puzzleName))
+        if(string.IsNullOrWhiteSpace(PuzzleName))
         {
             Debug.LogError("Cannot save puzzle with empty name");
             return;
@@ -711,7 +790,7 @@ public class PuzzleBuilder : MonoBehaviour
         var newPuzzleConfig = ScriptableObject.CreateInstance<PuzzleConfig>();
 
         // Metadata
-        newPuzzleConfig.ID = puzzleName;
+        newPuzzleConfig.ID = PuzzleName;
 
         // Grid
         newPuzzleConfig.GridCellsPerRow = GridCellsPerRow;
@@ -826,7 +905,7 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.CameraDistance = CameraDistance;
         newPuzzleConfig.CameraFoV = CameraFoV;
 
-        var puzzleNameSplitByUnderscore = puzzleName.Split('_');
+        var puzzleNameSplitByUnderscore = PuzzleName.Split('_');
         if(puzzleNameSplitByUnderscore.Length == 2)
         {
             var pack = puzzleNameSplitByUnderscore[0];
@@ -835,11 +914,11 @@ public class PuzzleBuilder : MonoBehaviour
             {
                 AssetDatabase.CreateFolder("Assets/Resources/Puzzles", pack);
             }
-            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{pack}/{puzzleName}.asset");
+            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{pack}/{PuzzleName}.asset");
         }
         else
         {
-            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{puzzleName}.asset");
+            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{PuzzleName}.asset");
         }
     }
 
