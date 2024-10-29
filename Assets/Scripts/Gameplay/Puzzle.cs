@@ -191,12 +191,12 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private void NotifyWarpsOfLinePointDrawn(LineRenderer path, Vector3 point, int color)
+    private bool NotifyWarpsOfLinePointDrawn(LineRenderer path, Vector3 point, int color)
     {
         var cell = Grid.GetLookingAtCell(point.ToPolar());
         if (!WarpsByGridCell.ContainsKey(cell))
         {
-            return;
+            return false;
         }
         var warp = WarpsByGridCell[cell];
         if(warp.Role == Warp.WarpRole.Open)
@@ -204,7 +204,9 @@ public class Puzzle : MonoBehaviour
             warp.TakeWarp(path, point, color);
             WarpTaken?.Invoke(warp, warp.PairedWarp);
             CameraController.GradualSnapToGridCell(warp.PairedWarp.GridCell);
+            return true;
         }
+        return false;
         //if (previousWaypointColor != newWaypointColor)
         //{
         //    var coloredWaypoints = Waypoints.Count(w => w.Color >= 0);
@@ -407,8 +409,6 @@ public class Puzzle : MonoBehaviour
         {
             if(ActiveNode)
             {
-                ActiveNode.Deactivate();
-                ActiveNode.PairedNode.Deactivate();
                 ActiveNode = null;
             }
             return;
@@ -423,31 +423,31 @@ public class Puzzle : MonoBehaviour
             CameraController.GradualSnapToGridCell(n.GridCell);
         }
 
-        if(ActiveNode)
-        {
-            ActiveNode.Deactivate();
-        }
         ActiveNode = n;
 
         if(!fromExistingLine)
         {
-            if (ActiveNode.Path)
-            {
-                DeleteNodePath(ActiveNode);
-            }
-            if (ActiveNode.PairedNode.Path)
-            {
-                DeleteNodePath(ActiveNode.PairedNode);
-            }
-            Paths.Remove(ActiveNode.Color);
+            StartPathFromNode(n);
         }
-        n.Activate(newPath: !fromExistingLine);
-        if(!fromExistingLine)
+    }
+
+    private void StartPathFromNode(Node n)
+    {
+        if (n.Path)
         {
-            Paths[n.Color] = n.Path;
-            n.Path.startWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
-            n.Path.endWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+            DeleteNodePath(n);
         }
+        if (n.PairedNode.Path)
+        {
+            DeleteNodePath(n.PairedNode);
+        }
+        Paths.Remove(n.Color);
+
+        n.StartPath();
+
+        Paths[n.Color] = n.Path;
+        n.Path.startWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+        n.Path.endWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
     }
 
     private void TrimPathToPoint(LineRenderer path, Vector3 point)
@@ -492,8 +492,6 @@ public class Puzzle : MonoBehaviour
     {
         a.Connected = true;
         b.Connected = true;
-        a.Deactivate();
-        b.Deactivate();
         ActiveNode = null;
 
         NodesConnected?.Invoke(a, b);
@@ -607,13 +605,148 @@ public class Puzzle : MonoBehaviour
         Debug.Log("TODO, undo!");
     }
 
-    public void RevealHint()
+	#region Hints
+	public void RevealHint()
     {
-        Debug.Log("TODO, reveal hint!");
+        var colorToSolve = PickHintColor();
+        if(colorToSolve < 0)
+        {
+            Debug.Log("No valid colors to solve for a hint");
+            return;
+        }
+        if(!HintManager.Instance.UseHint())
+        {
+            Debug.Log("No hints remaining");
+            return;
+        }
+        var success = SolveColor(colorToSolve);
+        if(!success)
+        {
+            Debug.LogWarning($"Something went wrong solving for color {colorToSolve}, refunding hint");
+            HintManager.Instance.GainHints(1);
+        }
     }
 
-    #region Setup
-    public void SetupPuzzle(PuzzleConfig cfg)
+    private int PickHintColor()
+    {
+        // TODO improve this
+        if(!NodesByColor.Any(kvp => !kvp.Value[0].Connected))
+        {
+            return -1;
+        }
+        return NodesByColor.First(kvp => !kvp.Value[0].Connected).Key;
+    }
+
+    private bool SolveColor(int color)
+    {
+        // Reset the state for this color
+        foreach(var node in NodesByColor[color])
+        {
+            DeleteNodePath(node);
+        }
+        var nodeA = NodesByColor[color][0];
+        var nodeB = NodesByColor[color][1];
+
+        var solution = GetSolutionForColor(color);
+        
+        // Determine which node is our starting point
+        var solutionStart = solution.First();
+        var solutionEnd = solution.Last();
+        var startA = solutionStart.Neighbors.Contains(nodeA.GridCell);
+        var startB = solutionStart.Neighbors.Contains(nodeB.GridCell);
+        var endA = solutionEnd.Neighbors.Contains(nodeA.GridCell);
+        var endB = solutionEnd.Neighbors.Contains(nodeB.GridCell);
+
+        Node startNode;
+        GridCell start;
+        GridCell end;
+
+        if(startA && endB)
+        {
+            startNode = nodeA;
+            start = nodeA.GridCell;
+            end = nodeB.GridCell;
+        }
+        else if(startB && endA)
+        {
+            startNode = nodeB;
+            start = nodeB.GridCell;
+            end = nodeA.GridCell;
+        }
+        else
+        {
+            Debug.LogError($"No valid way to connect solution for color {color} to its nodes");
+            return false;
+        }
+
+        StartPathFromNode(startNode);
+        var path = startNode.Path;
+
+        var current = start;
+        var next = 0;
+        while(next < solution.Count)
+        {
+            bool tookWarp = DrawPointsDetectingWarp(current, solution[next], color, path);
+            if(tookWarp)
+            {
+                next++;
+            }
+            current = solution[next];
+            next++;
+        }
+
+        DrawPointsDetectingWarp(solution.Last(), end, color, path);
+        SetConnected(nodeA, nodeB);
+        return true;
+    }
+
+    private List<GridCell> GetSolutionForColor(int color)
+    {
+        int solutionStartIndex = 0;
+        for(int i = 0; i < color; i++)
+        {
+            solutionStartIndex += PuzzleConfig.SolutionLengths[i];
+        }
+        int solutionLength = PuzzleConfig.SolutionLengths[color];
+        var solutionCoordinates = new Vector2Int[solutionLength];
+        Array.Copy(PuzzleConfig.Solutions, solutionStartIndex, solutionCoordinates, 0, solutionLength);
+        return solutionCoordinates.Select(coords => Grid.CellsByRow[coords.x][coords.y]).ToList();
+    }
+
+    private bool DrawPointsDetectingWarp(GridCell from, GridCell to, int color, LineRenderer path)
+    {
+        var points = GetPointsBetweenCells(from, to, 8);
+        foreach(var point in points)
+        {
+            path.positionCount++;
+            path.SetPosition(path.positionCount - 1, point);
+            NotifyWaypointsOfLinePointDrawn(point, color);
+            bool takingWarp = NotifyWarpsOfLinePointDrawn(path, point, color);
+            if(takingWarp)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<Vector3> GetPointsBetweenCells(GridCell a, GridCell b, int points)
+    {
+        var result = new List<Vector3>();
+
+        // points + 2 means points are all BETWEEN a and b
+        var tStep = 1f / (points + 2);
+        for(float t = tStep; t < 1; t += tStep)
+        {
+            var raw = Vector3.Lerp(a.transform.position, b.transform.position, t);
+            result.Add(raw.normalized);
+        }
+        return result;
+    }
+	#endregion
+
+	#region Setup
+	public void SetupPuzzle(PuzzleConfig cfg)
     {
         SetupNodes(cfg);
         SetupWaypoints(cfg);

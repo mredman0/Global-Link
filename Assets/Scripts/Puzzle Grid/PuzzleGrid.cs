@@ -203,7 +203,7 @@ public class PuzzleGrid : MonoBehaviour
         var cellsInRow = CellsByRow[lookingAtRow].Count;
         float cellWidth = 360f / cellsInRow;
         var longitude = pov.Longitude < 0 ? pov.Longitude + 360f : pov.Longitude;
-        var lookingAtCell = Mathf.FloorToInt(longitude / cellWidth);
+        var lookingAtCell = Mathf.Clamp(Mathf.FloorToInt(longitude / cellWidth), 0, cellsInRow-1);
 
         return CellsByRow[lookingAtRow][lookingAtCell];
     }

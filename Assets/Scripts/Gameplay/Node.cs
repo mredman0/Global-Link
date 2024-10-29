@@ -43,29 +43,19 @@ public class Node : MonoBehaviour
         }
     }
 
-    public void Activate(bool newPath)
+    public void StartPath()
     {
-        Active = true;
+        Path = Instantiate(PathPrefab).GetComponent<LineRenderer>();
 
-        if(newPath)
+        var pathColor = ColorMapController.Instance.ApplyActiveColorMap(Color);
+        Path.material.SetColor("_Color", pathColor);
+        if (Puzzle)
         {
-            Path = Instantiate(PathPrefab).GetComponent<LineRenderer>();
-
-            var pathColor = ColorMapController.Instance.ApplyActiveColorMap(Color);
-            Path.material.SetColor("_Color", pathColor);
-            if (Puzzle)
-            {
-                Path.transform.parent = Puzzle.transform;
-            }
-
-            Path.positionCount++;
-            Path.SetPosition(0, transform.position);
+            Path.transform.parent = Puzzle.transform;
         }
-    }
 
-    public void Deactivate()
-    {
-        Active = false;
+        Path.positionCount++;
+        Path.SetPosition(0, transform.position);
     }
 
     public void SetColor(int color)
