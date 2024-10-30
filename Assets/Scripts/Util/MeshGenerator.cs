@@ -166,7 +166,7 @@ public class MeshGenerator : MonoBehaviour
                 vertices[vertexIndex] = new Vector3(x, y, z);
 
                 float u = (float)lon / longitudeSegments;
-                if(minLatitude == 90f || maxLatitude == -90f)
+                if(Mathf.Abs(minLatitude - 90f) < 0.01f || Mathf.Abs(maxLatitude + 90f) < 0.01f)
                 {
                     u = 0.5f;
                 }
