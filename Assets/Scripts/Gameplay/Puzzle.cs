@@ -53,6 +53,7 @@ public class Puzzle : MonoBehaviour
     public Dictionary<int, LineRenderer> Paths = new Dictionary<int, LineRenderer>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
+    public List<int> HintedColors = new List<int>();
 
     public int InputLocks = 0;
     public bool Completed;
@@ -528,6 +529,7 @@ public class Puzzle : MonoBehaviour
         var wasConnected = a.Connected;
         a.Connected = false;
         a.PairedNode.Connected = false;
+        HintedColors.Remove(a.Color);
         if(wasConnected)
         {
             NodesDisconnected?.Invoke(a, a.PairedNode);
@@ -596,6 +598,8 @@ public class Puzzle : MonoBehaviour
             Rocks.Clear();
         }
 
+        HintedColors.Clear();
+
         Grid.Clear();
         Completed = false;
     }
@@ -629,12 +633,98 @@ public class Puzzle : MonoBehaviour
 
     private int PickHintColor()
     {
-        // TODO improve this
-        if(!NodesByColor.Any(kvp => !kvp.Value[0].Connected))
+        // Allow player to have control over what the hint reveals, if they want
+        if (ActiveNode)
+        {
+            return ActiveNode.Color;
+        }
+
+        // Determine colors to consider at all
+        var colorsToConsider = new List<int>();
+        foreach (var kvp in NodesByColor)
+        {
+            if (!HintedColors.Contains(kvp.Key))
+            {
+                colorsToConsider.Add(kvp.Key);
+            }
+        }
+
+        if(!colorsToConsider.Any())
         {
             return -1;
         }
-        return NodesByColor.First(kvp => !kvp.Value[0].Connected).Key;
+
+        var cellsOccupiedByPlayerPaths = new Dictionary<int, List<GridCell>>();
+        foreach(var kvp in Paths)
+        {
+            var path = kvp.Value;
+            var cells = new List<GridCell>();
+            for(int i = 0; i < path.positionCount; i++)
+            {
+                var cell = Grid.GetLookingAtCell(path.GetPosition(i).ToPolar());
+                if(!cells.Contains(cell))
+                {
+                    cells.Add(cell);
+                }
+            }
+
+            cellsOccupiedByPlayerPaths.Add(kvp.Key, cells);
+        }
+
+        colorsToConsider.Sort((a, b) =>
+        {
+            // Primary ordering: disconnected nodes come first
+            if(!NodesByColor[a][0].Connected && NodesByColor[b][0].Connected)
+            {
+                return -1;
+            }
+            if(NodesByColor[a][0].Connected && !NodesByColor[b][0].Connected)
+            {
+                return 1;
+            }
+
+            // Secondary ordering: solutions that would not occupy cells occupied by player paths come first
+            var aSolution = GetSolutionForColor(a);
+            var bSolution = GetSolutionForColor(b);
+            var aMightCut = 0;
+            var bMightCut = 0;
+            foreach(var kvp in cellsOccupiedByPlayerPaths)
+            {
+                if(kvp.Key != a)
+                {
+                    foreach(var cell in kvp.Value)
+                    {
+                        if(aSolution.Contains(cell))
+                        {
+                            aMightCut++;
+                        }
+                    }
+                }
+                if (kvp.Key != b)
+                {
+                    foreach (var cell in kvp.Value)
+                    {
+                        if (bSolution.Contains(cell))
+                        {
+                            bMightCut++;
+                        }
+                    }
+                }
+            }
+            if(aMightCut < bMightCut)
+            {
+                return -1;
+            }
+            if(bMightCut < aMightCut)
+            {
+                return 1;
+            }
+
+            // Final ordering: longer solutions come first
+            return PuzzleConfig.SolutionLengths[b].CompareTo(PuzzleConfig.SolutionLengths[a]);
+        });
+
+        return colorsToConsider.First();
     }
 
     private bool SolveColor(int color)
@@ -696,7 +786,17 @@ public class Puzzle : MonoBehaviour
         }
 
         DrawPointsDetectingWarp(solution.Last(), end, color, path);
+
+        var toTrim = GetPathColorsToTrimAfterHint(color);
+        foreach (var tuple in toTrim)
+        {
+            SetDisconnected(NodesByColor[tuple.color][0]);
+            TrimPathToPoint(Paths[tuple.color], tuple.point);
+        }
+
         SetConnected(nodeA, nodeB);
+        HintedColors.Add(color);
+
         return true;
     }
 
@@ -741,6 +841,48 @@ public class Puzzle : MonoBehaviour
             var raw = Vector3.Lerp(a.transform.position, b.transform.position, t);
             result.Add(raw.normalized);
         }
+        return result;
+    }
+
+    private List<(int color, Vector3 point)> GetPathColorsToTrimAfterHint(int hintColor)
+    {
+        var result = new List<(int, Vector3)>();
+
+        var pathPathCollisionDistance = PathCollisionDistance * 2;
+        var hintPath = Paths[hintColor];
+        var hintPoints = new Vector3[hintPath.positionCount];
+        hintPath.GetPositions(hintPoints);
+
+        foreach(var kvp in Paths)
+        {
+            if(kvp.Key == hintColor)
+            {
+                continue;
+            }
+            var path = kvp.Value;
+            Vector3? collisionPoint = null;
+            for(int i = 0; i < path.positionCount; i++)
+            {
+                var point = path.GetPosition(i);
+                foreach (var hintPoint in hintPoints)
+                {
+                    if(Vector3.Distance(hintPoint, point) < pathPathCollisionDistance)
+                    {
+                        collisionPoint = point;
+                    }
+                }
+                if(collisionPoint != null)
+                {
+                    break;
+                }
+            }
+
+            if(collisionPoint != null)
+            {
+                result.Add((kvp.Key, collisionPoint.Value));
+            }
+        }
+
         return result;
     }
 	#endregion
