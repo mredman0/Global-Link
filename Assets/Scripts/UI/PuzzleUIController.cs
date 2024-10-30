@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleUIController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PuzzleUIController : MonoBehaviour
     public TMP_Text PuzzleIdInPackText;
     public GameObject NextPuzzleButton;
     public PuzzleLoader NextLevelLoader;
+    public Button UndoButton;
 
     public List<GameObject> HideOnPuzzleComplete = new List<GameObject>();
     public List<GameObject> ShowOnPuzzleComplete = new List<GameObject>();
@@ -31,11 +33,20 @@ public class PuzzleUIController : MonoBehaviour
             NextLevelLoader.PuzzleIdInPack = nextLevel.Value.idInPack;
         }
 
+        Puzzle.UndoAvailable += OnUndoAvailable;
+        Puzzle.UndoUnavailable += OnUndoUnavailable;
+
+        // Assume there's nothing to undo at the beginning
+        OnUndoUnavailable();
+
         Puzzle.PuzzleCompleted += OnPuzzleCompleted;
     }
 
     private void OnDestroy()
     {
+        Puzzle.UndoAvailable -= OnUndoAvailable;
+        Puzzle.UndoUnavailable -= OnUndoUnavailable;
+
         Puzzle.PuzzleCompleted -= OnPuzzleCompleted;
     }
 
@@ -62,6 +73,16 @@ public class PuzzleUIController : MonoBehaviour
             return null;
         }
         return (idSplit[0], idSplit[1]);
+    }
+
+    private void OnUndoAvailable()
+    {
+        UndoButton.interactable = true;
+    }
+
+    private void OnUndoUnavailable()
+    {
+        UndoButton.interactable = false;
     }
 
     private void OnPuzzleCompleted()

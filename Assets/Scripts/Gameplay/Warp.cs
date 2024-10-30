@@ -48,14 +48,17 @@ public class Warp : MonoBehaviour
         }
     }
 
-    public void TakeWarp(LineRenderer path, Vector3 point, int color)
+    public void TakeWarp(LineRenderer path, Vector3 point, int color, bool applyWarpToPath)
     {
         PointDrawnInCell = point;
         Role = WarpRole.Source;
         PairedWarp.Role = WarpRole.Destination;
         PairedWarp.SetColor(color);
         SetColor(color);
-        ApplyWarpToPath(path);
+        if(applyWarpToPath)
+        {
+            ApplyWarpToPath(path);
+        }
         WarpPreviewLine.gameObject.SetActive(false);
     }
 

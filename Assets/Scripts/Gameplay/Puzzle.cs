@@ -17,6 +17,8 @@ public class Puzzle : MonoBehaviour
     public event Action<Waypoint> WaypointUnreached;
     public event Action<Warp, Warp> WarpTaken;
     public event Action<Warp, Warp> WarpUntaken;
+    public event Action UndoAvailable;
+    public event Action UndoUnavailable;
     public event Action PuzzleCompleted;
 
     [Header("Prefabs")]
@@ -54,6 +56,10 @@ public class Puzzle : MonoBehaviour
     public List<GameObject> Rocks;
     public List<Wall> Walls;
     public List<int> HintedColors = new List<int>();
+
+    public int LastModifiedColor = -1;
+    public bool LastModifiedConnected;
+    public Vector3[] LastModifiedPathState;
 
     public int InputLocks = 0;
     public bool Completed;
@@ -192,7 +198,7 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private bool NotifyWarpsOfLinePointDrawn(LineRenderer path, Vector3 point, int color)
+    private bool NotifyWarpsOfLinePointDrawn(LineRenderer path, Vector3 point, int color, bool applyWarpToPath = true, bool moveCamera = true)
     {
         var cell = Grid.GetLookingAtCell(point.ToPolar());
         if (!WarpsByGridCell.ContainsKey(cell))
@@ -202,9 +208,12 @@ public class Puzzle : MonoBehaviour
         var warp = WarpsByGridCell[cell];
         if(warp.Role == Warp.WarpRole.Open)
         {
-            warp.TakeWarp(path, point, color);
+            warp.TakeWarp(path, point, color, applyWarpToPath);
             WarpTaken?.Invoke(warp, warp.PairedWarp);
-            CameraController.GradualSnapToGridCell(warp.PairedWarp.GridCell);
+            if(moveCamera)
+            {
+                CameraController.GradualSnapToGridCell(warp.PairedWarp.GridCell);
+            }
             return true;
         }
         return false;
@@ -337,14 +346,12 @@ public class Puzzle : MonoBehaviour
                 else if (ActiveNode)
                 {
                     SetActiveNode(null, fromExistingLine: false);
-                    NodeDeselected?.Invoke();
                 }
             }
         }
         else if(ActiveNode)
         {
             SetActiveNode(null, fromExistingLine: false);
-            NodeDeselected?.Invoke();
         }
     }
 
@@ -365,7 +372,9 @@ public class Puzzle : MonoBehaviour
     }
     public void OnPathTapped(Node n, Vector3 tappedPoint)
     {
-        if(n.Connected)
+        SetUndoState(n.Color);
+
+        if (n.Connected)
         {
             SetDisconnected(n);
         }
@@ -373,13 +382,12 @@ public class Puzzle : MonoBehaviour
         TrimPathToPoint(n.Path, tappedPoint);
 
         SetActiveNode(n, fromExistingLine: true);
-        NodeSelected?.Invoke(n);
     }
 
     public void OnNodeTapped(Node n)
     {
+        SetUndoState(n.Color);
         SetActiveNode(n, fromExistingLine: false);
-        NodeSelected?.Invoke(n);
     }
 
     public void LockInput() => InputLocks++;
@@ -412,6 +420,7 @@ public class Puzzle : MonoBehaviour
             {
                 ActiveNode = null;
             }
+            NodeDeselected?.Invoke();
             return;
         }
 
@@ -430,6 +439,8 @@ public class Puzzle : MonoBehaviour
         {
             StartPathFromNode(n);
         }
+
+        NodeSelected?.Invoke(n);
     }
 
     private void StartPathFromNode(Node n)
@@ -442,7 +453,6 @@ public class Puzzle : MonoBehaviour
         {
             DeleteNodePath(n.PairedNode);
         }
-        Paths.Remove(n.Color);
 
         n.StartPath();
 
@@ -480,12 +490,13 @@ public class Puzzle : MonoBehaviour
 
         if (node.Path)
         {
-            for(int i = 0; i < node.Path.positionCount; i++)
+            for (int i = 0; i < node.Path.positionCount; i++)
             {
                 NotifyWaypointsOfLinePointRemoved(node.Path.GetPosition(i));
                 NotifyWarpsOfLinePointRemoved(node.Path.GetPosition(i));
             }
             Destroy(node.Path.gameObject);
+            Paths.Remove(node.Color);
         }
     }
 
@@ -599,15 +610,87 @@ public class Puzzle : MonoBehaviour
         }
 
         HintedColors.Clear();
+        SetUndoState(-1, false, null);
 
         Grid.Clear();
         Completed = false;
     }
 
-    public void Undo()
+	#region Undo
+	public void Undo()
     {
-        Debug.Log("TODO, undo!");
+        if(LastModifiedColor < 0)
+        {
+            return;
+        }
+
+        if(ActiveNode && ActiveNode.Color == LastModifiedColor)
+        {
+            SetActiveNode(null, fromExistingLine: false);
+        }
+
+        if(Paths[LastModifiedColor])
+        {
+            foreach (var node in NodesByColor[LastModifiedColor])
+            {
+                DeleteNodePath(node);
+            }
+        }
+
+        if(LastModifiedPathState != null && LastModifiedPathState.Length > 0)
+        {
+            var firstPathPoint = LastModifiedPathState.First();
+            var nodeToStartFrom = NodesByColor[LastModifiedColor].OrderBy(n => Vector3.Distance(n.transform.position, firstPathPoint)).First();
+            StartPathFromNode(nodeToStartFrom);
+            nodeToStartFrom.Path.positionCount = LastModifiedPathState.Length;
+            nodeToStartFrom.Path.SetPositions(LastModifiedPathState);
+            for(int i = 0; i < LastModifiedPathState.Length; i++)
+            {
+                NotifyWaypointsOfLinePointDrawn(LastModifiedPathState[i], LastModifiedColor);
+                NotifyWarpsOfLinePointDrawn(nodeToStartFrom.Path, LastModifiedPathState[i], LastModifiedColor, applyWarpToPath: false, moveCamera: false);
+            }
+        }
+
+        if(LastModifiedConnected)
+        {
+            var nodeA = NodesByColor[LastModifiedColor][0];
+            var nodeB = nodeA.PairedNode;
+
+            SetConnected(nodeA, nodeB);
+        }
+
+
+        SetUndoState(-1, false, null);
     }
+
+    private void SetUndoState(int color)
+    {
+        LineRenderer existingPath = Paths.ContainsKey(color) ? Paths[color] : null;
+        Vector3[] existingPoints = null;
+        if (existingPath)
+        {
+            existingPoints = new Vector3[existingPath.positionCount];
+            existingPath.GetPositions(existingPoints);
+        }
+        SetUndoState(color, NodesByColor[color][0].Connected, existingPoints);
+    }
+    private void SetUndoState(int color, bool connected, Vector3[] points)
+    {
+        var undoWasAvailable = LastModifiedColor >= 0;
+        LastModifiedColor = color;
+        LastModifiedConnected = connected;
+        LastModifiedPathState = points;
+        var undoIsAvailable = LastModifiedColor >= 0;
+        if(!undoWasAvailable && undoIsAvailable)
+        {
+            UndoAvailable?.Invoke();
+        }
+        else if(undoWasAvailable && !undoIsAvailable)
+        {
+            UndoUnavailable?.Invoke();
+        }
+    }
+	#endregion
 
 	#region Hints
 	public void RevealHint()
@@ -628,7 +711,11 @@ public class Puzzle : MonoBehaviour
         {
             Debug.LogWarning($"Something went wrong solving for color {colorToSolve}, refunding hint");
             HintManager.Instance.GainHints(1);
+            return;
         }
+
+        // Make undo unavailable, as adding this solution may have invalidated whatever state the undo button could try to force
+        SetUndoState(-1, false, null);
     }
 
     private int PickHintColor()
@@ -797,6 +884,8 @@ public class Puzzle : MonoBehaviour
         SetConnected(nodeA, nodeB);
         HintedColors.Add(color);
 
+
+
         return true;
     }
 
@@ -821,7 +910,7 @@ public class Puzzle : MonoBehaviour
             path.positionCount++;
             path.SetPosition(path.positionCount - 1, point);
             NotifyWaypointsOfLinePointDrawn(point, color);
-            bool takingWarp = NotifyWarpsOfLinePointDrawn(path, point, color);
+            bool takingWarp = NotifyWarpsOfLinePointDrawn(path, point, color, applyWarpToPath: true, moveCamera: false);
             if(takingWarp)
             {
                 return true;
