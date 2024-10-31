@@ -112,7 +112,7 @@ public class Warp : MonoBehaviour
         GridCell = cell;
         transform.position = cell.transform.position;
         transform.LookAt(transform.parent);
-        transform.position *= 0.96f;
+        transform.position *= 0.94f;
         transform.localScale = new Vector3(0.12f, 0.12f, 0.12f);
     }
 
@@ -160,6 +160,9 @@ public class Warp : MonoBehaviour
             var lerped = Vector3.Lerp(raw, Vector3.zero, Mathf.Pow(lerpTowardsCenterAmount, 0.25f) * curveFactor);
             linePoints.Add(lerped);
         }
+
+        linePoints.Insert(0, GridCell.transform.position * 0.93f);
+        linePoints.Add(PairedWarp.GridCell.transform.position * 0.93f);
 
         return linePoints;
     }
