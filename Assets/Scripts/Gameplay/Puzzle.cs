@@ -872,6 +872,7 @@ public class Puzzle : MonoBehaviour
             bool tookWarp = DrawPointsDetectingWarp(current, solution[next], color, path);
             if(tookWarp)
             {
+                path.StartNewLine();
                 next++;
             }
             current = solution[next];
