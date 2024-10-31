@@ -52,14 +52,14 @@ public class Puzzle : MonoBehaviour
     public Dictionary<GridCell, Waypoint> WaypointsByGridCell = new Dictionary<GridCell, Waypoint>();
     public List<Warp> Warps;
     public Dictionary<GridCell, Warp> WarpsByGridCell = new Dictionary<GridCell, Warp>();
-    public Dictionary<int, LineRenderer> Paths = new Dictionary<int, LineRenderer>();
+    public Dictionary<int, MultiLineRenderer> Paths = new Dictionary<int, MultiLineRenderer>();
     public List<GameObject> Rocks;
     public List<Wall> Walls;
     public List<int> HintedColors = new List<int>();
 
     public int LastModifiedColor = -1;
     public bool LastModifiedConnected;
-    public Vector3[] LastModifiedPathState;
+    public List<Vector3[]> LastModifiedPathState;
 
     public int InputLocks = 0;
     public bool Completed;
@@ -152,27 +152,27 @@ public class Puzzle : MonoBehaviour
     private void Draw(Node node, Vector3 point)
     {
         var path = node.Path;
-        var loopMergeDistance = path.endWidth * 0.8f;
+        var loopMergeDistance = path.EndWidth * 0.8f;
         int mergeLoop;
         int mergeIgnoreMostRecent = Mathf.FloorToInt(loopMergeDistance / MINIMUM_DRAW_STEP);
-        for (mergeLoop = 0; mergeLoop < path.positionCount - mergeIgnoreMostRecent; mergeLoop++)
+        for (mergeLoop = 0; mergeLoop < path.PositionCount - mergeIgnoreMostRecent; mergeLoop++)
         {
             if ((point - path.GetPosition(mergeLoop)).magnitude < loopMergeDistance)
             {
-                for(int i = mergeLoop + 1; i < path.positionCount; i++)
+                for(int i = mergeLoop + 1; i < path.PositionCount; i++)
                 {
                     NotifyWaypointsOfLinePointRemoved(path.GetPosition(i));
                     NotifyWarpsOfLinePointRemoved(path.GetPosition(i));
                 }
-                path.positionCount = mergeLoop + 1;
+                path.PositionCount = mergeLoop + 1;
                 break;
             }
         }
 
-        if ((point - path.GetPosition(path.positionCount - 1)).magnitude > MINIMUM_DRAW_STEP)
+        if ((point - path.GetPosition(path.PositionCount - 1)).magnitude > MINIMUM_DRAW_STEP)
         {
-            path.positionCount++;
-            path.SetPosition(path.positionCount - 1, point);
+            path.PositionCount++;
+            path.SetPosition(path.PositionCount - 1, point);
             NotifyWaypointsOfLinePointDrawn(point, node.Color);
             NotifyWarpsOfLinePointDrawn(path, point, node.Color);
         }
@@ -198,7 +198,7 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private bool NotifyWarpsOfLinePointDrawn(LineRenderer path, Vector3 point, int color, bool applyWarpToPath = true, bool moveCamera = true)
+    private bool NotifyWarpsOfLinePointDrawn(MultiLineRenderer path, Vector3 point, int color, bool applyWarpToPath = true, bool moveCamera = true)
     {
         var cell = Grid.GetLookingAtCell(point.ToPolar());
         if (!WarpsByGridCell.ContainsKey(cell))
@@ -313,12 +313,12 @@ public class Puzzle : MonoBehaviour
 
                 foreach (var kvp in Paths)
                 {
-                    var numPoints = kvp.Value.positionCount;
+                    var numPoints = kvp.Value.PositionCount;
                     var points = new Vector3[numPoints];
                     kvp.Value.GetPositions(points);
                     for(int i = 0; i < numPoints; i++)
                     {
-                        if(Vector3.Distance(points[i], hitInfo.point) < kvp.Value.endWidth)
+                        if(Vector3.Distance(points[i], hitInfo.point) < kvp.Value.EndWidth)
                         {
                             tappedPoint = points[i];
                             break;
@@ -457,13 +457,13 @@ public class Puzzle : MonoBehaviour
         n.StartPath();
 
         Paths[n.Color] = n.Path;
-        n.Path.startWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
-        n.Path.endWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+        n.Path.StartWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+        n.Path.EndWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
     }
 
-    private void TrimPathToPoint(LineRenderer path, Vector3 point)
+    private void TrimPathToPoint(MultiLineRenderer path, Vector3 point)
     {
-        var numPoints = path.positionCount;
+        var numPoints = path.PositionCount;
         var points = new Vector3[numPoints];
         path.GetPositions(points);
         int i = 0;
@@ -475,7 +475,7 @@ public class Puzzle : MonoBehaviour
             }
         }
 
-        path.positionCount = i + 1;
+        path.PositionCount = i + 1;
         i++;
         for(; i< numPoints; i++)
         {
@@ -490,7 +490,7 @@ public class Puzzle : MonoBehaviour
 
         if (node.Path)
         {
-            for (int i = 0; i < node.Path.positionCount; i++)
+            for (int i = 0; i < node.Path.PositionCount; i++)
             {
                 NotifyWaypointsOfLinePointRemoved(node.Path.GetPosition(i));
                 NotifyWarpsOfLinePointRemoved(node.Path.GetPosition(i));
@@ -637,17 +637,24 @@ public class Puzzle : MonoBehaviour
             }
         }
 
-        if(LastModifiedPathState != null && LastModifiedPathState.Length > 0)
+        if(LastModifiedPathState != null && LastModifiedPathState.Count > 0 && LastModifiedPathState[0].Length > 0)
         {
-            var firstPathPoint = LastModifiedPathState.First();
+            var firstPathPoint = LastModifiedPathState.First().First();
             var nodeToStartFrom = NodesByColor[LastModifiedColor].OrderBy(n => Vector3.Distance(n.transform.position, firstPathPoint)).First();
             StartPathFromNode(nodeToStartFrom);
-            nodeToStartFrom.Path.positionCount = LastModifiedPathState.Length;
-            nodeToStartFrom.Path.SetPositions(LastModifiedPathState);
-            for(int i = 0; i < LastModifiedPathState.Length; i++)
+            var path = nodeToStartFrom.Path;
+            path.Clear();
+            foreach(var points in LastModifiedPathState)
             {
-                NotifyWaypointsOfLinePointDrawn(LastModifiedPathState[i], LastModifiedColor);
-                NotifyWarpsOfLinePointDrawn(nodeToStartFrom.Path, LastModifiedPathState[i], LastModifiedColor, applyWarpToPath: false, moveCamera: false);
+                path.StartNewLine();
+                foreach(var point in points)
+                {
+                    path.PositionCount++;
+                    path.SetPosition(path.PositionCount - 1, point);
+
+                    NotifyWaypointsOfLinePointDrawn(point, LastModifiedColor);
+                    NotifyWarpsOfLinePointDrawn(nodeToStartFrom.Path, point, LastModifiedColor, applyWarpToPath: false, moveCamera: false);
+                }
             }
         }
 
@@ -665,16 +672,15 @@ public class Puzzle : MonoBehaviour
 
     private void SetUndoState(int color)
     {
-        LineRenderer existingPath = Paths.ContainsKey(color) ? Paths[color] : null;
-        Vector3[] existingPoints = null;
+        MultiLineRenderer existingPath = Paths.ContainsKey(color) ? Paths[color] : null;
+        List<Vector3[]> existingPoints = null;
         if (existingPath)
         {
-            existingPoints = new Vector3[existingPath.positionCount];
-            existingPath.GetPositions(existingPoints);
+            existingPoints = existingPath.GetPositionsInLines();
         }
         SetUndoState(color, NodesByColor[color][0].Connected, existingPoints);
     }
-    private void SetUndoState(int color, bool connected, Vector3[] points)
+    private void SetUndoState(int color, bool connected, List<Vector3[]> points)
     {
         var undoWasAvailable = LastModifiedColor >= 0;
         LastModifiedColor = color;
@@ -746,7 +752,7 @@ public class Puzzle : MonoBehaviour
         {
             var path = kvp.Value;
             var cells = new List<GridCell>();
-            for(int i = 0; i < path.positionCount; i++)
+            for(int i = 0; i < path.PositionCount; i++)
             {
                 var cell = Grid.GetLookingAtCell(path.GetPosition(i).ToPolar());
                 if(!cells.Contains(cell))
@@ -902,13 +908,13 @@ public class Puzzle : MonoBehaviour
         return solutionCoordinates.Select(coords => Grid.CellsByRow[coords.x][coords.y]).ToList();
     }
 
-    private bool DrawPointsDetectingWarp(GridCell from, GridCell to, int color, LineRenderer path)
+    private bool DrawPointsDetectingWarp(GridCell from, GridCell to, int color, MultiLineRenderer path)
     {
         var points = GetPointsBetweenCells(from, to, 8);
         foreach(var point in points)
         {
-            path.positionCount++;
-            path.SetPosition(path.positionCount - 1, point);
+            path.PositionCount++;
+            path.SetPosition(path.PositionCount - 1, point);
             NotifyWaypointsOfLinePointDrawn(point, color);
             bool takingWarp = NotifyWarpsOfLinePointDrawn(path, point, color, applyWarpToPath: true, moveCamera: false);
             if(takingWarp)
@@ -939,7 +945,7 @@ public class Puzzle : MonoBehaviour
 
         var pathPathCollisionDistance = PathCollisionDistance * 2;
         var hintPath = Paths[hintColor];
-        var hintPoints = new Vector3[hintPath.positionCount];
+        var hintPoints = new Vector3[hintPath.PositionCount];
         hintPath.GetPositions(hintPoints);
 
         foreach(var kvp in Paths)
@@ -950,7 +956,7 @@ public class Puzzle : MonoBehaviour
             }
             var path = kvp.Value;
             Vector3? collisionPoint = null;
-            for(int i = 0; i < path.positionCount; i++)
+            for(int i = 0; i < path.PositionCount; i++)
             {
                 var point = path.GetPosition(i);
                 foreach (var hintPoint in hintPoints)
@@ -996,7 +1002,7 @@ public class Puzzle : MonoBehaviour
 
         Nodes = new List<Node>();
         NodesByColor = new Dictionary<int, List<Node>>();
-        Paths = new Dictionary<int, LineRenderer>();
+        Paths = new Dictionary<int, MultiLineRenderer>();
 
         float nodeVisualScale = NodeCollisionDistance * NODE_VISUAL_SCALE_FACTOR;
 
@@ -1213,7 +1219,7 @@ public class Puzzle : MonoBehaviour
             if (kvp.Key != excludeColor)
             {
                 var path = kvp.Value;
-                for (int i = 0; i < path.positionCount; i++)
+                for (int i = 0; i < path.PositionCount; i++)
                 {
                     if (Vector3.Distance(position, path.GetPosition(i)) < pathPathCollisionDistance)
                     {
@@ -1296,9 +1302,9 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-    public void SmoothEndOfLine(LineRenderer renderer, int lineColor)
+    public void SmoothEndOfLine(MultiLineRenderer renderer, int lineColor)
     {
-        var positionCount = renderer.positionCount;
+        var positionCount = renderer.PositionCount;
         if(positionCount < 3)
         {
             return;
@@ -1360,9 +1366,9 @@ public class Puzzle : MonoBehaviour
         return true;
     }
 
-    public void DejitterEndOfLine(LineRenderer renderer, int lineColor)
+    public void DejitterEndOfLine(MultiLineRenderer renderer, int lineColor)
     {
-        var positionCount = renderer.positionCount;
+        var positionCount = renderer.PositionCount;
         if (positionCount < 4)
         {
             return;

@@ -213,7 +213,7 @@ MonoBehaviour:
   Color: 0
   Connected: 0
   Active: 0
-  PathPrefab: {fileID: 2145597075948167739, guid: 1c49c9c26cd8ead4f950d57b43c73297,
+  PathPrefab: {fileID: 3310591004050772271, guid: 8713652d0baf45f46853bbf21c8025e6,
     type: 3}
   Path: {fileID: 0}
   ColorIconArm: {fileID: 8843529465271623451}

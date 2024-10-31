@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8059110723922232405}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2124705421725058983, guid: 0512799c55ca5c24a8e6de7343b40704, type: 3}
 --- !u!23 &9100823686766118214
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ebdc8e27c2ceaed48b1716890f251b09, type: 2}
+  - {fileID: 2100000, guid: 653805084b6efbf4698ad453d04cff69, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,14 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b080edea3a611244bbe985a70925e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeshFilter: {fileID: 6054633531001342055}
   MeshRenderer: {fileID: 9100823686766118214}
   Animator: {fileID: 6881467619445042874}
   WarpPreviewLinePrefab: {fileID: 1760022628404221250, guid: f28413e94c232054090cc2fb369581a6,
     type: 3}
-  Color: -1
-  VerticesPerDegree: 0.5
   PairedWarp: {fileID: 0}
+  InnerLinevertices: 24
+  InnerLineMaxLerpTowardsCenter: 0.4
   Role: 0
   WarpPreviewLine: {fileID: 0}
 --- !u!95 &6881467619445042874

@@ -141,7 +141,7 @@ public class PuzzleBuilderCameraController : MonoBehaviour
             Debug.LogError($"{n} does not have a line to snap the camera to the end of!");
             return;
         }
-        CameraArm.transform.LookAt(n.Path.GetPosition(n.Path.positionCount - 1), CameraArm.transform.up);
+        CameraArm.transform.LookAt(n.Path.GetPosition(n.Path.PositionCount - 1), CameraArm.transform.up);
         if (!AllowRoll)
         {
             FixRoll();

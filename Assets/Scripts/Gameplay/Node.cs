@@ -13,7 +13,7 @@ public class Node : MonoBehaviour
     public bool Active = false;
 
     public GameObject PathPrefab;
-    public LineRenderer Path;
+    public MultiLineRenderer Path;
 
     public GameObject ColorIconArm;
     public MeshRenderer ColorIconRenderer;
@@ -45,16 +45,17 @@ public class Node : MonoBehaviour
 
     public void StartPath()
     {
-        Path = Instantiate(PathPrefab).GetComponent<LineRenderer>();
+        Path = Instantiate(PathPrefab).GetComponent<MultiLineRenderer>();
 
         var pathColor = ColorMapController.Instance.ApplyActiveColorMap(Color);
-        Path.material.SetColor("_Color", pathColor);
+        Path.Color = pathColor;
         if (Puzzle)
         {
             Path.transform.parent = Puzzle.transform;
         }
 
-        Path.positionCount++;
+        Path.StartNewLine();
+        Path.PositionCount++;
         Path.SetPosition(0, transform.position);
     }
 
@@ -65,7 +66,7 @@ public class Node : MonoBehaviour
         GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
         if(Path)
         {
-            Path.material.SetColor("_Color", mappedColor);
+            Path.Color = mappedColor;
         }
         ColorIconRenderer.material = ColorIconMaterials[Color];
     }
