@@ -120,10 +120,22 @@ public class PuzzleCompletionManager : MonoBehaviour
 
     private void LoadPack(string pack)
     {
+        // Get total puzzles
+        int puzzleNum = 1;
+        while (Resources.Load($"Puzzles/{pack}/{pack}_{puzzleNum}"))
+        {
+            puzzleNum++;
+        }
+        TotalPuzzles[pack] = puzzleNum - 1;
+
         // Get completed puzzles
         var path = Path.Combine(CompletionFolder, $"{pack}.dat");
         if (!File.Exists(path))
         {
+            CompletionData[pack] = new PackPuzzleCompletionData()
+            {
+                PackName = pack
+            };
             return;
         }
         var json = File.ReadAllText(path);
@@ -132,14 +144,6 @@ public class PuzzleCompletionManager : MonoBehaviour
         {
             CompletionData[pack] = data;
         }
-
-        // Get total puzzles
-        int puzzleNum = 1;
-        while(Resources.Load($"Puzzles/{pack}/{pack}_{puzzleNum}"))
-        {
-            puzzleNum++;
-        }
-        TotalPuzzles[pack] = puzzleNum - 1;
     }
 
     private void SaveAll()
