@@ -11,6 +11,7 @@ public class PuzzleCompletionManager : MonoBehaviour
     public List<string> PacksToManage;
     public int ExpectedTutorialLevels = 6;
 
+    private Dictionary<string, int> TotalPuzzles = new Dictionary<string, int>();
     private readonly Dictionary<string, PackPuzzleCompletionData> CompletionData = new Dictionary<string, PackPuzzleCompletionData>();
     private string CompletionFolder;
 
@@ -38,6 +39,8 @@ public class PuzzleCompletionManager : MonoBehaviour
     {
         SaveAll();
     }
+
+    public (int completed, int total) GetPackStats(string packId) => (CompletionData[packId].CompletedPuzzles.Count, TotalPuzzles[packId]);
 
     public bool IsPuzzleCompleted(string puzzleId)
     {
@@ -117,6 +120,7 @@ public class PuzzleCompletionManager : MonoBehaviour
 
     private void LoadPack(string pack)
     {
+        // Get completed puzzles
         var path = Path.Combine(CompletionFolder, $"{pack}.dat");
         if (!File.Exists(path))
         {
@@ -128,6 +132,14 @@ public class PuzzleCompletionManager : MonoBehaviour
         {
             CompletionData[pack] = data;
         }
+
+        // Get total puzzles
+        int puzzleNum = 1;
+        while(Resources.Load($"Puzzles/{pack}/{pack}_{puzzleNum}"))
+        {
+            puzzleNum++;
+        }
+        TotalPuzzles[pack] = puzzleNum - 1;
     }
 
     private void SaveAll()
