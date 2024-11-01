@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Incrementor : MonoBehaviour
 {
     [Header("Required References")]
     public TMP_Text Display;
+    public Button IncrementButton;
+    public Button DecrementButton;
 
     [Header("Settings")]
     public float Min = 0;
@@ -69,5 +72,10 @@ public class Incrementor : MonoBehaviour
         }
     }
 
-    private void UpdateDisplay() => Display.text = string.Format(DisplayFormat, Value*DisplayFactor);
+    private void UpdateDisplay()
+    {
+        Display.text = string.Format(DisplayFormat, Value * DisplayFactor);
+        IncrementButton.interactable = Value < Max;
+        DecrementButton.interactable = Value > Min;
+    }
 }
