@@ -6,20 +6,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class ConfirmationDialog : MonoBehaviour
+public class ConfirmationDialog : Dialog
 {
-    public GameObject dialogPanel; // Assign the panel in the Inspector
-    public TMP_Text messageText; // Assign the Text component for the message
+    public TMP_Text messageText;
 
     private Action onConfirm;
-    private Action onCancel;
 
     private static readonly Action NOP = () => { };
-
-    private void Start()
-    {
-
-    }
 
     public void Show(string message, Action confirm = null, Action cancel = null)
     {
@@ -32,12 +25,6 @@ public class ConfirmationDialog : MonoBehaviour
     public void Confirm()
     {
         onConfirm?.Invoke();
-        dialogPanel.SetActive(false);
-    }
-
-    public void Cancel()
-    {
-        onCancel?.Invoke();
-        dialogPanel.SetActive(false);
+        Hide();
     }
 }
