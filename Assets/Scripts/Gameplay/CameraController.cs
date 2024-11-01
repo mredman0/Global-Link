@@ -141,13 +141,14 @@ public class CameraController : MonoBehaviour
 
     private void OnDrag(Vector2 drag)
     {
+        var normalizedDrag = InputManager.Instance.NormalizeScreenPosition(drag);
         if (InputLocks > 0)
         {
             return;
         }
         DoPuzzleCompleteSpin = false;
         Panning = true;
-        HandleDrag(drag);
+        HandleDrag(normalizedDrag);
     }
 
     private void OnPuzzleCompleted()

@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ae51c1f9d7096e4a82b4046db12cf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxTimeForTap: 0.2
-  MaxDragForTap: 50
+  MaxDragForTap: 0.05
+  MinDistanceForDrag: 0.02
   Pressed: 0
   PressTime: -3.402823e+38
   PressStartPosition: {x: 0, y: 0}
   PressLatestPosition: {x: 0, y: 0}
+  DistanceThisDrag: 0

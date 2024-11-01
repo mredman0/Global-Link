@@ -13,14 +13,15 @@ public class InputManager : MonoBehaviour
     public event Action<Vector2> Drag;
 
     [Header("Settings")]
-    public float MaxTimeForTap = 0.2f;
-    public float MaxDragForTap = 50f;
+    public float MaxDragForTap = 0.05f;
+    public float MinDistanceForDrag = 0.03f;
 
     [Header("State")]
     public bool Pressed = false;
     public float PressTime = float.MinValue;
     public Vector2 PressStartPosition;
     public Vector2 PressLatestPosition;
+    public float DistanceThisDrag = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,9 @@ public class InputManager : MonoBehaviour
         Input.simulateMouseWithTouches = false;
     }
 
+    public Vector2 NormalizeScreenPosition(Vector2 position) =>
+        new Vector2(position.x / Screen.width, position.y / Screen.width);
+
     private void FixedUpdate()
     {
         var pressing = Input.GetMouseButton(0) || Input.touchCount > 0;
@@ -42,7 +46,9 @@ public class InputManager : MonoBehaviour
         if(pressing)
         {
             var position = Input.GetMouseButton(0) ? (Vector2)Input.mousePosition : Input.touches[0].position;
-            if(Pressed)
+            var normalizedDragDistance = Vector2.Distance(NormalizeScreenPosition(position), NormalizeScreenPosition(PressLatestPosition));
+            DistanceThisDrag += normalizedDragDistance;
+            if (Pressed && DistanceThisDrag >= MinDistanceForDrag)
             {
                 Drag?.Invoke(position - PressLatestPosition);
             }
@@ -53,6 +59,7 @@ public class InputManager : MonoBehaviour
                 PressStartPosition = position;
                 Pressed = true;
                 Press?.Invoke(position);
+                DistanceThisDrag = 0f;
             }
         }
         else
@@ -61,8 +68,7 @@ public class InputManager : MonoBehaviour
             {
                 Pressed = false;
                 Release?.Invoke(PressLatestPosition);
-                if(Time.realtimeSinceStartup - PressTime <= MaxTimeForTap &&
-                    Vector2.Distance(PressLatestPosition, PressStartPosition) < MaxDragForTap)
+                if (DistanceThisDrag < MaxDragForTap)
                 {
                     Tap?.Invoke(PressLatestPosition);
                 }
