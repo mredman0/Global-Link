@@ -29,8 +29,10 @@ public class Puzzle : MonoBehaviour
     public GameObject WallPrefab;
 
     [Header("Effects")]
+    public GameObject NodeSelectedEffect;
     public List<GameObject> NodesConnectedEffects;
     public List<GameObject> WaypointColoredEffects;
+    public GameObject WarpTakenEffect;
     public GameObject PuzzleCompleteEffect;
 
     [Header("Required References")]
@@ -210,6 +212,10 @@ public class Puzzle : MonoBehaviour
         {
             warp.TakeWarp(path, point, color, applyWarpToPath);
             WarpTaken?.Invoke(warp, warp.PairedWarp);
+            if(WarpTakenEffect)
+            {
+                Instantiate(WarpTakenEffect);
+            }
             if(moveCamera)
             {
                 CameraController.GradualSnapToGridCell(warp.PairedWarp.GridCell);
@@ -441,6 +447,10 @@ public class Puzzle : MonoBehaviour
         }
 
         NodeSelected?.Invoke(n);
+        if(NodeSelectedEffect)
+        {
+            Instantiate(NodeSelectedEffect);
+        }
     }
 
     private void StartPathFromNode(Node n)

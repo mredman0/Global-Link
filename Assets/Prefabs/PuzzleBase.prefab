@@ -1206,6 +1206,8 @@ MonoBehaviour:
     type: 3}
   WallPrefab: {fileID: 8059110723922232405, guid: 96c27b21bd140d34caef584e1b42d7cb,
     type: 3}
+  NodeSelectedEffect: {fileID: 1996972786158677437, guid: 87acaf48a84ce2b4c8022b52a1d1bf8d,
+    type: 3}
   NodesConnectedEffects:
   - {fileID: 1996972786158677437, guid: 72bf56c3d482ea742ac5b9baf48d0d2f, type: 3}
   - {fileID: 1996972786158677437, guid: 1d1d39c54b9058e43b24a9246166a062, type: 3}
@@ -1219,6 +1221,8 @@ MonoBehaviour:
   - {fileID: 1996972786158677437, guid: 280753155fd884b4c9e79daeb6e10fb6, type: 3}
   - {fileID: 1996972786158677437, guid: 5247b3e9a44d95744808fb9481ae73e7, type: 3}
   - {fileID: 1996972786158677437, guid: 0a85c95dc89f4da4e8fe1bf63f9b0d61, type: 3}
+  WarpTakenEffect: {fileID: 1996972786158677437, guid: 9196c8f2ce674e445928e193cab740a9,
+    type: 3}
   PuzzleCompleteEffect: {fileID: 1996972786158677437, guid: 27f89bee096b3a44a8a65824d20b4b3b,
     type: 3}
   Grid: {fileID: 1072919042163802289}
