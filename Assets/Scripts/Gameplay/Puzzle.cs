@@ -157,9 +157,11 @@ public class Puzzle : MonoBehaviour
         var loopMergeDistance = path.EndWidth * 0.8f;
         int mergeLoop;
         int mergeIgnoreMostRecent = Mathf.FloorToInt(loopMergeDistance / MINIMUM_DRAW_STEP);
+        bool mergedOutOfWarp = false;
         for (mergeLoop = 0; mergeLoop < path.PositionCount - mergeIgnoreMostRecent; mergeLoop++)
         {
-            if ((point - path.GetPosition(mergeLoop)).magnitude < loopMergeDistance)
+            var mergeOrigin = path.GetPosition(mergeLoop);
+            if ((point - mergeOrigin).magnitude < loopMergeDistance)
             {
                 for(int i = mergeLoop + 1; i < path.PositionCount; i++)
                 {
@@ -167,11 +169,12 @@ public class Puzzle : MonoBehaviour
                     NotifyWarpsOfLinePointRemoved(path.GetPosition(i));
                 }
                 path.PositionCount = mergeLoop + 1;
+                mergedOutOfWarp = NotifyWarpsOfLineMerge(path, point, mergeOrigin);
                 break;
             }
         }
 
-        if ((point - path.GetPosition(path.PositionCount - 1)).magnitude > MINIMUM_DRAW_STEP)
+        if (!mergedOutOfWarp && (point - path.GetPosition(path.PositionCount - 1)).magnitude > MINIMUM_DRAW_STEP)
         {
             path.PositionCount++;
             path.SetPosition(path.PositionCount - 1, point);
@@ -229,6 +232,36 @@ public class Puzzle : MonoBehaviour
         //    var effectToUse = WaypointColoredEffects[Mathf.Clamp(coloredWaypoints - 1, 0, WaypointColoredEffects.Count - 1)];
         //    Instantiate(effectToUse);
         //}
+    }
+
+    private bool NotifyWarpsOfLineMerge(MultiLineRenderer path, Vector3 drawnPoint, Vector3 mergeOrigin)
+    {
+        // Both the drawn point and the merge origin have to be in the warp cell to go back
+        var drawnPointCell = Grid.GetLookingAtCell(drawnPoint.ToPolar());
+        if (!WarpsByGridCell.ContainsKey(drawnPointCell))
+        {
+            return false;
+        }
+        var mergeOriginCell = Grid.GetLookingAtCell(mergeOrigin.ToPolar());
+        if (mergeOriginCell != drawnPointCell || !WarpsByGridCell.ContainsKey(mergeOriginCell))
+        {
+            return false;
+        }
+        var warp = WarpsByGridCell[drawnPointCell];
+        if(warp.Role != Warp.WarpRole.Destination)
+        {
+            return false;
+        }
+        var source = warp.PairedWarp;
+        var pathTrimPoint = source.PointDrawnInCell.Value;
+        TrimPathToPoint(path, pathTrimPoint, includePoint: false);
+
+        if (path.PositionCount > 0)
+        {
+            CameraController.GradualSnapToLookAt(path.GetPosition(path.PositionCount - 1));
+        }
+
+        return true;
     }
 
     public void NotifyWaypointsOfLinePointRemoved(Vector3 point)
@@ -385,7 +418,7 @@ public class Puzzle : MonoBehaviour
             SetDisconnected(n);
         }
 
-        TrimPathToPoint(n.Path, tappedPoint);
+        TrimPathToPoint(n.Path, tappedPoint, includePoint: true);
 
         SetActiveNode(n, fromExistingLine: true);
     }
@@ -430,9 +463,9 @@ public class Puzzle : MonoBehaviour
             return;
         }
 
-        if(fromExistingLine)
+        if(fromExistingLine && n.Path && n.Path.PositionCount > 0)
         {
-            CameraController.SnapToNodeEndOfPath(n);
+            CameraController.GradualSnapToLookAt(n.Path.GetPosition(n.Path.PositionCount-1));
         }
         else
         {
@@ -471,7 +504,7 @@ public class Puzzle : MonoBehaviour
         n.Path.EndWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
     }
 
-    private void TrimPathToPoint(MultiLineRenderer path, Vector3 point)
+    private void TrimPathToPoint(MultiLineRenderer path, Vector3 point, bool includePoint)
     {
         var numPoints = path.PositionCount;
         var points = new Vector3[numPoints];
@@ -485,8 +518,12 @@ public class Puzzle : MonoBehaviour
             }
         }
 
-        path.PositionCount = i + 1;
-        i++;
+        if(includePoint)
+        {
+            i++;
+        }
+
+        path.PositionCount = i;
         for(; i< numPoints; i++)
         {
             NotifyWaypointsOfLinePointRemoved(points[i]);
@@ -895,7 +932,7 @@ public class Puzzle : MonoBehaviour
         foreach (var tuple in toTrim)
         {
             SetDisconnected(NodesByColor[tuple.color][0]);
-            TrimPathToPoint(Paths[tuple.color], tuple.point);
+            TrimPathToPoint(Paths[tuple.color], tuple.point, includePoint: true);
         }
 
         SetConnected(nodeA, nodeB);

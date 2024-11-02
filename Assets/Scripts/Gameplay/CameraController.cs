@@ -323,9 +323,11 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void GradualSnapToGridCell(GridCell cell)
+    public void GradualSnapToGridCell(GridCell cell) => GradualSnapToLookAt(cell.transform.position);
+
+    public void GradualSnapToLookAt(Vector3 lookAt)
     {
-        var end = Quaternion.LookRotation(cell.transform.position - CameraArm.transform.position, CameraArm.transform.up);
+        var end = Quaternion.LookRotation(lookAt - CameraArm.transform.position, CameraArm.transform.up);
         GradualSnap(CameraArm.transform.rotation, end);
     }
 

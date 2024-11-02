@@ -18,12 +18,12 @@ public class Warp : MonoBehaviour
     [Header("State")]
     public WarpRole Role = WarpRole.Open;
     public LineRenderer WarpPreviewLine;
+    public Vector3? PointDrawnInCell;
 
     public GridCell GridCell { get; set; }
 
     private Color DefaultSurfaceBaseColor;
     private float DefaultSurfaceWaveSpeed;
-    private Vector3? PointDrawnInCell;
 
     private bool IsStartOfInnerLine;
     private Animator InnerLineAnimator;
@@ -35,10 +35,15 @@ public class Warp : MonoBehaviour
         DefaultSurfaceWaveSpeed = MeshRenderer.material.GetFloat("_WaveSpeed");
     }
 
-    private void SetColor(int colorIndex)
+    private void SetSurfaceColor(int colorIndex)
     {
         var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorMapController.Instance.ApplyActiveColorMap(colorIndex);
         MeshRenderer.material.SetColor("_BaseColor", color);
+    }
+
+    private void SetLineColor(int colorIndex)
+    {
+        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorMapController.Instance.ApplyActiveColorMap(colorIndex);
         WarpPreviewLine.material.SetColor("_FillColor", color);
     }
 
@@ -47,9 +52,13 @@ public class Warp : MonoBehaviour
         PointDrawnInCell = point;
         SetAsSource();
         PairedWarp.SetAsDestination();
-        PairedWarp.SetColor(color);
-        SetColor(color);
-        if(applyWarpToPath)
+
+        PairedWarp.SetSurfaceColor(color);
+        PairedWarp.SetLineColor(color);
+        SetSurfaceColor(color);
+        SetLineColor(color);
+
+        if (applyWarpToPath)
         {
             ApplyWarpToPath(path, point);
         }
@@ -100,8 +109,8 @@ public class Warp : MonoBehaviour
                 InnerLineAnimator.SetBool("Unfill", true);
             }
             PointDrawnInCell = null;
-            SetColor(-1);
-            PairedWarp.SetColor(-1);
+            SetSurfaceColor(-1);
+            PairedWarp.SetSurfaceColor(-1);
             return true;
         }
         return false;
