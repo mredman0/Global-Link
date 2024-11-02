@@ -612,7 +612,7 @@ public class PuzzleBuilder : MonoBehaviour
                 if (!cellsFarEnoughAway.Any())
                 {
                     // We tried to prefer something further away, but just give up
-                    cellsFarEnoughAway = biggestGroup;
+                    cellsFarEnoughAway = possibleNodes;
                 }
                 var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
 
