@@ -17,6 +17,7 @@ public class Warp : MonoBehaviour
 
     [Header("State")]
     public WarpRole Role = WarpRole.Open;
+    public int Color = -1;
     public LineRenderer WarpPreviewLine;
     public Vector3? PointDrawnInCell;
 
@@ -53,6 +54,8 @@ public class Warp : MonoBehaviour
         SetAsSource();
         PairedWarp.SetAsDestination();
 
+        Color = color;
+        PairedWarp.Color = color;
         PairedWarp.SetSurfaceColor(color);
         PairedWarp.SetLineColor(color);
         SetSurfaceColor(color);
@@ -109,8 +112,12 @@ public class Warp : MonoBehaviour
                 InnerLineAnimator.SetBool("Unfill", true);
             }
             PointDrawnInCell = null;
+
+            Color = -1;
+            PairedWarp.Color = -1;
             SetSurfaceColor(-1);
             PairedWarp.SetSurfaceColor(-1);
+
             return true;
         }
         return false;

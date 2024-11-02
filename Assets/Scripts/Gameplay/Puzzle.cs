@@ -909,6 +909,21 @@ public class Puzzle : MonoBehaviour
             return false;
         }
 
+        for(int i = 0; i < solution.Count; i++)
+        {
+            var cell = solution[i];
+            if(WarpsByGridCell.ContainsKey(cell))
+            {
+                var warp = WarpsByGridCell[cell];
+                if(warp.Role != Warp.WarpRole.Open && warp.Color != color)
+                {
+                    var source = warp.Role == Warp.WarpRole.Source ? warp : warp.PairedWarp;
+                    var pathTrimPoint = source.PointDrawnInCell.Value;
+                    TrimPathToPoint(Paths[warp.Color], pathTrimPoint, includePoint: false);
+                }
+            }
+        }
+
         StartPathFromNode(startNode);
         var path = startNode.Path;
 
