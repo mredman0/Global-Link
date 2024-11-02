@@ -19,8 +19,8 @@ public class PackGenerationConfig : ScriptableObject
     public AnimationCurve TargetNodePairs;
 
     [Header("Waypoints")]
-    [Tooltip("Based on number of node pairs")]
-    public AnimationCurve TargetWaypoints;
+    [Range(2, 12)]
+    public int TargetColorsPlusWaypoints;
 
     [Header("Warps")]
     [Range(0, 6)]

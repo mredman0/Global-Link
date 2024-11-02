@@ -91,6 +91,24 @@ public class PuzzlePackGenerator : MonoBehaviour
             parameters.PuzzleParameters.Add(GeneratePuzzleParameters(i, Random.Range(int.MinValue, int.MaxValue)));
         }
 
+        var complexities = parameters.PuzzleParameters.Select(p => p.Complexity());
+        parameters.MinComplexity = complexities.Min();
+        parameters.MaxComplexity = complexities.Max();
+        parameters.MeanComplexity = complexities.Average();
+        var sortedComplexities = complexities.OrderBy(c => c).ToList();
+        int count = sortedComplexities.Count;
+        if (count % 2 == 0)
+        {
+            // Even number of elements
+            parameters.MedianComplexity = (sortedComplexities[count / 2 - 1] + sortedComplexities[count / 2]) / 2f;
+        }
+        else
+        {
+            // Odd number of elements
+            parameters.MedianComplexity = sortedComplexities[count / 2];
+        }
+        parameters.ComplexityStDev = Mathf.Sqrt(complexities.Sum(c => Mathf.Pow(c - parameters.MeanComplexity, 2)) / count);
+
         var seedsTextPath = Path.Combine(Application.dataPath, $"Editor/Resources/Pack Generation/{pack}_params_{min}-{max}.txt");
         File.WriteAllText(seedsTextPath, JsonUtility.ToJson(parameters, prettyPrint: true));
 
@@ -122,9 +140,18 @@ public class PuzzlePackGenerator : MonoBehaviour
         }
 
         // Waypoints
-        if (Config.TargetWaypoints.length < 1)
+        if (Config.TargetColorsPlusWaypoints < Config.MinNodePairs)
         {
-            Debug.LogError($"TargetWaypoints has no keyframes");
+            Debug.LogError($"TargetColorsPlusWaypoints is less than MinNodePairs");
+            valid = false;
+        }
+        if (Config.TargetColorsPlusWaypoints < Config.MaxNodePairs)
+        {
+            Debug.LogWarning($"TargetColorsPlusWaypoints is less than MaxNodePairs");
+        }
+        if (Config.TargetColorsPlusWaypoints > Config.MinNodePairs*2)
+        {
+            Debug.LogError($"TargetColorsPlusWaypoints is greater than MinNodePairs*2");
             valid = false;
         }
 
@@ -202,8 +229,7 @@ public class PuzzlePackGenerator : MonoBehaviour
 
         var nodePairs = RandomIntFromCurve(NodePairProbabilities, Config.MinNodePairs);
 
-        var waypointProbabilities = DiscretizeCustomRangeCurve(Config.TargetWaypoints, 0, nodePairs);
-        var waypoints = RandomIntFromCurve(waypointProbabilities, 0);
+        var waypoints = Mathf.Clamp(Config.TargetColorsPlusWaypoints - nodePairs, 0, nodePairs);
 
         var warps = RandomIntFromCurve(WarpPairProbabilities, Config.MinWarpPairs);
 
@@ -223,6 +249,8 @@ public class PuzzlePackGenerator : MonoBehaviour
 
     private void GeneratePuzzle(PuzzleGenerationParameters parameters)
     {
+        Debug.Log($"Generating puzzle {parameters.Id} with complexity {parameters.Complexity()}");
+
         Builder.Clear();
         Builder.RebuildGrid();
 
@@ -300,6 +328,11 @@ public class PuzzlePackGenerator : MonoBehaviour
     {
         public string Id;
         public int MasterSeed;
+        public float MinComplexity;
+        public float MaxComplexity;
+        public float MeanComplexity;
+        public float ComplexityStDev;
+        public float MedianComplexity;
         public List<PuzzleGenerationParameters> PuzzleParameters;
     }
 
@@ -315,6 +348,25 @@ public class PuzzlePackGenerator : MonoBehaviour
         public float InitialWalling;
         public float WallClustering;
         public float AdditionalWalling;
+
+        public float Complexity()
+        {
+            var complexity = 0f;
+
+            complexity += NodePairs;
+            complexity += Waypoints;
+            complexity += WarpPairs;
+
+            // InitialWalling should make things generally less complex due to creating less space to work with for everything else
+            // So, shorter paths in general
+            // The "less complexity" feels even more so if the walls are in a giant cluster
+            var initialWallComplexity = InitialWalling * (1f + WallClustering) * -2f;
+            complexity += initialWallComplexity;
+
+            complexity *= (1f + AdditionalWalling);
+
+            return complexity;
+        }
     }
 }
 #endif

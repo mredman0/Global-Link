@@ -1,0 +1,511 @@
+{
+    "Id": "Expert",
+    "MasterSeed": -720856744,
+    "MinComplexity": 14.752500534057618,
+    "MaxComplexity": 20.80000114440918,
+    "MeanComplexity": 17.220535278320314,
+    "ComplexityStDev": 1.747376561164856,
+    "MedianComplexity": 16.92599868774414,
+    "PuzzleParameters": [
+        {
+            "Id": 1,
+            "Seed": -878272920,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 2,
+            "Seed": -779782153,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 3,
+            "Seed": 1308920414,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 3,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.30000001192092898,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 4,
+            "Seed": -1788193150,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 2,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 5,
+            "Seed": 205958353,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 6,
+            "Seed": 1200471815,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 3,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 7,
+            "Seed": -1355278645,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 2,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.550000011920929,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 8,
+            "Seed": -2087222051,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 3,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 9,
+            "Seed": 1144159023,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.5,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 10,
+            "Seed": 1347998828,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.3499999940395355,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 11,
+            "Seed": -2137942792,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.3499999940395355,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 12,
+            "Seed": 1805148511,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.5
+        },
+        {
+            "Id": 13,
+            "Seed": 121128216,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 2,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 14,
+            "Seed": 1602172582,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 15,
+            "Seed": 1408780745,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 16,
+            "Seed": 1002790602,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.5,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 17,
+            "Seed": -701555070,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.3499999940395355,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 18,
+            "Seed": -480915624,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.550000011920929,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 19,
+            "Seed": 593426940,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.44999998807907107,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 20,
+            "Seed": 514467303,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 21,
+            "Seed": 1771452160,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 3,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 22,
+            "Seed": 999855423,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.44999998807907107,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 23,
+            "Seed": -464349342,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 24,
+            "Seed": -252971531,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.550000011920929,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 25,
+            "Seed": 1893468042,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.44999998807907107,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 26,
+            "Seed": -1395076256,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.3499999940395355,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 27,
+            "Seed": 1409819,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 28,
+            "Seed": 718205748,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.3499999940395355,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 29,
+            "Seed": -2130255600,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.5,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 30,
+            "Seed": 937639591,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.5,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 31,
+            "Seed": -383398161,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 32,
+            "Seed": -1700000910,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 33,
+            "Seed": -1768593819,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 34,
+            "Seed": 68389710,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 3,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 35,
+            "Seed": -1575085601,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 2,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 36,
+            "Seed": 720473663,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 37,
+            "Seed": -2064816029,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.5
+        },
+        {
+            "Id": 38,
+            "Seed": -1783151236,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.44999998807907107,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 39,
+            "Seed": -846388244,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 40,
+            "Seed": 1809742031,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 0,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 41,
+            "Seed": 704782025,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 42,
+            "Seed": 1614110754,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.699999988079071,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 43,
+            "Seed": -1213137334,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6499999761581421,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 44,
+            "Seed": -1277950833,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 2,
+            "InitialWalling": 0.10000000149011612,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 45,
+            "Seed": 444940583,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 1,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 46,
+            "Seed": -1744572289,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 3,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 47,
+            "Seed": 1100033960,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 2,
+            "InitialWalling": 0.05000000074505806,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.550000011920929
+        },
+        {
+            "Id": 48,
+            "Seed": -1289063449,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 3,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.6000000238418579,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 49,
+            "Seed": 1102927393,
+            "NodePairs": 6,
+            "Waypoints": 4,
+            "WarpPairs": 3,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.30000001192092898,
+            "AdditionalWalling": 0.6000000238418579
+        },
+        {
+            "Id": 50,
+            "Seed": 333818414,
+            "NodePairs": 5,
+            "Waypoints": 5,
+            "WarpPairs": 0,
+            "InitialWalling": 0.0,
+            "WallClustering": 0.4000000059604645,
+            "AdditionalWalling": 0.6000000238418579
+        }
+    ]
+}
