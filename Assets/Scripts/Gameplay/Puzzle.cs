@@ -879,6 +879,17 @@ public class Puzzle : MonoBehaviour
 
         var solution = GetSolutionForColor(color);
         
+        if(solution.Count == 0)
+        {
+            // Special case which is technically possible if the nodes are adjacent
+            StartPathFromNode(nodeA);
+            DrawPointsDetectingWarp(nodeA.GridCell, nodeB.GridCell, color, nodeA.Path);
+            SetConnected(nodeA, nodeB);
+            HintedColors.Add(color);
+
+            return true;
+        }
+
         // Determine which node is our starting point
         var solutionStart = solution.First();
         var solutionEnd = solution.Last();
@@ -952,8 +963,6 @@ public class Puzzle : MonoBehaviour
 
         SetConnected(nodeA, nodeB);
         HintedColors.Add(color);
-
-
 
         return true;
     }
