@@ -17,8 +17,14 @@ public class PurchaseUIController : MonoBehaviour
             Puzzle.Current.LockInput();
             Puzzle.Current.CameraController.LockInput();
         }
+
+        InputManager.Instance.AddBackAction(this, HideStore);
     }
 
+    private void OnDestroy()
+    {
+        InputManager.Instance.RemoveBackAction(this);
+    }
 
     public void HideStore()
     {

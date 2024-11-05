@@ -28,11 +28,14 @@ public class MenuManager : MonoBehaviour
             }
             SavedPages.Remove(MenuID);
         }
+
+        InputManager.Instance.AddBackAction(this, GoBack);
     }
 
     private void OnDestroy()
     {
         SavedPages.Add(MenuID, CurrentPage ? CurrentPage.name : null);
+        InputManager.Instance.RemoveBackAction(this);
     }
 
     public void GotoPage(MenuPage page)
@@ -43,4 +46,6 @@ public class MenuManager : MonoBehaviour
         }
         CurrentPage = page;
     }
+
+    public void GoBack() => CurrentPage.GoBack();
 }

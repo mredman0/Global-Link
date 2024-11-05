@@ -31,6 +31,13 @@ public class SettingsController : MonoBehaviour
             Puzzle.Current.LockInput();
             Puzzle.Current.CameraController.LockInput();
         }
+
+        InputManager.Instance.AddBackAction(this, HideSettings);
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.Instance.RemoveBackAction(this);
     }
 
     public void HideSettings()

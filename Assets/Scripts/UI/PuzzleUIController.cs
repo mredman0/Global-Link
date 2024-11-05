@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PuzzleUIController : MonoBehaviour
@@ -40,6 +41,8 @@ public class PuzzleUIController : MonoBehaviour
         OnUndoUnavailable();
 
         Puzzle.PuzzleCompleted += OnPuzzleCompleted;
+
+        InputManager.Instance.AddBackAction(this, GoBack);
     }
 
     private void OnDestroy()
@@ -48,6 +51,13 @@ public class PuzzleUIController : MonoBehaviour
         Puzzle.UndoUnavailable -= OnUndoUnavailable;
 
         Puzzle.PuzzleCompleted -= OnPuzzleCompleted;
+
+        InputManager.Instance.RemoveBackAction(this);
+    }
+
+    public void GoBack()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 
     private void SetPackAndIdText(PuzzleConfig cfg)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -22,6 +23,8 @@ public class InputManager : MonoBehaviour
     public Vector2 PressStartPosition;
     public Vector2 PressLatestPosition;
     public float DistanceThisDrag = 0f;
+
+    private List<(Component origin, Action action)> OnBackStack = new List<(Component origin, Action action)>();
 
     // Start is called before the first frame update
     void Start()
@@ -75,4 +78,15 @@ public class InputManager : MonoBehaviour
             }
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape) && OnBackStack.Any())
+        {
+            OnBackStack.Last().action();
+        }
+    }
+
+    public void AddBackAction(Component origin, Action action) => OnBackStack.Add((origin, action));
+    public void RemoveBackAction(Component origin) => OnBackStack.RemoveAll(tuple => tuple.origin == origin);
 }
