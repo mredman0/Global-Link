@@ -10,9 +10,18 @@ public class Build
     public const string ADB_PATH = @"C:\Program Files\Unity\Hub\Editor\2022.3.28f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\adb.exe";
 
     #region Build Actions
-    [MenuItem("Build/Build - Windows")]
-    public static void BuildWindows()
+    [MenuItem("Build/Build - Windows DEV")]
+    public static void BuildWindowsDev() => BuildWindows(dev: true);
+    [MenuItem("Build/Build - Windows RELEASE")]
+    public static void BuildWindowsRelease() => BuildWindows(dev: false);
+    private static void BuildWindows(bool dev)
     {
+        var buildOptions = BuildOptions.None;
+        if(dev)
+        {
+            buildOptions |= BuildOptions.Development;
+        }
+
         var options = new BuildPlayerOptions()
         {
             scenes = new string[] {
@@ -21,15 +30,26 @@ public class Build
                 "Assets/_Scenes/Puzzle.unity",
             },
             locationPathName = "Builds/Windows/Global Link.exe",
-            target = BuildTarget.StandaloneWindows
+            target = BuildTarget.StandaloneWindows,
+            options = buildOptions
         };
 
         _Build(options);
     }
 
-    [MenuItem("Build/Build and Run - Android")]
-    public static void BuildAndRunAndroid()
+
+    [MenuItem("Build/Build+Run - Android DEV")]
+    public static void BuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true);
+    [MenuItem("Build/Build+Run - Android RELEASE")]
+    public static void BuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false);
+    public static void BuildAndRunAndroid(bool dev)
     {
+        var buildOptions = BuildOptions.None;
+        if (dev)
+        {
+            buildOptions |= BuildOptions.Development;
+        }
+
         // Check for connected devices
         if (!IsDeviceConnected())
         {
@@ -46,7 +66,8 @@ public class Build
                 "Assets/_Scenes/Puzzle.unity",
             },
             locationPathName = apkPath,
-            target = BuildTarget.Android
+            target = BuildTarget.Android,
+            options = buildOptions
         };
 
         _Build(options);
