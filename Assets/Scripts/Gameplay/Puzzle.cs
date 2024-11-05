@@ -86,7 +86,7 @@ public class Puzzle : MonoBehaviour
         InitializePuzzle();
 
         InputManager.Instance.Tap += OnTap;
-        ColorMapController.Instance.ColorMapChanged += OnColorMapChanged;
+        ColorManager.Instance.ColorMapChanged += OnColorMapChanged;
 
         if (TutorialInstructionsProvider.Instance)
         {
@@ -100,7 +100,7 @@ public class Puzzle : MonoBehaviour
 
     private void OnDestroy()
     {
-        ColorMapController.Instance.ColorMapChanged -= OnColorMapChanged;
+        ColorManager.Instance.ColorMapChanged -= OnColorMapChanged;
         InputManager.Instance.Tap -= OnTap;
     }
 
@@ -1090,7 +1090,7 @@ public class Puzzle : MonoBehaviour
             newNodeGO.transform.parent = transform;
             var newNode = newNodeGO.GetComponent<Node>();
             var colorIndex = colorGetter(i);
-            newNodeGO.name = $"{ColorMapController.Instance.ColorName(colorIndex)} Node";
+            newNodeGO.name = $"{ColorManager.Instance.ColorName(colorIndex)} Node";
             newNode.SetColor(colorIndex);
             newNode.Puzzle = this;
 

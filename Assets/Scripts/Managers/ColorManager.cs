@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorMapController : MonoBehaviour
+public class ColorManager : MonoBehaviour
 {
-    public static ColorMapController Instance { get; set; }
+    public static ColorManager Instance { get; set; }
 
     private const string RED = "Red";
     private const string GREEN = "Green";
@@ -92,21 +91,21 @@ public class ColorMapController : MonoBehaviour
     public delegate void ColorMapChangedEvent();
     public event ColorMapChangedEvent ColorMapChanged;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-
+        if(Instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
-
 
     public void SetActiveColorMap(string mapId)
     {
-        if(mapId is null || !ColorMaps.ContainsKey(mapId))
+        if (mapId is null || !ColorMaps.ContainsKey(mapId))
         {
             Debug.LogError($"Could not set color map to {mapId}");
             return;
@@ -121,9 +120,9 @@ public class ColorMapController : MonoBehaviour
     {
         var c = ColorMaps[ActiveColorMap][colorIndex];
 
-        foreach(var kvp in Colors)
+        foreach (var kvp in Colors)
         {
-            if(kvp.Value == c)
+            if (kvp.Value == c)
             {
                 return kvp.Key;
             }

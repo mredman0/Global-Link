@@ -38,13 +38,13 @@ public class Warp : MonoBehaviour
 
     private void SetSurfaceColor(int colorIndex)
     {
-        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorMapController.Instance.ApplyActiveColorMap(colorIndex);
+        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorManager.Instance.ApplyActiveColorMap(colorIndex);
         MeshRenderer.material.SetColor("_BaseColor", color);
     }
 
     private void SetLineColor(int colorIndex)
     {
-        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorMapController.Instance.ApplyActiveColorMap(colorIndex);
+        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorManager.Instance.ApplyActiveColorMap(colorIndex);
         WarpPreviewLine.material.SetColor("_FillColor", color);
     }
 

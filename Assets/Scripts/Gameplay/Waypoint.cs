@@ -57,7 +57,7 @@ public class Waypoint : MonoBehaviour
     public void SetColor(int colorIndex)
     {
         Color = colorIndex;
-        MeshRenderer.material.SetColor("_Color", ColorMapController.Instance.ApplyActiveColorMap(colorIndex));
+        MeshRenderer.material.SetColor("_Color", ColorManager.Instance.ApplyActiveColorMap(colorIndex));
         ColorIconRenderer.material = ColorIconMaterials[Color];
     }
 

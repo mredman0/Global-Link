@@ -59,7 +59,7 @@ public class NodePairDisplay : MonoBehaviour
         var imagesToTint = allImages.Where(img => !img.CompareTag("Color Icon")).ToList();
         foreach (var img in imagesToTint)
         {
-            img.color = ColorMapController.Instance.ApplyActiveColorMap(color);
+            img.color = ColorManager.Instance.ApplyActiveColorMap(color);
         }
 
         UpdateDisplay();

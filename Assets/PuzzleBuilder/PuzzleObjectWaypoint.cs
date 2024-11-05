@@ -17,7 +17,7 @@ public class PuzzleObjectWaypoint : PuzzleObject
     public void SetColor(int color)
     {
         Color = color;
-        var mappedColor = ColorMapController.Instance.ApplyActiveColorMap(color);
+        var mappedColor = ColorManager.Instance.ApplyActiveColorMap(color);
         GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
     }
 }
