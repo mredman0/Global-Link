@@ -1,3 +1,4 @@
+#if ( UNITY_EDITOR )
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,14 @@ using UnityEngine;
 public class Build
 {
     public const string ADB_PATH = @"C:\Program Files\Unity\Hub\Editor\2022.3.28f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\adb.exe";
+
+    private static string[] scenes = new string[]
+    {
+        "Assets/_Scenes/Main Menu.unity",
+        "Assets/_Scenes/Settings.unity",
+        "Assets/_Scenes/Store.unity",
+        "Assets/_Scenes/Puzzle.unity",
+    };
 
     #region Build Actions
     [MenuItem("Build/Build - Windows DEV")]
@@ -24,11 +33,7 @@ public class Build
 
         var options = new BuildPlayerOptions()
         {
-            scenes = new string[] {
-                "Assets/_Scenes/Main Menu.unity",
-                "Assets/_Scenes/Settings.unity",
-                "Assets/_Scenes/Puzzle.unity",
-            },
+            scenes = scenes,
             locationPathName = "Builds/Windows/Global Link.exe",
             target = BuildTarget.StandaloneWindows,
             options = buildOptions
@@ -60,11 +65,7 @@ public class Build
         var apkPath = "Builds/Android/Global Link.apk";
         var options = new BuildPlayerOptions()
         {
-            scenes = new string[] {
-                "Assets/_Scenes/Main Menu.unity",
-                "Assets/_Scenes/Settings.unity",
-                "Assets/_Scenes/Puzzle.unity",
-            },
+            scenes = scenes,
             locationPathName = apkPath,
             target = BuildTarget.Android,
             options = buildOptions
@@ -227,3 +228,5 @@ public class IPInputWindow : EditorWindow
         }
     }
 }
+
+#endif
