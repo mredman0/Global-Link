@@ -1274,17 +1274,19 @@ public class Puzzle : MonoBehaviour
 
     public bool IsPositionFree(Vector3 position, int? excludeColor = null)
     {
-        var nodePathCollisionDistance = NodeCollisionDistance + PathCollisionDistance;
-        foreach (var node in Nodes)
+
+        var nodePathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg * 0.9f;
+        var pointPolar = position.ToPolar();
+        foreach (var node in Nodes.Where(n => n.Color != excludeColor))
         {
-            if (node.Color != excludeColor)
+            // Latitude "minimum" is the top, so it's actually the max
+            if (pointPolar.Latitude < node.GridCell.LatitudeMin + nodePathCollisionPadding && pointPolar.Latitude > node.GridCell.LatitudeMax - nodePathCollisionPadding &&
+                pointPolar.Longitude > node.GridCell.LongitudeMin - nodePathCollisionPadding && pointPolar.Longitude < node.GridCell.LongitudeMax + nodePathCollisionPadding)
             {
-                if (Vector3.Distance(position, node.transform.position) < nodePathCollisionDistance)
-                {
-                    return false;
-                }
+                return false;
             }
         }
+
         var pathPathCollisionDistance = PathCollisionDistance * 2;
         foreach (var kvp in Paths)
         {
@@ -1309,7 +1311,6 @@ public class Puzzle : MonoBehaviour
             }
         }
         var wallPathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg * 0.9f;
-        var pointPolar = position.ToPolar();
         foreach (var wall in Walls)
         {
             // Latitude "minimum" is the top, so it's actually the max

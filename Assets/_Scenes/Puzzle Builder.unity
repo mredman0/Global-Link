@@ -646,11 +646,16 @@ MonoBehaviour:
   MinimumWarpDistance: 3
   InitialWallAmount: 0
   WallClustering: 0
-  TargetNodePairs: 6
+  TargetNodePairs: 1
   TargetWaypoints: 0
   MinimumDistanceBetweenNodes: 4
   AdditionalWallAmount: 0
   StartGeneration: 0
+  PreferredDistanceBetweenNodes: 8
+  Waywardness: 0
+  MicroWaywardness: 4
+  WallUnusedPlaceholders: 1
+  StartGenerationV2: 0
   PuzzleName: Puzzle
   SavePuzzle: 0
   ConfigToLoad: {fileID: 0}

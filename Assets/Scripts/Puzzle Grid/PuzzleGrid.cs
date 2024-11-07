@@ -291,6 +291,10 @@ public class PuzzleGrid : MonoBehaviour
         obstructed ??= cell => cell.Color != null;
 
         var path1 = GetShortestPath(from, to, obstructed);
+        if(path1 is null)
+        {
+            return null;
+        }
         bool ignoredWarp = false;
         for (int i = 0; i < path1.Count; i++)
         {
@@ -347,7 +351,7 @@ public class PuzzleGrid : MonoBehaviour
                 if (!visited.Contains(neighbor))
                 {
                     visited.Add(neighbor);
-                    if(!obstructed(neighbor))
+                    if(neighbor == to || !obstructed(neighbor))
                     {
                         cameFrom[neighbor] = current; // Track the path
                         queue.Enqueue(neighbor);
