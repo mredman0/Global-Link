@@ -61,18 +61,14 @@ public class PuzzleBuilder : MonoBehaviour
     public int TargetNodePairs = 6;
     [Range(0, 6)]
     public int TargetWaypoints = 0;
-    public int MinimumDistanceBetweenNodes = 4;
     [Range(0, 1)]
     public float AdditionalWallAmount = 0f;
-    public bool StartGeneration = false;
 
-
-    [Header("GeneratorV2")]
     public int PreferredDistanceBetweenNodes = 8;
-    public int Waywardness = 4;
     public int MicroWaywardness = 4;
     public bool WallUnusedPlaceholders = false;
-    public bool StartGenerationV2 = false;
+
+    public bool StartGeneration = false;
 
     [Header("Saving")]
     public string PuzzleName = "Puzzle";
@@ -181,13 +177,6 @@ public class PuzzleBuilder : MonoBehaviour
             Clear();
             RebuildGrid();
             GeneratePuzzle();
-        }
-        if (StartGenerationV2)
-        {
-            StartGenerationV2 = false;
-            Clear();
-            RebuildGrid();
-            GeneratePuzzleV2();
         }
         if (SnapCameraArmStartToCurrent)
         {
@@ -405,7 +394,7 @@ public class PuzzleBuilder : MonoBehaviour
     }
 	#endregion
 
-	#region Generator
+    #region Generator V2
     public void GeneratePuzzle()
     {
         SetRandomSeed();
@@ -427,313 +416,8 @@ public class PuzzleBuilder : MonoBehaviour
         PreviousSeed = string.IsNullOrEmpty(GeneratorSeed) ? seed.ToString() : GeneratorSeed;
         Random.InitState(seed);
     }
-	
+
     private void GenerateWarps()
-    {
-        var warpCells = new List<GridCell>();
-        var availableCells = GetOpenCells(Grid.Cells).ToList();
-        for(int pair = 0; pair < TargetWarpPairs; pair++)
-        {
-            var warp1Cell = availableCells[Random.Range(0, availableCells.Count)];
-            availableCells.Remove(warp1Cell);
-
-            var cellsFarEnoughAway = availableCells.Where(cell => Grid.DistanceBetween(warp1Cell, cell) >= MinimumWarpDistance).ToList();
-            var warp2Cell = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
-            availableCells.Remove(warp2Cell);
-
-            warpCells.Add(warp1Cell);
-            warpCells.Add(warp2Cell);
-        }
-
-        PaintMode = PuzzleBuilderPaintMode.Warp;
-        for(int i = 0; i < warpCells.Count; i+=2)
-        {
-            Paint(warpCells[i]);
-            Paint(warpCells[i + 1]);
-        }
-
-        Debug.Log($"Generated {Warps.Count} warps");
-        foreach (var warp in Warps)
-        {
-            if (!warp.PairedWarp)
-            {
-                Debug.LogWarning($"Warp {warp.name} does not have a paired warp!");
-            }
-        }
-    }
-
-    private void GenerateInitialWalls()
-    {
-        PaintMode = PuzzleBuilderPaintMode.Wall;
-        var targetWalls = Mathf.RoundToInt(Grid.Cells.Count * InitialWallAmount);
-
-        if(targetWalls < 1)
-        {
-            return;
-        }
-
-        if(WallClustering == 0)
-        {
-            var availableCells = new List<GridCell>();
-            availableCells.AddRange(Grid.Cells);
-
-            for(int i = 0; i < targetWalls; i++)
-            {
-                var randomIndex = Random.Range(0, availableCells.Count);
-                Paint(availableCells[randomIndex]);
-                availableCells.RemoveAt(randomIndex);
-            }
-            return;
-        }
-
-        // Chance to end cluster should be ((numInCluster / targetClusterSize) / 2) ^ 2
-        var targetClusterSize = targetWalls * WallClustering;
-        var wallsGenerated = 0;
-        var wallsInCluster = new List<GridCell>();
-        var availableNeighbors = new List<GridCell>();
-        var startNewCluster = true;
-        while(wallsGenerated < targetWalls)
-        {
-            if(startNewCluster)
-            {
-                availableNeighbors.Clear();
-                availableNeighbors.AddRange(GetOpenCells(Grid.Cells));
-                var randomIndex = Random.Range(0, availableNeighbors.Count);
-                var cell = availableNeighbors[randomIndex];
-                Paint(cell);
-                availableNeighbors.Clear();
-                availableNeighbors.AddRange(GetOpenCells(cell.Neighbors));
-                wallsInCluster.Add(cell);
-                wallsGenerated++;
-                startNewCluster = false;
-            }
-            else if(!availableNeighbors.Any())
-            {
-                startNewCluster = true;
-            }
-            else if(Random.value < Mathf.Pow(((wallsInCluster.Count / targetClusterSize) / 2), 2))
-            {
-                startNewCluster = true;
-            }
-            else
-            {
-                var randomIndex = Random.Range(0, availableNeighbors.Count);
-                var cell = availableNeighbors[randomIndex];
-                Paint(cell);
-                availableNeighbors.RemoveAll(c => c == cell);
-                availableNeighbors.AddRange(GetOpenCells(cell.Neighbors));
-                wallsInCluster.Add(cell);
-                wallsGenerated++;
-            }
-        }
-    }
-
-    private Dictionary<int, List<GridCell>> GeneratedSolutionPaths = new Dictionary<int, List<GridCell>>();
-    private void GenerateNodesPathsAndWaypoints()
-    {
-        PaintMode = PuzzleBuilderPaintMode.Node;
-        List<List<GridCell>> contiguousGroupsOfCells;
-        var colors = new List<int>();
-        for(int i = 0; i < 6; i++)
-        {
-            colors.Add(i);
-        }
-        var colorOrder = new int[colors.Count];
-        for(int i = 0; i < colorOrder.Length; i++)
-        {
-            var randInd = Random.Range(0, colors.Count);
-            colorOrder[i] = colors[randInd];
-            colors.RemoveAt(randInd);
-        }
-
-        var waypointsLeftToGenerate = TargetWaypoints;
-
-        for(int i = 0; i < TargetNodePairs; i++)
-        {
-            PaintNodeColor = colorOrder[i];
-            contiguousGroupsOfCells = GetContiguousGroupsOfCells();
-
-            List<GridCell> biggestGroup = null;
-            int biggestGroupSize = 0;
-            foreach(var group in contiguousGroupsOfCells)
-            {
-                if(group.Count > biggestGroupSize)
-                {
-                    biggestGroup = group;
-                    biggestGroupSize = group.Count;
-                }
-            }
-
-            var generateWaypoint = waypointsLeftToGenerate > 0;
-
-            if(biggestGroupSize < 4)
-            {
-                break; // Can't place any more node pairs
-            }
-
-            if(generateWaypoint)
-            {
-                var possibleWaypoints = biggestGroup.Where(cell => !cell.IsDeadEnd() && !PlacedObjects.ContainsKey(cell)).ToList();
-                var waypoint = possibleWaypoints[Random.Range(0, possibleWaypoints.Count)];
-                biggestGroup.Remove(waypoint);
-                var cellsFarEnoughAway = biggestGroup.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes && !PlacedObjects.ContainsKey(cell)).ToList();
-                if (!cellsFarEnoughAway.Any())
-                {
-                    // We tried to prefer something further away, but just give up
-                    cellsFarEnoughAway = biggestGroup;
-                }
-                var firstNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
-                var pathToFirstNode = Grid.GetShortestPathPreferringWarps(waypoint, firstNode, Warps);
-                foreach (var cell in pathToFirstNode)
-                {
-                    ColorCell(cell);
-                }
-                ColorCell(firstNode);
-                var cellsToConsiderForSecondNode = Grid.GetContiguousCells(waypoint);
-                cellsToConsiderForSecondNode.Remove(waypoint);
-                cellsFarEnoughAway = cellsToConsiderForSecondNode.Where(cell => Grid.DistanceBetween(waypoint, cell) >= MinimumDistanceBetweenNodes && !PlacedObjects.ContainsKey(cell)).ToList();
-                if (!cellsFarEnoughAway.Any())
-                {
-                    // We tried to prefer something further away, but just give up
-                    cellsFarEnoughAway = cellsToConsiderForSecondNode;
-                }
-                var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
-                var pathToSecondNode = Grid.GetShortestPathPreferringWarps(waypoint, secondNode, Warps);
-                foreach (var cell in pathToSecondNode)
-                {
-                    ColorCell(cell);
-                }
-                var completePath = new List<GridCell>();
-                completePath.AddRange(pathToFirstNode);
-                completePath.Reverse();
-                completePath.Add(waypoint);
-                completePath.AddRange(pathToSecondNode);
-                GeneratedSolutionPaths[colorOrder[i]] = completePath;
-
-                PaintMode = PuzzleBuilderPaintMode.Waypoint;
-                Paint(waypoint);
-                waypointsLeftToGenerate--;
-
-                PaintMode = PuzzleBuilderPaintMode.Node;
-                Paint(firstNode);
-                Paint(secondNode);
-            }
-            else
-            {
-                var possibleNodes = biggestGroup.Where(cell => !PlacedObjects.ContainsKey(cell)).ToList();
-                var firstNode = possibleNodes[Random.Range(0, possibleNodes.Count)];
-                possibleNodes.Remove(firstNode);
-                var cellsFarEnoughAway = possibleNodes.Where(cell => Grid.DistanceBetween(firstNode, cell) >= MinimumDistanceBetweenNodes).ToList();
-                if (!cellsFarEnoughAway.Any())
-                {
-                    // We tried to prefer something further away, but just give up
-                    cellsFarEnoughAway = possibleNodes;
-                }
-                var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
-
-                var path = Grid.GetShortestPathPreferringWarps(firstNode, secondNode, Warps);
-                foreach (var cell in path)
-                {
-                    ColorCell(cell);
-                }
-                GeneratedSolutionPaths[colorOrder[i]] = path;
-
-                PaintMode = PuzzleBuilderPaintMode.Node;
-                Paint(firstNode);
-                Paint(secondNode);
-            }
-        }
-        if(waypointsLeftToGenerate > 0)
-        {
-            Debug.LogWarning($"Only generated {TargetWaypoints - waypointsLeftToGenerate} out of the requested {TargetWaypoints} waypoints");
-        }
-    }
-
-    private void RemoveUnusedWarps()
-    {
-        var warpsToRemove = new List<PuzzleObjectWarp>();
-        foreach(var kvp in GeneratedSolutionPaths)
-        {
-            var path = kvp.Value;
-
-            for(int i = 0; i < path.Count; i++)
-            {
-                if(PlacedObjects.ContainsKey(path[i]) && PlacedObjects[path[i]] is PuzzleObjectWarp warp)
-                {
-                    if(i > 0 && PlacedObjects.ContainsKey(path[i-1]) && PlacedObjects[path[i-1]] is PuzzleObjectWarp otherWarpPrev && warp.PairedWarp == otherWarpPrev)
-                    {
-                        continue;
-                    }
-                    if (i < path.Count-1 && PlacedObjects.ContainsKey(path[i + 1]) && PlacedObjects[path[i + 1]] is PuzzleObjectWarp otherWarpNext && warp.PairedWarp == otherWarpNext)
-                    {
-                        continue;
-                    }
-                    warpsToRemove.Add(warp);
-                    warpsToRemove.Add(warp.PairedWarp);
-                }
-            }
-        }
-        warpsToRemove = warpsToRemove.Distinct().ToList();
-
-        if(warpsToRemove.Count > 0)
-        {
-            Debug.Log($"Removing {warpsToRemove.Count} unused warps after generating solution paths");
-        }
-        foreach(var warp in warpsToRemove)
-        {
-            EraseObject(warp.Cell, isManual: false);
-        }
-    }
-
-    private List<List<GridCell>> GetContiguousGroupsOfCells()
-    {
-        var groups = new List<List<GridCell>>();
-        var ungroupedCells = GetOpenCells(Grid.Cells).ToList();
-        while(ungroupedCells.Any())
-        {
-            var group = new List<GridCell>();
-            groups.Add(group);
-            group.AddRange(Grid.GetContiguousCells(ungroupedCells.First()));
-            foreach(var cell in group)
-            {
-                ungroupedCells.Remove(cell);
-            }
-        }
-        return groups;
-    }
-
-    private void GenerateAdditionalWalls()
-    {
-        PaintMode = PuzzleBuilderPaintMode.Wall;
-
-        var availableCells = GetOpenCells(Grid.Cells).ToList();
-        var targetWalls = Mathf.RoundToInt(availableCells.Count * AdditionalWallAmount);
-        
-        for (int i = 0; i < targetWalls; i++)
-        {
-            var randomIndex = Random.Range(0, availableCells.Count);
-            Paint(availableCells[randomIndex]);
-            availableCells.RemoveAt(randomIndex);
-        }
-        return;
-    }
-
-    private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null && !PlacedObjects.ContainsKey(c));
-    #endregion
-
-    #region Generator V2
-    public void GeneratePuzzleV2()
-    {
-        SetRandomSeed();
-
-        GenerateWarpsV2();
-        GenerateInitialWallsV2();
-        GenerateNodesPathsAndWaypointsV2();
-        RemoveUnusedWarpsV2();
-        GenerateAdditionalWallsV2();
-    }
-
-    private void GenerateWarpsV2()
     {
         var warpCells = new List<GridCell>();
         var availableCells = GetOpenCells(Grid.Cells).ToList();
@@ -757,7 +441,6 @@ public class PuzzleBuilder : MonoBehaviour
             Paint(warpCells[i + 1]);
         }
 
-        Debug.Log($"Generated {Warps.Count} warps");
         foreach (var warp in Warps)
         {
             if (!warp.PairedWarp)
@@ -767,7 +450,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void GenerateInitialWallsV2()
+    private void GenerateInitialWalls()
     {
         PaintMode = PuzzleBuilderPaintMode.Wall;
         var targetWalls = Mathf.RoundToInt(Grid.Cells.Count * InitialWallAmount);
@@ -833,7 +516,8 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void GenerateNodesPathsAndWaypointsV2()
+    private Dictionary<int, List<GridCell>> GeneratedSolutionPaths = new Dictionary<int, List<GridCell>>();
+    private void GenerateNodesPathsAndWaypoints()
     {
         PaintMode = PuzzleBuilderPaintMode.Node;
         List<List<GridCell>> contiguousGroupsOfCells;
@@ -915,72 +599,34 @@ public class PuzzleBuilder : MonoBehaviour
             }
             var secondNode = cellsFarEnoughAway[Random.Range(0, cellsFarEnoughAway.Count)];
 
-            // Waywardness
+            // "Micro" waywardness (waywardness initially choosing a segmentLength of 3
+            //      then only continuing to modify the segment within that
             var placeholderCells = new List<GridCell>();
             var pathIncludingNodes = Grid.GetShortestPathPreferringWarps(firstNode, secondNode, Warps);
             pathIncludingNodes.Insert(0, firstNode);
             pathIncludingNodes.Add(secondNode);
-            for (int wayward = 0; wayward < Waywardness; wayward++)
-            {
-                var adjustmentMade = false;
-                for (int segmentLength = pathIncludingNodes.Count; segmentLength > 2; segmentLength--)
-                {
-                    if(adjustmentMade)
-                    {
-                        break;
-                    }
-                    for(int offset = 0; offset < pathIncludingNodes.Count - segmentLength + 1; offset++)
-                    {
-                        if(adjustmentMade)
-                        {
-                            break;
-                        }
-                        var start = pathIncludingNodes[offset];
-                        var end = pathIncludingNodes[offset + segmentLength - 1];
-                        for(int pathIndex = offset+1; pathIndex < offset+segmentLength-1; pathIndex++)
-                        {
-                            ColorCell(pathIncludingNodes[pathIndex], -1);
-                            placeholderCells.Add(pathIncludingNodes[pathIndex]);
-                            allPlaceholderCells.Add(pathIncludingNodes[pathIndex]);
-                        }
-                        var newSubPath = Grid.GetShortestPathPreferringWarps(start, end, Warps);
-                        if(newSubPath != null)
-                        {
-                            pathIncludingNodes.RemoveRange(offset + 1, segmentLength - 2);
-                            pathIncludingNodes.InsertRange(offset + 1, newSubPath);
-                            adjustmentMade = true;
-                        }
-                        else
-                        {
-                            for (int pathIndex = offset + 1; pathIndex < offset + segmentLength-1; pathIndex++)
-                            {
-                                ColorCell(pathIncludingNodes[pathIndex], null);
-                                placeholderCells.Remove(pathIncludingNodes[pathIndex]);
-                                allPlaceholderCells.Remove(pathIncludingNodes[pathIndex]);
-                            }
-                        }
-                    }
-                }
-                if(!adjustmentMade)
-                {
-                    break;
-                }
-            }
 
-            // "Micro" waywardness (waywardness initially choosing a segmentLength of 3
-            //      then only continuing to modify the segment within that
             int microSegmentLength = 3;
+            int maxOffsetVal = pathIncludingNodes.Count - microSegmentLength;
             int offsetMin = 0;
-            int offsetMax = pathIncludingNodes.Count - microSegmentLength;
+            int offsetMax = maxOffsetVal;
+
+            // Randomly offset our starting point so it's not almost-always at one of the endpoints
+            int offsetOffset = Random.Range(0, maxOffsetVal+1);
+            offsetMin += offsetOffset;
+            offsetMax += offsetOffset;
+
             for (int wayward = 0; wayward < MicroWaywardness; wayward++)
             {
                 var adjustmentMade = false;
-                for (int offset = offsetMin; offset <= offsetMax; offset++)
+                for (int rawOffset = offsetMin; rawOffset <= offsetMax; rawOffset++)
                 {
                     if (adjustmentMade)
                     {
                         break;
                     }
+                    var offset = rawOffset % (maxOffsetVal + 1);
+
                     var start = pathIncludingNodes[offset];
                     var end = pathIncludingNodes[offset + microSegmentLength - 1];
                     for (int pathIndex = offset + 1; pathIndex < offset + microSegmentLength - 1; pathIndex++)
@@ -993,7 +639,7 @@ public class PuzzleBuilder : MonoBehaviour
                         cell.Color != null || cell.Neighbors.Any(n => {
                             var indexInPath = pathIncludingNodes.IndexOf(n);
                             return indexInPath >= 0 && (indexInPath < offset || indexInPath > offset + microSegmentLength - 1);
-                        });
+                        }) || pathIncludingNodes.Any(pathCell => cell.Neighbors.Intersect(pathCell.Neighbors.Where(pathNeighborCell => pathIncludingNodes.IndexOf(pathNeighborCell) < 0)).Count() > 1);
                     var newSubPath = Grid.GetShortestPathPreferringWarps(start, end, Warps, obstructed);
                     if (newSubPath != null && newSubPath.Count > 1)
                     {
@@ -1107,7 +753,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void RemoveUnusedWarpsV2()
+    private void RemoveUnusedWarps()
     {
         var warpsToRemove = new List<PuzzleObjectWarp>();
         foreach (var kvp in GeneratedSolutionPaths)
@@ -1143,7 +789,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void GenerateAdditionalWallsV2()
+    private void GenerateAdditionalWalls()
     {
         PaintMode = PuzzleBuilderPaintMode.Wall;
 
@@ -1158,6 +804,24 @@ public class PuzzleBuilder : MonoBehaviour
         }
         return;
     }
+    private List<List<GridCell>> GetContiguousGroupsOfCells()
+    {
+        var groups = new List<List<GridCell>>();
+        var ungroupedCells = GetOpenCells(Grid.Cells).ToList();
+        while (ungroupedCells.Any())
+        {
+            var group = new List<GridCell>();
+            groups.Add(group);
+            group.AddRange(Grid.GetContiguousCells(ungroupedCells.First()));
+            foreach (var cell in group)
+            {
+                ungroupedCells.Remove(cell);
+            }
+        }
+        return groups;
+    }
+
+    private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null && !PlacedObjects.ContainsKey(c));
     #endregion
 
     #region Reset Functions

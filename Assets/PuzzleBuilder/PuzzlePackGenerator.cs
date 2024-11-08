@@ -264,7 +264,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         Builder.AdditionalWallAmount = parameters.AdditionalWalling;
 
         Builder.PuzzleName = $"{Config.PackId}_{parameters.Id}";
-        Builder.GeneratePuzzleV2();
+        Builder.GeneratePuzzle();
         Builder.Save();
     }
 
