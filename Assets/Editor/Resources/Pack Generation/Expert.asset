@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PackId: Expert
   NumPuzzles: 50
+  Mode: 0
   MinNodePairs: 5
   MaxNodePairs: 6
   TargetNodePairs:
@@ -91,6 +92,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  PreWallNormalness: 1
   PreWallClustering:
     serializedVersion: 2
     m_Curve:
@@ -126,6 +128,39 @@ MonoBehaviour:
       value: 0.0017006033
       inSlope: -20.039753
       outSlope: -20.039753
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  PreWallNoodling:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00358852
+      value: 0.504003
+      inSlope: -0.17787582
+      outSlope: -0.17787582
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09287064
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.22893563
+      value: 0.107319385
+      inSlope: -0.7784934
+      outSlope: -0.7784934
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50213623
+      value: 0
+      inSlope: -0.39282265
+      outSlope: -0.39282265
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -175,3 +210,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  EnforceMinColors: 0
+  EnforceMinWarpPairs: 0
+  EnforceMinWaypoints: 0

@@ -17,6 +17,7 @@ public class PuzzlePackGenerator : MonoBehaviour
     public string MasterSeed;
     public string PreviousSeed;
     public int Float01DiscreteBuckets;
+    public int MaxAttemptsPerPuzzle = 15;
 
     [Header("Overrides")]
     public int FirstPuzzle;
@@ -29,13 +30,8 @@ public class PuzzlePackGenerator : MonoBehaviour
     private float[] WarpPairProbabilities;
     private float[] PreWallingProbabilities;
     private float[] PreWallClusteringProbabilities;
+    private float[] PreWallNoodlingProbabilities;
     private float[] PostWallingProbabilities;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -78,6 +74,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         WarpPairProbabilities = DiscretizeCustomRangeCurve(Config.TargetWarpPairs, Config.MinWarpPairs, Config.MaxWarpPairs);
         PreWallingProbabilities = DiscretizeFloat01Curve(Config.PreWalling);
         PreWallClusteringProbabilities = DiscretizeFloat01Curve(Config.PreWallClustering);
+        PreWallNoodlingProbabilities = DiscretizeFloat01Curve(Config.PreWallNoodling);
         PostWallingProbabilities = DiscretizeFloat01Curve(Config.PostWalling);
 
         var parameters = new PackGenerationParameters()
@@ -109,13 +106,27 @@ public class PuzzlePackGenerator : MonoBehaviour
         }
         parameters.ComplexityStDev = Mathf.Sqrt(complexities.Sum(c => Mathf.Pow(c - parameters.MeanComplexity, 2)) / count);
 
-        var seedsTextPath = Path.Combine(Application.dataPath, $"Editor/Resources/Pack Generation/{pack}_params_{min}-{max}.txt");
-        File.WriteAllText(seedsTextPath, JsonUtility.ToJson(parameters, prettyPrint: true));
-
+        var failedEnforcement = 0;
         for (int i = min; i <= max; i++)
         {
-            GeneratePuzzle(parameters.PuzzleParameters[i-min]);
+            int attemptsTaken = GeneratePuzzleWithEnforcement(parameters.PuzzleParameters[i-min]);
+            if(attemptsTaken > MaxAttemptsPerPuzzle)
+            {
+                failedEnforcement++;
+            }
         }
+
+        if(failedEnforcement > 0)
+        {
+            Debug.LogError($"{failedEnforcement} puzzles could not meet enforcement parameters after {MaxAttemptsPerPuzzle} attempts");
+        }
+        else
+        {
+            Debug.Log($"All puzzles generated meeting enforcement parameters");
+        }
+
+        var seedsTextPath = Path.Combine(Application.dataPath, $"Editor/Resources/Pack Generation/{pack}_params_{min}-{max}.txt");
+        File.WriteAllText(seedsTextPath, JsonUtility.ToJson(parameters, prettyPrint: true));
     }
 
     private bool AssertValidConfig()
@@ -178,6 +189,11 @@ public class PuzzlePackGenerator : MonoBehaviour
             Debug.LogError($"PreWallClustering has no keyframes");
             valid = false;
         }
+        if (Config.PreWallNoodling.length < 1)
+        {
+            Debug.LogError($"PreWallNoodling has no keyframes");
+            valid = false;
+        }
         if (Config.PostWalling.length < 1)
         {
             Debug.LogError($"PostWalling has no keyframes");
@@ -235,6 +251,7 @@ public class PuzzlePackGenerator : MonoBehaviour
 
         var preWalling = RandomFloat01FromCurve(PreWallingProbabilities);
         var preWallClustering = RandomFloat01FromCurve(PreWallClusteringProbabilities);
+        var preWallNoodling = RandomFloat01FromCurve(PreWallNoodlingProbabilities);
         var postWalling = RandomFloat01FromCurve(PostWallingProbabilities);
 
         parameters.NodePairs = nodePairs;
@@ -242,30 +259,72 @@ public class PuzzlePackGenerator : MonoBehaviour
         parameters.WarpPairs = warps;
         parameters.InitialWalling = preWalling;
         parameters.WallClustering = preWallClustering;
+        parameters.WallNoodling = preWallNoodling;
         parameters.AdditionalWalling = postWalling;
 
         return parameters;
     }
 
-    private void GeneratePuzzle(PuzzleGenerationParameters parameters)
+    private int GeneratePuzzleWithEnforcement(PuzzleGenerationParameters parameters)
     {
-        Debug.Log($"Generating puzzle {parameters.Id} with complexity {parameters.Complexity()}");
+        int attempt = 0;
+        void Generate(int seed)
+        {
+            //Debug.Log($"Generating puzzle {parameters.Id} (attempt {attempt}) with complexity {parameters.Complexity()}");
 
-        Builder.Clear();
-        Builder.RebuildGrid();
+            Builder.Clear();
+            Builder.RebuildGrid();
 
-        Builder.GeneratorSeed = parameters.Seed.ToString();
+            Builder.GeneratorSeed = seed.ToString();
 
-        Builder.TargetNodePairs = parameters.NodePairs;
-        Builder.TargetWaypoints = parameters.Waypoints;
-        Builder.TargetWarpPairs = parameters.WarpPairs;
-        Builder.InitialWallAmount = parameters.InitialWalling;
-        Builder.WallClustering = parameters.WallClustering;
-        Builder.AdditionalWallAmount = parameters.AdditionalWalling;
+            Builder.TargetNodePairs = parameters.NodePairs;
+            Builder.TargetWaypoints = parameters.Waypoints;
+            Builder.TargetWarpPairs = parameters.WarpPairs;
+            Builder.InitialWallAmount = parameters.InitialWalling;
+            Builder.InitialWallClustering = parameters.WallClustering;
+            Builder.InitialWallNoodling = parameters.WallNoodling;
+            Builder.AdditionalWallAmount = parameters.AdditionalWalling;
 
-        Builder.PuzzleName = $"{Config.PackId}_{parameters.Id}";
-        Builder.GeneratePuzzle();
+            Builder.PuzzleName = $"{Config.PackId}_{parameters.Id}";
+            Builder.GeneratePuzzle();
+        }
+        bool PassesEnforcement()
+        {
+            if(((float)Builder.Nodes.Count / 2f) / Builder.TargetNodePairs < Config.EnforceMinColors)
+            {
+                return false;
+            }
+            if(((float)Builder.Warps.Count / 2f) / Builder.TargetWarpPairs < Config.EnforceMinWarpPairs)
+            {
+                return false;
+            }
+            if (((float)Builder.Waypoints.Count) / Builder.TargetWaypoints < Config.EnforceMinWaypoints)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        var seed = parameters.Seed;
+        Random.InitState(parameters.Seed);
+        while (attempt < MaxAttemptsPerPuzzle)
+        {
+            attempt++;
+            seed = Random.Range(int.MinValue, int.MaxValue);
+            Generate(seed);
+            if(PassesEnforcement())
+            {
+                break;
+            }
+        }
+
+        if (!PassesEnforcement())
+        {
+            attempt++; // Signal that the result does not meet enforcement after all attempts
+        }
+        parameters.Seed = seed;
         Builder.Save();
+        return attempt;
     }
 
     private int RandomIntFromCurve(float[] curve, int min)
@@ -347,6 +406,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         public int WarpPairs;
         public float InitialWalling;
         public float WallClustering;
+        public float WallNoodling;
         public float AdditionalWalling;
 
         public float Complexity()

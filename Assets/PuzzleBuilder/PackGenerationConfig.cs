@@ -10,6 +10,9 @@ public class PackGenerationConfig : ScriptableObject
     public int NumPuzzles;
 
     [Header("Puzzle Generation Parameters")]
+    [Header("Mode")]
+    public PuzzleGenerationMode Mode;
+
     [Header("Nodes")]
     [Range(2, 6)]
     public int MinNodePairs;
@@ -30,8 +33,20 @@ public class PackGenerationConfig : ScriptableObject
     [Tooltip("Uses range [MinWarpPairs, MaxWarpPairs]")]
     public AnimationCurve TargetWarpPairs;
 
-    [Header("Walls")]
+    [Header("Initial Walls")]
     public AnimationCurve PreWalling;
+    public float PreWallNormalness = 1;
     public AnimationCurve PreWallClustering;
+    public AnimationCurve PreWallNoodling;
+
+    [Header("Additional Walls")]
     public AnimationCurve PostWalling;
+
+    [Header("Enforcement")]
+    [Range(0f, 1f)]
+    public float EnforceMinColors = 0f;
+    [Range(0f, 1f)]
+    public float EnforceMinWarpPairs = 0f;
+    [Range(0f, 1f)]
+    public float EnforceMinWaypoints = 0f;
 }
