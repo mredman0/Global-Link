@@ -64,6 +64,12 @@ public class PuzzleUIController : MonoBehaviour
     {
         PuzzlePackText.text = cfg.Pack;
         PuzzleIdInPackText.text = cfg.Id;
+
+        PuzzlePackText.ForceMeshUpdate();
+        if(PuzzlePackText.textBounds.extents.y > 600f)
+        {
+            PuzzlePackText.fontSize *= 600f / PuzzlePackText.textBounds.extents.y;
+        }
     }
 
     private void OnUndoAvailable()

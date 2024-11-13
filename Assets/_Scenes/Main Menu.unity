@@ -9902,6 +9902,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 930102649}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &933765355 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4779149648938671606, guid: 0cab09a5a7134194ab2b53003ef3892d,
+    type: 3}
+  m_PrefabInstance: {fileID: 922966142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ccc131f8751dd649bfef05276b5b863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &937246011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11148,8 +11160,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PageToNavigateTo
       value: 
-      objectReference: {fileID: 4779149648938671606, guid: 0cab09a5a7134194ab2b53003ef3892d,
-        type: 3}
+      objectReference: {fileID: 933765355}
     - target: {fileID: 3898883375879976593, guid: 3e9ecb51f1c80ad4f9bba3620c87f758,
         type: 3}
       propertyPath: m_Color.b
