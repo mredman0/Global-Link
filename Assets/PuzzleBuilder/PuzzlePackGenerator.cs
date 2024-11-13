@@ -215,7 +215,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         var wouldOverwrite = new List<int>();
         for(int i = min; i <= max; i++)
         {
-            string resourcePath = $"Puzzles/{pack}/{pack}_{i}";
+            string resourcePath = $"Puzzles/{pack}/{i}";
             if(Resources.Load<PuzzleConfig>(resourcePath))
             {
                 wouldOverwrite.Add(i);
@@ -285,7 +285,7 @@ public class PuzzlePackGenerator : MonoBehaviour
             Builder.InitialWallNoodling = parameters.WallNoodling;
             Builder.AdditionalWallAmount = parameters.AdditionalWalling;
 
-            Builder.PuzzleName = $"{Config.PackId}_{parameters.Id}";
+            Builder.Id = $"{parameters.Id}";
             Builder.GeneratePuzzle();
         }
         bool PassesEnforcement()

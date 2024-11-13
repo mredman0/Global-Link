@@ -27,7 +27,7 @@ public class PuzzleLoader : MonoBehaviour
 			return;
 		}
 
-		string resourcePath = $"Puzzles/{PuzzlePack}/{PuzzlePack}_{PuzzleIdInPack}";
+		string resourcePath = $"Puzzles/{PuzzlePack}/{PuzzleIdInPack}";
 		var puzzleConfig = Resources.Load<PuzzleConfig>(resourcePath);
 		if(!puzzleConfig)
 		{

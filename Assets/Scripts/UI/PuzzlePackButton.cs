@@ -11,15 +11,14 @@ public class PuzzlePackButton : MonoBehaviour
 
 
     [Header("Settings")]
-    public string PackId;
-    public string PackName;
+    public PackInfo Pack;
 
     // Start is called before the first frame update
     void Start()
     {
-        PackNameText.text = PackName;
+        PackNameText.text = Pack.Name;
 
-        var (completed, total) = PuzzleCompletionManager.Instance.GetPackStats(PackId);
+        var (completed, total) = PuzzleCompletionManager.Instance.GetPackStats(Pack.Id);
         CompletedPuzzlesText.text = $"{completed} / {total}";
     }
 }

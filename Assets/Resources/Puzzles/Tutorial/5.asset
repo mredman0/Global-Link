@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4c26d9886e31643a66f4613f1b2170, type: 3}
+  m_Name: 5
+  m_EditorClassIdentifier: 
+  Pack: Tutorial
+  Id: 5
+  GridCellsPerRow: 01000000060000000a00000010000000140000001900000014000000100000000a0000000600000001000000
+  RockPositions: []
+  WallPositions:
+  - {x: 1, y: 5}
+  - {x: 2, y: 9}
+  - {x: 2, y: 8}
+  - {x: 2, y: 1}
+  - {x: 2, y: 2}
+  - {x: 2, y: 3}
+  - {x: 1, y: 2}
+  - {x: 2, y: 4}
+  - {x: 2, y: 5}
+  - {x: 2, y: 6}
+  NodePositions:
+  - {x: 1, y: 0}
+  - {x: 1, y: 4}
+  - {x: 1, y: 1}
+  - {x: 1, y: 3}
+  NodeColors: 00000000000000000100000001000000
+  WaypointPositions:
+  - {x: 0, y: 0}
+  WaypointColors: 01000000
+  WarpPositions: []
+  SolutionLengths: 070000000100000000000000000000000000000000000000
+  Solutions:
+  - {x: 2, y: 0}
+  - {x: 3, y: 0}
+  - {x: 3, y: 15}
+  - {x: 3, y: 14}
+  - {x: 3, y: 13}
+  - {x: 3, y: 12}
+  - {x: 2, y: 7}
+  - {x: 0, y: 0}
+  OpaqueSphere: 0
+  CameraArmStart: {x: 0.33779496, y: -0.638501, z: -0.5850784, w: -0.3686385}
+  CameraDistance: 0
+  CameraFoV: 0

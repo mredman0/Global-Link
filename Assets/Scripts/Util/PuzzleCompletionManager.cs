@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class PuzzleCompletionManager : MonoBehaviour
 {
     public static PuzzleCompletionManager Instance;
 
-    public List<string> PacksToManage;
+    public List<PackInfo> PacksToManage;
     public int ExpectedTutorialLevels = 6;
 
+    public Dictionary<string, PackInfo> PackInfo = new Dictionary<string, PackInfo>();
     private Dictionary<string, int> TotalPuzzles = new Dictionary<string, int>();
     private readonly Dictionary<string, PackPuzzleCompletionData> CompletionData = new Dictionary<string, PackPuzzleCompletionData>();
     private string CompletionFolder;
@@ -42,18 +44,13 @@ public class PuzzleCompletionManager : MonoBehaviour
 
     public (int completed, int total) GetPackStats(string packId) => (CompletionData[packId].CompletedPuzzles.Count, TotalPuzzles[packId]);
 
-    public bool IsPuzzleCompleted(string puzzleId)
+    public bool IsPuzzleCompleted(string packId, string puzzleId)
     {
-        var packAndId = GetPuzzlePackAndId(puzzleId);
-        if(packAndId is null)
+        if(!CompletionData.ContainsKey(packId))
         {
             return false;
         }
-        if(!CompletionData.ContainsKey(packAndId.Value.pack))
-        {
-            return false;
-        }
-        return CompletionData[packAndId.Value.pack].CompletedPuzzles.Contains(packAndId.Value.idInPack);
+        return CompletionData[packId].CompletedPuzzles.Contains(puzzleId);
     }
 
     public bool IsTutorialComplete()
@@ -65,45 +62,29 @@ public class PuzzleCompletionManager : MonoBehaviour
         return CompletionData["Tutorial"].CompletedPuzzles.Count >= ExpectedTutorialLevels;
     }
 
-    public void SetPuzzleCompleted(string puzzleId)
+    public void SetPuzzleCompleted(string packId, string puzzleId)
     {
-        var packAndId = GetPuzzlePackAndId(puzzleId);
-        if (packAndId is null)
+        if (!CompletionData.ContainsKey(packId))
         {
-            return;
+            CompletionData.Add(packId, new PackPuzzleCompletionData() { PackName = packId });
         }
-        var pack = packAndId.Value.pack;
-        if (!CompletionData.ContainsKey(pack))
+        if(!CompletionData[packId].CompletedPuzzles.Contains(puzzleId))
         {
-            CompletionData.Add(pack, new PackPuzzleCompletionData() { PackName = pack });
+            CompletionData[packId].CompletedPuzzles.Add(puzzleId);
         }
-        if(!CompletionData[pack].CompletedPuzzles.Contains(packAndId.Value.idInPack))
-        {
-            CompletionData[pack].CompletedPuzzles.Add(packAndId.Value.idInPack);
-        }
-        SavePack(pack);
+        SavePack(packId);
     }
 
     public void ResetAllProgress()
     {
         foreach(var pack in PacksToManage)
         {
-            if (CompletionData.ContainsKey(pack))
+            if (CompletionData.ContainsKey(pack.Id))
             {
-                CompletionData[pack].CompletedPuzzles.Clear();
+                CompletionData[pack.Id].CompletedPuzzles.Clear();
             }
         }
         SaveAll();
-    }
-
-    private (string pack, string idInPack)? GetPuzzlePackAndId(string puzzleId)
-    {
-        var idSplit = puzzleId.Split('_');
-        if (idSplit.Length != 2)
-        {
-            return null;
-        }
-        return (idSplit[0], idSplit[1]);
     }
 
     private void LoadAll()
@@ -114,15 +95,17 @@ public class PuzzleCompletionManager : MonoBehaviour
         }
         foreach(var pack in PacksToManage)
         {
-            LoadPack(pack);
+            LoadPack(pack.Id);
         }
     }
 
     private void LoadPack(string pack)
     {
+        PackInfo[pack] = PacksToManage.First(p => p.Id == pack);
+
         // Get total puzzles
         int puzzleNum = 1;
-        while (Resources.Load($"Puzzles/{pack}/{pack}_{puzzleNum}"))
+        while (Resources.Load($"Puzzles/{pack}/{puzzleNum}"))
         {
             puzzleNum++;
         }
@@ -150,7 +133,7 @@ public class PuzzleCompletionManager : MonoBehaviour
     {
         foreach(var pack in PacksToManage)
         {
-            SavePack(pack);
+            SavePack(pack.Id);
         }
     }
 

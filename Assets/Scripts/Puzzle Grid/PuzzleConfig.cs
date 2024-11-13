@@ -7,8 +7,8 @@ using UnityEngine;
 public class PuzzleConfig : ScriptableObject
 {
 	[Header("Metadata")]
-	// Contains information about both what pack it belongs in and what number it is in that pack
-	public string ID;
+	public string Pack;
+	public string Id;
 
 	[Header("Grid")]
 	public int[] GridCellsPerRow;

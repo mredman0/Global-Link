@@ -88,7 +88,8 @@ public class PuzzleBuilder : MonoBehaviour
     public bool StartGeneration = false;
 
     [Header("Saving")]
-    public string PuzzleName = "Puzzle";
+    public string Pack = "Pack";
+    public string Id = "#";
     public bool SavePuzzle = false;
 
     [Header("Loading")]
@@ -1045,7 +1046,7 @@ public class PuzzleBuilder : MonoBehaviour
 	#region Saving/Loading
     public void Save()
     {
-        if(string.IsNullOrWhiteSpace(PuzzleName))
+        if(string.IsNullOrWhiteSpace(Id))
         {
             Debug.LogError("Cannot save puzzle with empty name");
             return;
@@ -1054,7 +1055,8 @@ public class PuzzleBuilder : MonoBehaviour
         var newPuzzleConfig = ScriptableObject.CreateInstance<PuzzleConfig>();
 
         // Metadata
-        newPuzzleConfig.ID = PuzzleName;
+        newPuzzleConfig.Pack = 
+        newPuzzleConfig.Id = Id;
 
         // Grid
         newPuzzleConfig.GridCellsPerRow = GridCellsPerRow;
@@ -1169,7 +1171,7 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.CameraDistance = CameraDistance;
         newPuzzleConfig.CameraFoV = CameraFoV;
 
-        var puzzleNameSplitByUnderscore = PuzzleName.Split('_');
+        var puzzleNameSplitByUnderscore = Id.Split('_');
         if(puzzleNameSplitByUnderscore.Length == 2)
         {
             var pack = puzzleNameSplitByUnderscore[0];
@@ -1178,11 +1180,11 @@ public class PuzzleBuilder : MonoBehaviour
             {
                 AssetDatabase.CreateFolder("Assets/Resources/Puzzles", pack);
             }
-            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{pack}/{PuzzleName}.asset");
+            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{pack}/{Id}.asset");
         }
         else
         {
-            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{PuzzleName}.asset");
+            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{Id}.asset");
         }
     }
 
@@ -1191,7 +1193,8 @@ public class PuzzleBuilder : MonoBehaviour
         Clear();
 
         // Metadata
-        PuzzleName = cfg.ID;
+        Pack = cfg.Pack;
+        Id = cfg.Id;
 
         // Grid
         GridCellsPerRow = new int[cfg.GridCellsPerRow.Length];

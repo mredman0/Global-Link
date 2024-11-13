@@ -34,6 +34,6 @@ public class LoadPuzzleButton : MonoBehaviour
             Button.image.sprite = UncompletedSprite;
             return;
         }
-        Button.image.sprite = PuzzleCompletionManager.Instance.IsPuzzleCompleted($"{PuzzlePack}_{PuzzleIdInPack}") ? CompletedSprite : UncompletedSprite;
+        Button.image.sprite = PuzzleCompletionManager.Instance.IsPuzzleCompleted(PuzzlePack, PuzzleIdInPack) ? CompletedSprite : UncompletedSprite;
     }
 }

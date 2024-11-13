@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class PackPageGenerator : EditorWindow
 {
     private GameObject prefabRoot;
-    private string packId = "NewPack";
-    private string packName = "New Pack";
+    private PackInfo pack;
     private Color packTint = Color.white;
 
     [MenuItem("Tools/Pack Page Generator")]
@@ -22,8 +21,8 @@ public class PackPageGenerator : EditorWindow
         GUILayout.Label("Prefab Generator", EditorStyles.boldLabel);
 
         prefabRoot = (GameObject)EditorGUILayout.ObjectField("Base Pack Page", prefabRoot, typeof(GameObject), true);
-        packId = EditorGUILayout.TextField("Pack Id", packId);
-        packName = EditorGUILayout.TextField("Pack Name", packName);
+
+        pack = (PackInfo)EditorGUILayout.ObjectField("Pack", pack, typeof(PackInfo), true);
         packTint = EditorGUILayout.ColorField("Pack Tint", packTint);
 
         if (GUILayout.Button("Generate Prefab"))
@@ -55,18 +54,18 @@ public class PackPageGenerator : EditorWindow
 
     GameObject ModifyAndResave(GameObject prefabRoot)
     {
-        string localPath = "Assets/Prefabs/UI/Pack Pages/" + packId + " Pack Page.prefab";
+        string localPath = "Assets/Prefabs/UI/Pack Pages/" + pack.Id + " Pack Page.prefab";
         GameObject prefab = PrefabUtility.SaveAsPrefabAsset(prefabRoot, localPath);
 
         var page = prefab.GetComponent<PackPage>();
         var title = page.TitleText;
-        title.text = packName;
+        title.text = pack.Name;
         title.color = packTint;
 
         var loadPuzzleButtons = page.GetComponentsInChildren<LoadPuzzleButton>(includeInactive: true);
         foreach(var puzzleButton in loadPuzzleButtons)
         {
-            puzzleButton.PuzzlePack = packId;
+            puzzleButton.PuzzlePack = pack.Id;
             puzzleButton.GetComponent<Image>().color = packTint;
         }
 

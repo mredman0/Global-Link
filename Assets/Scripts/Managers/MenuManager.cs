@@ -40,6 +40,11 @@ public class MenuManager : MonoBehaviour
 
     public void GotoPage(MenuPage page)
     {
+        if(!page)
+        {
+            Debug.LogWarning($"No page provided to navigate to, ignoring page navigation");
+            return;
+        }
         foreach(var p in Pages)
         {
             p.SetVisible(p == page);

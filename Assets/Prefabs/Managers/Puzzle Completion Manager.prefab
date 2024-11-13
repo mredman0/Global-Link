@@ -45,8 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PacksToManage:
-  - Tutorial
-  - Beginner
-  - Intermediate
-  - Expert
+  - {fileID: 11400000, guid: b1a16001094a44045b372ee588ead9f7, type: 2}
+  - {fileID: 11400000, guid: 4372bc0a48a4fdd499657d14a0d50c6e, type: 2}
+  - {fileID: 11400000, guid: 35d9fff4d61e3d841af0583241d7177a, type: 2}
+  - {fileID: 11400000, guid: 289e3f0893671104bb959c3f82eef7b5, type: 2}
+  - {fileID: 11400000, guid: edc90f4e434578045a52a7cc365531d6, type: 2}
+  - {fileID: 11400000, guid: 0fd3f9f1a0c419745be34f05b8549bae, type: 2}
+  - {fileID: 11400000, guid: eecb222b0a5fb074ba3abd94f6851f9e, type: 2}
+  - {fileID: 11400000, guid: 64c9da0fed4a3694a9873b618fd60927, type: 2}
+  - {fileID: 11400000, guid: ff2a2907aaa73f947b4772108b46cc7a, type: 2}
+  - {fileID: 11400000, guid: 25b5d26ddee2043448bb3fa1ae6f5069, type: 2}
+  - {fileID: 11400000, guid: 30529770548aebc4fb6e4c610ac1d87f, type: 2}
+  - {fileID: 11400000, guid: d29ed6c0b315dc84e8a3fc4166fc43bb, type: 2}
+  - {fileID: 11400000, guid: 550e2b6803e7a5c4e890d645a56ebe06, type: 2}
   ExpectedTutorialLevels: 6

@@ -90,7 +90,7 @@ public class Puzzle : MonoBehaviour
 
         if (TutorialInstructionsProvider.Instance)
         {
-            var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.ID);
+            var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.Id);
             if(tutorialInstructions)
             {
                 Instantiate(tutorialInstructions);
@@ -560,7 +560,7 @@ public class Puzzle : MonoBehaviour
             PuzzleCompleted?.Invoke();
             if(PuzzleCompletionManager.Instance)
             {
-                PuzzleCompletionManager.Instance.SetPuzzleCompleted(PuzzleConfig.ID);
+                PuzzleCompletionManager.Instance.SetPuzzleCompleted(PuzzleConfig.Pack, PuzzleConfig.Id);
             }
             Completed = true;
             if(PuzzleCompleteEffect)

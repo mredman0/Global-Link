@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Expert
+  m_text: Grandmaster++
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: -8350771479540242031, guid: 4839fc7f4e8d1224a91e1a46b790e0f0,
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 0.79357404, b: 0.6, a: 1}
+  m_fontColor: {r: 0.6, g: 0.24, b: 0.27529427, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 4779149648938671606}
   - component: {fileID: 8392522070707556483}
   m_Layer: 5
-  m_Name: Expert Pack Page
+  m_Name: Grandmaster++ Pack Page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -924,7 +924,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -950,12 +950,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1094,7 +1099,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -1120,12 +1125,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1264,7 +1274,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -1290,12 +1300,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1434,7 +1449,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -1460,12 +1475,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1604,7 +1624,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -1630,12 +1650,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1774,7 +1799,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -1800,12 +1825,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1944,7 +1974,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -1970,12 +2000,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2114,7 +2149,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -2140,12 +2175,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2284,7 +2324,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -2310,12 +2350,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2454,7 +2499,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -2480,12 +2525,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2624,7 +2674,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -2650,12 +2700,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2794,7 +2849,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -2820,12 +2875,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2964,7 +3024,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -2990,12 +3050,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3273,7 +3338,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -3299,12 +3364,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3443,7 +3513,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -3469,12 +3539,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3613,7 +3688,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -3639,12 +3714,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3783,7 +3863,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -3809,12 +3889,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3953,7 +4038,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -3979,12 +4064,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4123,7 +4213,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -4149,12 +4239,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4293,7 +4388,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -4319,12 +4414,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4463,7 +4563,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -4489,12 +4589,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4633,7 +4738,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -4659,12 +4764,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4803,7 +4913,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -4829,12 +4939,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4973,7 +5088,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -4999,12 +5114,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5143,7 +5263,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -5169,12 +5289,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5313,7 +5438,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -5339,12 +5464,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5483,7 +5613,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -5509,12 +5639,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5653,7 +5788,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -5679,12 +5814,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5823,7 +5963,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -5849,12 +5989,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5993,7 +6138,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -6019,12 +6164,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6163,7 +6313,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -6189,12 +6339,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6333,7 +6488,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -6359,12 +6514,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6503,7 +6663,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -6529,12 +6689,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6673,7 +6838,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -6699,12 +6864,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6843,7 +7013,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -6869,12 +7039,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7013,7 +7188,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -7039,12 +7214,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7183,7 +7363,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -7209,12 +7389,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7353,7 +7538,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -7379,12 +7564,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7523,7 +7713,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -7549,12 +7739,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7693,7 +7888,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -7719,12 +7914,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7863,7 +8063,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -7889,12 +8089,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8033,7 +8238,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -8059,12 +8264,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8203,7 +8413,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -8229,12 +8439,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8373,7 +8588,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -8399,12 +8614,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8543,7 +8763,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -8569,12 +8789,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8713,7 +8938,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -8739,12 +8964,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8883,7 +9113,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -8909,12 +9139,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9053,7 +9288,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -9079,12 +9314,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9223,7 +9463,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -9249,12 +9489,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9393,7 +9638,7 @@ PrefabInstance:
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: PuzzlePack
-      value: Expert
+      value: Grandmaster++
       objectReference: {fileID: 0}
     - target: {fileID: 7447920733571310536, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
@@ -9419,12 +9664,17 @@ PrefabInstance:
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.6
+      value: 0.27529427
       objectReference: {fileID: 0}
     - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.79357404
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095363286140271913, guid: 7d2d32e34b5b76b42b98e965efa22c69,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

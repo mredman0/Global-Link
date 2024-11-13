@@ -68,21 +68,20 @@ public class PuzzleCompleteDialog : Dialog
 
     private (string pack, string idInPack)? GetNextLevelIfExists()
     {
-        var currentPuzzleId = PuzzleProvider.Instance.PuzzleConfig.ID;
-        var puzzleIdSplit = currentPuzzleId.Split('_');
-        if (puzzleIdSplit.Length != 2)
+        var currentPuzzle = PuzzleProvider.Instance.PuzzleConfig;
+        if(!currentPuzzle)
         {
             return null;
         }
-        var puzzlePack = puzzleIdSplit[0];
-        var puzzleIdInPack = puzzleIdSplit[1];
+        var puzzlePack = currentPuzzle.Pack;
+        var puzzleIdInPack = currentPuzzle.Id;
         var idIsInt = int.TryParse(puzzleIdInPack, out int idInPackInt);
         if (!idIsInt)
         {
             return null;
         }
         var nextLevelId = (idInPackInt + 1).ToString();
-        string resourcePath = $"Puzzles/{puzzlePack}/{puzzlePack}_{nextLevelId}";
+        string resourcePath = $"Puzzles/{puzzlePack}/{nextLevelId}";
         var puzzleConfig = Resources.Load<PuzzleConfig>(resourcePath);
         if (!puzzleConfig)
         {
