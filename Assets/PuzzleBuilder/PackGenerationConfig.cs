@@ -1,3 +1,4 @@
+#if ( UNITY_EDITOR )
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,3 +51,5 @@ public class PackGenerationConfig : ScriptableObject
     [Range(0f, 1f)]
     public float EnforceMinWaypoints = 0f;
 }
+
+#endif
