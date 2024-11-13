@@ -20,6 +20,7 @@ public class Warp : MonoBehaviour
     public int Color = -1;
     public LineRenderer WarpPreviewLine;
     public Vector3? PointDrawnInCell;
+    public List<Vector3> EntrancePath = new List<Vector3>();
 
     public GridCell GridCell { get; set; }
 
@@ -85,6 +86,7 @@ public class Warp : MonoBehaviour
 
     private void AddEnterCurve(MultiLineRenderer path, Vector3 startPoint)
     {
+        EntrancePath.Clear();
         var endPointOuter = GridCell.transform.position;
         var endPointInner = GridCell.transform.position * 0.95f;
 
@@ -96,12 +98,26 @@ public class Warp : MonoBehaviour
             var lerped = Vector3.Lerp(startPoint, lerpedEndpoint, t);
             path.PositionCount++;
             path.SetPosition(path.PositionCount - 1, lerped);
+            EntrancePath.Add(lerped);
         }
     }
 
     public bool LinePointRemovedFromCell(Vector3 point)
     {
+        var untakeWarp = false;
         if(PointDrawnInCell == point)
+        {
+            untakeWarp = true;
+        }
+        foreach(var entryPoint in EntrancePath)
+        {
+            if(entryPoint == point)
+            {
+                untakeWarp = true;
+            }
+        }
+
+        if(untakeWarp)
         {
             if(Role == WarpRole.Source)
             {
