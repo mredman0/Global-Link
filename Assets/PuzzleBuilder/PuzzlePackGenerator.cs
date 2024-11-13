@@ -285,6 +285,7 @@ public class PuzzlePackGenerator : MonoBehaviour
             Builder.InitialWallNoodling = parameters.WallNoodling;
             Builder.AdditionalWallAmount = parameters.AdditionalWalling;
 
+            Builder.Pack = Config.PackId;
             Builder.Id = $"{parameters.Id}";
             Builder.GeneratePuzzle();
         }

@@ -88,7 +88,7 @@ public class Puzzle : MonoBehaviour
         InputManager.Instance.Tap += OnTap;
         ColorManager.Instance.ColorMapChanged += OnColorMapChanged;
 
-        if (TutorialInstructionsProvider.Instance)
+        if (PuzzleConfig.Pack == "Tutorial" && TutorialInstructionsProvider.Instance)
         {
             var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.Id);
             if(tutorialInstructions)

@@ -1055,7 +1055,7 @@ public class PuzzleBuilder : MonoBehaviour
         var newPuzzleConfig = ScriptableObject.CreateInstance<PuzzleConfig>();
 
         // Metadata
-        newPuzzleConfig.Pack = 
+        newPuzzleConfig.Pack = Pack;
         newPuzzleConfig.Id = Id;
 
         // Grid
@@ -1171,21 +1171,11 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.CameraDistance = CameraDistance;
         newPuzzleConfig.CameraFoV = CameraFoV;
 
-        var puzzleNameSplitByUnderscore = Id.Split('_');
-        if(puzzleNameSplitByUnderscore.Length == 2)
+        if (!AssetDatabase.IsValidFolder($"Assets/Resources/Puzzles/{Pack}"))
         {
-            var pack = puzzleNameSplitByUnderscore[0];
-            var puzzleId = puzzleNameSplitByUnderscore[1];
-            if(!AssetDatabase.IsValidFolder($"Assets/Resources/Puzzles/{pack}"))
-            {
-                AssetDatabase.CreateFolder("Assets/Resources/Puzzles", pack);
-            }
-            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{pack}/{Id}.asset");
+            AssetDatabase.CreateFolder("Assets/Resources/Puzzles", Pack);
         }
-        else
-        {
-            AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{Id}.asset");
-        }
+        AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{Pack}/{Id}.asset");
     }
 
     public void Load(PuzzleConfig cfg)
