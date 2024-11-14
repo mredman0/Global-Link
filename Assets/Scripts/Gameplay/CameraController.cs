@@ -63,6 +63,7 @@ public class CameraController : MonoBehaviour
             Puzzle.PuzzleCompleted += OnPuzzleCompleted;
         }
 
+        AllowRoll = SettingsManager.Instance.GetBool(ALLOW_ROLL_KEY);
         InvertFreeLook = SettingsManager.Instance.GetBool(INVERT_FREE_LOOK_KEY);
         InvertDrawing = SettingsManager.Instance.GetBool(INVERT_DRAWING_KEY);
         Sensitivity = SettingsManager.Instance.GetFloat(SENSITIVITY_KEY);
@@ -83,11 +84,20 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    private const string ALLOW_ROLL_KEY = "ControlsAllowRoll";
     private const string INVERT_FREE_LOOK_KEY = "ControlsInvertFreeLook";
     private const string INVERT_DRAWING_KEY = "ControlsInvertDrawing";
     private void OnBoolSettingChanged(string setting, bool value)
     {
-        if(setting == INVERT_FREE_LOOK_KEY)
+        if(setting == ALLOW_ROLL_KEY)
+        {
+            AllowRoll = value;
+            if(!AllowRoll)
+            {
+                FixRoll();
+            }
+        }
+        else if(setting == INVERT_FREE_LOOK_KEY)
         {
             InvertFreeLook = value;
         }
@@ -224,7 +234,7 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        if (!AllowRoll)
+        if (!AllowRoll && !DoPuzzleCompleteSpin)
         {
             FixRoll();
         }

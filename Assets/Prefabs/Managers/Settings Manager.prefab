@@ -46,10 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BoolSettings:
   - AudioMute
+  - ControlsAllowRoll
   - ControlsInvertFreeLook
   - ControlsInvertDrawing
   - AccessibilityShowColorIcons
-  BoolDefaultValues: 00000000
+  BoolDefaultValues: 0001000000
   IntSettings: []
   IntDefaultValues: 
   FloatSettings:

@@ -9,6 +9,7 @@ public class SettingsController : MonoBehaviour
     [Header("Required References")]
     public Toggle AudioMuteToggle;
     public Incrementor AudioVolumeIncrementor;
+    public Toggle ControlsAllowRollToggle;
     public Toggle ControlsInvertFreeLookToggle;
     public Toggle ControlsInvertDrawingToggle;
     public Incrementor ControlsSensitivityIncrementor;
@@ -21,6 +22,7 @@ public class SettingsController : MonoBehaviour
     {
         LoadMute();
         LoadVolume();
+        LoadAllowRoll();
         LoadInvertFreeLook();
         LoadInvertDrawing();
         LoadSensitivity();
@@ -74,6 +76,18 @@ public class SettingsController : MonoBehaviour
     }
     #endregion
 
+
+    #region Allow Roll
+    private const string ALLOW_ROLL_SETTING_KEY = "ControlsAllowRoll";
+    private void LoadAllowRoll()
+    {
+        ControlsAllowRollToggle.SetIsOnWithoutNotify(SettingsManager.Instance.GetBool(ALLOW_ROLL_SETTING_KEY));
+    }
+    public void SetAllowRoll(bool allow)
+    {
+        SettingsManager.Instance.SetBool(ALLOW_ROLL_SETTING_KEY, allow);
+    }
+    #endregion
 
     #region Invert Free Look
     private const string INVERT_FREE_LOOK_SETTING_KEY = "ControlsInvertFreeLook";
