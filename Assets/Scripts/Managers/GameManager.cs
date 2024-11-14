@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public const string PLAYED_TUTORIAL_KEY = "played_tutorial";
+    public const string TUTORIAL_SHOWN_KEY = "TutorialShown";
 
     public static GameManager Instance;
 
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 120;
         DontDestroyOnLoad(gameObject);
 
-        if(PuzzleCompletionManager.Instance && !PuzzleCompletionManager.Instance.IsTutorialComplete())
+        if(HasTutorialBeenShown())
         {
             var puzzleLoader = GetComponent<PuzzleLoader>();
             puzzleLoader.PuzzlePack = "Tutorial";
@@ -29,4 +29,8 @@ public class GameManager : MonoBehaviour
             puzzleLoader.LoadPuzzle();
         }
     }
+
+    public bool HasTutorialBeenShown() => PlayerPrefs.GetInt(TUTORIAL_SHOWN_KEY, 0) == 0;
+    public void SetTutorialShown() => PlayerPrefs.SetInt(TUTORIAL_SHOWN_KEY, 1);
+    public void ResetTutorialShown() => PlayerPrefs.SetInt(TUTORIAL_SHOWN_KEY, 0);
 }

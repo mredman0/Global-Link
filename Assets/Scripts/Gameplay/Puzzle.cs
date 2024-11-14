@@ -80,7 +80,8 @@ public class Puzzle : MonoBehaviour
         Current = this;
     }
 
-    // Start is called before the first frame update
+    public const string TUTORIAL_SHOWN_KEY = "TutorialShown";
+
     void Start()
     {
         InitializePuzzle();
@@ -90,6 +91,7 @@ public class Puzzle : MonoBehaviour
 
         if (PuzzleConfig.Pack == "Tutorial" && TutorialInstructionsProvider.Instance)
         {
+            GameManager.Instance.SetTutorialShown();
             var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.Id);
             if(tutorialInstructions)
             {

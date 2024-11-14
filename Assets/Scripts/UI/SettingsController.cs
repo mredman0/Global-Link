@@ -152,12 +152,9 @@ public class SettingsController : MonoBehaviour
             return;
         }
         PuzzleCompletionManager.Instance.ResetAllProgress();
+        GameManager.Instance.ResetTutorialShown();
 
-        var loadPuzzleButtons = FindObjectsByType<LoadPuzzleButton>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        foreach (var loadPuzzleButton in loadPuzzleButtons)
-        {
-            loadPuzzleButton.SetButtonSpriteBasedOnCompletion();
-        }
+        SceneManager.LoadScene("Main Menu");
     }
     #endregion
 }

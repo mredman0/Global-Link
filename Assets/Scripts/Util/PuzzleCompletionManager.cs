@@ -10,7 +10,6 @@ public class PuzzleCompletionManager : MonoBehaviour
     public static PuzzleCompletionManager Instance;
 
     public List<PackInfo> PacksToManage;
-    public int ExpectedTutorialLevels = 6;
 
     public Dictionary<string, PackInfo> PackInfo = new Dictionary<string, PackInfo>();
     private Dictionary<string, int> TotalPuzzles = new Dictionary<string, int>();
@@ -51,15 +50,6 @@ public class PuzzleCompletionManager : MonoBehaviour
             return false;
         }
         return CompletionData[packId].CompletedPuzzles.Contains(puzzleId);
-    }
-
-    public bool IsTutorialComplete()
-    {
-        if(!CompletionData.ContainsKey("Tutorial"))
-        {
-            return false;
-        }
-        return CompletionData["Tutorial"].CompletedPuzzles.Count >= ExpectedTutorialLevels;
     }
 
     public void SetPuzzleCompleted(string packId, string puzzleId)
