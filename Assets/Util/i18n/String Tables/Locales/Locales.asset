@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: Locales
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: 06bb81b849583d74da3a78bb227de928, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: d614b17eefc27474a8ff9e0f3c50d36c, type: 2}
+  - {fileID: 11400000, guid: 76ae0452c4eb5a448a97460032bf5b4a, type: 2}
+  - {fileID: 11400000, guid: 92d2bcefef9eca34bbc5b6be1132c49c, type: 2}
+  - {fileID: 11400000, guid: 5a83402906f7b9243a92ddec58a00e54, type: 2}
+  - {fileID: 11400000, guid: 56cf953a64bdc8041b4e3a1d1087e401, type: 2}
+  - {fileID: 11400000, guid: 12227ea3227621a4aa66a84b39234684, type: 2}
+  - {fileID: 11400000, guid: a6920f430debf4740be5a42b59744fb6, type: 2}
+  - {fileID: 11400000, guid: 8d9f9248421fec845bce37c65723b25b, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

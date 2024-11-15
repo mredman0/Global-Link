@@ -13,6 +13,7 @@ public class SettingsController : MonoBehaviour
     public Toggle ControlsInvertFreeLookToggle;
     public Toggle ControlsInvertDrawingToggle;
     public Incrementor ControlsSensitivityIncrementor;
+    public OptionPicker LanguageOptionPicker;
     public Toggle ColorLabelsToggle;
 
     public ConfirmationDialog ResetProgressConfirmDialog;
@@ -26,6 +27,7 @@ public class SettingsController : MonoBehaviour
         LoadInvertFreeLook();
         LoadInvertDrawing();
         LoadSensitivity();
+        LoadLanguage();
         LoadColorLabels();
 
         if (Puzzle.Current)
@@ -128,8 +130,19 @@ public class SettingsController : MonoBehaviour
     #endregion
 
 
-    #region Color Labels
-    private const string COLOR_LABEL_SETTING_KEY = "AccessibilityShowColorIcons";
+    #region Language
+    private void LoadLanguage()
+    {
+        LanguageOptionPicker.SetValue(LanguageManager.Instance.CurrentLocale().Identifier.Code);
+    }
+    public void SetLanguage(string locale)
+    {
+        LanguageManager.Instance.SetLocale(locale);
+    }
+	#endregion
+
+	#region Color Labels
+	private const string COLOR_LABEL_SETTING_KEY = "AccessibilityShowColorIcons";
     private void LoadColorLabels()
     {
         ColorLabelsToggle.SetIsOnWithoutNotify(SettingsManager.Instance.GetBool(COLOR_LABEL_SETTING_KEY));

@@ -19,7 +19,7 @@ public class ConfirmationDialog : Dialog
         onConfirm = confirm ?? NOP;
         onCancel = cancel ?? NOP;
         messageText.text = message;
-        dialogPanel.SetActive(true);
+        Show();
     }
 
     public void Confirm()

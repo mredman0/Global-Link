@@ -59,5 +59,7 @@ MonoBehaviour:
   FloatDefaultValues:
   - 100
   - 10
-  StringSettings: []
-  StringDefaultValues: []
+  StringSettings:
+  - AccessibilityLocale
+  StringDefaultValues:
+  - en
