@@ -81,11 +81,13 @@ public class SettingsController : MonoBehaviour
     private const string ALLOW_ROLL_SETTING_KEY = "ControlsAllowRoll";
     private void LoadAllowRoll()
     {
-        ControlsAllowRollToggle.SetIsOnWithoutNotify(SettingsManager.Instance.GetBool(ALLOW_ROLL_SETTING_KEY));
+        // Control presented to user has inverted meaning to what is stored, so invert value here
+        ControlsAllowRollToggle.SetIsOnWithoutNotify(!SettingsManager.Instance.GetBool(ALLOW_ROLL_SETTING_KEY));
     }
     public void SetAllowRoll(bool allow)
     {
-        SettingsManager.Instance.SetBool(ALLOW_ROLL_SETTING_KEY, allow);
+        // Control presented to user has inverted meaning to what is stored, so invert value here
+        SettingsManager.Instance.SetBool(ALLOW_ROLL_SETTING_KEY, !allow);
     }
     #endregion
 

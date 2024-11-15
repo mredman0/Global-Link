@@ -2559,7 +2559,7 @@ PrefabInstance:
     - target: {fileID: 4285605239314754318, guid: 187bc6ebdcedf0a4c96e0cc7660d5363,
         type: 3}
       propertyPath: m_text
-      value: Allow Roll
+      value: Axis-Aligned
       objectReference: {fileID: 0}
     - target: {fileID: 8214588452065230279, guid: 187bc6ebdcedf0a4c96e0cc7660d5363,
         type: 3}
