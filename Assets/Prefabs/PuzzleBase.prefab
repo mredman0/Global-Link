@@ -258,6 +258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Puzzle: {fileID: 601003590338323296}
   NoNodeColor: {r: 0, g: 0, b: 0, a: 0}
+  TintBaseAlpha: 0.04901961
+  TintBaseAlphaLuma: 0.9278
 --- !u!1 &1369736196211217494
 GameObject:
   m_ObjectHideFlags: 0
