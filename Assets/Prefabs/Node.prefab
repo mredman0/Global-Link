@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3485877088788210809}
   - component: {fileID: 7094791536415943954}
   - component: {fileID: 6870701496163862376}
+  - component: {fileID: 330927389598679201}
   m_Layer: 7
   m_Name: Node
   m_TagString: Untagged
@@ -219,6 +220,27 @@ MonoBehaviour:
   ColorIconArm: {fileID: 8843529465271623451}
   ColorIconRenderer: {fileID: 6345108463735903071}
   GridCell: {fileID: 0}
+--- !u!95 &330927389598679201
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8237476992170656197}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cdff965fda4a12b46a246422e0551684, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8843529465271623451
 GameObject:
   m_ObjectHideFlags: 0

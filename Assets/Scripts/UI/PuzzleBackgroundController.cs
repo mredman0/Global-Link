@@ -16,7 +16,6 @@ public class PuzzleBackgroundController : MonoBehaviour
         BackgroundMaterial = GetComponent<Renderer>().material;
         CurrentForegroundColor = NoNodeColor;
         Puzzle.NodeSelected += OnNodeSelected;
-        Puzzle.NodesConnected += (a, b) => OnNodeDeselected();
         Puzzle.NodeDeselected += OnNodeDeselected;
     }
 

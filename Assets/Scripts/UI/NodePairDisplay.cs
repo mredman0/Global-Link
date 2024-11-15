@@ -12,8 +12,9 @@ public class NodePairDisplay : MonoBehaviour
     public Image NoWaypoint;
     public Image Waypoint;
     public Image WaypointActive;
-    public List<Image> ColorIcons;
+    public GameObject ColorSelectedUI;
 
+    public List<Image> ColorIcons;
     public List<Sprite> ColorIconSprites;
 
     [Header("Settings")]
@@ -63,6 +64,11 @@ public class NodePairDisplay : MonoBehaviour
         }
 
         UpdateDisplay();
+    }
+
+    public void SetColorSelected(bool selected)
+    {
+        ColorSelectedUI.SetActive(selected);
     }
 
     public void SetNodesConnected(bool connected)

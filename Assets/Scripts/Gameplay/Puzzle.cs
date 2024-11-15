@@ -455,6 +455,12 @@ public class Puzzle : MonoBehaviour
     private const float PATH_SIZE_RELATIVE_TO_NODE_SIZE = 0.6f;
     public void SetActiveNode(Node n, bool fromExistingLine)
     {
+        if(ActiveNode)
+        {
+            ActiveNode.SetDeselected();
+            ActiveNode.PairedNode.SetDeselected();
+        }
+
         if(!n)
         {
             if(ActiveNode)
@@ -475,8 +481,10 @@ public class Puzzle : MonoBehaviour
         }
 
         ActiveNode = n;
+        ActiveNode.SetSelected();
+        ActiveNode.PairedNode.SetSelected();
 
-        if(!fromExistingLine)
+        if (!fromExistingLine)
         {
             StartPathFromNode(n);
         }
@@ -553,7 +561,7 @@ public class Puzzle : MonoBehaviour
     {
         a.Connected = true;
         b.Connected = true;
-        ActiveNode = null;
+        SetActiveNode(null, fromExistingLine: false);
 
         NodesConnected?.Invoke(a, b);
 
@@ -1093,8 +1101,7 @@ public class Puzzle : MonoBehaviour
             var newNode = newNodeGO.GetComponent<Node>();
             var colorIndex = colorGetter(i);
             newNodeGO.name = $"{ColorManager.Instance.ColorName(colorIndex)} Node";
-            newNode.SetColor(colorIndex);
-            newNode.Puzzle = this;
+            newNode.Initialize(this, colorIndex);
 
             var nodePosition = cfg.NodePositions[i];
 

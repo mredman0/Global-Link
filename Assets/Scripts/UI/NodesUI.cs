@@ -28,6 +28,8 @@ public class NodesUI : MonoBehaviour
             OnPuzzleInitialized();
         }
 
+        Puzzle.NodeSelected += OnNodeSelected;
+        Puzzle.NodeDeselected += OnNodeDeselected;
         Puzzle.NodesConnected += OnNodesConnected;
         Puzzle.NodesDisconnected += OnNodesDisconnected;
         Puzzle.WaypointReached += OnWaypointReached;
@@ -38,6 +40,8 @@ public class NodesUI : MonoBehaviour
     {
         Puzzle.PuzzleInitialized -= OnPuzzleInitialized;
 
+        Puzzle.NodeSelected -= OnNodeSelected;
+        Puzzle.NodeDeselected -= OnNodeDeselected;
         Puzzle.NodesConnected -= OnNodesConnected;
         Puzzle.NodesDisconnected -= OnNodesDisconnected;
         Puzzle.WaypointReached -= OnWaypointReached;
@@ -64,6 +68,22 @@ public class NodesUI : MonoBehaviour
 
             NodeDisplays.Add(color, nodesDisplayGO.GetComponent<NodePairDisplay>());
             colorsAdded++;
+        }
+    }
+
+    private void OnNodeSelected(Node n)
+    {
+        foreach (var kvp in NodeDisplays)
+        {
+            kvp.Value.SetColorSelected(false);
+        }
+        NodeDisplays[n.Color].SetColorSelected(true);
+    }
+    private void OnNodeDeselected()
+    {
+        foreach(var kvp in NodeDisplays)
+        {
+            kvp.Value.SetColorSelected(false);
         }
     }
 

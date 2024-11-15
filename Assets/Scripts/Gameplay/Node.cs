@@ -59,6 +59,12 @@ public class Node : MonoBehaviour
         Path.SetPosition(0, transform.position);
     }
 
+    public void Initialize(Puzzle puzzle, int color)
+    {
+        Puzzle = puzzle;
+        SetColor(color);
+    }
+
     public void SetColor(int color)
     {
         Color = color;
@@ -74,5 +80,14 @@ public class Node : MonoBehaviour
     public void SetPairedNode(Node other)
     {
         PairedNode = other;
+    }
+
+    public void SetSelected()
+    {
+        GetComponent<Animator>().SetBool("Selected", true);
+    }
+    public void SetDeselected()
+    {
+        GetComponent<Animator>().SetBool("Selected", false);
     }
 }
