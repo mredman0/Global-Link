@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
@@ -15,7 +14,6 @@ public class OptionPicker : MonoBehaviour
     [Header("Required References")]
     public TMP_Text ValueText;
     public OptionsDialog OptionsDialog;
-    public StringTableCollection LocalizationTable;
 
 
     [Serializable]
