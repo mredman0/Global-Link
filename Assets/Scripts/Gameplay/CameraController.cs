@@ -34,6 +34,7 @@ public class CameraController : MonoBehaviour
     public float GradualSnapTime;
     public Quaternion GradualSnapStart;
     public Quaternion GradualSnapEnd;
+    public bool GradualSnapLockUntilRelease = false;
 
     public bool Panning { get; set; } = false;
     public float PanAmountThisDrag { get; set; } = 0f;
@@ -128,6 +129,13 @@ public class CameraController : MonoBehaviour
 
     private void OnRelease(Vector2 position)
     {
+        if (GradualSnapLockUntilRelease)
+        {
+            GradualSnapLockUntilRelease = false;
+            FreeInput();
+            Puzzle.FreeInput();
+            LastDragMotions.Clear();
+        }
         if (InputLocks > 0)
         {
             return;
@@ -355,10 +363,20 @@ public class CameraController : MonoBehaviour
             LockInput();
             Puzzle.LockInput();
         }
+
+        GradualSnapLockUntilRelease = true;
+        if (GradualSnapDuration == 0)
+        {
+            LockInput();
+            Puzzle.LockInput();
+        }
+
         GradualSnapStart = start;
         GradualSnapEnd = end;
         GradualSnapDuration = degreesBetween / GradualSnapDegreesPerSecond;
         GradualSnapTime = 0f;
+
+
     }
 
     private void GradualSnapComplete()
@@ -366,6 +384,13 @@ public class CameraController : MonoBehaviour
         FreeInput();
         Puzzle.FreeInput();
         GradualSnapDuration = 0f;
+
+        if(!Panning)
+        {
+            GradualSnapLockUntilRelease = false;
+            FreeInput();
+            Puzzle.FreeInput();
+        }
     }
 
     private void FixRoll()
