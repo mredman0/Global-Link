@@ -17,7 +17,67 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 0f9102db8f7e5ec489dc09a590c5d9d4, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 311767093248
+    m_Localized: JUGAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337843981242368
+    m_Localized: "Configuraci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337867020554240
+    m_Localized: Accesibilidad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337884267532288
+    m_Localized: Etiquetas de color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337937887514624
+    m_Localized: General
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337998264520704
+    m_Localized: Silenciar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338057681031168
+    m_Localized: Volumen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338076857389056
+    m_Localized: Idioma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342468381757440
+    m_Localized: Controles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342476963303424
+    m_Localized: Alineado al eje
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342478313869312
+    m_Localized: Invertir (Vista libre)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342479689601024
+    m_Localized: Invertir (Dibujo)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342530189021184
+    m_Localized: Sensibilidad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343012957605888
+    m_Localized: Zona peligrosa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343037125185536
+    m_Localized: Restablecer progreso
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

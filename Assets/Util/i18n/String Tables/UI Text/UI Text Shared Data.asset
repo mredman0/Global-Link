@@ -19,6 +19,62 @@ MonoBehaviour:
     m_Key: PLAY
     m_Metadata:
       m_Items: []
+  - m_Id: 1337843981242368
+    m_Key: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337867020554240
+    m_Key: Accessibility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337884267532288
+    m_Key: Color Labels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337937887514624
+    m_Key: General
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337998264520704
+    m_Key: Mute Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338057681031168
+    m_Key: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338076857389056
+    m_Key: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342468381757440
+    m_Key: "Controls\t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342476963303424
+    m_Key: Axis-Aligned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342478313869312
+    m_Key: Invert (Free-Look)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342479689601024
+    m_Key: Invert (Drawing)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342530189021184
+    m_Key: Sensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343012957605888
+    m_Key: Danger Zone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343037125185536
+    m_Key: Reset Progress
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

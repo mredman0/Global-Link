@@ -22,6 +22,62 @@ MonoBehaviour:
     m_Localized: PLAY
     m_Metadata:
       m_Items: []
+  - m_Id: 1337884267532288
+    m_Localized: Color Labels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337867020554240
+    m_Localized: Accessibility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337843981242368
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337937887514624
+    m_Localized: General
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337998264520704
+    m_Localized: Mute Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338057681031168
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338076857389056
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343037125185536
+    m_Localized: Reset Progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343012957605888
+    m_Localized: Danger Zone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342530189021184
+    m_Localized: Sensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342479689601024
+    m_Localized: Invert (Drawing)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342478313869312
+    m_Localized: Invert (Free-Look)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342476963303424
+    m_Localized: Axis-Aligned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342468381757440
+    m_Localized: "Controls\t"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

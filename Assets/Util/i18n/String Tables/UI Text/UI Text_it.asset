@@ -17,7 +17,67 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 0f9102db8f7e5ec489dc09a590c5d9d4, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 311767093248
+    m_Localized: GIOCA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337843981242368
+    m_Localized: Impostazioni
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337867020554240
+    m_Localized: "Accessibilit\xE0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337884267532288
+    m_Localized: Etichette di colore
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337937887514624
+    m_Localized: Generale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337998264520704
+    m_Localized: Disattiva suono
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338057681031168
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338076857389056
+    m_Localized: Lingua
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342468381757440
+    m_Localized: Controlli
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342476963303424
+    m_Localized: Allineato all'asse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342478313869312
+    m_Localized: Inverti (Vista libera)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342479689601024
+    m_Localized: Inverti (Disegno)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342530189021184
+    m_Localized: "Sensibilit\xE0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343012957605888
+    m_Localized: Zona pericolosa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343037125185536
+    m_Localized: Ripristina i progressi
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
