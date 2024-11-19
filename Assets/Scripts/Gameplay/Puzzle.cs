@@ -29,7 +29,8 @@ public class Puzzle : MonoBehaviour
     public GameObject WallPrefab;
 
     [Header("Effects")]
-    public GameObject NodeSelectedEffect;
+    public GameObject ClickPositiveEffect;
+    public GameObject ClickNegativeEffect;
     public List<GameObject> NodesConnectedEffects;
     public List<GameObject> WaypointColoredEffects;
     public GameObject WarpTakenEffect;
@@ -487,7 +488,7 @@ public class Puzzle : MonoBehaviour
     }
 
     private const float PATH_SIZE_RELATIVE_TO_NODE_SIZE = 0.6f;
-    public void SetActiveNode(Node n, bool fromExistingLine)
+    public void SetActiveNode(Node n, bool fromExistingLine, bool triggerEffects = true)
     {
         if(ActiveNode)
         {
@@ -500,6 +501,10 @@ public class Puzzle : MonoBehaviour
             if(ActiveNode)
             {
                 ActiveNode = null;
+                if(triggerEffects)
+                {
+                    Instantiate(ClickNegativeEffect);
+                }
             }
             NodeDeselected?.Invoke();
             return;
@@ -524,9 +529,9 @@ public class Puzzle : MonoBehaviour
         }
 
         NodeSelected?.Invoke(n);
-        if(NodeSelectedEffect)
+        if(triggerEffects)
         {
-            Instantiate(NodeSelectedEffect);
+            Instantiate(ClickPositiveEffect);
         }
     }
 
@@ -595,7 +600,7 @@ public class Puzzle : MonoBehaviour
     {
         a.Connected = true;
         b.Connected = true;
-        SetActiveNode(null, fromExistingLine: false);
+        SetActiveNode(null, fromExistingLine: false, triggerEffects: false);
 
         NodesConnected?.Invoke(a, b);
 
