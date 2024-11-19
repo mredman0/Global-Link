@@ -78,6 +78,10 @@ MonoBehaviour:
     m_Localized: "R\xE9initialiser la progression"
     m_Metadata:
       m_Items: []
+  - m_Id: 1449234134224896
+    m_Localized: Packs
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

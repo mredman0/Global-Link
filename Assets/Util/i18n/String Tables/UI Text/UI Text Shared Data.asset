@@ -75,6 +75,10 @@ MonoBehaviour:
     m_Key: Reset Progress
     m_Metadata:
       m_Items: []
+  - m_Id: 1449234134224896
+    m_Key: Packs
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

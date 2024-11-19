@@ -383,6 +383,7 @@ MonoBehaviour:
   GradualSnapTime: 0
   GradualSnapStart: {x: 0, y: 0, z: 0, w: 0}
   GradualSnapEnd: {x: 0, y: 0, z: 0, w: 0}
+  GradualSnapLockUntilRelease: 0
 --- !u!114 &7707340602658377250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,8 +634,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 39.999878, y: -13.699997}
-  m_SizeDelta: {x: 169, y: -27.399998}
+  m_AnchoredPosition: {x: 39.999878, y: 0}
+  m_SizeDelta: {x: 169, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3397283993915425616
 CanvasRenderer:
@@ -1253,6 +1254,7 @@ GameObject:
   - component: {fileID: 715853550225115177}
   - component: {fileID: 6771696504962284145}
   - component: {fileID: 1247752710609266169}
+  - component: {fileID: 3355225064550403485}
   m_Layer: 5
   m_Name: Pack Text
   m_TagString: Untagged
@@ -1344,7 +1346,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 1024
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1352,7 +1354,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1392,6 +1394,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &3355225064550403485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5945535338876273794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6771696504962284145}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6248192599896897133}
+        m_TargetAssemblyTypeName: PuzzleUIController, Assembly-CSharp
+        m_MethodName: OnPackNameChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7104061786380298666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,6 +1673,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Puzzle: {fileID: 601003590338323296}
+  PackLocalizationTable:
+    m_TableCollectionName: Packs
+  PuzzlePackTextLoc: {fileID: 3355225064550403485}
   PuzzlePackText: {fileID: 6771696504962284145}
   PuzzleIdInPackText: {fileID: 1203064533702501393}
   NextPuzzleButton: {fileID: 3476291436514656177}

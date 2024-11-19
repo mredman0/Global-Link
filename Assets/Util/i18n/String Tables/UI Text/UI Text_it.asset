@@ -78,6 +78,10 @@ MonoBehaviour:
     m_Localized: Ripristina i progressi
     m_Metadata:
       m_Items: []
+  - m_Id: 1449234134224896
+    m_Localized: Pacchetti
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

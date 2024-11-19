@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -9,6 +13,8 @@ public class PuzzleUIController : MonoBehaviour
 {
     [Header("Required References")]
     public Puzzle Puzzle;
+    public TableReference PackLocalizationTable;
+    public LocalizeStringEvent PuzzlePackTextLoc;
     public TMP_Text PuzzlePackText;
     public TMP_Text PuzzleIdInPackText;
     public GameObject NextPuzzleButton;
@@ -62,14 +68,25 @@ public class PuzzleUIController : MonoBehaviour
 
     private void SetPackAndIdText(PuzzleConfig cfg)
     {
-        PuzzlePackText.text = cfg.Pack;
+        PuzzlePackTextLoc.StringReference = new LocalizedString(PackLocalizationTable, cfg.Pack);
+        PuzzlePackTextLoc.RefreshString();
         PuzzleIdInPackText.text = cfg.Id;
 
+        ResizePackText();
+    }
+
+    private void ResizePackText()
+    {
         PuzzlePackText.ForceMeshUpdate();
-        if(PuzzlePackText.textBounds.extents.y > 600f)
+        if (PuzzlePackText.textBounds.extents.x > 300f)
         {
-            PuzzlePackText.fontSize *= 600f / PuzzlePackText.textBounds.extents.y;
+            PuzzlePackText.fontSize *= 300f / PuzzlePackText.textBounds.extents.x;
         }
+    }
+
+    public void OnPackNameChanged(string packName)
+    {
+        ResizePackText();
     }
 
     private void OnUndoAvailable()
