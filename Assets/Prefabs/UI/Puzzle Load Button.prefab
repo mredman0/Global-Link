@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2667064921450707320}
   - component: {fileID: 7447920733571310536}
   - component: {fileID: 7459537278482917389}
+  - component: {fileID: 9025798950978684605}
   m_Layer: 5
   m_Name: Puzzle Load Button
   m_TagString: Untagged
@@ -123,6 +124,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 9025798950978684605}
+        m_TargetAssemblyTypeName: EffectSpawner, Assembly-CSharp
+        m_MethodName: SpawnEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 7459537278482917389}
         m_TargetAssemblyTypeName: PuzzleLoader, Assembly-CSharp
         m_MethodName: LoadPuzzle
@@ -167,6 +180,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PuzzlePack: 
   PuzzleIdInPack: 
+--- !u!114 &9025798950978684605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4281820168914642997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67cae1524a3cafa46a5c26771aa88aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 1996972786158677437, guid: 711e68063d0424a4a89b48a73b70fc2e, type: 3}
 --- !u!1 &6302150504266804561
 GameObject:
   m_ObjectHideFlags: 0

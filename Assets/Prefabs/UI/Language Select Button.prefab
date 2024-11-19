@@ -324,6 +324,7 @@ GameObject:
   - component: {fileID: 1275514147530564536}
   - component: {fileID: 2438526393331685726}
   - component: {fileID: 3749148189446342129}
+  - component: {fileID: 4645001678832864771}
   m_Layer: 5
   m_Name: Language Select Button
   m_TagString: Untagged
@@ -455,3 +456,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4645001678832864771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6323364485586981318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67cae1524a3cafa46a5c26771aa88aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 1996972786158677437, guid: 711e68063d0424a4a89b48a73b70fc2e, type: 3}

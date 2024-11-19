@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 815040462445974107}
   - component: {fileID: 1728594216945802916}
   - component: {fileID: 3691534336273383857}
+  - component: {fileID: 5966122058431677547}
   m_Layer: 5
   m_Name: Text Button
   m_TagString: Untagged
@@ -297,7 +298,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 815040462445974107}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5966122058431677547}
+        m_TargetAssemblyTypeName: EffectSpawner, Assembly-CSharp
+        m_MethodName: SpawnEffect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3691534336273383857
 Animator:
   serializedVersion: 5
@@ -319,3 +332,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5966122058431677547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737170552555343465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67cae1524a3cafa46a5c26771aa88aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 1996972786158677437, guid: 711e68063d0424a4a89b48a73b70fc2e, type: 3}
