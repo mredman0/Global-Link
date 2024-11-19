@@ -2004,6 +2004,11 @@ PrefabInstance:
       objectReference: {fileID: 8878495223480153077}
     - target: {fileID: 7635657943778763480, guid: 085d7970c0bbdec4693e0a023ad0b075,
         type: 3}
+      propertyPath: LocalizationTable.m_TableCollectionName
+      value: Locales
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635657943778763480, guid: 085d7970c0bbdec4693e0a023ad0b075,
+        type: 3}
       propertyPath: OnValueChanged.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -2142,7 +2147,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8793379038199793035, guid: 085d7970c0bbdec4693e0a023ad0b075,
+        type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 21842912104448
+      objectReference: {fileID: 0}
+    - target: {fileID: 8793379038199793035, guid: 085d7970c0bbdec4693e0a023ad0b075,
+        type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:06bb81b849583d74da3a78bb227de928
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6999112859306833680, guid: 085d7970c0bbdec4693e0a023ad0b075, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

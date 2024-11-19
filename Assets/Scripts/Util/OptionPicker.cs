@@ -15,11 +15,11 @@ public class OptionPicker : MonoBehaviour
     public TMP_Text ValueText;
     public OptionsDialog OptionsDialog;
 
-
     [Serializable]
     public class OnChangeEvent : UnityEvent<string> { }
     [Header("Settings")]
     public OnChangeEvent OnValueChanged;
+    public TableReference LocalizationTable;
 
     [Header("State")]
     public string Value;
@@ -45,6 +45,6 @@ public class OptionPicker : MonoBehaviour
 
     public void UpdateValueText()
     {
-        ValueText.GetComponent<LocalizeStringEvent>().RefreshString();
+        ValueText.GetComponent<LocalizeStringEvent>().StringReference = new LocalizedString(LocalizationTable, Value);
     }
 }

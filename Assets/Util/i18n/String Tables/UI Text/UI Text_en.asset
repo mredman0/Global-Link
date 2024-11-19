@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1342468381757440
-    m_Localized: "Controls\t"
+    m_Localized: Controls
     m_Metadata:
       m_Items: []
   references:
