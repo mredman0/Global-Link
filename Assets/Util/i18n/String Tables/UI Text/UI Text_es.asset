@@ -94,6 +94,18 @@ MonoBehaviour:
     m_Localized: Pistas
     m_Metadata:
       m_Items: []
+  - m_Id: 2080706729889792
+    m_Localized: "\xBFEst\xE1s seguro de que quieres restablecer el progreso?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2084075561308160
+    m_Localized: Fin del paquete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2083994254725120
+    m_Localized: "\xA1Nivel completado!"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

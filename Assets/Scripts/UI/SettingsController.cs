@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class SettingsController : MonoBehaviour
     public Toggle ColorLabelsToggle;
 
     public ConfirmationDialog ResetProgressConfirmDialog;
+    public LocalizedString ResetProgressPrompt;
 
     // Start is called before the first frame update
     void Start()
@@ -157,7 +159,7 @@ public class SettingsController : MonoBehaviour
     #region Progress Reset
     public void RequestResetAllProgress()
     {
-        ResetProgressConfirmDialog.Show("Are you sure you want to reset progress?", confirm: ResetAllProgress);
+        ResetProgressConfirmDialog.Show(ResetProgressPrompt, confirm: ResetAllProgress);
     }
 
     public void ResetAllProgress()

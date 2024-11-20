@@ -94,6 +94,18 @@ MonoBehaviour:
     m_Localized: Hinweise
     m_Metadata:
       m_Items: []
+  - m_Id: 2080706729889792
+    m_Localized: "Sind Sie sicher, dass Sie den Fortschritt zur\xFCcksetzen m\xF6chten?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2084075561308160
+    m_Localized: Ende des Pakets
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2083994254725120
+    m_Localized: Level abgeschlossen!
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

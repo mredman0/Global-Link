@@ -94,6 +94,18 @@ MonoBehaviour:
     m_Localized: Hints
     m_Metadata:
       m_Items: []
+  - m_Id: 2080706729889792
+    m_Localized: Are you sure you want to reset progress?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2083994254725120
+    m_Localized: Level Complete!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2084075561308160
+    m_Localized: End of Pack
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

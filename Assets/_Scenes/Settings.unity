@@ -1487,6 +1487,18 @@ MonoBehaviour:
   LanguageOptionPicker: {fileID: 996164127}
   ColorLabelsToggle: {fileID: 1231508658}
   ResetProgressConfirmDialog: {fileID: 1247519576}
+  ResetProgressPrompt:
+    m_TableReference:
+      m_TableCollectionName: GUID:0f9102db8f7e5ec489dc09a590c5d9d4
+    m_TableEntryReference:
+      m_KeyId: 2080706729889792
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &490959656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6576,6 +6588,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5909723310632716423, guid: 53735f23c0356de409a3cb6e56d75301,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 5909723310632716423, guid: 53735f23c0356de409a3cb6e56d75301,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 42
       objectReference: {fileID: 0}
     - target: {fileID: 6565850708557671990, guid: 53735f23c0356de409a3cb6e56d75301,
         type: 3}

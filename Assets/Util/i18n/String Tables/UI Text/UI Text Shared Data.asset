@@ -91,6 +91,18 @@ MonoBehaviour:
     m_Key: Hints
     m_Metadata:
       m_Items: []
+  - m_Id: 2080706729889792
+    m_Key: Confirm Reset Progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2083994254725120
+    m_Key: Level Complete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2084075561308160
+    m_Key: End of Pack
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
