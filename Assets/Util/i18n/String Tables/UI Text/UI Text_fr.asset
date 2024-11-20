@@ -82,6 +82,18 @@ MonoBehaviour:
     m_Localized: Packs
     m_Metadata:
       m_Items: []
+  - m_Id: 2066254181715968
+    m_Localized: Boutique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2066574857228288
+    m_Localized: "Sans publicit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2067589576806400
+    m_Localized: Indices
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

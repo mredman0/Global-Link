@@ -82,6 +82,18 @@ MonoBehaviour:
     m_Localized: Pacchetti
     m_Metadata:
       m_Items: []
+  - m_Id: 2066254181715968
+    m_Localized: Negozio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2066574857228288
+    m_Localized: "Senza pubblicit\xE0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2067589576806400
+    m_Localized: Suggerimenti
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

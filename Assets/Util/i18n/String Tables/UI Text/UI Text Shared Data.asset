@@ -79,6 +79,18 @@ MonoBehaviour:
     m_Key: Packs
     m_Metadata:
       m_Items: []
+  - m_Id: 2066254181715968
+    m_Key: Store
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2066574857228288
+    m_Key: Ad-Free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2067589576806400
+    m_Key: Hints
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

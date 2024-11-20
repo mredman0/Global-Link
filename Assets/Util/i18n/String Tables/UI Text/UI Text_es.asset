@@ -82,6 +82,18 @@ MonoBehaviour:
     m_Localized: Paquetes
     m_Metadata:
       m_Items: []
+  - m_Id: 2066254181715968
+    m_Localized: Tienda
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2066574857228288
+    m_Localized: Sin anuncios
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2067589576806400
+    m_Localized: Pistas
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
