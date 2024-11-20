@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Grandmaster++
   m_EditorClassIdentifier: 
   Id: Grandmaster++
-  Name: Grandmaster++
+  Name:
+    m_TableReference:
+      m_TableCollectionName: GUID:fe498780169c5e24b8cd112ece6d617e
+    m_TableEntryReference:
+      m_KeyId: 212471140352
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  Tint: {r: 0.6, g: 0.23921569, b: 0.27450982, a: 1}
+  NumLevels: 50
+  LevelsLocked: 1
+  references:
+    version: 2
+    RefIds: []

@@ -1,14 +1,17 @@
+#if ( UNITY_EDITOR )
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Tables;
 using UnityEngine.UI;
 
 public class PackPageGenerator : EditorWindow
 {
     private GameObject prefabRoot;
     private PackInfo pack;
-    private Color packTint = Color.white;
 
     [MenuItem("Tools/Pack Page Generator")]
     public static void ShowWindow()
@@ -23,7 +26,6 @@ public class PackPageGenerator : EditorWindow
         prefabRoot = (GameObject)EditorGUILayout.ObjectField("Base Pack Page", prefabRoot, typeof(GameObject), true);
 
         pack = (PackInfo)EditorGUILayout.ObjectField("Pack", pack, typeof(PackInfo), true);
-        packTint = EditorGUILayout.ColorField("Pack Tint", packTint);
 
         if (GUILayout.Button("Generate Prefab"))
         {
@@ -55,21 +57,41 @@ public class PackPageGenerator : EditorWindow
     GameObject ModifyAndResave(GameObject prefabRoot)
     {
         string localPath = "Assets/Prefabs/UI/Pack Pages/" + pack.Id + " Pack Page.prefab";
-        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(prefabRoot, localPath);
+        var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefabRoot);
 
-        var page = prefab.GetComponent<PackPage>();
+        var page = instance.GetComponent<PackPage>();
         var title = page.TitleText;
-        title.text = pack.Name;
-        title.color = packTint;
+        var loc = page.PackNameLoc;
+        loc.StringReference = pack.Name;
+        title.color = pack.Tint;
 
         var loadPuzzleButtons = page.GetComponentsInChildren<LoadPuzzleButton>(includeInactive: true);
+        int buttons = 0;
         foreach(var puzzleButton in loadPuzzleButtons)
         {
+            buttons++;
+            if(buttons > pack.NumLevels)
+            {
+                puzzleButton.gameObject.SetActive(false);
+            }
             puzzleButton.PuzzlePack = pack.Id;
-            puzzleButton.GetComponent<Image>().color = packTint;
+            puzzleButton.GetComponent<Image>().color = pack.Tint;
         }
-
-        PrefabUtility.SaveAsPrefabAsset(prefab, localPath);
-        return prefab;
+        buttons++;
+        var buttonToClone = loadPuzzleButtons.First().gameObject;
+        for(; buttons <= pack.NumLevels; buttons++)
+        {
+            var newButtonGO = Instantiate(buttonToClone, buttonToClone.transform.parent);
+            newButtonGO.name = buttons.ToString();
+            var newButton = newButtonGO.GetComponent<LoadPuzzleButton>();
+            newButton.PuzzlePack = pack.Id;
+            newButton.PuzzleIdInPack = buttons.ToString();
+            newButton.GetComponent<Image>().color = pack.Tint;
+        }
+        var variant = PrefabUtility.SaveAsPrefabAsset(instance, localPath);
+        DestroyImmediate(instance);
+        
+        return variant;
     }
 }
+#endif

@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Intermediate
   m_EditorClassIdentifier: 
   Id: Intermediate
-  Name: Intermediate
+  Name:
+    m_TableReference:
+      m_TableCollectionName: GUID:fe498780169c5e24b8cd112ece6d617e
+    m_TableEntryReference:
+      m_KeyId: 92119781376
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  Tint: {r: 1, g: 0.9843137, b: 0.6, a: 1}
+  NumLevels: 50
+  LevelsLocked: 1
+  references:
+    version: 2
+    RefIds: []

@@ -52,6 +52,32 @@ public class PuzzleCompletionManager : MonoBehaviour
         return CompletionData[packId].CompletedPuzzles.Contains(puzzleId);
     }
 
+    public bool IsPuzzleUnlocked(string packId, string puzzleId)
+    {
+        if (!CompletionData.ContainsKey(packId))
+        {
+            return false;
+        }
+        if(!PackInfo[packId].LevelsLocked)
+        {
+            // Not following level locking system for this pack
+            return true;
+        }
+        int puzzleIdInt;
+        if (!int.TryParse(puzzleId, out puzzleIdInt))
+        {
+            // If it's not numerical ID, assume no "progression" so it's unlocked by default
+            return true;
+        }
+        if(puzzleIdInt == 1)
+        {
+            // First puzzle in a pack is always unlocked
+            return true;
+        }
+        
+        return CompletionData[packId].CompletedPuzzles.Contains((puzzleIdInt-1).ToString());
+    }
+
     public void SetPuzzleCompleted(string packId, string puzzleId)
     {
         if (!CompletionData.ContainsKey(packId))

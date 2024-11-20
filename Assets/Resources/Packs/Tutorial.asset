@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Tutorial
   m_EditorClassIdentifier: 
   Id: Tutorial
-  Name: Tutorial
+  Name:
+    m_TableReference:
+      m_TableCollectionName: GUID:fe498780169c5e24b8cd112ece6d617e
+    m_TableEntryReference:
+      m_KeyId: 4362672033792
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  Tint: {r: 1, g: 1, b: 1, a: 1}
+  NumLevels: 6
+  LevelsLocked: 0
+  references:
+    version: 2
+    RefIds: []

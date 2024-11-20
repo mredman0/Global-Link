@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LoadPuzzleButton : MonoBehaviour
 {
     public Button Button;
+    public TMP_Text ButtonText;
     public PuzzleLoader PuzzleLoader;
 
+    public Sprite LockedSprite;
     public Sprite UncompletedSprite;
     public Sprite CompletedSprite;
 
@@ -17,9 +20,13 @@ public class LoadPuzzleButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetButtonSpriteBasedOnCompletion();
         PuzzleLoader.PuzzlePack = PuzzlePack;
         PuzzleLoader.PuzzleIdInPack = PuzzleIdInPack;
+    }
+
+    private void OnEnable()
+    {
+        SetButtonSpriteBasedOnCompletion();
     }
 
     public void SetButtonSpriteBasedOnCompletion()
@@ -34,6 +41,14 @@ public class LoadPuzzleButton : MonoBehaviour
             Button.image.sprite = UncompletedSprite;
             return;
         }
-        Button.image.sprite = PuzzleCompletionManager.Instance.IsPuzzleCompleted(PuzzlePack, PuzzleIdInPack) ? CompletedSprite : UncompletedSprite;
+
+        var completed = PuzzleCompletionManager.Instance.IsPuzzleCompleted(PuzzlePack, PuzzleIdInPack);
+        var unlocked = completed || PuzzleCompletionManager.Instance.IsPuzzleUnlocked(PuzzlePack, PuzzleIdInPack);
+
+        Button.interactable = unlocked;
+        ButtonText.gameObject.SetActive(unlocked);
+
+        Button.image.sprite =
+            completed ? CompletedSprite : unlocked ? UncompletedSprite : LockedSprite;
     }
 }

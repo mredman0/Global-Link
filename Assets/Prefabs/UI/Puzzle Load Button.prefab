@@ -161,7 +161,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Button: {fileID: 2667064921450707320}
+  ButtonText: {fileID: 5952599036518398217}
   PuzzleLoader: {fileID: 7459537278482917389}
+  LockedSprite: {fileID: 21300000, guid: 261057d5d0c87b24bb26822f28946ecf, type: 3}
   UncompletedSprite: {fileID: 21300000, guid: f6f8f89d818b2934ab9853e863e9c878, type: 3}
   CompletedSprite: {fileID: 21300000, guid: b342d96626aadb04392d087bafe0e1e2, type: 3}
   PuzzlePack: 

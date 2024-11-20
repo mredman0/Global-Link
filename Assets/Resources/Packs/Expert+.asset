@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Expert+
   m_EditorClassIdentifier: 
   Id: Expert+
-  Name: Expert+
+  Name:
+    m_TableReference:
+      m_TableCollectionName: GUID:fe498780169c5e24b8cd112ece6d617e
+    m_TableEntryReference:
+      m_KeyId: 163053850624
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  Tint: {r: 0.8, g: 0.5921569, b: 0.4, a: 1}
+  NumLevels: 50
+  LevelsLocked: 1
+  references:
+    version: 2
+    RefIds: []
