@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class PuzzlePackButton : MonoBehaviour
 {
     [Header("Required References")]
-    public TMP_Text PackNameText;
     public TMP_Text CompletedPuzzlesText;
     public Image PackCompleteCheckmark;
 
@@ -18,8 +17,6 @@ public class PuzzlePackButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PackNameText.text = Pack.Name;
-
         var (completed, total) = PuzzleCompletionManager.Instance.GetPackStats(Pack.Id);
         CompletedPuzzlesText.text = $"{completed} / {total}";
 
