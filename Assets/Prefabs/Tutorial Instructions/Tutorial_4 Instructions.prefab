@@ -118,11 +118,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Outlined regions on The Orb are Waypoints.
+  m_text: 'Colorful outlined regions are Waypoints.
 
 
     All Waypoints must have
-    a line of their color going though them.
+    a line of the same color pass though them.
 
 
     (Tap to continue)'
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select a Node, then draw a line that goes through the Waypoint area.
+  m_text: Select a Chroma, then draw a line that goes through the Waypoint area.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -394,7 +394,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now, with the line going through the Waypoint, finish connecting the Nodes.
+  m_text: Now, with the line going through the Waypoint, connect the line to the
+    other Chroma.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

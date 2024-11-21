@@ -65,11 +65,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The small red balls on the surface of The Orb are Nodes. They must be
-    connected to other Nodes of the same color.
+  m_text: 'The small Red balls on the surface of The ChromaSphere are Chromas. They
+    must be connected to other Chromas of the same color.
 
 
-    To start, tap on a Node.'
+    To start, select
+    a Chroma by tapping it.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -203,13 +204,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Welcome to Global Link!
-
-    This is The Orb.
+  m_text: 'This is The ChromaSphere.
 
 
-    Go to the Settings
-    menu for accessibility options.
+    For accessibility options, check the Settings
+    menu.
 
 
     (Tap to continue)'
@@ -347,11 +346,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'While you have a Node selected, looking around The Orb will draw a line.
+  m_text: 'While you have a Chroma selected, looking around The ChromaSphere will
+    draw a line.
 
 
-    Connect
-    the two red Nodes.'
+    Connect the two Red Chromas.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -750,7 +749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Drag along the screen to rotate The Orb.
+  m_text: Drag along the screen to rotate The ChromaSphere.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -118,8 +118,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tunnels allow lines to cut through The Orb to end up on the surface somewhere
-    else.
+  m_text: 'Tunnels allow lines to cut through The ChromaSphere to get to another
+    part of the surface.
 
 
     (Tap to continue)'
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Walls completely block the path between these Red Nodes on the surface.
+  m_text: The Walls completely block the path between these Red Chromas on the surface.
     Draw a line to one of the Tunnel entrances.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now connect the line to the other Node.
+  m_text: Now connect the line to the other Chroma.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
