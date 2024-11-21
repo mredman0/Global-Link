@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public class MenuPage : MonoBehaviour
@@ -26,7 +27,7 @@ public class MenuPage : MonoBehaviour
 		}
 		if(!string.IsNullOrWhiteSpace(PreviousScene))
 		{
-			SceneManager.LoadScene(PreviousScene);
+			Addressables.LoadSceneAsync(PreviousScene);
 			return;
 		}
 

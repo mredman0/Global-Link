@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public class PuzzleLoader : MonoBehaviour
@@ -27,14 +28,14 @@ public class PuzzleLoader : MonoBehaviour
 			return;
 		}
 
-		string resourcePath = $"Puzzles/{PuzzlePack}/{PuzzleIdInPack}";
-		var puzzleConfig = Resources.Load<PuzzleConfig>(resourcePath);
+		string resourcePath = $"{PuzzlePack}/{PuzzleIdInPack}.asset";
+		var puzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
 		if(!puzzleConfig)
 		{
 			Debug.LogError($"No puzzle found at resource path: {resourcePath}");
 			return;
 		}
 		PuzzleProvider.Instance.PuzzleConfig = puzzleConfig;
-		SceneManager.LoadScene("Puzzle");
+		Addressables.LoadSceneAsync("Puzzle");
 	}
 }

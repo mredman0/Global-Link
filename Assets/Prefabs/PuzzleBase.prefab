@@ -2040,7 +2040,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -2051,7 +2051,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2108476838566554060}
+      objectReference: {fileID: 2444379086359407294}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2070,7 +2070,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: LoadScene
+      value: SpawnEffect
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -2080,7 +2080,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: SceneLoader, Assembly-CSharp
+      value: EffectSpawner, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -2103,11 +2103,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 2058082238041997702, guid: e719283863035914c8750afc0189e1a3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2108476838566554060}
     - target: {fileID: 2058082238041997702, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -2245,11 +2240,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8767792532426600613, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2108476838566554060}
-    - target: {fileID: 8767792532426600613, guid: e719283863035914c8750afc0189e1a3,
-        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadScene
       objectReference: {fileID: 0}
@@ -2265,7 +2255,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7737170552555343465, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2108476838566554060}
+      addedObject: {fileID: 2444379086359407294}
   m_SourcePrefab: {fileID: 100100000, guid: e719283863035914c8750afc0189e1a3, type: 3}
 --- !u!224 &5060014880005131393 stripped
 RectTransform:
@@ -2291,7 +2281,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1425065982960360360}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2108476838566554060
+--- !u!114 &2444379086359407294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2300,11 +2290,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8690023589676897729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e422660d08e09d44bb1a03cbe73b9a89, type: 3}
+  m_Script: {fileID: 11500000, guid: 67cae1524a3cafa46a5c26771aa88aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultSceneToLoad: Settings
-  Additive: 1
+  Effect: {fileID: 6675122592315285523, guid: 383a5ef883772974bb0f5a1ba8c7f676, type: 3}
 --- !u!1001 &1909130105009842564
 PrefabInstance:
   m_ObjectHideFlags: 0

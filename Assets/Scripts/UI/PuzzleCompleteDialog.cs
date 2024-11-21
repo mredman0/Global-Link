@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class PuzzleCompleteDialog : Dialog
 {
@@ -81,8 +82,8 @@ public class PuzzleCompleteDialog : Dialog
             return null;
         }
         var nextLevelId = (idInPackInt + 1).ToString();
-        string resourcePath = $"Puzzles/{puzzlePack}/{nextLevelId}";
-        var puzzleConfig = Resources.Load<PuzzleConfig>(resourcePath);
+        string resourcePath = $"{puzzlePack}/{nextLevelId}.asset";
+        var puzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
         if (!puzzleConfig)
         {
             return null;

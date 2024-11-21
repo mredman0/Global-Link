@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Localization;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -53,7 +54,7 @@ public class SettingsController : MonoBehaviour
             Puzzle.Current.FreeInput();
             Puzzle.Current.CameraController.FreeInput();
         }
-        SceneManager.UnloadSceneAsync(gameObject.scene);
+        Destroy(gameObject);
     }
 
 	#region Mute
@@ -171,7 +172,7 @@ public class SettingsController : MonoBehaviour
         PuzzleCompletionManager.Instance.ResetAllProgress();
         GameManager.Instance.ResetTutorialShown();
 
-        SceneManager.LoadScene("Main Menu");
+        Addressables.LoadSceneAsync("Main Menu");
     }
     #endregion
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
 
 public class PuzzlePackGenerator : MonoBehaviour
@@ -215,8 +216,8 @@ public class PuzzlePackGenerator : MonoBehaviour
         var wouldOverwrite = new List<int>();
         for(int i = min; i <= max; i++)
         {
-            string resourcePath = $"Puzzles/{pack}/{i}";
-            if(Resources.Load<PuzzleConfig>(resourcePath))
+            string resourcePath = $"{pack}/{i}.asset";
+            if(Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion())
             {
                 wouldOverwrite.Add(i);
             }

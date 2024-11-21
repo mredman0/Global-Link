@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class PuzzleCompletionManager : MonoBehaviour
 {
@@ -120,12 +121,13 @@ public class PuzzleCompletionManager : MonoBehaviour
         PackInfo[pack] = PacksToManage.First(p => p.Id == pack);
 
         // Get total puzzles
-        int puzzleNum = 1;
-        while (Resources.Load($"Puzzles/{pack}/{puzzleNum}"))
+        TotalPuzzles[pack] = 0;
+        try
         {
-            puzzleNum++;
+            var packInfo = Addressables.LoadAssetAsync<PackInfo>($"Packs/{pack}.asset").WaitForCompletion();
+            TotalPuzzles[pack] = packInfo.NumLevels;
         }
-        TotalPuzzles[pack] = puzzleNum - 1;
+        catch { }
 
         // Get completed puzzles
         var path = Path.Combine(CompletionFolder, $"{pack}.dat");

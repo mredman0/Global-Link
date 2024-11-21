@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
@@ -14,6 +15,6 @@ public class SceneLoader : MonoBehaviour
         {
             name = DefaultSceneToLoad;
         }
-        SceneManager.LoadScene(name, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+        Addressables.LoadSceneAsync(name, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
     }
 }

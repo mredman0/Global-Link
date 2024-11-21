@@ -6,17 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Main Menu.unity
-    guid: bebcfe7fd4d1ca44db3b1bec1081ed1f
-  - enabled: 1
-    path: Assets/_Scenes/Settings.unity
-    guid: 30bfef79db4647f42907e99752c8e0d7
-  - enabled: 1
-    path: Assets/_Scenes/Store.unity
-    guid: 163e7f1e1d6371b4986f4063adf7607e
-  - enabled: 1
-    path: Assets/_Scenes/Puzzle.unity
-    guid: a649cc7242473dc4e9b58ef5fbbf218b
+    path: Assets/_Scenes/Init.unity
+    guid: a4664414a3aa68c499b1dc4b6eadc6d0
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 12f6839ec62251646afa719c035b8aea,
       type: 2}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public class PurchaseUIController : MonoBehaviour
@@ -33,7 +34,7 @@ public class PurchaseUIController : MonoBehaviour
             Puzzle.Current.FreeInput();
             Puzzle.Current.CameraController.FreeInput();
         }
-        SceneManager.UnloadSceneAsync(gameObject.scene);
+        Destroy(gameObject);
     }
 
     #region Ad Free

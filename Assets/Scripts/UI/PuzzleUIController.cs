@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
@@ -63,7 +64,7 @@ public class PuzzleUIController : MonoBehaviour
 
     public void GoBack()
     {
-        SceneManager.LoadScene("Main Menu");
+        Addressables.LoadSceneAsync("Main Menu");
     }
 
     private void SetPackAndIdText(PuzzleConfig cfg)
@@ -130,8 +131,8 @@ public class PuzzleUIController : MonoBehaviour
             return null;
         }
         var nextLevelId = (idInPackInt + 1).ToString();
-        string resourcePath = $"Puzzles/{puzzlePack}/{nextLevelId}";
-        var puzzleConfig = Resources.Load<PuzzleConfig>(resourcePath);
+        string resourcePath = $"{puzzlePack}/{nextLevelId}.asset";
+        var puzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
         if (!puzzleConfig)
         {
             return null;

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Puzzle Server
+  m_EditorClassIdentifier: 
+  m_GroupName: Puzzle Server
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 740d310c58643de4bb70145a5d6d0e99
+  m_SerializeEntries:
+  - m_GUID: 00c525eae12106245b5d8520d4ede142
+    m_Address: Puzzle Builder
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 00d38e9a41d2d464c8db0b78d3227d66
+    m_Address: Pack Generation
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1fd48023c694cc7478d3fb82d6fc52a4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 8cb3da55cdaae5a4aabf407562ad9e05, type: 2}
+    - {fileID: 11400000, guid: 937beee7e9c7c90449f9050a6604f7f3, type: 2}
