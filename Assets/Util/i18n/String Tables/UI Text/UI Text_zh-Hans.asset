@@ -106,6 +106,10 @@ MonoBehaviour:
     m_Localized: "\u5173\u5361\u5B8C\u6210!"
     m_Metadata:
       m_Items: []
+  - m_Id: 2480565890863104
+    m_Localized: "ChromaSphere: 3D\u8FDE\u7EBF\u89E3\u8C1C"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -106,6 +106,10 @@ MonoBehaviour:
     m_Localized: "\xA1Nivel completado!"
     m_Metadata:
       m_Items: []
+  - m_Id: 2480565890863104
+    m_Localized: "ChromaSphere: Rompecabezas de l\xEDneas 3D"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

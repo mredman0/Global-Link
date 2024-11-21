@@ -103,6 +103,10 @@ MonoBehaviour:
     m_Key: End of Pack
     m_Metadata:
       m_Items: []
+  - m_Id: 2480565890863104
+    m_Key: ChromaSphere Full Title
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
