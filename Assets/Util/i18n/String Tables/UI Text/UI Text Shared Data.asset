@@ -107,6 +107,10 @@ MonoBehaviour:
     m_Key: ChromaSphere Full Title
     m_Metadata:
       m_Items: []
+  - m_Id: 2483161061937152
+    m_Key: ChromaSphere Short Title
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

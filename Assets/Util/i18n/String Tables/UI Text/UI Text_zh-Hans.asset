@@ -110,6 +110,10 @@ MonoBehaviour:
     m_Localized: "ChromaSphere: 3D\u8FDE\u7EBF\u89E3\u8C1C"
     m_Metadata:
       m_Items: []
+  - m_Id: 2483161061937152
+    m_Localized: ChromaSphere
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
