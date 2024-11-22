@@ -1356,16 +1356,12 @@ public class Puzzle : MonoBehaviour
         PositionsToTest[2].Latitude = pointPolar.Latitude;
         PositionsToTest[2].Longitude = pointPolar.Longitude + 360f;
 
+        var nodePathCollisionDistance = NodeCollisionDistance + PathCollisionDistance;
         foreach (var node in Nodes.Where(n => n.Color != excludeColor))
         {
-            foreach(var point in PositionsToTest)
+            if (Vector3.Distance(position, node.transform.position) < nodePathCollisionDistance)
             {
-                // Latitude "minimum" is the top, so it's actually the max
-                if (point.Latitude < node.GridCell.LatitudeMin + cellPathCollisionPadding && point.Latitude > node.GridCell.LatitudeMax - cellPathCollisionPadding &&
-                    point.Longitude > node.GridCell.LongitudeMin - lonCellPathCollisionPadding && point.Longitude < node.GridCell.LongitudeMax + lonCellPathCollisionPadding)
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
