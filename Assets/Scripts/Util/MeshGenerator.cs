@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class MeshGenerator : MonoBehaviour
@@ -199,9 +198,6 @@ public class MeshGenerator : MonoBehaviour
 
         // Calculate normals for lighting
         mesh.RecalculateNormals();
-        var calculatedNormals = new List<Vector3>();
-        mesh.GetNormals(calculatedNormals);
-        mesh.SetNormals(calculatedNormals.Select(n => n * -1f).ToList());
 
         return mesh;
     }
