@@ -19,7 +19,6 @@ public class PuzzleBuilder : MonoBehaviour
     public GameObject WaypointPrefab;
     public GameObject WarpPrefab;
     public GameObject WallPrefab;
-    public GameObject RockPrefab;
 
     [Header("Config")]
     public int[] GridCellsPerRow = new int[2] { 4, 4 };
@@ -34,7 +33,6 @@ public class PuzzleBuilder : MonoBehaviour
     public List<PuzzleObjectWarp> Warps = new List<PuzzleObjectWarp>();
     public PuzzleObjectWarp LastPlacedWarp;
     public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
-    public List<PuzzleObjectRock> Rocks = new List<PuzzleObjectRock>();
 
     [Header("View Settings")]
     public bool OpaqueSphere;
@@ -299,20 +297,6 @@ public class PuzzleBuilder : MonoBehaviour
             Walls.Add(newWall);
             PlacedObjects[cell] = newWall;
         }
-        else if(PaintMode == PuzzleBuilderPaintMode.Rock)
-        {
-            var newRockGO = Instantiate(RockPrefab);
-            newRockGO.transform.parent = transform;
-            newRockGO.transform.position = cell.transform.position;
-            newRockGO.transform.LookAt(transform);
-
-            var newRock = newRockGO.GetComponent<PuzzleObjectRock>();
-            newRock.Cell = cell;
-            ColorCell(cell, -1);
-
-            Rocks.Add(newRock);
-            PlacedObjects[cell] = newRock;
-        }
     }
 
     private void EraseObject(GridCell cell, bool isManual)
@@ -339,10 +323,6 @@ public class PuzzleBuilder : MonoBehaviour
         else if (objectToDelete is PuzzleObjectWall wall)
         {
             Walls.Remove(wall);
-        }
-        else if(objectToDelete is PuzzleObjectRock rock)
-        {
-            Rocks.Remove(rock);
         }
 
         Destroy(objectToDelete.gameObject);
@@ -1020,12 +1000,6 @@ public class PuzzleBuilder : MonoBehaviour
             Destroy(wall.gameObject);
         }
         Walls.Clear();
-        foreach (var rock in Rocks)
-        {
-            PlacedObjects.Remove(rock.Cell);
-            Destroy(rock);
-        }
-        Rocks.Clear();
     }
 
     private void ResetGridCellColors()
@@ -1110,13 +1084,6 @@ public class PuzzleBuilder : MonoBehaviour
         for (i = 0; i < Walls.Count; i++)
         {
             newPuzzleConfig.WallPositions[i] = new Vector2Int(Walls[i].Cell.Row, Walls[i].Cell.Cell);
-        }
-
-        // Rocks
-        newPuzzleConfig.RockPositions = new Vector2Int[Rocks.Count];
-        for(i = 0; i < Rocks.Count; i++)
-        {
-            newPuzzleConfig.RockPositions[i] = new Vector2Int(Rocks[i].Cell.Row, Rocks[i].Cell.Cell);
         }
 
         // Solutions
@@ -1241,18 +1208,6 @@ public class PuzzleBuilder : MonoBehaviour
             }
         }
 
-        // Rocks
-        if(cfg.RockPositions != null)
-        {
-            PaintMode = PuzzleBuilderPaintMode.Rock;
-            for (int i = 0; i < cfg.RockPositions.Length; i++)
-            {
-                var row = cfg.RockPositions[i].x;
-                var rowCell = cfg.RockPositions[i].y;
-                Paint(Grid.CellsByRow[row][rowCell]);
-            }
-        }
-
         // Solutions
         if(cfg.SolutionLengths != null && cfg.Solutions != null)
         {
@@ -1297,7 +1252,6 @@ public enum PuzzleBuilderPaintMode
     Waypoint,
     Warp,
     Wall,
-    Rock,
 }
 
 public enum PuzzleGenerationMode

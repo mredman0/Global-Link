@@ -14,7 +14,6 @@ public class PuzzleConfig : ScriptableObject
 	public int[] GridCellsPerRow;
 
 	[Header("Obstacles")]
-	public Vector2Int[] RockPositions;
 	public Vector2Int[] WallPositions;
 
 	[Header("Nodes")]

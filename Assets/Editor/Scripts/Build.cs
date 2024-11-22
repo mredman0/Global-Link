@@ -62,7 +62,7 @@ public class Build
             return;
         }
 
-        var apkPath = "Builds/Android/Global Link.apk";
+        var apkPath = "Builds/Android/ChromaSphere.apk";
         var options = new BuildPlayerOptions()
         {
             scenes = scenes,
@@ -78,7 +78,7 @@ public class Build
     [MenuItem("Build/Run - Android")]
     public static void RunAndroid()
     {
-        string packageName = "com.MarkRedman.GlobalLink";
+        string packageName = "com.RedPrismGames.ChromaSphere";
         LaunchApp(packageName);
     }
 	#endregion
@@ -133,7 +133,7 @@ public class Build
         {
             UnityEngine.Debug.Log("Deployment successful!");
 
-            string packageName = "com.MarkRedman.GlobalLink";
+            string packageName = "com.RedPrismGames.ChromaSphere";
             LaunchApp(packageName);
         }
     }
@@ -170,7 +170,7 @@ public class Build
 
 public class IPInputWindow : EditorWindow
 {
-    private string ipAddress = "";
+    private string ipAddress = "192.168.1.";
 
     public static void ShowWindow()
     {

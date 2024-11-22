@@ -25,7 +25,6 @@ public class Puzzle : MonoBehaviour
     public GameObject NodePrefab;
     public GameObject WaypointPrefab;
     public GameObject WarpPrefab;
-    public GameObject RockPrefab;
     public GameObject WallPrefab;
 
     [Header("Effects")]
@@ -56,7 +55,6 @@ public class Puzzle : MonoBehaviour
     public List<Warp> Warps;
     public Dictionary<GridCell, Warp> WarpsByGridCell = new Dictionary<GridCell, Warp>();
     public Dictionary<int, MultiLineRenderer> Paths = new Dictionary<int, MultiLineRenderer>();
-    public List<GameObject> Rocks;
     public List<Wall> Walls;
     public List<int> HintedColors = new List<int>();
 
@@ -708,14 +706,6 @@ public class Puzzle : MonoBehaviour
             }
             Walls.Clear();
         }
-        if (Rocks != null)
-        {
-            foreach (var rock in Rocks)
-            {
-                Destroy(rock.gameObject);
-            }
-            Rocks.Clear();
-        }
 
         HintedColors.Clear();
         SetUndoState(-1, false, null);
@@ -1254,33 +1244,7 @@ public class Puzzle : MonoBehaviour
 
     private void SetupObstacles(PuzzleConfig cfg)
     {
-        SetupRocks(cfg);
         SetupWalls(cfg);
-    }
-
-    private void SetupRocks(PuzzleConfig cfg)
-    {
-        if (cfg.RockPositions is null)
-        {
-            return;
-        }
-        for (int i = 0; i < cfg.RockPositions.Length; i++)
-        {
-            var row = cfg.RockPositions[i].x;
-            var rowCell = cfg.RockPositions[i].y;
-
-            var newRockGO = Instantiate(RockPrefab);
-            newRockGO.transform.parent = transform;
-            newRockGO.name = $"Rock r{row}c{rowCell}";
-
-            var rockPosition = cfg.RockPositions[i];
-
-            var cell = Grid.CellsByRow[rockPosition.x][rockPosition.y];
-            newRockGO.transform.position = cell.transform.position;
-            newRockGO.transform.LookAt(transform);
-
-            Rocks.Add(newRockGO);
-        }
     }
 
     private void SetupWalls(PuzzleConfig cfg)
@@ -1321,7 +1285,6 @@ public class Puzzle : MonoBehaviour
     }
     #endregion
 
-    private const float ROCK_COLLISION_DISTANCE = 0.18f;
     public bool IsCameraPositionValid()
     {
         if(!ActiveNode)
@@ -1378,14 +1341,6 @@ public class Puzzle : MonoBehaviour
                         return false;
                     }
                 }
-            }
-        }
-        var rockPathCollisionDistance = ROCK_COLLISION_DISTANCE + PathCollisionDistance;
-        foreach (var rock in Rocks)
-        {
-            if (Vector3.Distance(position, rock.transform.position) < rockPathCollisionDistance)
-            {
-                return false;
             }
         }
 
