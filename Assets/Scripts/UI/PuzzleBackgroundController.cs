@@ -30,7 +30,7 @@ public class PuzzleBackgroundController : MonoBehaviour
 
     private void OnNodeSelected(Node node)
     {
-        var newColor = ColorManager.Instance.ApplyActiveColorMap(node.Color);
+        var newColor = ColorManager.Instance.GetColor(node.Color);
         SwitchToColor(newColor);
     }
 

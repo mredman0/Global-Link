@@ -61,5 +61,9 @@ MonoBehaviour:
   - 10
   StringSettings:
   - AccessibilityLocale
+  - AvailableColorSchemes
+  - CurrentColorScheme
   StringDefaultValues:
   - en
+  - 
+  - Default

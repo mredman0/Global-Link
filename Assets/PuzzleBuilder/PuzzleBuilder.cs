@@ -232,7 +232,7 @@ public class PuzzleBuilder : MonoBehaviour
             newNodeGO.transform.position = cell.transform.position;
 
             var newNode = newNodeGO.GetComponent<PuzzleObjectNode>();
-            newNodeGO.name = $"{ColorManager.Instance.ColorName(PaintNodeColor)} Node";
+            newNodeGO.name = $"C{PaintNodeColor} Node";
             newNode.SetColor(PaintNodeColor);
             newNode.Cell = cell;
 
@@ -252,7 +252,7 @@ public class PuzzleBuilder : MonoBehaviour
             newWaypointGO.transform.LookAt(transform);
 
             var newWaypoint = newWaypointGO.GetComponent<PuzzleObjectWaypoint>();
-            newWaypointGO.name = $"{ColorManager.Instance.ColorName(PaintNodeColor)} Waypoint";
+            newWaypointGO.name = $"C{PaintNodeColor} Waypoint";
             newWaypoint.SetColor(PaintNodeColor);
             newWaypoint.Cell = cell;
 
@@ -364,7 +364,7 @@ public class PuzzleBuilder : MonoBehaviour
     private Color Gray = Color.gray;
     private void ColorCell(GridCell cell, int? color)
     {
-        var col = color is null || color == -1 ? Gray : ColorManager.Instance.ApplyActiveColorMap(color.Value);
+        var col = color is null || color == -1 ? Gray : ColorManager.Instance.GetColor(color.Value);
         Grid.IntersectionBallsByCell[cell].material.SetColor("_Color", col);
         cell.Color = color;
 

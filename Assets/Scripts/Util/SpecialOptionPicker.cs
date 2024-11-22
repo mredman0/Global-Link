@@ -9,17 +9,16 @@ using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 
-public class OptionPicker : MonoBehaviour
+public class SpecialOptionPicker : MonoBehaviour
 {
     [Header("Required References")]
-    public TMP_Text ValueText;
+    public List<GameObject> OptionDisplays;
     public OptionsDialog OptionsDialog;
 
     [Serializable]
     public class OnChangeEvent : UnityEvent<string> { }
     [Header("Settings")]
     public OnChangeEvent OnValueChanged;
-    public TableReference LocalizationTable;
 
     [Header("State")]
     public string Value;
@@ -28,7 +27,7 @@ public class OptionPicker : MonoBehaviour
     void Start()
     {
         OptionsDialog.OptionSelected += SetValue;
-        UpdateValueText();
+        UpdateDisplay();
     }
 
     public void ShowOptions()
@@ -39,12 +38,15 @@ public class OptionPicker : MonoBehaviour
     public void SetValue(string value)
     {
         Value = value;
-        UpdateValueText();
+        UpdateDisplay();
         OnValueChanged?.Invoke(Value);
     }
 
-    public void UpdateValueText()
+    public void UpdateDisplay()
     {
-        ValueText.GetComponent<LocalizeStringEvent>().StringReference = new LocalizedString(LocalizationTable, Value);
+        foreach(var obj in OptionDisplays)
+        {
+            obj.SetActive(obj.name == Value);
+        }
     }
 }

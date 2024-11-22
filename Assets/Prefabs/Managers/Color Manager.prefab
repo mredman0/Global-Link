@@ -44,4 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74a6fadaf9bc144da9da740cc4c4566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActiveColorMap: Default
+  BaseColorSchemes:
+  - Default
+  - Hot
+  - Cool
+  Current: {fileID: 0}
+  CurrentId: 

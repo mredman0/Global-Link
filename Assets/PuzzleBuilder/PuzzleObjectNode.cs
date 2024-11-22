@@ -17,7 +17,7 @@ public class PuzzleObjectNode : PuzzleObject
     public void SetColor(int color)
     {
         Color = color;
-        var mappedColor = ColorManager.Instance.ApplyActiveColorMap(color);
+        var mappedColor = ColorManager.Instance.GetColor(color);
         GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
     }
 }

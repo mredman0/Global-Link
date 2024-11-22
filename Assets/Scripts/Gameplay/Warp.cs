@@ -37,15 +37,15 @@ public class Warp : MonoBehaviour
         DefaultSurfaceWaveSpeed = MeshRenderer.material.GetFloat("_WaveSpeed");
     }
 
-    private void SetSurfaceColor(int colorIndex)
+    public void SetSurfaceColor(int colorIndex)
     {
-        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorManager.Instance.ApplyActiveColorMap(colorIndex);
+        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorManager.Instance.GetColor(colorIndex);
         MeshRenderer.material.SetColor("_BaseColor", color);
     }
 
-    private void SetLineColor(int colorIndex)
+    public void SetLineColor(int colorIndex)
     {
-        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorManager.Instance.ApplyActiveColorMap(colorIndex);
+        var color = colorIndex < 0 ? DefaultSurfaceBaseColor : ColorManager.Instance.GetColor(colorIndex);
         WarpPreviewLine.material.SetColor("_FillColor", color);
     }
 

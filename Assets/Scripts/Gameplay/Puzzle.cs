@@ -88,7 +88,7 @@ public class Puzzle : MonoBehaviour
         InitializePuzzle();
 
         InputManager.Instance.Tap += OnTap;
-        ColorManager.Instance.ColorMapChanged += OnColorMapChanged;
+        ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
 
         if (PuzzleConfig.Pack == "Tutorial" && TutorialInstructionsProvider.Instance)
         {
@@ -103,15 +103,27 @@ public class Puzzle : MonoBehaviour
 
     private void OnDestroy()
     {
-        ColorManager.Instance.ColorMapChanged -= OnColorMapChanged;
+        ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
         InputManager.Instance.Tap -= OnTap;
     }
 
-    private void OnColorMapChanged()
+    private void OnColorSchemeChanged()
     {
         foreach(var node in Nodes)
         {
             node.SetColor(node.Color);
+        }
+        foreach(var waypoint in Waypoints)
+        {
+            waypoint.SetColor(waypoint.Color);
+        }
+        foreach(var warp in Warps)
+        {
+            if(warp.Role != Warp.WarpRole.Open)
+            {
+                warp.SetSurfaceColor(warp.Color);
+                warp.SetLineColor(warp.Color);
+            }
         }
     }
 
@@ -1139,7 +1151,7 @@ public class Puzzle : MonoBehaviour
             newNodeGO.transform.parent = transform;
             var newNode = newNodeGO.GetComponent<Node>();
             var colorIndex = colorGetter(i);
-            newNodeGO.name = $"{ColorManager.Instance.ColorName(colorIndex)} Node";
+            newNodeGO.name = $"C{colorIndex} Node";
             newNode.Initialize(this, colorIndex);
 
             var nodePosition = cfg.NodePositions[i];

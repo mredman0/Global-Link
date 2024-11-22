@@ -49,19 +49,24 @@ public class NodePairDisplay : MonoBehaviour
         }
     }
 
+    public void SetColor(int color)
+    {
+        Color = color;
+        var allImages = GetComponentsInChildren<Image>(includeInactive: true);
+        var imagesToTint = allImages.Where(img => !img.CompareTag("Color Icon")).ToList();
+        foreach (var img in imagesToTint)
+        {
+            img.color = ColorManager.Instance.GetColor(color);
+        }
+    }
+
     public void SetColorAndHasWaypoint(int color, bool hasWaypoint)
     {
         HasWaypoint = hasWaypoint;
         Waypoint.gameObject.SetActive(HasWaypoint);
         NoWaypoint.gameObject.SetActive(!HasWaypoint);
 
-        Color = color;
-        var allImages = GetComponentsInChildren<Image>(includeInactive: true);
-        var imagesToTint = allImages.Where(img => !img.CompareTag("Color Icon")).ToList();
-        foreach (var img in imagesToTint)
-        {
-            img.color = ColorManager.Instance.ApplyActiveColorMap(color);
-        }
+        SetColor(color);
 
         UpdateDisplay();
     }

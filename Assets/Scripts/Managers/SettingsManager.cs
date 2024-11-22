@@ -139,6 +139,49 @@ public class SettingsManager : MonoBehaviour
     }
     #endregion
 
+    #region Get Default
+    public bool GetBoolDefault(string setting)
+    {
+        if (!BoolSettings.Contains(setting))
+        {
+            Debug.LogWarning($"Bool Setting \"{setting}\" not managed");
+            return false;
+        }
+        var i = BoolSettings.IndexOf(setting);
+        return BoolDefaultValues[i];
+    }
+    public int GetIntDefault(string setting)
+    {
+        if (!IntSettings.Contains(setting))
+        {
+            Debug.LogWarning($"Int Setting \"{setting}\" not managed");
+            return 0;
+        }
+        var i = IntSettings.IndexOf(setting);
+        return IntDefaultValues[i];
+    }
+    public float GetFloatDefault(string setting)
+    {
+        if (!FloatSettings.Contains(setting))
+        {
+            Debug.LogWarning($"Float Setting \"{setting}\" not managed");
+            return 0;
+        }
+        var i = FloatSettings.IndexOf(setting);
+        return FloatDefaultValues[i];
+    }
+    public string GetStringDefault(string setting)
+    {
+        if (!StringSettings.Contains(setting))
+        {
+            Debug.LogWarning($"String Setting \"{setting}\" not managed");
+            return null;
+        }
+        var i = StringSettings.IndexOf(setting);
+        return StringDefaultValues[i];
+    }
+    #endregion
+
     #region Set
     public void SetBool(string setting, bool val, bool doNotSave = false)
     {

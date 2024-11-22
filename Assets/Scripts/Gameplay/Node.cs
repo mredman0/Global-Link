@@ -47,7 +47,7 @@ public class Node : MonoBehaviour
     {
         Path = Instantiate(PathPrefab).GetComponent<MultiLineRenderer>();
 
-        var pathColor = ColorManager.Instance.ApplyActiveColorMap(Color);
+        var pathColor = ColorManager.Instance.GetColor(Color);
         Path.Color = pathColor;
         if (Puzzle)
         {
@@ -68,7 +68,7 @@ public class Node : MonoBehaviour
     public void SetColor(int color)
     {
         Color = color;
-        var mappedColor = ColorManager.Instance.ApplyActiveColorMap(color);
+        var mappedColor = ColorManager.Instance.GetColor(color);
         GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
         if(Path)
         {

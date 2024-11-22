@@ -34,6 +34,8 @@ public class NodesUI : MonoBehaviour
         Puzzle.NodesDisconnected += OnNodesDisconnected;
         Puzzle.WaypointReached += OnWaypointReached;
         Puzzle.WaypointUnreached += OnWaypointUnreached;
+
+        ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
     }
 
     private void OnDestroy()
@@ -46,6 +48,8 @@ public class NodesUI : MonoBehaviour
         Puzzle.NodesDisconnected -= OnNodesDisconnected;
         Puzzle.WaypointReached -= OnWaypointReached;
         Puzzle.WaypointUnreached -= OnWaypointUnreached;
+
+        ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
     }
 
     private void OnPuzzleInitialized()
@@ -104,5 +108,13 @@ public class NodesUI : MonoBehaviour
     private void OnWaypointUnreached(Waypoint waypoint)
     {
         NodeDisplays[waypoint.Color].SetWaypointReached(false);
+    }
+
+    private void OnColorSchemeChanged()
+    {
+        foreach(var kvp in NodeDisplays)
+        {
+            kvp.Value.SetColor(kvp.Value.Color);
+        }
     }
 }

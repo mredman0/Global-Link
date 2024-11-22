@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 2191489022248952121}
   - component: {fileID: 7964303042813086457}
   m_Layer: 5
-  m_Name: Options Dialog Setting
+  m_Name: Text Options Dialog Setting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

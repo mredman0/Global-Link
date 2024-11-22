@@ -31,8 +31,33 @@ public class MainMenuBackground : MonoBehaviour
 
     public bool AllowReverseRotation = true;
 
+    private Dictionary<int, List<Renderer>> RenderersByColor = new Dictionary<int, List<Renderer>>();
+
     // Start is called before the first frame update
     void Start()
+    {
+        Init();
+        ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
+    }
+
+    private void OnDestroy()
+    {
+        ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
+    }
+
+    private void OnColorSchemeChanged()
+    {
+        foreach(var kvp in RenderersByColor)
+        {
+            var color = ColorManager.Instance.GetColor(kvp.Key);
+            foreach(var renderer in kvp.Value)
+            {
+                renderer.material.SetColor("_Color", color);
+            }
+        }
+    }
+
+    private void Init()
     {
         var colors = new List<int>();
         void AddNewRandomColors()
@@ -56,17 +81,18 @@ public class MainMenuBackground : MonoBehaviour
         var previousColor = -1;
         for (int i = 0; i < NumArcs; i++)
         {
-            if(!colors.Any())
+            if (!colors.Any())
             {
                 AddNewRandomColors();
-                if(colors.First() == previousColor)
+                if (colors.First() == previousColor)
                 {
                     var temp = colors[0];
                     colors[0] = colors[5];
                     colors[5] = temp;
                 }
             }
-            var color = ColorManager.Instance.ApplyActiveColorMap(colors.First());
+            var colorIndex = colors.First();
+            var color = ColorManager.Instance.GetColor(colorIndex);
             previousColor = colors.First();
             colors.RemoveAt(0);
 
@@ -75,7 +101,7 @@ public class MainMenuBackground : MonoBehaviour
             var node2RotatorGO = Instantiate(RotatorPrefab, transform);
 
             var speed = Random.Range(MinRotationSpeed, MaxRotationSpeed);
-            if(AllowReverseRotation && Random.value < 0.5f)
+            if (AllowReverseRotation && Random.value < 0.5f)
             {
                 speed *= -1f;
             }
@@ -108,12 +134,20 @@ public class MainMenuBackground : MonoBehaviour
 
             newLine.material.SetColor("_Color", color);
             newLine.positionCount = numPoints;
-            for(int j = 0; j < numPoints; j++)
+            for (int j = 0; j < numPoints; j++)
             {
                 var deg = startPolar.Latitude + (step * j);
                 var polar = new PolarVector3(radius, deg, 0f);
                 newLine.SetPosition(j, polar.ToCartesian());
             }
+
+            if (!RenderersByColor.ContainsKey(colorIndex))
+            {
+                RenderersByColor.Add(colorIndex, new List<Renderer>());
+            }
+            RenderersByColor[colorIndex].Add(newLine);
+            RenderersByColor[colorIndex].Add(newNode1.GetComponent<Renderer>());
+            RenderersByColor[colorIndex].Add(newNode2.GetComponent<Renderer>());
         }
     }
 }
