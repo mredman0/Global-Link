@@ -15,12 +15,17 @@ public class Node : MonoBehaviour
     public GameObject PathPrefab;
     public MultiLineRenderer Path;
 
+    public GameObject Ball;
     public GameObject ColorIconArm;
     public MeshRenderer ColorIconRenderer;
+
+    public MeshFilter CellOutlinerMesh;
+    public float VerticesPerDegree = 0.5f;
 
     public GridCell GridCell;
 
     public Node PairedNode { get; private set; }
+    public float VisualScale = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -59,22 +64,38 @@ public class Node : MonoBehaviour
         Path.SetPosition(0, transform.position);
     }
 
-    public void Initialize(Puzzle puzzle, int color)
+    public void Initialize(Puzzle puzzle, int color, GridCell cell)
     {
         Puzzle = puzzle;
         SetColor(color);
+        GridCell = cell;
+
+        transform.position = cell.transform.position;
+
+        var radiusMultiplier = 0.95f;
+        var latitudeSegments = Mathf.CeilToInt(VerticesPerDegree * Mathf.Abs(cell.LatitudeMin - cell.LatitudeMax));
+        var longitudeSegments = Mathf.CeilToInt(VerticesPerDegree * Mathf.Abs(cell.LongitudeMin - cell.LongitudeMax));
+        CellOutlinerMesh.sharedMesh = MeshGenerator.GenerateSphereSectorRounded(cell.LatitudeMin, cell.LatitudeMax, cell.LongitudeMin, cell.LongitudeMax, radiusMultiplier, latitudeSegments, longitudeSegments, 0.25f);
+        CellOutlinerMesh.transform.localPosition = transform.localPosition * -1f;
     }
 
     public void SetColor(int color)
     {
         Color = color;
         var mappedColor = ColorManager.Instance.GetColor(color);
-        GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
+        Ball.GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
+        CellOutlinerMesh.GetComponent<Renderer>().material.SetColor("_Color", mappedColor);
         if(Path)
         {
             Path.Color = mappedColor;
         }
         ColorIconRenderer.material = ColorIconMaterials[Color];
+    }
+
+    public void SetVisualScale(float scale)
+    {
+        VisualScale = scale;
+        Ball.transform.localScale = new Vector3(scale, scale, scale);
     }
 
     public void SetPairedNode(Node other)
@@ -84,10 +105,10 @@ public class Node : MonoBehaviour
 
     public void SetSelected()
     {
-        GetComponent<Animator>().SetBool("Selected", true);
+        Ball.GetComponent<Animator>().SetBool("Selected", true);
     }
     public void SetDeselected()
     {
-        GetComponent<Animator>().SetBool("Selected", false);
+        Ball.GetComponent<Animator>().SetBool("Selected", false);
     }
 }

@@ -561,8 +561,8 @@ public class Puzzle : MonoBehaviour
         n.StartPath();
 
         Paths[n.Color] = n.Path;
-        n.Path.StartWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
-        n.Path.EndWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+        n.Path.StartWidth = n.VisualScale * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
+        n.Path.EndWidth = n.VisualScale * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
     }
 
     private void TrimPathToPoint(MultiLineRenderer path, Vector3 point, bool includePoint)
@@ -1152,15 +1152,13 @@ public class Puzzle : MonoBehaviour
             var newNode = newNodeGO.GetComponent<Node>();
             var colorIndex = colorGetter(i);
             newNodeGO.name = $"C{colorIndex} Node";
-            newNode.Initialize(this, colorIndex);
 
             var nodePosition = cfg.NodePositions[i];
 
             var cell = Grid.CellsByRow[nodePosition.x][nodePosition.y];
-            newNode.GridCell = cell;
-            newNode.transform.position = cell.transform.position;
+            newNode.Initialize(this, colorIndex, cell);
 
-            newNode.transform.localScale = new Vector3(nodeVisualScale, nodeVisualScale, nodeVisualScale);
+            newNode.SetVisualScale(nodeVisualScale);
 
             Nodes.Add(newNode);
             if (NodesByColor.ContainsKey(colorIndex))
