@@ -1332,18 +1332,40 @@ public class Puzzle : MonoBehaviour
         return IsPositionFree(position, ActiveNode.Color);
     }
 
+    private PolarVector3[] PositionsToTest = new PolarVector3[3]
+    {
+        new PolarVector3(),
+        new PolarVector3(),
+        new PolarVector3(),
+    };
     public bool IsPositionFree(Vector3 position, int? excludeColor = null)
     {
-
-        var nodePathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg * 0.9f;
         var pointPolar = position.ToPolar();
+        var latAdjust = pointPolar.Latitude * 0.95f;
+        var paddingLatFactor = 1 / Mathf.Cos(latAdjust * Mathf.Deg2Rad);
+
+        var cellPathCollisionPadding = PathCollisionDistance * Mathf.Rad2Deg * 0.9f;
+        var lonCellPathCollisionPadding = cellPathCollisionPadding * paddingLatFactor;
+
+        // Test versions of the point +/- 360 longitude to handle the vertical seam at 0/360
+        PositionsToTest[0] = pointPolar;
+        PositionsToTest[1].Radius = pointPolar.Radius;
+        PositionsToTest[1].Latitude = pointPolar.Latitude;
+        PositionsToTest[1].Longitude = pointPolar.Longitude - 360f;
+        PositionsToTest[2].Radius = pointPolar.Radius;
+        PositionsToTest[2].Latitude = pointPolar.Latitude;
+        PositionsToTest[2].Longitude = pointPolar.Longitude + 360f;
+
         foreach (var node in Nodes.Where(n => n.Color != excludeColor))
         {
-            // Latitude "minimum" is the top, so it's actually the max
-            if (pointPolar.Latitude < node.GridCell.LatitudeMin + nodePathCollisionPadding && pointPolar.Latitude > node.GridCell.LatitudeMax - nodePathCollisionPadding &&
-                pointPolar.Longitude > node.GridCell.LongitudeMin - nodePathCollisionPadding && pointPolar.Longitude < node.GridCell.LongitudeMax + nodePathCollisionPadding)
+            foreach(var point in PositionsToTest)
             {
-                return false;
+                // Latitude "minimum" is the top, so it's actually the max
+                if (point.Latitude < node.GridCell.LatitudeMin + cellPathCollisionPadding && point.Latitude > node.GridCell.LatitudeMax - cellPathCollisionPadding &&
+                    point.Longitude > node.GridCell.LongitudeMin - lonCellPathCollisionPadding && point.Longitude < node.GridCell.LongitudeMax + lonCellPathCollisionPadding)
+                {
+                    return false;
+                }
             }
         }
 
@@ -1370,18 +1392,20 @@ public class Puzzle : MonoBehaviour
                 return false;
             }
         }
-        var wallPathCollisionPadding = Mathf.Tan(PathCollisionDistance) * Mathf.Rad2Deg * 0.9f;
+
         foreach (var wall in Walls)
         {
-            // Latitude "minimum" is the top, so it's actually the max
-            if(pointPolar.Latitude < wall.GridCell.LatitudeMin + wallPathCollisionPadding && pointPolar.Latitude > wall.GridCell.LatitudeMax - wallPathCollisionPadding &&
-                pointPolar.Longitude > wall.GridCell.LongitudeMin - wallPathCollisionPadding && pointPolar.Longitude < wall.GridCell.LongitudeMax + wallPathCollisionPadding)
+            foreach (var point in PositionsToTest)
             {
-                return false;
+                // Latitude "minimum" is the top, so it's actually the max
+                if (point.Latitude < wall.GridCell.LatitudeMin + cellPathCollisionPadding && point.Latitude > wall.GridCell.LatitudeMax - cellPathCollisionPadding &&
+                    point.Longitude > wall.GridCell.LongitudeMin - lonCellPathCollisionPadding && point.Longitude < wall.GridCell.LongitudeMax + lonCellPathCollisionPadding)
+                {
+                    return false;
+                }
             }
         }
 
-        var waypointPathCollisionPadding = wallPathCollisionPadding;
         foreach (var waypoint in Waypoints)
         {
             if(waypoint.Color == excludeColor)
@@ -1389,11 +1413,14 @@ public class Puzzle : MonoBehaviour
                 continue;
             }
 
-            // Latitude "minimum" is the top, so it's actually the max
-            if (pointPolar.Latitude < waypoint.GridCell.LatitudeMin + waypointPathCollisionPadding && pointPolar.Latitude > waypoint.GridCell.LatitudeMax - waypointPathCollisionPadding &&
-                pointPolar.Longitude > waypoint.GridCell.LongitudeMin - waypointPathCollisionPadding && pointPolar.Longitude < waypoint.GridCell.LongitudeMax + waypointPathCollisionPadding)
+            foreach (var point in PositionsToTest)
             {
-                return false;
+                // Latitude "minimum" is the top, so it's actually the max
+                if (point.Latitude < waypoint.GridCell.LatitudeMin + cellPathCollisionPadding && point.Latitude > waypoint.GridCell.LatitudeMax - cellPathCollisionPadding &&
+                    point.Longitude > waypoint.GridCell.LongitudeMin - lonCellPathCollisionPadding && point.Longitude < waypoint.GridCell.LongitudeMax + lonCellPathCollisionPadding)
+                {
+                    return false;
+                }
             }
         }
         return true;
