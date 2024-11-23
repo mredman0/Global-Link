@@ -12,35 +12,53 @@ public class PuzzleBackgroundController : MonoBehaviour
 
     private Material BackgroundMaterial;
     private Color CurrentForegroundColor;
+    private int CurrentColorIndex;
 
     // Start is called before the first frame update
     void Start()
     {
         BackgroundMaterial = GetComponent<Renderer>().material;
         CurrentForegroundColor = NoNodeColor;
+        CurrentColorIndex = -1;
         Puzzle.NodeSelected += OnNodeSelected;
         Puzzle.NodeDeselected += OnNodeDeselected;
+
+        ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
     }
 
     private void OnDestroy()
     {
         Puzzle.NodeSelected -= OnNodeSelected;
         Puzzle.NodeDeselected -= OnNodeDeselected;
+
+        ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
     }
 
     private void OnNodeSelected(Node node)
     {
-        var newColor = ColorManager.Instance.GetColor(node.Color);
-        SwitchToColor(newColor);
+        SwitchToColor(node.Color);
     }
 
     private void OnNodeDeselected()
     {
-        SwitchToColor(NoNodeColor);
+        SwitchToColor(-1);
     }
 
-    private void SwitchToColor(Color newColor)
+    private void OnColorSchemeChanged()
     {
+        SwitchToColor(CurrentColorIndex);
+        SwitchToColor(CurrentColorIndex);
+    }
+
+    private void SwitchToColor(int colorIndex)
+    {
+        CurrentColorIndex = colorIndex;
+        var newColor = NoNodeColor;
+        if(colorIndex >= 0)
+        {
+            newColor = ColorManager.Instance.GetColor(colorIndex);
+        }
+
         BackgroundMaterial.SetColor("_BackgroundColor", CurrentForegroundColor);
         BackgroundMaterial.SetColor("_ForegroundColor", newColor);
         CurrentForegroundColor = newColor;
