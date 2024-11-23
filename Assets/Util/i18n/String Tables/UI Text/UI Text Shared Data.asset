@@ -111,6 +111,22 @@ MonoBehaviour:
     m_Key: ChromaSphere Short Title
     m_Metadata:
       m_Items: []
+  - m_Id: 3112474463457280
+    m_Key: Color Scheme
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113218084196352
+    m_Key: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113565456453632
+    m_Key: Hot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113576621690880
+    m_Key: Cool
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

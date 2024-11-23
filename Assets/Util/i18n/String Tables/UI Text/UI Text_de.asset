@@ -114,6 +114,22 @@ MonoBehaviour:
     m_Localized: ChromaSphere
     m_Metadata:
       m_Items: []
+  - m_Id: 3112474463457280
+    m_Localized: Farbschema
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113218084196352
+    m_Localized: Standard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113576621690880
+    m_Localized: "K\xFChl"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113565456453632
+    m_Localized: "Hei\xDF"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
