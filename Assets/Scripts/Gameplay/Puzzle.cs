@@ -1304,8 +1304,8 @@ public class Puzzle : MonoBehaviour
     public bool IsPositionFree(Vector3 position, int? excludeColor = null)
     {
         var pointPolar = position.ToPolar();
-        var latAdjust = pointPolar.Latitude * 0.95f;
-        var paddingLatFactor = 1 / Mathf.Cos(latAdjust * Mathf.Deg2Rad);
+        var latAdjust = pointPolar.Latitude * 0.96f;
+        var paddingLatFactor = 0.92f / Mathf.Cos(latAdjust * Mathf.Deg2Rad);
 
         var cellPathCollisionPadding = PathCollisionDistance * Mathf.Rad2Deg * 0.9f;
         var lonCellPathCollisionPadding = cellPathCollisionPadding * paddingLatFactor;
