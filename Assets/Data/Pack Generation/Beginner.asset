@@ -15,6 +15,7 @@ MonoBehaviour:
   PackId: Beginner
   NumPuzzles: 50
   Mode: 0
+  GridCellsPerRow: 01000000060000000a00000010000000140000001900000014000000100000000a0000000600000001000000
   MinNodePairs: 3
   MaxNodePairs: 4
   TargetNodePairs:

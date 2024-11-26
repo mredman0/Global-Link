@@ -1,4 +1,4 @@
-#if ( UNITY_EDITOR )
+#if ( UNITY_EDITOR || SERVER )
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,18 +7,10 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PuzzleBuilder : MonoBehaviour
+public class PuzzleBuilderLite
 {
     [Header("Required References")]
-    public PuzzleGrid Grid;
-    public Camera Camera;
-    public PuzzleBuilderCameraController CameraController;
-
-    [Header("Prefabs")]
-    public GameObject NodePrefab;
-    public GameObject WaypointPrefab;
-    public GameObject WarpPrefab;
-    public GameObject WallPrefab;
+    public PuzzleGridLite Grid;
 
     [Header("Config")]
     public int[] GridCellsPerRow = new int[2] { 4, 4 };
@@ -27,22 +19,19 @@ public class PuzzleBuilder : MonoBehaviour
     public PuzzleBuilderPaintMode PaintMode = PuzzleBuilderPaintMode.Node;
     [Range(0, 5)]
     public int PaintNodeColor = 0;
-    public Dictionary<GridCell, PuzzleObject> PlacedObjects = new Dictionary<GridCell, PuzzleObject>();
-    public List<PuzzleObjectNode> Nodes = new List<PuzzleObjectNode>();
-    public List<PuzzleObjectWaypoint> Waypoints = new List<PuzzleObjectWaypoint>();
-    public List<PuzzleObjectWarp> Warps = new List<PuzzleObjectWarp>();
-    public PuzzleObjectWarp LastPlacedWarp;
-    public List<PuzzleObjectWall> Walls = new List<PuzzleObjectWall>();
+    public Dictionary<GridCellLite, PuzzleObjectLite> PlacedObjects = new Dictionary<GridCellLite, PuzzleObjectLite>();
+    public List<PuzzleObjectNodeLite> Nodes = new List<PuzzleObjectNodeLite>();
+    public List<PuzzleObjectWaypointLite> Waypoints = new List<PuzzleObjectWaypointLite>();
+    public List<PuzzleObjectWarpLite> Warps = new List<PuzzleObjectWarpLite>();
+    public PuzzleObjectWarpLite LastPlacedWarp;
+    public List<PuzzleObjectWallLite> Walls = new List<PuzzleObjectWallLite>();
 
     [Header("View Settings")]
     public bool OpaqueSphere;
     public Quaternion CameraArmStart;
-    public bool SnapCameraArmStartToCurrent;
-    public bool SnapCameraArmToStart;
 
     public float CameraDistance;
     public float CameraFoV;
-    public bool SnapToCameraSettings;
 
     [Header("Generator")]
     public string GeneratorSeed = "";
@@ -82,141 +71,22 @@ public class PuzzleBuilder : MonoBehaviour
     public int MicroWaywardness = 4;
     public bool WallUnusedPlaceholders = false;
 
-    [Header("GENERATE")]
-    public bool StartGeneration = false;
-
     [Header("Saving")]
     public string Pack = "Pack";
     public string Id = "#";
-    public bool SavePuzzle = false;
 
-    [Header("Loading")]
-    public PuzzleConfig ConfigToLoad;
-    public bool LoadPuzzle = false;
-
-    [Header("Debug")]
-    public bool DoGridRebuild = false;
-
-
-    private static int MAIN_SPHERE_LAYER_MASK;
-    // Start is called before the first frame update
-    void Start()
+    public PuzzleBuilderLite()
     {
-        MAIN_SPHERE_LAYER_MASK = LayerMask.GetMask("InputCatch");
+        Grid = new PuzzleGridLite();
         RebuildGrid();
-        InputManager.Instance.Tap += OnTap;
-    }
-
-    private void OnTap(Vector2 tapPosition)
-    {
-        var ray = Camera.ScreenPointToRay(tapPosition);
-        var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, MAIN_SPHERE_LAYER_MASK);
-        if (anyHit)
-        {
-            var hitPoint = hitInfo.point;
-            GridCell closestCell = null;
-            float closestCellDistance = float.MaxValue;
-            foreach (var cell in Grid.Cells)
-            {
-                var dist = Vector3.Distance(cell.transform.position, hitPoint);
-                if (dist < closestCellDistance)
-                {
-                    closestCell = cell;
-                    closestCellDistance = dist;
-                }
-            }
-            if (closestCell is null)
-            {
-                Debug.LogWarning("Could not find cell to paint to");
-                return;
-            }
-            Paint(closestCell, isManual: true);
-        }
-    }
-
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(1)) // Right click
-        {
-            var ray = Camera.ScreenPointToRay(Input.mousePosition);
-            var anyHit = Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, MAIN_SPHERE_LAYER_MASK);
-            if (anyHit)
-            {
-                var hitPoint = hitInfo.point;
-                GridCell closestCell = null;
-                float closestCellDistance = float.MaxValue;
-                foreach (var cell in Grid.Cells)
-                {
-                    var dist = Vector3.Distance(cell.transform.position, hitPoint);
-                    if (dist < closestCellDistance)
-                    {
-                        closestCell = cell;
-                        closestCellDistance = dist;
-                    }
-                }
-                if (closestCell is null)
-                {
-                    Debug.LogWarning("Could not find cell to paint to");
-                    return;
-                }
-                if(!PlacedObjects.ContainsKey(closestCell) || !(PlacedObjects[closestCell] is PuzzleObjectNode))
-                {
-                    ColorCell(closestCell);
-                }
-            }
-        }
-
-        HandleActionBools();
-    }
-
-    private void HandleActionBools()
-    {
-        if (SavePuzzle)
-        {
-            SavePuzzle = false;
-            Save();
-        }
-        if (LoadPuzzle)
-        {
-            LoadPuzzle = false;
-            Load(ConfigToLoad);
-        }
-        if (DoGridRebuild)
-        {
-            DoGridRebuild = false;
-            Clear();
-            RebuildGrid();
-        }
-        if (StartGeneration)
-        {
-            StartGeneration = false;
-            Clear();
-            RebuildGrid();
-            GeneratePuzzle();
-        }
-        if (SnapCameraArmStartToCurrent)
-        {
-            SnapCameraArmStartToCurrent = false;
-            CameraArmStart = CameraController.CameraArm.transform.rotation;
-        }
-        if(SnapCameraArmToStart)
-        {
-            SnapCameraArmToStart = false;
-            CameraController.SnapTo(CameraArmStart, CameraController.Camera.transform.position.magnitude, CameraController.Camera.fieldOfView);
-        }
-        if(SnapToCameraSettings)
-        {
-            SnapToCameraSettings = false;
-            CameraController.SnapTo(CameraController.CameraArm.transform.rotation, CameraDistance, CameraFoV);
-        }
     }
 
 	#region Operations
-	public void Paint(GridCell cell, bool isManual = false)
+	public void Paint(GridCellLite cell)
     {
         if(PlacedObjects.ContainsKey(cell))
         {
-            EraseObject(cell, isManual: isManual);
+            EraseObject(cell);
         }
         if(PaintMode == PuzzleBuilderPaintMode.Erase)
         {
@@ -225,12 +95,7 @@ public class PuzzleBuilder : MonoBehaviour
 
         if(PaintMode == PuzzleBuilderPaintMode.Node)
         {
-            var newNodeGO = Instantiate(NodePrefab);
-            newNodeGO.transform.parent = transform;
-            newNodeGO.transform.position = cell.transform.position;
-
-            var newNode = newNodeGO.GetComponent<PuzzleObjectNode>();
-            newNodeGO.name = $"C{PaintNodeColor} Node";
+            var newNode = new PuzzleObjectNodeLite();
             newNode.SetColor(PaintNodeColor);
             newNode.Cell = cell;
 
@@ -244,13 +109,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
         else if(PaintMode == PuzzleBuilderPaintMode.Waypoint)
         {
-            var newWaypointGO = Instantiate(WaypointPrefab);
-            newWaypointGO.transform.parent = transform;
-            newWaypointGO.transform.position = cell.transform.position;
-            newWaypointGO.transform.LookAt(transform);
-
-            var newWaypoint = newWaypointGO.GetComponent<PuzzleObjectWaypoint>();
-            newWaypointGO.name = $"C{PaintNodeColor} Waypoint";
+            var newWaypoint = new PuzzleObjectWaypointLite();
             newWaypoint.SetColor(PaintNodeColor);
             newWaypoint.Cell = cell;
 
@@ -264,16 +123,10 @@ public class PuzzleBuilder : MonoBehaviour
         }
         else if(PaintMode == PuzzleBuilderPaintMode.Warp)
         {
-            var newWarpGO = Instantiate(WarpPrefab);
-            newWarpGO.transform.parent = transform;
-            newWarpGO.transform.position = cell.transform.position;
-            newWarpGO.transform.LookAt(transform);
-
-            var newWarp = newWarpGO.GetComponent<PuzzleObjectWarp>();
-            newWarpGO.name = $"Warp r{cell.Row}c{cell.Cell}";
+            var newWarp = new PuzzleObjectWarpLite();
             newWarp.Cell = cell;
 
-            if(LastPlacedWarp && !LastPlacedWarp.PairedWarp)
+            if(LastPlacedWarp != null && LastPlacedWarp.PairedWarp is null)
             {
                 LastPlacedWarp.SetPairedWarp(newWarp);
                 newWarp.SetPairedWarp(LastPlacedWarp);
@@ -285,12 +138,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
         else if (PaintMode == PuzzleBuilderPaintMode.Wall)
         {
-            var newWallGO = Instantiate(WallPrefab);
-            newWallGO.transform.parent = transform;
-            newWallGO.transform.position = cell.transform.position;
-            newWallGO.transform.LookAt(transform);
-
-            var newWall = newWallGO.GetComponent<PuzzleObjectWall>();
+            var newWall = new PuzzleObjectWallLite();
             newWall.Cell = cell;
             ColorCell(cell, -1);
 
@@ -299,37 +147,36 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private void EraseObject(GridCell cell, bool isManual)
+    private void EraseObject(GridCellLite cell)
     {
         var objectToDelete = PlacedObjects[cell];
 
-        if(objectToDelete is PuzzleObjectNode node)
+        if(objectToDelete is PuzzleObjectNodeLite node)
         {
             Nodes.Remove(node);
             ColorCell(cell, -1);
         }
-        else if (objectToDelete is PuzzleObjectWaypoint waypoint)
+        else if (objectToDelete is PuzzleObjectWaypointLite waypoint)
         {
             Waypoints.Remove(waypoint);
         }
-        else if (objectToDelete is PuzzleObjectWarp warp)
+        else if (objectToDelete is PuzzleObjectWarpLite warp)
         {
             Warps.Remove(warp);
-            if(warp.PairedWarp)
+            if(warp.PairedWarp != null)
             {
-                warp.Unpair(issueWarning: isManual);
+                warp.Unpair();
             }
         }
-        else if (objectToDelete is PuzzleObjectWall wall)
+        else if (objectToDelete is PuzzleObjectWallLite wall)
         {
             Walls.Remove(wall);
         }
 
-        Destroy(objectToDelete.gameObject);
         PlacedObjects.Remove(cell);
     }
 
-    private void ColorCell(GridCell cell)
+    private void ColorCell(GridCellLite cell)
     {
         if(cell.Color == PaintNodeColor)
         {
@@ -342,53 +189,9 @@ public class PuzzleBuilder : MonoBehaviour
     }
 
     private Color Gray = Color.gray;
-    private void ColorCell(GridCell cell, int? color)
+    private void ColorCell(GridCellLite cell, int? color)
     {
-        var col = color is null || color == -1 ? Gray : ColorManager.Instance.GetColor(color.Value);
-        Grid.IntersectionBallsByCell[cell].material.SetColor("_Color", col);
         cell.Color = color;
-
-        if(color == -1)
-        {
-            // Grayify all neighbors
-            foreach(var kvp in Grid.CellConnectionDetails)
-            {
-                if(kvp.Value.Item1 == cell || kvp.Value.Item2 == cell)
-                {
-                    kvp.Key.material.SetColor("_Color", col);
-                }
-            }
-        }
-
-        foreach(var neighbor in cell.Neighbors)
-        {
-            // Colorify lines if the corresponding neighbors are also our color
-            foreach(var kvp in Grid.CellConnectionDetails)
-            {
-                if(kvp.Value.Item1 == cell)
-                {
-                    if(kvp.Value.Item2.Color == color)
-                    {
-                        kvp.Key.material.SetColor("_Color", col);
-                    }
-                    else
-                    {
-                        kvp.Key.material.SetColor("_Color", Gray);
-                    }
-                }
-                else if(kvp.Value.Item2 == cell)
-                {
-                    if (kvp.Value.Item1.Color == color)
-                    {
-                        kvp.Key.material.SetColor("_Color", col);
-                    }
-                    else
-                    {
-                        kvp.Key.material.SetColor("_Color", Gray);
-                    }
-                }
-            }
-        }
     }
     #endregion
 
@@ -456,7 +259,7 @@ public class PuzzleBuilder : MonoBehaviour
             GenerateStandardWarps();
             return;
         }
-        var warpCells = new List<GridCell>();
+        var warpCells = new List<GridCellLite>();
         var availableCells1 = GetOpenCells(contiguousGroups[0]).ToList();
         var availableCells2 = GetOpenCells(contiguousGroups[1]).ToList();
         for (int pair = 0; pair < TargetWarpPairs; pair++)
@@ -480,9 +283,9 @@ public class PuzzleBuilder : MonoBehaviour
 
         foreach (var warp in Warps)
         {
-            if (!warp.PairedWarp)
+            if (warp.PairedWarp is null)
             {
-                Debug.LogWarning($"Warp {warp.name} does not have a paired warp!");
+                Debug.LogWarning($"Warp {warp} does not have a paired warp!");
             }
         }
     }
@@ -491,7 +294,7 @@ public class PuzzleBuilder : MonoBehaviour
     #region Standard
     private void GenerateStandardWarps()
     {
-        var warpCells = new List<GridCell>();
+        var warpCells = new List<GridCellLite>();
         var availableCells = GetOpenCells(Grid.Cells).ToList();
         for (int pair = 0; pair < TargetWarpPairs; pair++)
         {
@@ -515,9 +318,9 @@ public class PuzzleBuilder : MonoBehaviour
 
         foreach (var warp in Warps)
         {
-            if (!warp.PairedWarp)
+            if (warp.PairedWarp is null)
             {
-                Debug.LogWarning($"Warp {warp.name} does not have a paired warp!");
+                Debug.LogWarning($"Warp {warp} does not have a paired warp!");
             }
         }
     }
@@ -558,11 +361,11 @@ public class PuzzleBuilder : MonoBehaviour
         }
     }
 
-    private Dictionary<int, List<GridCell>> GeneratedSolutionPaths = new Dictionary<int, List<GridCell>>();
+    private Dictionary<int, List<GridCellLite>> GeneratedSolutionPaths = new Dictionary<int, List<GridCellLite>>();
     private void GenerateStandardNodesPathsAndWaypoints()
     {
         PaintMode = PuzzleBuilderPaintMode.Node;
-        List<List<GridCell>> contiguousGroupsOfCells;
+        List<List<GridCellLite>> contiguousGroupsOfCells;
         var colors = new List<int>();
         for (int i = 0; i < 6; i++)
         {
@@ -577,16 +380,16 @@ public class PuzzleBuilder : MonoBehaviour
         }
 
         var waypointsLeftToGenerate = TargetWaypoints;
-        var preferredNodeCells = new List<GridCell>();
+        var preferredNodeCells = new List<GridCellLite>();
         var placedColors = 0;
-        var allPlaceholderCells = new List<GridCell>();
+        var allPlaceholderCells = new List<GridCellLite>();
 
         for (int i = 0; i < TargetNodePairs; i++)
         {
             PaintNodeColor = colorOrder[i];
             contiguousGroupsOfCells = GetContiguousGroupsOfCells();
 
-            List<GridCell> biggestGroup = null;
+            List<GridCellLite> biggestGroup = null;
             int biggestGroupSize = 0;
             foreach (var group in contiguousGroupsOfCells)
             {
@@ -605,7 +408,7 @@ public class PuzzleBuilder : MonoBehaviour
             // Place nodes
             var possibleNodes = biggestGroup.Where(cell => !PlacedObjects.ContainsKey(cell)).ToList();
             var preferredNodes = possibleNodes.Intersect(preferredNodeCells).ToList();
-            GridCell firstNode = null;
+            GridCellLite firstNode = null;
             if(preferredNodes.Any())
             {
                 firstNode = preferredNodes[Random.Range(0, preferredNodes.Count)];
@@ -616,12 +419,12 @@ public class PuzzleBuilder : MonoBehaviour
             }
             possibleNodes.Remove(firstNode);
             preferredNodes.Remove(firstNode);
-            var distanceMap = new Dictionary<GridCell, int>();
+            var distanceMap = new Dictionary<GridCellLite, int>();
             foreach(var cell in possibleNodes)
             {
                 distanceMap.Add(cell, Grid.DistanceBetween(firstNode, cell));
             }
-            List<GridCell> cellsFarEnoughAway = null;
+            List<GridCellLite> cellsFarEnoughAway = null;
             for(int distanceThreshold = PreferredDistanceBetweenNodes; distanceThreshold > 2; distanceThreshold--)
             {
                 var matches = preferredNodes.Where(cell => distanceMap[cell] >= distanceThreshold);
@@ -643,7 +446,7 @@ public class PuzzleBuilder : MonoBehaviour
 
             // "Micro" waywardness (waywardness initially choosing a segmentLength of 3
             //      then only continuing to modify the segment within that
-            var placeholderCells = new List<GridCell>();
+            var placeholderCells = new List<GridCellLite>();
             var pathIncludingNodes = Grid.GetShortestPathPreferringWarps(firstNode, secondNode, Warps);
             pathIncludingNodes.Insert(0, firstNode);
             pathIncludingNodes.Add(secondNode);
@@ -677,7 +480,7 @@ public class PuzzleBuilder : MonoBehaviour
                         placeholderCells.Add(pathIncludingNodes[pathIndex]);
                         allPlaceholderCells.Add(pathIncludingNodes[pathIndex]);
                     }
-                    Predicate<GridCell> obstructed = cell =>
+                    Predicate<GridCellLite> obstructed = cell =>
                         cell.Color != null || cell.Neighbors.Any(n => {
                             var indexInPath = pathIncludingNodes.IndexOf(n);
                             return indexInPath >= 0 && (indexInPath < offset || indexInPath > offset + microSegmentLength - 1);
@@ -720,7 +523,7 @@ public class PuzzleBuilder : MonoBehaviour
                 ColorCell(cell, null);
             }
 
-            var solutionPath = pathIncludingNodes.Except(new GridCell[]{ firstNode, secondNode }).ToList();
+            var solutionPath = pathIncludingNodes.Except(new GridCellLite[]{ firstNode, secondNode }).ToList();
             foreach(var cell in solutionPath)
             {
                 ColorCell(cell);
@@ -766,13 +569,13 @@ public class PuzzleBuilder : MonoBehaviour
             PaintNodeColor = colorOrder[i];
             var solution = GeneratedSolutionPaths[PaintNodeColor];
 
-            bool isChokepoint(GridCell cell) =>
+            bool isChokepoint(GridCellLite cell) =>
                 cell.Neighbors.All(n => n.Color == PaintNodeColor || PlacedObjects.ContainsKey(n)) &&
                 cell.Neighbors.Any(n => PlacedObjects.ContainsKey(n));
 
             var solutionChokepoints = solution.Where(cell => isChokepoint(cell) &&
                 !PlacedObjects.ContainsKey(cell) &&
-                !cell.Neighbors.Any(n => PlacedObjects.ContainsKey(n) && PlacedObjects[n] is PuzzleObjectNode neighborNode && neighborNode.Color == PaintNodeColor)).ToList();
+                !cell.Neighbors.Any(n => PlacedObjects.ContainsKey(n) && PlacedObjects[n] is PuzzleObjectNodeLite neighborNode && neighborNode.Color == PaintNodeColor)).ToList();
 
             // If we have chokepoints, prefer one of those
             if (solutionChokepoints.Any())
@@ -820,20 +623,20 @@ public class PuzzleBuilder : MonoBehaviour
     #region Common
     private void RemoveUnusedWarps()
     {
-        var warpsToRemove = new List<PuzzleObjectWarp>();
+        var warpsToRemove = new List<PuzzleObjectWarpLite>();
         foreach (var kvp in GeneratedSolutionPaths)
         {
             var path = kvp.Value;
 
             for (int i = 0; i < path.Count; i++)
             {
-                if (PlacedObjects.ContainsKey(path[i]) && PlacedObjects[path[i]] is PuzzleObjectWarp warp)
+                if (PlacedObjects.ContainsKey(path[i]) && PlacedObjects[path[i]] is PuzzleObjectWarpLite warp)
                 {
-                    if (i > 0 && PlacedObjects.ContainsKey(path[i - 1]) && PlacedObjects[path[i - 1]] is PuzzleObjectWarp otherWarpPrev && warp.PairedWarp == otherWarpPrev)
+                    if (i > 0 && PlacedObjects.ContainsKey(path[i - 1]) && PlacedObjects[path[i - 1]] is PuzzleObjectWarpLite otherWarpPrev && warp.PairedWarp == otherWarpPrev)
                     {
                         continue;
                     }
-                    if (i < path.Count - 1 && PlacedObjects.ContainsKey(path[i + 1]) && PlacedObjects[path[i + 1]] is PuzzleObjectWarp otherWarpNext && warp.PairedWarp == otherWarpNext)
+                    if (i < path.Count - 1 && PlacedObjects.ContainsKey(path[i + 1]) && PlacedObjects[path[i + 1]] is PuzzleObjectWarpLite otherWarpNext && warp.PairedWarp == otherWarpNext)
                     {
                         continue;
                     }
@@ -860,7 +663,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
         foreach (var warp in warpsToRemove)
         {
-            EraseObject(warp.Cell, isManual: false);
+            EraseObject(warp.Cell);
         }
     }
     #endregion
@@ -880,12 +683,12 @@ public class PuzzleBuilder : MonoBehaviour
     {
         PaintMode = PuzzleBuilderPaintMode.Wall;
         var availableCellGroups = GetOpenCells(Grid.Cells)
-            .GroupBy(c => c.Neighbors.Count(n => PlacedObjects.ContainsKey(n) && PlacedObjects[n] is PuzzleObjectWall)).ToList();
+            .GroupBy(c => c.Neighbors.Count(n => PlacedObjects.ContainsKey(n) && PlacedObjects[n] is PuzzleObjectWallLite)).ToList();
         if(!availableCellGroups.Any())
         {
             return;
         }
-        IGrouping<int, GridCell> bestGroup = null;
+        IGrouping<int, GridCellLite> bestGroup = null;
         var bestGroupNeighborCount = -1;
         foreach(var group in availableCellGroups)
         {
@@ -902,12 +705,12 @@ public class PuzzleBuilder : MonoBehaviour
     {
         PaintMode = PuzzleBuilderPaintMode.Wall;
         var availableCellGroups = GetOpenCells(Grid.Cells)
-            .GroupBy(c => c.Neighbors.Count(n => PlacedObjects.ContainsKey(n) && PlacedObjects[n] is PuzzleObjectWall)).ToList();
+            .GroupBy(c => c.Neighbors.Count(n => PlacedObjects.ContainsKey(n) && PlacedObjects[n] is PuzzleObjectWallLite)).ToList();
         if (!availableCellGroups.Any())
         {
             return;
         }
-        IGrouping<int, GridCell> bestGroup = null;
+        IGrouping<int, GridCellLite> bestGroup = null;
         foreach (var group in availableCellGroups)
         {
             if(group.Key == 1)
@@ -929,13 +732,13 @@ public class PuzzleBuilder : MonoBehaviour
         Paint(cellsToChooseFrom[Random.Range(0, cellsToChooseFrom.Count)]);
     }
 
-    private List<List<GridCell>> GetContiguousGroupsOfCells()
+    private List<List<GridCellLite>> GetContiguousGroupsOfCells()
     {
-        var groups = new List<List<GridCell>>();
+        var groups = new List<List<GridCellLite>>();
         var ungroupedCells = GetOpenCells(Grid.Cells).ToList();
         while (ungroupedCells.Any())
         {
-            var group = new List<GridCell>();
+            var group = new List<GridCellLite>();
             groups.Add(group);
             group.AddRange(Grid.GetContiguousCells(ungroupedCells.First()));
             foreach (var cell in group)
@@ -946,7 +749,7 @@ public class PuzzleBuilder : MonoBehaviour
         return groups;
     }
 
-    private IEnumerable<GridCell> GetOpenCells(IEnumerable<GridCell> toConsider) => toConsider.Where(c => c.Color is null && !PlacedObjects.ContainsKey(c));
+    private IEnumerable<GridCellLite> GetOpenCells(IEnumerable<GridCellLite> toConsider) => toConsider.Where(c => c.Color is null && !PlacedObjects.ContainsKey(c));
 	#endregion
 
 	#endregion
@@ -959,7 +762,7 @@ public class PuzzleBuilder : MonoBehaviour
         ClearWarps();
         GeneratedSolutionPaths.Clear();
         ClearObstacles();
-        ResetGridCellColors();
+        ResetGridCellLiteColors();
     }
 
     public void ClearNodes()
@@ -967,7 +770,6 @@ public class PuzzleBuilder : MonoBehaviour
         foreach(var node in Nodes)
         {
             PlacedObjects.Remove(node.Cell);
-            Destroy(node.gameObject);
         }
         Nodes.Clear();
     }
@@ -976,7 +778,6 @@ public class PuzzleBuilder : MonoBehaviour
         foreach (var waypoint in Waypoints)
         {
             PlacedObjects.Remove(waypoint.Cell);
-            Destroy(waypoint.gameObject);
         }
         Waypoints.Clear();
     }
@@ -985,8 +786,7 @@ public class PuzzleBuilder : MonoBehaviour
         foreach(var warp in Warps)
         {
             PlacedObjects.Remove(warp.Cell);
-            warp.Unpair(issueWarning: false);
-            Destroy(warp.gameObject);
+            warp.Unpair();
         }
         Warps.Clear();
         LastPlacedWarp = null;
@@ -997,12 +797,11 @@ public class PuzzleBuilder : MonoBehaviour
         foreach (var wall in Walls)
         {
             PlacedObjects.Remove(wall.Cell);
-            Destroy(wall.gameObject);
         }
         Walls.Clear();
     }
 
-    private void ResetGridCellColors()
+    private void ResetGridCellLiteColors()
     {
         foreach(var cell in Grid.Cells)
         {
@@ -1013,17 +812,17 @@ public class PuzzleBuilder : MonoBehaviour
     public void RebuildGrid()
     {
         Grid.Clear();
-        Grid.Initialize(GridCellsPerRow, gridVisible: true);
+        Grid.Initialize(GridCellsPerRow);
     }
 	#endregion
 
 	#region Saving/Loading
-    public void Save()
+    public PuzzleConfig GetPuzzleConfig()
     {
         if(string.IsNullOrWhiteSpace(Id))
         {
             Debug.LogError("Cannot save puzzle with empty name");
-            return;
+            return null;
         }
 
         var newPuzzleConfig = ScriptableObject.CreateInstance<PuzzleConfig>();
@@ -1059,12 +858,12 @@ public class PuzzleBuilder : MonoBehaviour
         }
 
         // Warps
-        var warpsInPairedOrder = new List<PuzzleObjectWarp>();
+        var warpsInPairedOrder = new List<PuzzleObjectWarpLite>();
         foreach(var warp in Warps)
         {
-            if(!warp.PairedWarp)
+            if(warp.PairedWarp is null)
             {
-                Debug.LogWarning($"{warp.name} does not have a paired warp and will not be saved");
+                Debug.LogWarning($"{warp} does not have a paired warp and will not be saved");
                 continue;
             }
             if(!warpsInPairedOrder.Contains(warp))
@@ -1087,7 +886,7 @@ public class PuzzleBuilder : MonoBehaviour
         }
 
         // Solutions
-        var solutions = new List<GridCell>();
+        var solutions = new List<GridCellLite>();
         var solutionLengths = new int[6];
         for(int color = 0; color < 6; color++)
         {
@@ -1099,7 +898,7 @@ public class PuzzleBuilder : MonoBehaviour
             else
             {
                 // If we don't have a generated path to store, try figuring it out... dumbly
-                var steps = new List<GridCell>();
+                var steps = new List<GridCellLite>();
                 var nodes = Nodes.Where(n => n.Color == color).ToList();
                 if (nodes.Count == 2)
                 {
@@ -1109,7 +908,7 @@ public class PuzzleBuilder : MonoBehaviour
                     while (current != end)
                     {
                         var next = current.Neighbors.FirstOrDefault(n => n.Color == color && n != start && !steps.Contains(n));
-                        if (!next)
+                        if (next is null)
                         {
                             Debug.LogWarning($"Could not follow solution path for color {color}");
                             break;
@@ -1138,11 +937,7 @@ public class PuzzleBuilder : MonoBehaviour
         newPuzzleConfig.CameraDistance = CameraDistance;
         newPuzzleConfig.CameraFoV = CameraFoV;
 
-        if (!AssetDatabase.IsValidFolder($"Assets/Resources/Puzzles/{Pack}"))
-        {
-            AssetDatabase.CreateFolder("Assets/Resources/Puzzles", Pack);
-        }
-        AssetDatabase.CreateAsset(newPuzzleConfig, $"Assets/Resources/Puzzles/{Pack}/{Id}.asset");
+        return newPuzzleConfig;
     }
 
     public void Load(PuzzleConfig cfg)
@@ -1215,7 +1010,7 @@ public class PuzzleBuilder : MonoBehaviour
             var currentStep = 0;
             for (int i = 0; i < 6; i++)
             {
-                var solution = new List<GridCell>();
+                var solution = new List<GridCellLite>();
                 var lengthOfSolution = cfg.SolutionLengths[i];
                 var end = currentStep + lengthOfSolution;
                 PaintNodeColor = i;
@@ -1239,9 +1034,22 @@ public class PuzzleBuilder : MonoBehaviour
         CameraArmStart = cfg.CameraArmStart;
         CameraDistance = cfg.CameraDistance;
         CameraFoV = cfg.CameraFoV;
-        SnapCameraArmToStart = true;
-        SnapToCameraSettings = true;
     }
 	#endregion
+}
+
+public enum PuzzleBuilderPaintMode
+{
+    Erase,
+    Node,
+    Waypoint,
+    Warp,
+    Wall,
+}
+
+public enum PuzzleGenerationMode
+{
+    Standard,
+    Hemispheres
 }
 #endif

@@ -428,7 +428,7 @@ public class CameraController : MonoBehaviour
 
         var prevSnap = FixedRollSnap;
         FixedRollSnap = Mathf.Abs(180f - CameraArm.transform.localEulerAngles.z) < 90f ? 180f : 0f;
-        if(FixedRollSnap != prevSnap)
+        if (FixedRollSnap != prevSnap)
         {
             Momentum.x *= -1f;
         }

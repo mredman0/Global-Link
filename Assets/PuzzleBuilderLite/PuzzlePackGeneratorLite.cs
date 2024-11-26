@@ -1,17 +1,14 @@
-#if ( UNITY_EDITOR )
+#if ( UNITY_EDITOR || SERVER )
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using Random = UnityEngine.Random;
 
-public class PuzzlePackGenerator : MonoBehaviour
+public class PuzzlePackGeneratorLite
 {
     [Header("Required References")]
-    public PuzzleBuilder Builder;
+    public PuzzleBuilderLite Builder;
 
     [Header("Settings")]
     public PackGenerationConfig Config;
@@ -24,9 +21,6 @@ public class PuzzlePackGenerator : MonoBehaviour
     public int FirstPuzzle;
     public int LastPuzzle;
 
-    [Header("Actions")]
-    public bool Generate;
-
     private float[] NodePairProbabilities;
     private float[] WarpPairProbabilities;
     private float[] PreWallingProbabilities;
@@ -34,31 +28,21 @@ public class PuzzlePackGenerator : MonoBehaviour
     private float[] PreWallNoodlingProbabilities;
     private float[] PostWallingProbabilities;
 
-    void Update()
+    public PuzzlePackGeneratorLite()
     {
-        if(Generate)
-        {
-            Generate = false;
-            GeneratePackPuzzles();
-        }
+        Builder = new PuzzleBuilderLite();
     }
 
-    private void GeneratePackPuzzles()
+    public List<PuzzleConfig> GeneratePackPuzzles()
     {
         var valid = AssertValidConfig();
-        if(!valid)
+        if (!valid)
         {
             Debug.LogWarning($"No action taken, invalid config. See above errors");
-            return;
+            return null;
         }
 
-        var wouldOverwrite = WouldOverwritePuzzles();
-        if(wouldOverwrite.Any())
-        {
-            var values = string.Join(',', wouldOverwrite);
-            Debug.LogWarning($"Did not generate puzzles, as the following {Config.PackId} puzzles would have been overwritten: {values}");
-            return;
-        }
+        var results = new List<PuzzleConfig>();
 
         var pack = Config.PackId;
         var min = Mathf.Max(FirstPuzzle, 1);
@@ -84,7 +68,7 @@ public class PuzzlePackGenerator : MonoBehaviour
             MasterSeed = masterSeedInt,
             PuzzleParameters = new List<PuzzleGenerationParameters>()
         };
-        for(int i = min; i <= max; i++)
+        for (int i = min; i <= max; i++)
         {
             parameters.PuzzleParameters.Add(GeneratePuzzleParameters(i, Random.Range(int.MinValue, int.MaxValue)));
         }
@@ -111,14 +95,15 @@ public class PuzzlePackGenerator : MonoBehaviour
         var failedEnforcement = 0;
         for (int i = min; i <= max; i++)
         {
-            int attemptsTaken = GeneratePuzzleWithEnforcement(parameters.PuzzleParameters[i-min]);
-            if(attemptsTaken > MaxAttemptsPerPuzzle)
+            (var puzzleConfig, var attemptsTaken) = GeneratePuzzleWithEnforcement(parameters.PuzzleParameters[i - min]);
+            if (attemptsTaken > MaxAttemptsPerPuzzle)
             {
                 failedEnforcement++;
             }
+            results.Add(puzzleConfig);
         }
 
-        if(failedEnforcement > 0)
+        if (failedEnforcement > 0)
         {
             Debug.LogError($"{failedEnforcement} puzzles could not meet enforcement parameters after {MaxAttemptsPerPuzzle} attempts");
         }
@@ -127,26 +112,25 @@ public class PuzzlePackGenerator : MonoBehaviour
             Debug.Log($"All puzzles generated meeting enforcement parameters");
         }
 
-        var seedsTextPath = Path.Combine(Application.dataPath, $"Editor/Resources/Pack Generation/{pack}_params_{min}-{max}.txt");
-        File.WriteAllText(seedsTextPath, JsonUtility.ToJson(parameters, prettyPrint: true));
+        return results;
     }
 
     private bool AssertValidConfig()
     {
         var valid = true;
-        if(!Config)
+        if (!Config)
         {
             Debug.LogError($"No pack generation config provided");
             valid = false;
         }
 
         // Nodes
-        if(Config.MinNodePairs > Config.MaxNodePairs)
+        if (Config.MinNodePairs > Config.MaxNodePairs)
         {
             Debug.LogError($"MinNodePairs is greater than MaxNodePairs");
             valid = false;
         }
-        if(Config.TargetNodePairs.length < 1)
+        if (Config.TargetNodePairs.length < 1)
         {
             Debug.LogError($"TargetNodePairs has no keyframes");
             valid = false;
@@ -162,7 +146,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         {
             Debug.LogWarning($"TargetColorsPlusWaypoints is less than MaxNodePairs");
         }
-        if (Config.TargetColorsPlusWaypoints > Config.MinNodePairs*2)
+        if (Config.TargetColorsPlusWaypoints > Config.MinNodePairs * 2)
         {
             Debug.LogError($"TargetColorsPlusWaypoints is greater than MinNodePairs*2");
             valid = false;
@@ -203,27 +187,6 @@ public class PuzzlePackGenerator : MonoBehaviour
         }
 
         return valid;
-    }
-
-    private List<int> WouldOverwritePuzzles()
-    {
-        var pack = Config.PackId;
-        var min = Mathf.Max(FirstPuzzle, 0);
-        var max = Config.NumPuzzles;
-        if(LastPuzzle > 0)
-        {
-            max = LastPuzzle;
-        }
-        var wouldOverwrite = new List<int>();
-        for(int i = min; i <= max; i++)
-        {
-            string resourcePath = $"{pack}/{i}.asset";
-            if(GameManager.AssetExists<PuzzleConfig>(resourcePath))
-            {
-                wouldOverwrite.Add(i);
-            }
-        }
-        return wouldOverwrite;
     }
 
     private int CalculateMasterSeed()
@@ -267,7 +230,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         return parameters;
     }
 
-    private int GeneratePuzzleWithEnforcement(PuzzleGenerationParameters parameters)
+    private (PuzzleConfig, int) GeneratePuzzleWithEnforcement(PuzzleGenerationParameters parameters)
     {
         int attempt = 0;
         void Generate(int seed)
@@ -293,11 +256,11 @@ public class PuzzlePackGenerator : MonoBehaviour
         }
         bool PassesEnforcement()
         {
-            if(((float)Builder.Nodes.Count / 2f) / Builder.TargetNodePairs < Config.EnforceMinColors)
+            if (((float)Builder.Nodes.Count / 2f) / Builder.TargetNodePairs < Config.EnforceMinColors)
             {
                 return false;
             }
-            if(((float)Builder.Warps.Count / 2f) / Builder.TargetWarpPairs < Config.EnforceMinWarpPairs)
+            if (((float)Builder.Warps.Count / 2f) / Builder.TargetWarpPairs < Config.EnforceMinWarpPairs)
             {
                 return false;
             }
@@ -315,7 +278,7 @@ public class PuzzlePackGenerator : MonoBehaviour
             attempt++;
             seed = Random.Range(int.MinValue, int.MaxValue);
             Generate(seed);
-            if(PassesEnforcement())
+            if (PassesEnforcement())
             {
                 break;
             }
@@ -326,16 +289,16 @@ public class PuzzlePackGenerator : MonoBehaviour
             attempt++; // Signal that the result does not meet enforcement after all attempts
         }
         parameters.Seed = seed;
-        Builder.Save();
-        return attempt;
+        var result = Builder.GetPuzzleConfig();
+        return (result, attempt);
     }
 
     private int RandomIntFromCurve(float[] curve, int min)
     {
         var rand = Random.value;
-        for(int i = 0; i < curve.Length; i++)
+        for (int i = 0; i < curve.Length; i++)
         {
-            if(rand < curve[i])
+            if (rand < curve[i])
             {
                 return min + i;
             }
@@ -346,9 +309,9 @@ public class PuzzlePackGenerator : MonoBehaviour
     private float RandomFloat01FromCurve(float[] curve)
     {
         var rand = Random.value;
-        for(int i = 0; i < curve.Length; i++)
+        for (int i = 0; i < curve.Length; i++)
         {
-            if(rand < curve[i])
+            if (rand < curve[i])
             {
                 return (float)i / curve.Length;
             }
@@ -361,7 +324,7 @@ public class PuzzlePackGenerator : MonoBehaviour
     private float[] DiscretizeFloat01Curve(AnimationCurve curve) => DiscretizeProbabilityCurve(curve, Float01DiscreteBuckets);
     private float[] DiscretizeProbabilityCurve(AnimationCurve curve, int buckets)
     {
-        if(buckets <= 1)
+        if (buckets <= 1)
         {
             return new float[1] { 1 };
         }
@@ -369,7 +332,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         var result = new float[buckets];
 
         // Get raw values
-        for(int i = 0; i < buckets; i++)
+        for (int i = 0; i < buckets; i++)
         {
             float t = (float)i / (buckets - 1);
             result[i] = curve.Evaluate(t);
@@ -377,7 +340,7 @@ public class PuzzlePackGenerator : MonoBehaviour
 
         // Normalize
         var total = result.Sum();
-        for(int i = 0; i < buckets; i++)
+        for (int i = 0; i < buckets; i++)
         {
             result[i] /= total;
         }

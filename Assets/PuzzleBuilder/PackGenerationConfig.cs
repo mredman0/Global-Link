@@ -1,4 +1,4 @@
-#if ( UNITY_EDITOR )
+#if ( UNITY_EDITOR || SERVER )
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +13,9 @@ public class PackGenerationConfig : ScriptableObject
     [Header("Puzzle Generation Parameters")]
     [Header("Mode")]
     public PuzzleGenerationMode Mode;
+
+    [Header("Grid Size")]
+    public int[] GridCellsPerRow = new int[2] { 4, 4 };
 
     [Header("Nodes")]
     [Range(2, 6)]

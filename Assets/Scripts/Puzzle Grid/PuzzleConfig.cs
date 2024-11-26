@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GriddedPuzzleConfig", order = 1)]
+[Serializable]
 public class PuzzleConfig : ScriptableObject
 {
 	[Header("Metadata")]
