@@ -475,7 +475,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PuzzleConfig
       value: 
-      objectReference: {fileID: 11400000, guid: aa7673156fb46fe498bce150a1d22021,
+      objectReference: {fileID: 11400000, guid: cff80375eed2efb4792230be9302cde6,
         type: 2}
     - target: {fileID: 3377955947608396545, guid: 64ee6bd3d6249bb429b74644871c5de2,
         type: 3}
@@ -554,7 +554,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2072200873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,8 +1036,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6023369918853569126, guid: 93f4298d2122bb44783bdac9d639fc53,
         type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023369918853569126, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023369918853569126, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 51.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023369918853569126, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 25.515
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023369918853569126, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 6357714498290070924, guid: 93f4298d2122bb44783bdac9d639fc53,
         type: 3}
@@ -1088,6 +1108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641580104314617555, guid: 93f4298d2122bb44783bdac9d639fc53,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
