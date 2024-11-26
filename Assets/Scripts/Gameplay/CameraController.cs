@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     public float Speed = 8f;
     public float MaxSpeed = 1f;
     public float Friction = 1f;
+    public float RotationSensitivity = 1f;
     public bool AllowMomentumWithActiveNode = false;
     public int InputLocks = 0;
     public bool DoPuzzleCompleteSpin;
@@ -42,10 +43,13 @@ public class CameraController : MonoBehaviour
 
     private List<Vector2> LastDragMotions = new List<Vector2>();
     private Vector2 Momentum;
+    private float RotateMomentum;
 
     private bool InvertFreeLook;
     private bool InvertDrawing;
     private float Sensitivity;
+
+    private float FixedRollSnap = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -58,8 +62,9 @@ public class CameraController : MonoBehaviour
         InputManager.Instance.Press += OnPress;
         InputManager.Instance.Release += OnRelease;
         InputManager.Instance.Drag += OnDrag;
+        InputManager.Instance.Rotate += OnRotate;
 
-        if(Puzzle)
+        if (Puzzle)
         {
             Puzzle.PuzzleCompleted += OnPuzzleCompleted;
         }
@@ -78,8 +83,9 @@ public class CameraController : MonoBehaviour
         InputManager.Instance.Press -= OnPress;
         InputManager.Instance.Release -= OnRelease;
         InputManager.Instance.Drag -= OnDrag;
-        
-        if(Puzzle)
+        InputManager.Instance.Rotate -= OnRotate;
+
+        if (Puzzle)
         {
             Puzzle.PuzzleCompleted -= OnPuzzleCompleted;
         }
@@ -125,6 +131,7 @@ public class CameraController : MonoBehaviour
         }
         DoPuzzleCompleteSpin = false;
         Momentum = Vector2.zero;
+        RotateMomentum = 0;
     }
 
     private void OnRelease(Vector2 position)
@@ -159,14 +166,27 @@ public class CameraController : MonoBehaviour
 
     private void OnDrag(Vector2 drag)
     {
+        if (InputLocks > 0)
+        {
+            return;
+        }
         var normalizedDrag = InputManager.Instance.NormalizeScreenPosition(drag);
+        DoPuzzleCompleteSpin = false;
+        Panning = true;
+        HandleDrag(normalizedDrag);
+    }
+
+    private void OnRotate(float rotateAmount)
+    {
         if (InputLocks > 0)
         {
             return;
         }
         DoPuzzleCompleteSpin = false;
         Panning = true;
-        HandleDrag(normalizedDrag);
+        var rotationAdjusted = rotateAmount * -1f * RotationSensitivity;
+        CameraArm.transform.Rotate(0, 0, rotationAdjusted, Space.Self);
+        RotateMomentum = rotationAdjusted;
     }
 
     private void OnPuzzleCompleted()
@@ -190,13 +210,6 @@ public class CameraController : MonoBehaviour
 
         PanAmountThisDrag += motion.magnitude;
 
-        if (!AllowRoll)
-        {
-            // not sure why I have to do this
-            var pitch = CameraArm.transform.localEulerAngles.x;
-            motion.x *= Mathf.Cos(Mathf.Deg2Rad * pitch);
-        }
-
         LastDragMotions.Add(motion);
         if (LastDragMotions.Count > DragInputsToStore)
         {
@@ -207,6 +220,13 @@ public class CameraController : MonoBehaviour
 
     private void HandleMotion(Vector2 motion)
     {
+        if (!AllowRoll)
+        {
+            // not sure why I have to do this
+            var pitch = CameraArm.transform.localEulerAngles.x;
+            motion.x *= Mathf.Cos(Mathf.Deg2Rad * pitch);
+        }
+
         CameraArm.transform.Rotate(Vector3.up, motion.x);
         CameraArm.transform.Rotate(Vector3.right, motion.y);
 
@@ -254,6 +274,7 @@ public class CameraController : MonoBehaviour
         if(GradualSnapDuration > 0)
         {
             Momentum = Vector3.zero;
+            RotateMomentum = 0;
             GradualSnapTime += Time.fixedDeltaTime;
 
             var t = Mathf.Clamp01(GradualSnapTime / GradualSnapDuration);
@@ -279,6 +300,11 @@ public class CameraController : MonoBehaviour
             {
                 HandleMotion(Momentum);
                 Momentum *= (1 - Mathf.Clamp(Friction * Time.fixedDeltaTime, 0, 1));
+            }
+            if ((AllowMomentumWithActiveNode || !Puzzle || !Puzzle.ActiveNode) && (RotateMomentum != 0))
+            {
+                CameraArm.transform.Rotate(0, 0, RotateMomentum, Space.Self);
+                RotateMomentum *= (1 - Mathf.Clamp(Friction * Time.fixedDeltaTime, 0, 1));
             }
         }
     }
@@ -395,9 +421,20 @@ public class CameraController : MonoBehaviour
 
     private void FixRoll()
     {
+        if(InputManager.Instance.TwoTouching)
+        {
+            return;
+        }
+
+        var prevSnap = FixedRollSnap;
+        FixedRollSnap = Mathf.Abs(180f - CameraArm.transform.localEulerAngles.z) < 90f ? 180f : 0f;
+        if(FixedRollSnap != prevSnap)
+        {
+            Momentum.x *= -1f;
+        }
+
         var rot = CameraArm.transform.localEulerAngles;
-        rot.x = InverseClamp(rot.x, 90f - PitchInvalidLow, 270 + PitchInvalidHigh);
-        rot.z = 0;
+        rot.z = FixedRollSnap;
         CameraArm.transform.rotation = Quaternion.Euler(rot);
     }
 

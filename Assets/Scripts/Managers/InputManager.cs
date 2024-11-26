@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     public event Action<Vector2> Release;
     public event Action<Vector2> Tap;
     public event Action<Vector2> Drag;
+    public event Action<float> Rotate;
 
     [Header("Settings")]
     public float MaxDragForTap = 0.05f;
@@ -23,6 +24,8 @@ public class InputManager : MonoBehaviour
     public Vector2 PressStartPosition;
     public Vector2 PressLatestPosition;
     public float DistanceThisDrag = 0f;
+    public bool TwoTouching = false;
+    public float TwoTouchAngle;
 
     private List<(Component origin, Action action)> OnBackStack = new List<(Component origin, Action action)>();
 
@@ -45,10 +48,60 @@ public class InputManager : MonoBehaviour
     private void FixedUpdate()
     {
         var pressing = Input.GetMouseButton(0) || Input.touchCount > 0;
+        var previouslyTwoPressing = TwoTouching;
+        var twoPressing = Input.touchCount > 1;
 
-        if(pressing)
+        if (twoPressing)
+        {
+            var t1 = Input.GetTouch(0);
+            var t2 = Input.GetTouch(1);
+
+            var diff = t1.position - t2.position;
+
+            // This may needs some adjustment
+            var currentAngle = Vector2.SignedAngle(diff, Vector2.right);
+
+            if(TwoTouching)
+            {
+                var prev = TwoTouchAngle;
+                if(currentAngle != prev)
+                {
+                    if(Mathf.Abs(prev) > 90f && Mathf.Abs(currentAngle) > 90f && Mathf.Sign(prev) != Mathf.Sign(currentAngle))
+                    {
+                        if(prev > 0)
+                        {
+                            prev = -360f + prev;
+                        }
+                        else
+                        {
+                            prev = 360f + prev;
+                        }
+                    }
+                    Rotate?.Invoke(currentAngle - prev);
+                }
+            }
+            TwoTouchAngle = currentAngle;
+        }
+        TwoTouching = twoPressing;
+
+        if (pressing)
         {
             var position = Input.GetMouseButton(0) ? (Vector2)Input.mousePosition : Input.touches[0].position;
+            if(TwoTouching)
+            {
+                position = (Input.touches[0].position + Input.touches[1].position) / 2f;
+                if(!previouslyTwoPressing)
+                {
+                    // Reset data that would otherwise cause a jolting drag even due to just starting a two-touch
+                    PressLatestPosition = position;
+                }
+            }
+            else if(previouslyTwoPressing)
+            {
+                // Reset data that would otherwise cause a jolting drag even due to just starting a two-touch
+                PressLatestPosition = position;
+            }
+
             var normalizedDragDistance = Vector2.Distance(NormalizeScreenPosition(position), NormalizeScreenPosition(PressLatestPosition));
             DistanceThisDrag += normalizedDragDistance;
             if (Pressed && DistanceThisDrag >= MinDistanceForDrag)
