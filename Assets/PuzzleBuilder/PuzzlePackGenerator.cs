@@ -217,7 +217,7 @@ public class PuzzlePackGenerator : MonoBehaviour
         for(int i = min; i <= max; i++)
         {
             string resourcePath = $"{pack}/{i}.asset";
-            if(Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion())
+            if(GameManager.AssetExists<PuzzleConfig>(resourcePath))
             {
                 wouldOverwrite.Add(i);
             }

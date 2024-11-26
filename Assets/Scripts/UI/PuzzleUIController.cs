@@ -132,11 +132,10 @@ public class PuzzleUIController : MonoBehaviour
         }
         var nextLevelId = (idInPackInt + 1).ToString();
         string resourcePath = $"{puzzlePack}/{nextLevelId}.asset";
-        var puzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
-        if (!puzzleConfig)
+        if (GameManager.AssetExists<PuzzleConfig>(resourcePath))
         {
-            return null;
+            return (puzzlePack, nextLevelId);
         }
-        return (puzzlePack, nextLevelId);
+        return null;
     }
 }
