@@ -67,6 +67,10 @@ MonoBehaviour:
     m_Key: Tutorial
     m_Metadata:
       m_Items: []
+  - m_Id: 2938658751795200
+    m_Key: Daily
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

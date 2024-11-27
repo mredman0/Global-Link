@@ -130,6 +130,10 @@ MonoBehaviour:
     m_Localized: "Hei\xDF"
     m_Metadata:
       m_Items: []
+  - m_Id: 4287186535206912
+    m_Localized: "T\xC4GLICH"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

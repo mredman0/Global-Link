@@ -58,4 +58,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 30529770548aebc4fb6e4c610ac1d87f, type: 2}
   - {fileID: 11400000, guid: d29ed6c0b315dc84e8a3fc4166fc43bb, type: 2}
   - {fileID: 11400000, guid: 550e2b6803e7a5c4e890d645a56ebe06, type: 2}
-  ExpectedTutorialLevels: 6
+  - {fileID: 11400000, guid: 785cd3318e6a1684195862466f1c71be, type: 2}

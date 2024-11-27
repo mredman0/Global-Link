@@ -28,13 +28,22 @@ public class PuzzleLoader : MonoBehaviour
 			return;
 		}
 
-		string resourcePath = $"{PuzzlePack}/{PuzzleIdInPack}.asset";
-		var puzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
-		if(!puzzleConfig)
+		PuzzleConfig puzzleConfig;
+		if(PuzzlePack == "Daily")
 		{
-			Debug.LogError($"No puzzle found at resource path: {resourcePath}");
-			return;
+			puzzleConfig = DailyPuzzleManager.Instance.DailyPuzzles[PuzzleIdInPack];
 		}
+		else
+		{
+			string resourcePath = $"{PuzzlePack}/{PuzzleIdInPack}.asset";
+			puzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
+			if (!puzzleConfig)
+			{
+				Debug.LogError($"No puzzle found at resource path: {resourcePath}");
+				return;
+			}
+		}
+
 		PuzzleProvider.Instance.PuzzleConfig = puzzleConfig;
 		Addressables.LoadSceneAsync("Puzzle");
 	}

@@ -44,6 +44,10 @@ public class LoadPuzzleButton : MonoBehaviour
 
         var completed = PuzzleCompletionManager.Instance.IsPuzzleCompleted(PuzzlePack, PuzzleIdInPack);
         var unlocked = completed || PuzzleCompletionManager.Instance.IsPuzzleUnlocked(PuzzlePack, PuzzleIdInPack);
+        if(PuzzlePack == "Daily")
+        {
+            unlocked &= DailyPuzzleManager.Instance.IsPuzzleAvailable(PuzzleIdInPack);
+        }
 
         Button.interactable = unlocked;
         ButtonText.gameObject.SetActive(unlocked);

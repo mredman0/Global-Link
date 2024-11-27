@@ -131,6 +131,10 @@ MonoBehaviour:
     m_Localized: Frais
     m_Metadata:
       m_Items: []
+  - m_Id: 4287186535206912
+    m_Localized: QUOTIDIEN
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

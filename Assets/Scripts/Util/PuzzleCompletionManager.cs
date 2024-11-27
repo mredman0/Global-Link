@@ -104,6 +104,15 @@ public class PuzzleCompletionManager : MonoBehaviour
         SaveAll();
     }
 
+    public void ResetDailyPuzzleCompletion()
+    {
+        if (CompletionData.ContainsKey("Daily"))
+        {
+            CompletionData["Daily"].CompletedPuzzles.Clear();
+        }
+        SaveAll();
+    }
+
     private void LoadAll()
     {
         if(!Directory.Exists(CompletionFolder))

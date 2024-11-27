@@ -127,6 +127,10 @@ MonoBehaviour:
     m_Key: Cool
     m_Metadata:
       m_Items: []
+  - m_Id: 4287186535206912
+    m_Key: DAILY
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

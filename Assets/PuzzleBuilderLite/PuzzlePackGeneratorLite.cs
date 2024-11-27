@@ -14,7 +14,7 @@ public class PuzzlePackGeneratorLite
     public PackGenerationConfig Config;
     public string MasterSeed;
     public string PreviousSeed;
-    public int Float01DiscreteBuckets;
+    public int Float01DiscreteBuckets = 20;
     public int MaxAttemptsPerPuzzle = 15;
 
     [Header("Overrides")]

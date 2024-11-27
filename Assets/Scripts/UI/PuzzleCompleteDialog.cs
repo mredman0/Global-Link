@@ -81,11 +81,23 @@ public class PuzzleCompleteDialog : Dialog
         {
             return null;
         }
-        var nextLevelId = (idInPackInt + 1).ToString();
-        string resourcePath = $"{puzzlePack}/{nextLevelId}.asset";
-        if(GameManager.AssetExists<PuzzleConfig>(resourcePath))
+
+        if (puzzlePack == "Daily")
         {
-            return (puzzlePack, nextLevelId);
+            var nextAvailablePuzzle = DailyPuzzleManager.Instance.GetNextAvailablePuzzleId(puzzleIdInPack);
+            if (nextAvailablePuzzle != null)
+            {
+                return (puzzlePack, nextAvailablePuzzle);
+            }
+        }
+        else
+        {
+            var nextLevelId = (idInPackInt + 1).ToString();
+            string resourcePath = $"{puzzlePack}/{nextLevelId}.asset";
+            if (GameManager.AssetExists<PuzzleConfig>(resourcePath))
+            {
+                return (puzzlePack, nextLevelId);
+            }
         }
         return null;
     }

@@ -70,6 +70,10 @@ MonoBehaviour:
     m_Localized: Tutoriel
     m_Metadata:
       m_Items: []
+  - m_Id: 2938658751795200
+    m_Localized: Quotidien
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -130,6 +130,10 @@ MonoBehaviour:
     m_Localized: Caldo
     m_Metadata:
       m_Items: []
+  - m_Id: 4287186535206912
+    m_Localized: GIORNALIERO
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
