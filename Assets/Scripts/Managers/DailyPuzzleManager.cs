@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -33,47 +34,43 @@ public class DailyPuzzleManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        CacheDirectory = Path.Combine(Application.persistentDataPath, "DPD");
+
         LoadPuzzles();
     }
 
-    private const string LAST_DAILIES_DATE_KEY = "LoadedDailiesDate";
     private void LoadPuzzles()
     {
-        if(!UseCache)
+        if (!UseCache || !LoadCachedPuzzles())
         {
             StartCoroutine(FetchJsonCoroutine());
-            return;
-        }
-
-        var lastDailiesDate = PlayerPrefs.GetString(LAST_DAILIES_DATE_KEY, "");
-        if(string.IsNullOrWhiteSpace(lastDailiesDate))
-        {
-            StartCoroutine(FetchJsonCoroutine());
-            return;
-        }
-        if(DateTime.TryParse(lastDailiesDate, out DateTime date))
-        {
-            if(date.Date == DateTime.Now.Date)
-            {
-                if(!LoadCachedPuzzles())
-                {
-                    StartCoroutine(FetchJsonCoroutine());
-                }
-                return;
-            }
-            StartCoroutine(FetchJsonCoroutine());
-            return;
         }
     }
 
     private bool LoadCachedPuzzles()
     {
-        // TODO
-        return false;
+        if (!Directory.Exists(CacheDirectory) || !Directory.GetFiles(CacheDirectory).Any())
+        {
+            return false;
+        }
+        string fileToLoad = Path.Combine(CacheDirectory, $"{DateTime.Now.ToString(DateFormat)}.dat");
+        if(!File.Exists(fileToLoad))
+        {
+            return false;
+        }
+        var json = File.ReadAllText(fileToLoad);
+        var puzzles = JsonUtility.FromJson<PuzzlesPayload>(json);
+        if(puzzles is null)
+        {
+            return false;
+        }
+        PopulateDailyPuzzles(puzzles);
+        return true;
     }
 
     private IEnumerator FetchJsonCoroutine()
     {
+        var requestDate = DateTime.Now.Date;
         var url = $"http://{FetchPuzzlesAddress}:{FetchPuzzlesPort}";
         using UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -94,15 +91,58 @@ public class DailyPuzzleManager : MonoBehaviour
             Debug.Log($"Received JSON: {json}");
 
             var payload = JsonUtility.FromJson<PuzzlesPayload>(json);
-            DailyPuzzles = new Dictionary<string, PuzzleConfig>();
-            foreach(var config in payload.Puzzles.Select(p => PuzzleConfigPayload.ToPuzzleConfig(p)))
-            {
-                DailyPuzzles.Add(config.Id, config);
-            }
             PuzzleCompletionManager.Instance.ResetDailyPuzzleCompletion();
-            PuzzlesAreReady = true;
-            DailyPuzzlesReady?.Invoke();
+            PopulateDailyPuzzles(payload);
+            if(UseCache)
+            {
+                CachePuzzles(payload, requestDate);
+            }
         }
+    }
+
+    private void CachePuzzles(PuzzlesPayload puzzles, DateTime date)
+    {
+        if(!Directory.Exists(CacheDirectory))
+        {
+            Directory.CreateDirectory(CacheDirectory);
+        }
+        else
+        {
+            ClearCache();
+        }
+        var fileName = $"{date.ToString(DateFormat)}.dat";
+        var filePath = Path.Combine(CacheDirectory, fileName);
+        File.WriteAllText(filePath, JsonUtility.ToJson(puzzles));
+    }
+
+    private void ClearCache()
+    {
+        if (!Directory.Exists(CacheDirectory))
+        {
+            return;
+        }
+        foreach(var file in Directory.EnumerateFiles(CacheDirectory))
+        {
+            File.Delete(file);
+        }
+    }
+
+    private string CacheDirectory;
+    private string DateFormat = "yyyy-MM-dd";
+
+    private void PopulateDailyPuzzles(PuzzlesPayload payload)
+    {
+        if(payload is null)
+        {
+            return;
+        }
+        DailyPuzzles = new Dictionary<string, PuzzleConfig>();
+        foreach (var config in payload.Puzzles.Select(p => PuzzleConfigPayload.ToPuzzleConfig(p)))
+        {
+            DailyPuzzles.Add(config.Id, config);
+        }
+        PuzzlesAreReady = true;
+        DailyPuzzlesReady?.Invoke();
     }
 
     public bool IsPuzzleAvailable(string id) =>
