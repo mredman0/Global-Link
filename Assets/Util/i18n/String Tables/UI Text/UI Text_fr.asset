@@ -135,6 +135,10 @@ MonoBehaviour:
     m_Localized: QUOTIDIEN
     m_Metadata:
       m_Items: []
+  - m_Id: 4575552354930688
+    m_Localized: "D\xE9bloquer plus de puzzles quotidiens"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

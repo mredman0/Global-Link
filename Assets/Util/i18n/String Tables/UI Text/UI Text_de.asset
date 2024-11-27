@@ -134,6 +134,10 @@ MonoBehaviour:
     m_Localized: "T\xC4GLICH"
     m_Metadata:
       m_Items: []
+  - m_Id: 4575552354930688
+    m_Localized: "Mehr t\xE4gliche R\xE4tsel freischalten"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

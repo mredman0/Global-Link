@@ -134,6 +134,10 @@ MonoBehaviour:
     m_Localized: DIARIO
     m_Metadata:
       m_Items: []
+  - m_Id: 4575552354930688
+    m_Localized: "Desbloquear m\xE1s rompecabezas diarios"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
