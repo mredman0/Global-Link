@@ -88,7 +88,6 @@ public class DailyPuzzleManager : MonoBehaviour
         {
             // Get the response
             string json = request.downloadHandler.text;
-            Debug.Log($"Received JSON: {json}");
 
             var payload = JsonUtility.FromJson<PuzzlesPayload>(json);
             PuzzleCompletionManager.Instance.ResetDailyPuzzleCompletion();

@@ -77,18 +77,23 @@ public class DailyPuzzleGenManager : MonoBehaviour
         if(dayPassMode)
         {
             PuzzlesYesterday = PuzzlesToday;
+            Debug.Log($"Today's Daily Puzzles moved to Yesterday ({Yesterday})");
             PuzzlesToday = PuzzlesTomorrow;
+            Debug.Log($"Tomorrow's Daily Puzzles moved to Today ({Today})");
         }
 
         var seed = GetSeed(Tomorrow);
         PuzzlesTomorrow = GeneratePuzzles(seed);
+        Debug.Log($"Daily Puzzles generated for Tomorrow ({Tomorrow})");
         if (!dayPassMode)
         {
             // Otherwise generate today's and yesterday's too
             seed = GetSeed(Today);
             PuzzlesToday = GeneratePuzzles(seed);
+            Debug.Log($"Daily Puzzles generated for Today ({Today})");
             seed = GetSeed(Yesterday);
             PuzzlesYesterday = GeneratePuzzles(seed);
+            Debug.Log($"Daily Puzzles generated for Yesterday ({Yesterday})");
         }
     }
 

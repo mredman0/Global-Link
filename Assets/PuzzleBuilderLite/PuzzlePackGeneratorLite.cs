@@ -107,10 +107,6 @@ public class PuzzlePackGeneratorLite
         {
             Debug.LogError($"{failedEnforcement} puzzles could not meet enforcement parameters after {MaxAttemptsPerPuzzle} attempts");
         }
-        else
-        {
-            Debug.Log($"All puzzles generated meeting enforcement parameters");
-        }
 
         return results;
     }

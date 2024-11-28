@@ -657,10 +657,6 @@ public class PuzzleBuilderLite
 
         warpsToRemove = warpsToRemove.Where(w => w != null).Distinct().ToList();
 
-        if (warpsToRemove.Count > 0)
-        {
-            Debug.Log($"Removing {warpsToRemove.Count} unused warps after generating solution paths");
-        }
         foreach (var warp in warpsToRemove)
         {
             EraseObject(warp.Cell);
