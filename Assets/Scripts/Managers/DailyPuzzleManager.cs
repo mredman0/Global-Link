@@ -17,6 +17,7 @@ public class DailyPuzzleManager : MonoBehaviour
     [Header("Settings")]
     public string FetchPuzzlesAddress = "74.103.128.214";
     public ushort FetchPuzzlesPort = 35611;
+    public string FetchPuzzlesPath = "Puzzles/Daily";
     public bool UseCache = false;
 
     [Header("State")]
@@ -71,8 +72,11 @@ public class DailyPuzzleManager : MonoBehaviour
     private IEnumerator FetchJsonCoroutine()
     {
         var requestDate = DateTime.Now.Date;
-        var url = $"http://{FetchPuzzlesAddress}:{FetchPuzzlesPort}";
+        var url = $"http://{FetchPuzzlesAddress}:{FetchPuzzlesPort}/{FetchPuzzlesPath}";
         using UnityWebRequest request = UnityWebRequest.Get(url);
+
+        // TODO populate user-id header with unique user identifier to verify purchase state server-side
+        request.SetRequestHeader("User-Id", Debug.isDebugBuild ? "PLACEHOLDER_WITH_PURCHASE" : "PLACEHOLDER");
 
         // Send the GET request
         yield return request.SendWebRequest();

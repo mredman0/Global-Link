@@ -7,8 +7,6 @@
     <type fullname="ColorManager" preserve="all" />
     <type fullname="ColorScheme" preserve="all" />
     <type fullname="ConfirmationDialog" preserve="all" />
-    <type fullname="DailyPuzzleGenManager" preserve="all" />
-    <type fullname="DailyPuzzleHttpServer" preserve="all" />
     <type fullname="DailyPuzzleManager" preserve="all" />
     <type fullname="DailyPuzzlesPage" preserve="all" />
     <type fullname="DailyPuzzlesPageButton" preserve="all" />
@@ -69,7 +67,6 @@
     <type fullname="Incrementor/OnChangeEvent" preserve="nothing" serialized="true" />
     <type fullname="SpecialOptionPicker/OnChangeEvent" preserve="nothing" serialized="true" />
     <type fullname="TextOptionPicker/OnChangeEvent" preserve="nothing" serialized="true" />
-    <type fullname="DailyPuzzles" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
     <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />
