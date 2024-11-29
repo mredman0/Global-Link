@@ -29,7 +29,7 @@ public class DailyPuzzleManager : MonoBehaviour
     {
         if (Instance)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
         Instance = this;
