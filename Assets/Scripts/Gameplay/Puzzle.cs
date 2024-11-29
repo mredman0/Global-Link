@@ -981,6 +981,8 @@ public class Puzzle : MonoBehaviour
                 {
                     var source = warp.Role == Warp.WarpRole.Source ? warp : warp.PairedWarp;
                     var pathTrimPoint = source.PointDrawnInCell.Value;
+
+                    SetDisconnected(NodesByColor[warp.Color][0]);
                     TrimPathToPoint(Paths[warp.Color], pathTrimPoint, includePoint: false);
                 }
             }
