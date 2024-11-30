@@ -10,12 +10,12 @@ public class TutorialInstructionWaitForWaypointReached : TutorialInstructionStep
 
     protected override bool ShouldGoToNextStep() => Reached;
 
-    private void Start()
+    protected override void OnShown()
     {
         Puzzle.WaypointReached += OnWaypointReached;
     }
 
-    private void OnDestroy()
+    protected override void OnHidden()
     {
         Puzzle.WaypointUnreached -= OnWaypointReached;
     }

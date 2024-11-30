@@ -15,33 +15,24 @@ MonoBehaviour:
   Pack: Tutorial
   Id: 3
   GridCellsPerRow: 01000000060000000a00000010000000140000001900000014000000100000000a0000000600000001000000
-  RockPositions: []
   WallPositions: []
   NodePositions:
-  - {x: 4, y: 8}
-  - {x: 6, y: 11}
-  - {x: 6, y: 8}
-  - {x: 4, y: 11}
-  NodeColors: 00000000000000000100000001000000
-  WaypointPositions: []
-  WaypointColors: 
+  - {x: 7, y: 6}
+  - {x: 7, y: 9}
+  NodeColors: 0000000000000000
+  WaypointPositions:
+  - {x: 5, y: 12}
+  WaypointColors: 00000000
   WarpPositions: []
-  SolutionLengths: 050000000900000000000000000000000000000000000000
+  SolutionLengths: 070000000000000000000000000000000000000000000000
   Solutions:
+  - {x: 6, y: 8}
   - {x: 5, y: 10}
   - {x: 5, y: 11}
   - {x: 5, y: 12}
   - {x: 5, y: 13}
   - {x: 5, y: 14}
-  - {x: 6, y: 9}
-  - {x: 6, y: 10}
-  - {x: 7, y: 8}
-  - {x: 7, y: 9}
-  - {x: 7, y: 10}
-  - {x: 6, y: 13}
-  - {x: 6, y: 12}
-  - {x: 5, y: 15}
-  - {x: 4, y: 12}
+  - {x: 6, y: 11}
   OpaqueSphere: 0
   CameraArmStart: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
   CameraDistance: 0

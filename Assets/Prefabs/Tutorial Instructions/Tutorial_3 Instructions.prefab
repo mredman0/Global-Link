@@ -52,6 +52,7 @@ MonoBehaviour:
   Next: {fileID: 0}
   LockCameraInput: 0
   LockPuzzleInput: 0
+  SolveColorsOnShown: 
   Color: -1
 --- !u!1 &3059423823101889067
 GameObject:
@@ -87,7 +88,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 333.99}
+  m_AnchoredPosition: {x: 0, y: 520}
   m_SizeDelta: {x: 760, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2784975621699499071
@@ -118,7 +119,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lines also cannot cross each other.
+  m_text: 'Colorful outlined regions are Waypoints.
+
+
+    All Waypoints must have
+    the line of the same color pass though them.
 
 
     (Tap to continue)'
@@ -225,7 +230,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 333.99}
+  m_AnchoredPosition: {x: 0, y: 520}
   m_SizeDelta: {x: 760, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1661403191545102743
@@ -256,8 +261,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select a Chroma, then connect it directly to the other Chroma of the same
-    color.
+  m_text: Select a Chroma, then draw a line that goes through the Waypoint area.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -360,7 +364,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 333.99}
+  m_AnchoredPosition: {x: 0, y: 520}
   m_SizeDelta: {x: 760, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6618917275459350538
@@ -391,7 +395,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now connect the remaining Chromas with a line which must go around.
+  m_text: Now, with the line going through the Waypoint, connect the line to the
+    other Chroma.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -469,7 +474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942685002987515443}
-  - component: {fileID: 8774849160771391284}
+  - component: {fileID: 1116952585734106449}
   m_Layer: 5
   m_Name: Step 1
   m_TagString: Untagged
@@ -497,7 +502,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8774849160771391284
+--- !u!114 &1116952585734106449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,12 +511,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6193456373413350317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308bb68c9f3920f4890c2df4cc45b06e, type: 3}
+  m_Script: {fileID: 11500000, guid: d999ce72f1cc3b84d8b3157f604cfbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 1123691272206170677}
   LockCameraInput: 0
   LockPuzzleInput: 0
+  SolveColorsOnShown: 
   Color: -1
 --- !u!1 &7938000407467786203
 GameObject:
@@ -627,8 +633,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3178099719346837618}
   - component: {fileID: 8339371721045692197}
-  - component: {fileID: 3842657044190636512}
-  - component: {fileID: 1229915846564012505}
+  - component: {fileID: 7229370033707944376}
+  - component: {fileID: 8869580987385074120}
   m_Layer: 5
   m_Name: Step 0
   m_TagString: Untagged
@@ -668,11 +674,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb4f1a014c9efa43b17f7e856dbd9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 8774849160771391284}
+  Next: {fileID: 1116952585734106449}
   LockCameraInput: 1
   LockPuzzleInput: 1
+  SolveColorsOnShown: 
   StartupDelay: 0.2
---- !u!222 &3842657044190636512
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+--- !u!222 &7229370033707944376
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -680,7 +689,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9163006425741140079}
   m_CullTransparentMesh: 1
---- !u!114 &1229915846564012505
+--- !u!114 &8869580987385074120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -693,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7490196}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

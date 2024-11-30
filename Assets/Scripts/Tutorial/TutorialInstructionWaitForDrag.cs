@@ -4,33 +4,43 @@ using UnityEngine;
 
 public class TutorialInstructionWaitForDrag : TutorialInstructionStep
 {
-    public float MinDragAmount = 10f;
-    public float DelayAfterDrag = 1f;
+    public float StartDelay = 10f;
+    public float ReduceDelayPerDrag = 1f;
 
     public float AmountDragged = 0;
-    private bool Dragged = false;
-    private float DraggedTime = 0;
+    public float CurrentDelay;
+    public bool Dragged = false;
 
-    protected override bool ShouldGoToNextStep() => Dragged && (Time.time > DraggedTime + DelayAfterDrag);
+    protected override bool ShouldGoToNextStep() => Dragged && (CurrentDelay <= 0);
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnShown()
     {
         InputManager.Instance.Drag += OnDrag;
     }
 
-    void OnDestroy()
+    protected override void OnHidden()
     {
         InputManager.Instance.Drag -= OnDrag;
     }
 
     private void OnDrag(Vector2 motion)
     {
-        AmountDragged += motion.magnitude;
-        if(!Dragged && AmountDragged >= MinDragAmount)
+        if(!Dragged)
         {
             Dragged = true;
-            DraggedTime = Time.time;
+            CurrentDelay = StartDelay;
+        }
+
+        CurrentDelay -= motion.magnitude * ReduceDelayPerDrag;
+    }
+
+    protected new void Update()
+    {
+        base.Update();
+
+        if(Dragged)
+        {
+            CurrentDelay -= Time.deltaTime;
         }
     }
 }

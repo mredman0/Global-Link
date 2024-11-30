@@ -10,12 +10,12 @@ public class TutorialInstructionWaitForNodesConnected : TutorialInstructionStep
 
     protected override bool ShouldGoToNextStep() => Connected;
 
-    private void Start()
+    protected override void OnShown()
     {
         Puzzle.NodesConnected += OnNodesConnected;
     }
 
-    private void OnDestroy()
+    protected override void OnHidden()
     {
         Puzzle.NodesConnected -= OnNodesConnected;
     }

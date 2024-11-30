@@ -4,23 +4,46 @@ using UnityEngine;
 
 public class TutorialInstructionWaitForTap : TutorialInstructionStep
 {
-    public float StartupDelay = 0.5f;
+    public float StartupDelay = 0.2f;
+    public UIElementHighlighter UIHighlighter;
+    public string UIHighlightTargetName;
 
     private float StartTime;
     private bool Tapped = false;
 
     protected override bool ShouldGoToNextStep() => Tapped;
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnShown()
     {
         StartTime = Time.time;
         InputManager.Instance.Tap += OnTap;
+        if(UIHighlighter)
+        {
+            GameObject[] allObjects = FindObjectsOfType<GameObject>();
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.name == UIHighlightTargetName)
+                {
+                    var rect = obj.GetComponent<RectTransform>();
+                    if(rect)
+                    {
+                        UIHighlighter.Target = rect;
+                        break;
+                    }
+                }
+            }
+            UIHighlighter.ConfigureBlockers();
+            UIHighlighter.Show();
+        }
     }
 
-    void OnDestroy()
+    protected override void OnHidden()
     {
         InputManager.Instance.Tap -= OnTap;
+        if(UIHighlighter)
+        {
+            UIHighlighter.Hide();
+        }
     }
 
     private void OnTap(Vector2 position)

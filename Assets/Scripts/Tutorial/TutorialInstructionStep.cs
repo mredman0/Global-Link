@@ -8,6 +8,8 @@ public abstract class TutorialInstructionStep : MonoBehaviour
     public bool LockCameraInput;
     public bool LockPuzzleInput;
 
+    public List<int> SolveColorsOnShown;
+
     protected Puzzle Puzzle { get; set; }
 
     private void OnEnable()
@@ -24,6 +26,8 @@ public abstract class TutorialInstructionStep : MonoBehaviour
         {
             Puzzle.LockInput();
         }
+        SolveColors();
+        OnShown();
     }
 
     private void OnDisable()
@@ -36,7 +40,11 @@ public abstract class TutorialInstructionStep : MonoBehaviour
         {
             Puzzle.FreeInput();
         }
+        OnHidden();
     }
+
+    protected virtual void OnShown() { }
+    protected virtual void OnHidden() { }
 
     private void GetCurrentPuzzle()
     {
@@ -48,7 +56,7 @@ public abstract class TutorialInstructionStep : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if(ShouldGoToNextStep())
         {
@@ -61,4 +69,16 @@ public abstract class TutorialInstructionStep : MonoBehaviour
     }
 
     protected abstract bool ShouldGoToNextStep();
+
+    private void SolveColors()
+    {
+        if(!Puzzle)
+        {
+            return;
+        }
+        foreach(var color in SolveColorsOnShown)
+        {
+            Puzzle.SolveColor(color);
+        }
+    }
 }

@@ -8,12 +8,12 @@ public class TutorialInstructionWaitForWarpTaken : TutorialInstructionStep
 
     protected override bool ShouldGoToNextStep() => WarpTaken;
 
-    private void Start()
+    protected override void OnShown()
     {
         Puzzle.WarpTaken += OnWarpTaken;
     }
 
-    private void OnDestroy()
+    protected override void OnHidden()
     {
         Puzzle.WarpTaken -= OnWarpTaken;
     }

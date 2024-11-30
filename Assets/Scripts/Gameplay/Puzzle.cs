@@ -925,7 +925,7 @@ public class Puzzle : MonoBehaviour
         return colorsToConsider.First();
     }
 
-    private bool SolveColor(int color)
+    public bool SolveColor(int color)
     {
         // Reset the state for this color
         foreach(var node in NodesByColor[color])
