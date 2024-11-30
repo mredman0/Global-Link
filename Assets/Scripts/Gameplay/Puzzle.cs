@@ -166,6 +166,13 @@ public class Puzzle : MonoBehaviour
     private const float MINIMUM_DRAW_STEP = 0.01f;
     private void Draw(Node node, Vector3 point)
     {
+        // TODO Remove after investigation of disappearing lines over
+        if (float.IsNaN(point.x) || float.IsNaN(point.y) || float.IsNaN(point.z))
+        {
+            Debug.LogError($"Drawing resulted in bad point {point}");
+            Debug.LogError(Environment.StackTrace);
+        }
+
         var path = node.Path;
         var loopMergeDistance = path.EndWidth * 0.8f;
         int mergeLoop;
@@ -1435,6 +1442,14 @@ public class Puzzle : MonoBehaviour
 
         if(SmoothLineSegment(p1, p2, p3, out Vector3 resultingP2))
         {
+            // TODO Remove after investigation of disappearing lines over
+            if (float.IsNaN(resultingP2.x) || float.IsNaN(resultingP2.y) || float.IsNaN(resultingP2.z))
+            {
+                Debug.LogError($"Line smoothing resulted in bad point {resultingP2}");
+                Debug.LogError($"Line smoothing input that resulted in bad output:\n{p1}\n{p2}\n{p3}");
+                Debug.LogError(Environment.StackTrace);
+            }
+
             NotifyWaypointsOfLinePointRemoved(p2);
             renderer.SetPosition(positionCount - 2, resultingP2);
             NotifyWaypointsOfLinePointDrawn(resultingP2, lineColor);
@@ -1501,6 +1516,15 @@ public class Puzzle : MonoBehaviour
 
         if (DejitterLineSegment(p1, p2, p3, p4, out Vector3 resultingP2, out Vector3 resultingP3))
         {
+            // TODO Remove after investigation of disappearing lines over
+            if (float.IsNaN(resultingP2.x) || float.IsNaN(resultingP2.y) || float.IsNaN(resultingP2.z) ||
+                float.IsNaN(resultingP3.x) || float.IsNaN(resultingP3.y) || float.IsNaN(resultingP3.z))
+            {
+                Debug.LogError($"Line dejittering resulted in bad output {resultingP2}, {resultingP3}");
+                Debug.LogError($"Line dejittering input that resulted in bad output:\n{p1}\n{p2}\n{p3}\n{p4}");
+                Debug.LogError(Environment.StackTrace);
+            }
+
             NotifyWaypointsOfLinePointRemoved(p2);
             renderer.SetPosition(positionCount - 3, resultingP2);
             NotifyWaypointsOfLinePointDrawn(resultingP2, lineColor);
@@ -1509,5 +1533,5 @@ public class Puzzle : MonoBehaviour
             NotifyWaypointsOfLinePointDrawn(resultingP3, lineColor);
         }
     }
-	#endregion
+    #endregion
 }
