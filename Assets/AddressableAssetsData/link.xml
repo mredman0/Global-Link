@@ -32,7 +32,6 @@
     <type fullname="NodePairDisplay" preserve="all" />
     <type fullname="NodesUI" preserve="all" />
     <type fullname="OptionsDialog" preserve="all" />
-    <type fullname="PackGenerationConfig" preserve="all" />
     <type fullname="PackInfo" preserve="all" />
     <type fullname="PackPage" preserve="all" />
     <type fullname="PageNavigator" preserve="all" />
