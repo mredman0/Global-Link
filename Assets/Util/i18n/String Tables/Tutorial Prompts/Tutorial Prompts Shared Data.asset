@@ -35,6 +35,18 @@ MonoBehaviour:
     m_Key: Tutorial 1 Draw
     m_Metadata:
       m_Items: []
+  - m_Id: 13148308656128
+    m_Key: Tutorial 2 Intro To Blockages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Key: Tutorial 2 Disconnect Bad Line
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Key: Tutorial 2 Connect Both Colors
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

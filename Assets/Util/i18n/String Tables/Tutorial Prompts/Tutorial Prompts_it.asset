@@ -50,6 +50,25 @@ MonoBehaviour:
       una linea.\r\n\r\nCollega i due Chromas."
     m_Metadata:
       m_Items: []
+  - m_Id: 13148308656128
+    m_Localized: 'I muri e gli altri colori bloccheranno il percorso.
+
+      
+
+      (Tocca
+      per continuare)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Localized: Uno di questi colori blocca completamente l'altro. Per modificarlo,
+      tocca uno di quei Chromas O la linea.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Localized: Usa lo spazio disponibile all'interno dei muri per collegare entrambi
+      i colori.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

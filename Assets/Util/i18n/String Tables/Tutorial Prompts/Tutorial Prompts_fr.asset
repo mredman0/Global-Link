@@ -47,6 +47,25 @@ MonoBehaviour:
       ChromaSphere tracera une ligne.\r\n\r\nConnectez les deux Chromas."
     m_Metadata:
       m_Items: []
+  - m_Id: 13148308656128
+    m_Localized: 'Les murs et les autres couleurs bloqueront le chemin.
+
+      
+
+      (Appuyez
+      pour continuer)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Localized: "L'une de ces couleurs bloque compl\xE8tement l'autre. Pour la modifier,
+      appuyez sur l'un de ces Chromas OU sur la ligne."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Localized: "Utilisez l\u2019espace disponible \xE0 l\u2019int\xE9rieur des
+      murs pour connecter les deux couleurs."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

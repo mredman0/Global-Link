@@ -46,6 +46,21 @@ MonoBehaviour:
       ChromaSphere eine Linie zeichnen.\r\n\r\nVerbinde die beiden Chromas."
     m_Metadata:
       m_Items: []
+  - m_Id: 13148308656128
+    m_Localized: "W\xE4nde und andere Farben blockieren den Weg.\n\r\n(Tippen, um
+      fortzufahren)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Localized: "Eine dieser Farben blockiert die andere vollst\xE4ndig. Um sie
+      zu \xE4ndern, tippe auf eines der Chromas ODER auf die Linie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Localized: "Nutze den verf\xFCgbaren Raum innerhalb der W\xE4nde, um beide
+      Farben zu verbinden."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

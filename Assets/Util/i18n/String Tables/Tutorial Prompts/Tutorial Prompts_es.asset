@@ -45,6 +45,21 @@ MonoBehaviour:
       una l\xEDnea.\r\n\r\nConecta los dos Chromas."
     m_Metadata:
       m_Items: []
+  - m_Id: 13148308656128
+    m_Localized: "Las paredes y otros colores bloquear\xE1n el camino.\n\r\n(Pulse
+      para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Localized: "Uno de estos colores bloquea completamente al otro. Para modificarlo,
+      toca uno de esos Chromas O la l\xEDnea."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Localized: Usa el espacio disponible dentro de las paredes para conectar ambos
+      colores.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

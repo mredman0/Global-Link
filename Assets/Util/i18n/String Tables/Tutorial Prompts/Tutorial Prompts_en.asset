@@ -53,6 +53,22 @@ MonoBehaviour:
       Connect the two Chromas.'
     m_Metadata:
       m_Items: []
+  - m_Id: 13148308656128
+    m_Localized: 'Walls and other colors will block the path.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Localized: One of these colors completely blocks the other. To modify it, tap
+      one of those Chromas OR tap the line.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Localized: Use the available space within the walls to connect both colors.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
