@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: Tutorial Prompts
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: 6b586f43c96c0614982e5d354f1e02dd, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: 30ede55bf92af8842896877e97194ffe, type: 2}
+  - {fileID: 11400000, guid: 27e166b18849e9746af5f71818f13d6b, type: 2}
+  - {fileID: 11400000, guid: bf8c29db2677aba4cbcd6035acfc57ea, type: 2}
+  - {fileID: 11400000, guid: 552d66d3c3841d74f8497f852da1e979, type: 2}
+  - {fileID: 11400000, guid: 387ede66b4defbe49bd74967e8509945, type: 2}
+  - {fileID: 11400000, guid: 368a00fe5e93fb743bb2b40548a7fd66, type: 2}
+  - {fileID: 11400000, guid: 53ed7e0e2ed0bd84f9202e1280f1cfd9, type: 2}
+  - {fileID: 11400000, guid: e1f8d98780a3964489d196a918c5844f, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

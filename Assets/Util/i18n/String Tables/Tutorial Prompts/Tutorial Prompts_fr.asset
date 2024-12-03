@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Tutorial Prompts_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 6b586f43c96c0614982e5d354f1e02dd, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 440582557696
+    m_Localized: 'Bienvenue dans Le ChromaSphere.
+
+      
+
+      (Appuyez pour
+      continuer)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7603900141568
+    m_Localized: "Vous pouvez modifier les param\xE8tres ici, y compris les contr\xF4les
+      invers\xE9s et les options d'accessibilit\xE9.\n\r\n(Appuyez pour continuer)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8543478763520
+    m_Localized: "Faites glisser sur l'\xE9cran pour faire tourner Le ChromaSphere."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9257491910656
+    m_Localized: "Les petites boules rouges sont des Chromas. Elles doivent \xEAtre
+      connect\xE9es \xE0 d'autres Chromas de la m\xEAme couleur.\r\n\r\nPour commencer,
+      s\xE9lectionnez un Chroma en appuyant dessus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10487182151680
+    m_Localized: "Tant que vous avez un Chroma s\xE9lectionn\xE9, faire tourner Le
+      ChromaSphere tracera une ligne.\r\n\r\nConnectez les deux Chromas."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Tutorial Prompts_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 6b586f43c96c0614982e5d354f1e02dd, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 440582557696
+    m_Localized: 'Welcome to The ChromaSphere.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7603900141568
+    m_Localized: 'You can change settings here, including inverted controls and accessibility
+      options.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8543478763520
+    m_Localized: Drag along the screen to rotate The ChromaSphere.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9257491910656
+    m_Localized: 'The small Red Balls are Chromas. They must be connected to other
+      Chromas of the same color.
+
+
+      To start, select a Chroma by tapping it.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10487182151680
+    m_Localized: 'While you have a Chroma selected, rotating The ChromaSphere will
+      draw a line.
+
+
+      Connect the two Chromas.'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
