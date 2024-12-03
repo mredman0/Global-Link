@@ -60,6 +60,42 @@ MonoBehaviour:
       colores.
     m_Metadata:
       m_Items: []
+  - m_Id: 18077219835904
+    m_Localized: "Las regiones coloridas con contornos son Puntos de Control.\r\n\r\nTodos
+      los Puntos de Control deben ser atravesados por una l\xEDnea del mismo color.\n\r\n(Pulse
+      para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Localized: "En la parte superior derecha se muestra qu\xE9 colores tienen Puntos
+      de Control y cu\xE1les est\xE1n conectados.\n\r\n(Pulse para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Localized: "Usa el bot\xF3n Deshacer para revertir la \xFAltima acci\xF3n.\n\r\n(Pulse
+      para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Localized: "Usa el bot\xF3n Restablecer para devolver toda la ChromaSphere
+      a su estado original.\n\r\n(Pulse para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Localized: "Usa el bot\xF3n Deshacer o Restablecer para borrar la l\xEDnea
+      incorrecta."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Localized: "Ahora selecciona un Chroma y dibuja una l\xEDnea que pase por el
+      \xE1rea del Punto de Control."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Localized: "Con la l\xEDnea pasando por el Punto de Control, conecta la l\xEDnea
+      con el otro Chroma."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

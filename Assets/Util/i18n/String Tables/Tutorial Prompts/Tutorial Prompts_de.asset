@@ -61,6 +61,46 @@ MonoBehaviour:
       Farben zu verbinden."
     m_Metadata:
       m_Items: []
+  - m_Id: 18077219835904
+    m_Localized: "Farbige umrissene Bereiche sind Wegpunkte.\r\n\r\nAlle Wegpunkte
+      m\xFCssen von einer Linie derselben Farbe durchquert werden.\n\r\n(Tippen,
+      um fortzufahren)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Localized: 'Oben rechts wird angezeigt, welche Farben Wegpunkte haben und welche
+      verbunden sind.
+
+      
+
+      (Tippen, um fortzufahren)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Localized: "Verwende die R\xFCckg\xE4ngig-Taste, um die letzte Aktion r\xFCckg\xE4ngig
+      zu machen.\n\r\n(Tippen, um fortzufahren)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Localized: "Verwende die Zur\xFCcksetzen-Taste, um die gesamte ChromaSphere
+      in ihren urspr\xFCnglichen Zustand zur\xFCckzusetzen.\n\r\n(Tippen, um fortzufahren)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Localized: "Verwende die R\xFCckg\xE4ngig- oder Zur\xFCcksetzen-Taste, um die
+      falsche Linie zu l\xF6schen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Localized: "W\xE4hle nun ein Chroma aus und ziehe eine Linie, die durch den
+      Bereich des Wegpunkts verl\xE4uft."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Localized: "Mit der Linie, die durch den Wegpunkt verl\xE4uft, verbinde die
+      Linie mit dem anderen Chroma."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

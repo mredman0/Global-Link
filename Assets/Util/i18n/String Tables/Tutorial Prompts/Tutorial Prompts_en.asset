@@ -69,6 +69,55 @@ MonoBehaviour:
     m_Localized: Use the available space within the walls to connect both colors.
     m_Metadata:
       m_Items: []
+  - m_Id: 18077219835904
+    m_Localized: 'Colorful outlined regions are Waypoints.
+
+
+      All Waypoints
+      must have the line of the same color pass though them.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Localized: 'The top right shows which colors have Waypoints and which are connected.
+
+
+      (Tap
+      to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Localized: 'Use the Undo button to revert the last action.
+
+
+      (Tap to
+      continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Localized: 'Use the Reset button to reset the entire ChromaSphere to its original
+      state.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Localized: Use the Undo or Reset button to erase the incorrect line.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Localized: Now select a Chroma and draw a line that goes through the Waypoint
+      area.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Localized: With the line going through the Waypoint, connect the line to the
+      other Chroma.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

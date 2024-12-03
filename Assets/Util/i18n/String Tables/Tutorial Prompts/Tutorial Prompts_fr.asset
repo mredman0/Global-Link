@@ -66,6 +66,42 @@ MonoBehaviour:
       murs pour connecter les deux couleurs."
     m_Metadata:
       m_Items: []
+  - m_Id: 18077219835904
+    m_Localized: "Les zones color\xE9es avec des contours sont des Points de Passage.\r\n\r\nTous
+      les Points de Passage doivent \xEAtre travers\xE9s par une ligne de la m\xEAme
+      couleur.\n\r\n(Appuyez pour continuer)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Localized: "En haut \xE0 droite, vous pouvez voir quelles couleurs ont des
+      Points de Passage et lesquelles sont connect\xE9es.\n\r\n(Appuyez pour continuer)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Localized: "Utilisez le bouton Annuler pour revenir \xE0 la derni\xE8re action.\n\r\n(Appuyez
+      pour continuer)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Localized: "Utilisez le bouton R\xE9initialiser pour r\xE9tablir toute la ChromaSphere
+      \xE0 son \xE9tat initial.\n\r\n(Appuyez pour continuer)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Localized: "Utilisez le bouton Annuler ou R\xE9initialiser pour effacer la
+      ligne incorrecte."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Localized: "Maintenant, s\xE9lectionnez un Chroma et tracez une ligne qui traverse
+      la zone du Point de Passage."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Localized: "Avec la ligne passant par le Point de Passage, connectez la ligne
+      \xE0 l\u2019autre Chroma."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

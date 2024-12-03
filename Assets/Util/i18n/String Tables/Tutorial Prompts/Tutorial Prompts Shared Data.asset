@@ -47,6 +47,34 @@ MonoBehaviour:
     m_Key: Tutorial 2 Connect Both Colors
     m_Metadata:
       m_Items: []
+  - m_Id: 18077219835904
+    m_Key: Tutorial 3 Intro To Waypoints
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Key: Tutorial 3 Highlight Nodes UI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Key: Tutorial 3 Highlight Undo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Key: Tutorial 3 Highlight Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Key: Tutorial 3 Undo Or Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Key: Tutorial 3 Go To Waypoint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Key: Tutorial 3 Connected
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

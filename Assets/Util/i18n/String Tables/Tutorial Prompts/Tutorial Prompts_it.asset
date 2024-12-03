@@ -69,6 +69,61 @@ MonoBehaviour:
       i colori.
     m_Metadata:
       m_Items: []
+  - m_Id: 18077219835904
+    m_Localized: 'Le regioni colorate con contorni sono Punti di Controllo.
+
+      
+
+      Tutti
+      i Punti di Controllo devono essere attraversati da una linea dello stesso colore.
+
+      
+
+      (Tocca
+      per continuare)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Localized: 'In alto a destra viene mostrato quali colori hanno Punti di Controllo
+      e quali sono collegati.
+
+      
+
+      (Tocca per continuare)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Localized: 'Usa il pulsante Annulla per annullare l''ultima azione.
+
+      
+
+      (Tocca
+      per continuare)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Localized: 'Usa il pulsante Ripristina per riportare l''intera ChromaSphere
+      al suo stato originale.
+
+      
+
+      (Tocca per continuare)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Localized: Usa il pulsante Annulla o Ripristina per cancellare la linea errata.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Localized: Ora seleziona un Chroma e traccia una linea che attraversi l'area
+      del Punto di Controllo.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Localized: "Con la linea che attraversa il Punto di Controllo, collega la linea
+      all\u2019altro Chroma."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
