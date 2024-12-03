@@ -118,6 +118,23 @@ MonoBehaviour:
       other Chroma.
     m_Metadata:
       m_Items: []
+  - m_Id: 23355290046464
+    m_Localized: 'Tunnels allow lines to cut through The ChromaSphere to get to another
+      part of the surface.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23402526298112
+    m_Localized: The Walls completely block the path between these Chromas on the
+      surface. Draw a line to one of the Tunnel entrances.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23441927589888
+    m_Localized: Now connect the line to the other Chroma.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

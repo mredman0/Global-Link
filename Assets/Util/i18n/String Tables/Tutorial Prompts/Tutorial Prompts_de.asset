@@ -101,6 +101,20 @@ MonoBehaviour:
       Linie mit dem anderen Chroma."
     m_Metadata:
       m_Items: []
+  - m_Id: 23355290046464
+    m_Localized: "Tunnel erm\xF6glichen es Linien, die ChromaSphere zu durchqueren,
+      um zu einem anderen Teil der Oberfl\xE4che zu gelangen.\n\r\n(Tippen, um fortzufahren)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23402526298112
+    m_Localized: "Die W\xE4nde blockieren vollst\xE4ndig den Weg zwischen diesen
+      Chromas auf der Oberfl\xE4che. Ziehe eine Linie zu einem der Tunnel-Eing\xE4nge."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23441927589888
+    m_Localized: Verbinde nun die Linie mit dem anderen Chroma.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

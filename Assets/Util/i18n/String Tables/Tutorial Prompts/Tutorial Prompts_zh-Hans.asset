@@ -84,6 +84,19 @@ MonoBehaviour:
       Chroma\u3002"
     m_Metadata:
       m_Items: []
+  - m_Id: 23355290046464
+    m_Localized: "\u96A7\u9053\u5141\u8BB8\u7EBF\u6761\u7A7F\u8FC7\u7403\u4F53\uFF0C\u5230\u8FBE\u8868\u9762\u7684\u53E6\u4E00\u90E8\u5206\u3002\n\r\n(\u70B9\u51FB\u7EE7\u7EED)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23402526298112
+    m_Localized: "\u5899\u58C1\u5B8C\u5168\u963B\u6321\u4E86\u8FD9\u4E9B Chromas
+      \u4E4B\u95F4\u7684\u8DEF\u5F84\u3002\u753B\u4E00\u6761\u7EBF\u5230\u5176\u4E2D\u4E00\u4E2A\u96A7\u9053\u5165\u53E3\u3002"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23441927589888
+    m_Localized: "\u73B0\u5728\u5C06\u7EBF\u8FDE\u63A5\u5230\u53E6\u4E00\u4E2A Chroma\u3002"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

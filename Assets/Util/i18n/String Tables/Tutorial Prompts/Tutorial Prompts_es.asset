@@ -96,6 +96,20 @@ MonoBehaviour:
       con el otro Chroma."
     m_Metadata:
       m_Items: []
+  - m_Id: 23355290046464
+    m_Localized: "Los t\xFAneles permiten que las l\xEDneas atraviesen la ChromaSphere
+      para llegar a otra parte de la superficie.\n\r\n(Pulse para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23402526298112
+    m_Localized: "Las Paredes bloquean completamente el camino entre estos Chromas
+      en la superficie. Dibuja una l\xEDnea hacia una de las entradas del t\xFAnel."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23441927589888
+    m_Localized: "Ahora conecta la l\xEDnea con el otro Chroma."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
