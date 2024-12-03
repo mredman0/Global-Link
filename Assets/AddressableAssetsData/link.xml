@@ -54,13 +54,12 @@
     <type fullname="SettingsManager" preserve="all" />
     <type fullname="SpecialOptionPicker" preserve="all" />
     <type fullname="TextOptionPicker" preserve="all" />
+    <type fullname="Tutorial2Script" preserve="all" />
+    <type fullname="Tutorial3Script" preserve="all" />
     <type fullname="TutorialInstructionsProvider" preserve="all" />
-    <type fullname="TutorialInstructionWaitForActiveNode" preserve="all" />
     <type fullname="TutorialInstructionWaitForDrag" preserve="all" />
-    <type fullname="TutorialInstructionWaitForNodesConnected" preserve="all" />
-    <type fullname="TutorialInstructionWaitForTap" preserve="all" />
-    <type fullname="TutorialInstructionWaitForWarpTaken" preserve="all" />
-    <type fullname="TutorialInstructionWaitForWaypointReached" preserve="all" />
+    <type fullname="TutorialInstructionWaitForEvent" preserve="all" />
+    <type fullname="UIElementHighlighter" preserve="all" />
     <type fullname="Wall" preserve="all" />
     <type fullname="Warp" preserve="all" />
     <type fullname="Waypoint" preserve="all" />

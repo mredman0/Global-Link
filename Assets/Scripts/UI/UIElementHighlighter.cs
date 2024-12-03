@@ -7,11 +7,13 @@ public class UIElementHighlighter : MonoBehaviour
 {
     public RectTransform Target;
 
-    public RectTransform[] Blockers;
+    public RectTransform TopRect, BottomRect, LeftRect, RightRect;
+    public Canvas Canvas;
 
     // Start is called before the first frame update
     void Start()
     {
+        Canvas = TopRect.GetComponentInParent<Canvas>();
         ConfigureBlockers();
     }
 
@@ -22,64 +24,61 @@ public class UIElementHighlighter : MonoBehaviour
             return;
         }
 
-        foreach(var blocker in Blockers)
-        {
-            blocker.gameObject.SetActive(true);
-        }
+        TopRect.gameObject.SetActive(true);
+        BottomRect.gameObject.SetActive(true);
+        LeftRect.gameObject.SetActive(true);
+        RightRect.gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        foreach (var blocker in Blockers)
-        {
-            blocker.gameObject.SetActive(false);
-        }
+        TopRect.gameObject.SetActive(false);
+        BottomRect.gameObject.SetActive(false);
+        LeftRect.gameObject.SetActive(false);
+        RightRect.gameObject.SetActive(false);
     }
 
     public void ConfigureBlockers()
     {
         if(!Target)
         {
-            foreach(var blocker in Blockers)
-            {
-                blocker.gameObject.SetActive(false);
-            }
             return;
         }
-        var canvas = Target.GetComponentInParent<Canvas>();
 
-        var corners = GetScreenSpaceCorners(Target);
-        var left = corners[0].x / canvas.scaleFactor;
-        var right = corners[2].x / canvas.scaleFactor;
-        var bottom = corners[0].y / canvas.scaleFactor;
-        var top = corners[2].y / canvas.scaleFactor;
+        // Get the canvas RectTransform
+        RectTransform canvasRect = Canvas.GetComponent<RectTransform>();
 
-        var bLeft = Blockers[0];
-        var bRight = Blockers[1];
-        var bTop = Blockers[2];
-        var bBottom = Blockers[3];
+        // Get the bounds of the target RectTransform in canvas space
+        Vector3[] targetCorners = new Vector3[4];
+        Target.GetWorldCorners(targetCorners);
 
-        var width = Screen.width / canvas.scaleFactor;
-        var height = Screen.height / canvas.scaleFactor;
+        // Convert world space corners to canvas space
+        Vector3 bottomLeft = canvasRect.InverseTransformPoint(targetCorners[0]);
+        Vector3 topRight = canvasRect.InverseTransformPoint(targetCorners[2]);
 
-        bLeft.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, left);
-        bLeft.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, height);
+        // Canvas dimensions
+        float canvasWidth = canvasRect.rect.width;
+        float canvasHeight = canvasRect.rect.height;
 
-        bRight.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, width - right);
-        bRight.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, height);
+        // Target bounds in canvas space
+        float targetXMin = bottomLeft.x + canvasWidth / 2;
+        float targetYMin = bottomLeft.y + canvasHeight / 2;
+        float targetXMax = topRight.x + canvasWidth / 2;
+        float targetYMax = topRight.y + canvasHeight / 2;
 
-        bTop.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, left, right - left);
-        bTop.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, height - top);
-
-        bBottom.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, left, right - left);
-        bBottom.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, bottom);
+        // Configure the RectTransforms
+        ConfigureRectTransform(TopRect, 0, targetYMax, canvasWidth, canvasHeight - targetYMax); // Top
+        ConfigureRectTransform(BottomRect, 0, 0, canvasWidth, targetYMin); // Bottom
+        ConfigureRectTransform(LeftRect, 0, targetYMin, targetXMin, targetYMax - targetYMin); // Left
+        ConfigureRectTransform(RightRect, targetXMax, targetYMin, canvasWidth - targetXMax, targetYMax - targetYMin); // Right
     }
 
-    private static Vector2[] GetScreenSpaceCorners(RectTransform target)
+    private void ConfigureRectTransform(RectTransform rect, float x, float y, float width, float height)
     {
-        // Get world corners of the RectTransform
-        Vector3[] worldCorners = new Vector3[4];
-        target.GetWorldCorners(worldCorners);
-        return worldCorners.Select(w => new Vector2(w.x, w.y)).ToArray();
+        rect.anchorMin = new Vector2(0, 0); // Bottom-left corner
+        rect.anchorMax = new Vector2(0, 0); // Bottom-left corner
+        rect.pivot = new Vector2(0, 0); // Bottom-left corner
+        rect.anchoredPosition = new Vector2(x, y);
+        rect.sizeDelta = new Vector2(width, height);
     }
 }

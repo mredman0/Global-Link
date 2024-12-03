@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8570228050437868120}
   - component: {fileID: 3632951236218420741}
   m_Layer: 5
-  m_Name: Blocker 3
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 288329475588916634}
   - component: {fileID: 7622661878470930406}
   m_Layer: 5
-  m_Name: Blocker 4
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 8761251062970358603}
   - component: {fileID: 6589241934742701177}
   m_Layer: 5
-  m_Name: Blocker 2
+  m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,11 +278,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  Blockers:
-  - {fileID: 7115748388740647557}
-  - {fileID: 1981187526687274075}
-  - {fileID: 1577173281834525175}
-  - {fileID: 7011341542572621446}
+  TopRect: {fileID: 7115748388740647557}
+  BottomRect: {fileID: 1981187526687274075}
+  LeftRect: {fileID: 1577173281834525175}
+  RightRect: {fileID: 7011341542572621446}
+  Canvas: {fileID: 0}
 --- !u!1 &7831096487532214682
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 7817105755437101624}
   - component: {fileID: 8026970744563162582}
   m_Layer: 5
-  m_Name: Blocker 1
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
