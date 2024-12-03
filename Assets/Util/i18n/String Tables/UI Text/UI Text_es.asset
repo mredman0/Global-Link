@@ -138,6 +138,10 @@ MonoBehaviour:
     m_Localized: "Desbloquear m\xE1s rompecabezas diarios"
     m_Metadata:
       m_Items: []
+  - m_Id: 6533887371268096
+    m_Localized: Fin del tutorial
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

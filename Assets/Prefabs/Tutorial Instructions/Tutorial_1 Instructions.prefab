@@ -566,7 +566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4972929199836078615}
-  - component: {fileID: 1323318921711689991}
+  - component: {fileID: 5304139926532616541}
   m_Layer: 5
   m_Name: Select Chroma
   m_TagString: Untagged
@@ -594,7 +594,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1323318921711689991
+--- !u!114 &5304139926532616541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -603,12 +603,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 4169013977985534739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d349838add5b484693b626c89bf1dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 8774849160771391284}
+  Next: {fileID: 3539261199744851028}
   LockCameraInput: 0
   LockPuzzleInput: 0
+  WaitForTap: 0
+  WaitForActiveNode: 1
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!1 &4408279739528484272
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50909de51b128ab40a39a8e4b9b2752b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 1323318921711689991}
+  Next: {fileID: 5304139926532616541}
   LockCameraInput: 0
   LockPuzzleInput: 1
   StartDelay: 7
@@ -675,7 +691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942685002987515443}
-  - component: {fileID: 8774849160771391284}
+  - component: {fileID: 3539261199744851028}
   m_Layer: 5
   m_Name: Draw
   m_TagString: Untagged
@@ -703,7 +719,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8774849160771391284
+--- !u!114 &3539261199744851028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -712,13 +728,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6193456373413350317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308bb68c9f3920f4890c2df4cc45b06e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   LockCameraInput: 0
   LockPuzzleInput: 0
-  Color: -1
+  WaitForTap: 0
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 1
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!1 &7415303785041580093
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +759,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8570614760042500036}
-  - component: {fileID: 3664948093233507841}
+  - component: {fileID: 686573846862195082}
   - component: {fileID: 8100150349402292661}
   - component: {fileID: 6772816238638547044}
   m_Layer: 5
@@ -758,7 +789,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3664948093233507841
+--- !u!114 &686573846862195082
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -767,15 +798,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7415303785041580093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb4f1a014c9efa43b17f7e856dbd9d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 9156956760849994796}
   LockCameraInput: 1
   LockPuzzleInput: 1
-  StartupDelay: 0.2
+  WaitForTap: 1
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
   UIHighlighter: {fileID: 4768927037902758631}
   UIHighlightTargetName: Settings Button
+  EventHit: 0
+  StartTime: 0
 --- !u!222 &8100150349402292661
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -791,7 +835,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7415303785041580093}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1064,7 +1108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3178099719346837618}
-  - component: {fileID: 8339371721045692197}
+  - component: {fileID: 2003088427991270021}
   - component: {fileID: 4291126914623955988}
   - component: {fileID: 8342176088239878147}
   m_Layer: 5
@@ -1094,7 +1138,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8339371721045692197
+--- !u!114 &2003088427991270021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1103,15 +1147,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 9163006425741140079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb4f1a014c9efa43b17f7e856dbd9d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 3664948093233507841}
+  Next: {fileID: 686573846862195082}
   LockCameraInput: 1
   LockPuzzleInput: 1
-  StartupDelay: 0.2
+  WaitForTap: 1
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
   UIHighlighter: {fileID: 0}
   UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!222 &4291126914623955988
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1258,35 +1315,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3632951236218420741, guid: 0badda421168185448785b7a0c5b8581,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.9843137
-      objectReference: {fileID: 0}
     - target: {fileID: 6175526049339876518, guid: 0badda421168185448785b7a0c5b8581,
         type: 3}
       propertyPath: m_Name
       value: UI Highlighter
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175526049339876518, guid: 0badda421168185448785b7a0c5b8581,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6589241934742701177, guid: 0badda421168185448785b7a0c5b8581,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.9843137
-      objectReference: {fileID: 0}
-    - target: {fileID: 7622661878470930406, guid: 0badda421168185448785b7a0c5b8581,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.9843137
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026970744563162582, guid: 0badda421168185448785b7a0c5b8581,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.9843137
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

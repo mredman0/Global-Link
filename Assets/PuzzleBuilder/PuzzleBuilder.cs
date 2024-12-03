@@ -1230,7 +1230,7 @@ public class PuzzleBuilder : MonoBehaviour
                     }
                     solution.Add(Grid.CellsByRow[row][rowCell]);
                 }
-                GeneratedSolutionPaths[i] = solution;
+                //GeneratedSolutionPaths[i] = solution;
             }
         }
 

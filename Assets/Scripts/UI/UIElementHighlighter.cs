@@ -46,26 +46,30 @@ public class UIElementHighlighter : MonoBehaviour
             }
             return;
         }
+        var canvas = Target.GetComponentInParent<Canvas>();
 
         var corners = GetScreenSpaceCorners(Target);
-        var left = corners[0].x;
-        var right = corners[2].x;
-        var bottom = corners[0].y;
-        var top = corners[2].y;
+        var left = corners[0].x / canvas.scaleFactor;
+        var right = corners[2].x / canvas.scaleFactor;
+        var bottom = corners[0].y / canvas.scaleFactor;
+        var top = corners[2].y / canvas.scaleFactor;
 
         var bLeft = Blockers[0];
         var bRight = Blockers[1];
         var bTop = Blockers[2];
         var bBottom = Blockers[3];
 
-        bLeft.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, left);
-        bLeft.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, Screen.height);
+        var width = Screen.width / canvas.scaleFactor;
+        var height = Screen.height / canvas.scaleFactor;
 
-        bRight.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, Screen.width - right);
-        bRight.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, Screen.height);
+        bLeft.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, left);
+        bLeft.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, height);
+
+        bRight.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, width - right);
+        bRight.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, height);
 
         bTop.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, left, right - left);
-        bTop.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, Screen.height - top);
+        bTop.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, height - top);
 
         bBottom.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, left, right - left);
         bBottom.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, bottom);

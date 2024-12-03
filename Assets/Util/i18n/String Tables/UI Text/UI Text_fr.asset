@@ -139,6 +139,10 @@ MonoBehaviour:
     m_Localized: "D\xE9bloquer plus de puzzles quotidiens"
     m_Metadata:
       m_Items: []
+  - m_Id: 6533887371268096
+    m_Localized: Fin du tutoriel
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

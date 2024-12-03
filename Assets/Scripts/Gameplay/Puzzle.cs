@@ -19,6 +19,8 @@ public class Puzzle : MonoBehaviour
     public event Action<Warp, Warp> WarpUntaken;
     public event Action UndoAvailable;
     public event Action UndoUnavailable;
+    public event Action UndoUsed;
+    public event Action ResetUsed;
     public event Action PuzzleCompleted;
 
     [Header("Prefabs")]
@@ -83,7 +85,7 @@ public class Puzzle : MonoBehaviour
 
     void Start()
     {
-        InitializePuzzle();
+        InitializePuzzle(manual: false);
 
         InputManager.Instance.Tap += OnTap;
         ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
@@ -350,10 +352,10 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    public void InitializePuzzle()
+    public void InitializePuzzle(bool manual)
     {
         Initialized = false;
-        ResetPuzzle();
+        ResetPuzzle(manual);
 
         var puzzleProvider = PuzzleProvider.Instance;
         if (!puzzleProvider)
@@ -660,7 +662,7 @@ public class Puzzle : MonoBehaviour
         }
     }
 
-    private void ResetPuzzle()
+    private void ResetPuzzle(bool manual)
     {
         if (Nodes != null)
         {
@@ -719,6 +721,10 @@ public class Puzzle : MonoBehaviour
 
         Grid.Clear();
         Completed = false;
+        if(manual)
+        {
+            ResetUsed?.Invoke();
+        }
     }
 
 	#region Undo
@@ -773,9 +779,10 @@ public class Puzzle : MonoBehaviour
 
 
         SetUndoState(-1, false, null);
+        UndoUsed?.Invoke();
     }
 
-    private void SetUndoState(int color)
+    public void SetUndoState(int color)
     {
         MultiLineRenderer existingPath = Paths.ContainsKey(color) ? Paths[color] : null;
         List<Vector3[]> existingPoints = null;
@@ -927,17 +934,21 @@ public class Puzzle : MonoBehaviour
 
     public bool SolveColor(int color)
     {
+        var solution = GetSolutionForColor(color);
+        return DrawPathForColor(color, solution);
+    }
+
+    public bool DrawPathForColor(int color, List<GridCell> cells)
+    {
         // Reset the state for this color
-        foreach(var node in NodesByColor[color])
+        foreach (var node in NodesByColor[color])
         {
             DeleteNodePath(node);
         }
         var nodeA = NodesByColor[color][0];
         var nodeB = NodesByColor[color][1];
 
-        var solution = GetSolutionForColor(color);
-        
-        if(solution.Count == 0)
+        if (cells is null || cells.Count == 0)
         {
             // Special case which is technically possible if the nodes are adjacent
             StartPathFromNode(nodeA);
@@ -949,8 +960,8 @@ public class Puzzle : MonoBehaviour
         }
 
         // Determine which node is our starting point
-        var solutionStart = solution.First();
-        var solutionEnd = solution.Last();
+        var solutionStart = cells.First();
+        var solutionEnd = cells.Last();
         var startA = solutionStart.Neighbors.Contains(nodeA.GridCell);
         var startB = solutionStart.Neighbors.Contains(nodeB.GridCell);
         var endA = solutionEnd.Neighbors.Contains(nodeA.GridCell);
@@ -960,13 +971,13 @@ public class Puzzle : MonoBehaviour
         GridCell start;
         GridCell end;
 
-        if(startA && endB)
+        if (startA && endB)
         {
             startNode = nodeA;
             start = nodeA.GridCell;
             end = nodeB.GridCell;
         }
-        else if(startB && endA)
+        else if (startB && endA)
         {
             startNode = nodeB;
             start = nodeB.GridCell;
@@ -978,13 +989,13 @@ public class Puzzle : MonoBehaviour
             return false;
         }
 
-        for(int i = 0; i < solution.Count; i++)
+        for (int i = 0; i < cells.Count; i++)
         {
-            var cell = solution[i];
-            if(WarpsByGridCell.ContainsKey(cell))
+            var cell = cells[i];
+            if (WarpsByGridCell.ContainsKey(cell))
             {
                 var warp = WarpsByGridCell[cell];
-                if(warp.Role != Warp.WarpRole.Open && warp.Color != color)
+                if (warp.Role != Warp.WarpRole.Open && warp.Color != color)
                 {
                     var source = warp.Role == Warp.WarpRole.Source ? warp : warp.PairedWarp;
                     var pathTrimPoint = source.PointDrawnInCell.Value;
@@ -1000,19 +1011,19 @@ public class Puzzle : MonoBehaviour
 
         var current = start;
         var next = 0;
-        while(next < solution.Count)
+        while (next < cells.Count)
         {
-            bool tookWarp = DrawPointsDetectingWarp(current, solution[next], color, path);
-            if(tookWarp)
+            bool tookWarp = DrawPointsDetectingWarp(current, cells[next], color, path);
+            if (tookWarp)
             {
                 path.StartNewLine();
                 next++;
             }
-            current = solution[next];
+            current = cells[next];
             next++;
         }
 
-        DrawPointsDetectingWarp(solution.Last(), end, color, path);
+        DrawPointsDetectingWarp(cells.Last(), end, color, path);
 
         var toTrim = GetPathColorsToTrimAfterHint(color);
         foreach (var tuple in toTrim)

@@ -49,10 +49,8 @@ MonoBehaviour:
   - Tutorial_2
   - Tutorial_3
   - Tutorial_4
-  - Tutorial_5
   TutorialInstructionPrefabs:
   - {fileID: 7938000407467786203, guid: d77e491265fbef0418c8fedd6653e2fa, type: 3}
   - {fileID: 7938000407467786203, guid: 549b978ede70862478fff6937a391c30, type: 3}
   - {fileID: 7938000407467786203, guid: 0c37d271f630fc549869ed1f7df47d87, type: 3}
-  - {fileID: 7938000407467786203, guid: 02bfb9242e073944ca71518b8b1dd950, type: 3}
   - {fileID: 7938000407467786203, guid: ce8f04ebbc6a77e4e95c3f79d2d034d9, type: 3}

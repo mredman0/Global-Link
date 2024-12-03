@@ -415,6 +415,7 @@ MonoBehaviour:
   Speed: 27
   MaxSpeed: 5
   Friction: 1
+  RotationSensitivity: 1
   AllowMomentumWithActiveNode: 1
   InputLocks: 0
   DoPuzzleCompleteSpin: 0
@@ -2537,7 +2538,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -2578,6 +2579,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Puzzle, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -3139,9 +3145,24 @@ PrefabInstance:
       objectReference: {fileID: 601003590338323296}
     - target: {fileID: 5839471924490034838, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
         type: 3}
+      propertyPath: LocalizeEndOfPackLoc
+      value: 
+      objectReference: {fileID: 2946386109539227865}
+    - target: {fileID: 5839471924490034838, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
+        type: 3}
       propertyPath: PuzzleCameraController
       value: 
       objectReference: {fileID: 2855318531089526206}
+    - target: {fileID: 5839471924490034838, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
+        type: 3}
+      propertyPath: EndOfTutorialText.m_TableEntryReference.m_KeyId
+      value: 6533887371268096
+      objectReference: {fileID: 0}
+    - target: {fileID: 5839471924490034838, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
+        type: 3}
+      propertyPath: EndOfTutorialText.m_TableReference.m_TableCollectionName
+      value: GUID:0f9102db8f7e5ec489dc09a590c5d9d4
+      objectReference: {fileID: 0}
     - target: {fileID: 7482429784697008013, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3282,6 +3303,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9febe66a5c4033148a9a4a0d6b6765c7, type: 3}
+--- !u!114 &2946386109539227865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9182608663697611862, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6308566040551212175}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4347769130723201555 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7771778776715728540, guid: 9febe66a5c4033148a9a4a0d6b6765c7,

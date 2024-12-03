@@ -8,8 +8,6 @@ public abstract class TutorialInstructionStep : MonoBehaviour
     public bool LockCameraInput;
     public bool LockPuzzleInput;
 
-    public List<int> SolveColorsOnShown;
-
     protected Puzzle Puzzle { get; set; }
 
     private void OnEnable()
@@ -26,7 +24,6 @@ public abstract class TutorialInstructionStep : MonoBehaviour
         {
             Puzzle.LockInput();
         }
-        SolveColors();
         OnShown();
     }
 
@@ -60,25 +57,13 @@ public abstract class TutorialInstructionStep : MonoBehaviour
     {
         if(ShouldGoToNextStep())
         {
-            if(Next)
+            gameObject.SetActive(false);
+            if (Next)
             {
                 Next.gameObject.SetActive(true);
             }
-            gameObject.SetActive(false);
         }
     }
 
     protected abstract bool ShouldGoToNextStep();
-
-    private void SolveColors()
-    {
-        if(!Puzzle)
-        {
-            return;
-        }
-        foreach(var color in SolveColorsOnShown)
-        {
-            Puzzle.SolveColor(color);
-        }
-    }
 }

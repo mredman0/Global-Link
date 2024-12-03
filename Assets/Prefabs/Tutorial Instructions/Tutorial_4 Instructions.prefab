@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5104258118227293631}
-  - component: {fileID: 1123691272206170677}
+  - component: {fileID: 1231067684232858153}
   m_Layer: 5
-  m_Name: Step 2
+  m_Name: Complete Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1123691272206170677
+--- !u!114 &1231067684232858153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,13 +46,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 2198716758849870012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308bb68c9f3920f4890c2df4cc45b06e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   LockCameraInput: 0
   LockPuzzleInput: 0
-  Color: -1
+  WaitForTap: 0
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 1
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!1 &3059423823101889067
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +133,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Waypoints do not allow other colors through.
+  m_text: 'Tunnels allow lines to cut through The ChromaSphere to get to another
+    part of the surface.
 
 
     (Tap to continue)'
@@ -256,7 +272,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Connect the Blue Chromas, going through the Waypoint.
+  m_text: The Walls completely block the path between these Red Chromas on the surface.
+    Draw a line to one of the Tunnel entrances.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -390,7 +407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Now connect the Red Chromas, going around the Blue Waypoint and the Walls.
+  m_text: Now connect the line to the other Chroma.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -468,9 +485,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942685002987515443}
-  - component: {fileID: 3205268170594798185}
+  - component: {fileID: 8220145189288872999}
   m_Layer: 5
-  m_Name: Step 1
+  m_Name: Draw to Tunnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -496,7 +513,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3205268170594798185
+--- !u!114 &8220145189288872999
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -505,13 +522,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6193456373413350317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308bb68c9f3920f4890c2df4cc45b06e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 1123691272206170677}
+  Next: {fileID: 1231067684232858153}
   LockCameraInput: 0
   LockPuzzleInput: 0
-  Color: -1
+  WaitForTap: 0
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 1
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!1 &7938000407467786203
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,11 +657,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3178099719346837618}
-  - component: {fileID: 8339371721045692197}
-  - component: {fileID: 7066956158968697737}
-  - component: {fileID: 1066628358217645765}
+  - component: {fileID: 8056964403689721336}
+  - component: {fileID: 1482848474239209862}
+  - component: {fileID: 4253418259016219093}
   m_Layer: 5
-  m_Name: Step 0
+  m_Name: Intro to Tunnels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -655,7 +687,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8339371721045692197
+--- !u!114 &8056964403689721336
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -664,16 +696,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 9163006425741140079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb4f1a014c9efa43b17f7e856dbd9d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 3205268170594798185}
+  Next: {fileID: 8220145189288872999}
   LockCameraInput: 1
   LockPuzzleInput: 1
-  StartupDelay: 0.2
+  WaitForTap: 1
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
   UIHighlighter: {fileID: 0}
   UIHighlightTargetName: 
---- !u!222 &7066956158968697737
+  EventHit: 0
+  StartTime: 0
+--- !u!222 &1482848474239209862
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -681,7 +726,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9163006425741140079}
   m_CullTransparentMesh: 1
---- !u!114 &1066628358217645765
+--- !u!114 &4253418259016219093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

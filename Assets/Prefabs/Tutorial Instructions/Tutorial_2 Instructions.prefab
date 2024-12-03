@@ -1,5 +1,82 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &798434648649164865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4578867723958730304}
+  - component: {fileID: 5021653118749779375}
+  - component: {fileID: 7036449522964495664}
+  m_Layer: 5
+  m_Name: Disconnect Bad Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &4578867723958730304
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798434648649164865}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3066920008626035371}
+  m_Father: {fileID: 7861230316575501346}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5021653118749779375
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798434648649164865}
+  m_CullTransparentMesh: 1
+--- !u!114 &7036449522964495664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798434648649164865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Next: {fileID: 5642121191949674586}
+  LockCameraInput: 0
+  LockPuzzleInput: 0
+  WaitForTap: 0
+  WaitForActiveNode: 1
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: 1
+  NodesConnectedColor: -1
+  WaypointColor: -1
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!1 &3059423823101889067
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,8 +280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select a Chroma that is not already solved, and draw a line navigating
-    around the walls and the existing line.
+  m_text: Use the available space within the walls to connect both colors.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -282,9 +358,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942685002987515443}
-  - component: {fileID: 8774849160771391284}
+  - component: {fileID: 5642121191949674586}
   m_Layer: 5
-  m_Name: Step 1
+  m_Name: Connect Both Colors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,7 +386,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8774849160771391284
+--- !u!114 &5642121191949674586
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -319,14 +395,164 @@ MonoBehaviour:
   m_GameObject: {fileID: 6193456373413350317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308bb68c9f3920f4890c2df4cc45b06e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Next: {fileID: 0}
   LockCameraInput: 0
   LockPuzzleInput: 0
-  SolveColorsOnShown: 
-  Color: -1
+  WaitForTap: 0
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 1
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
+  UIHighlighter: {fileID: 0}
+  UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
+--- !u!1 &7232446818141845539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3066920008626035371}
+  - component: {fileID: 3926356686757064918}
+  - component: {fileID: 4819956912943104947}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3066920008626035371
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7232446818141845539}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4578867723958730304}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 520}
+  m_SizeDelta: {x: 760, y: 360}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3926356686757064918
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7232446818141845539}
+  m_CullTransparentMesh: 1
+--- !u!114 &4819956912943104947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7232446818141845539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: One of these colors has completely blocked the other. To modify it, tap
+    one of those Chromas OR tap the line.
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0, type: 2}
+  m_sharedMaterial: {fileID: -8350771479540242031, guid: 4839fc7f4e8d1224a91e1a46b790e0f0,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 40
+  m_fontSizeBase: 40
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &7938000407467786203
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +586,7 @@ RectTransform:
   m_Children:
   - {fileID: 5310735327515591465}
   - {fileID: 3178099719346837618}
+  - {fileID: 4578867723958730304}
   - {fileID: 2942685002987515443}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -440,11 +667,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3178099719346837618}
-  - component: {fileID: 8339371721045692197}
+  - component: {fileID: 7453590532832487236}
   - component: {fileID: 7718873379094987955}
   - component: {fileID: 8889339022477776188}
+  - component: {fileID: 2978910001124639867}
   m_Layer: 5
-  m_Name: Step 0
+  m_Name: Intro To Blockages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,7 +698,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8339371721045692197
+--- !u!114 &7453590532832487236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -479,16 +707,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 9163006425741140079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb4f1a014c9efa43b17f7e856dbd9d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b3598eaeb85ef8458fb600e422b0fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Next: {fileID: 8774849160771391284}
+  Next: {fileID: 7036449522964495664}
   LockCameraInput: 1
   LockPuzzleInput: 1
-  SolveColorsOnShown: 00000000
-  StartupDelay: 0.2
+  WaitForTap: 1
+  WaitForActiveNode: 0
+  WaitForNodesConnected: 0
+  WaitForUndo: 0
+  WaitForReset: 0
+  WaitForWarpTaken: 0
+  WaitForWaypointReached: 0
+  WaitForPuzzleCompelete: 0
+  TapDelay: 0.2
+  ActiveNodeColor: -1
+  NodesConnectedColor: -1
+  WaypointColor: -1
   UIHighlighter: {fileID: 0}
   UIHighlightTargetName: 
+  EventHit: 0
+  StartTime: 0
 --- !u!222 &7718873379094987955
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -527,6 +767,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2978910001124639867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163006425741140079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48ba1ab4e379d84caab8b75e5198a68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorToConnectNaively: 1
 --- !u!1001 &5011255291875237291
 PrefabInstance:
   m_ObjectHideFlags: 0

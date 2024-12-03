@@ -138,6 +138,10 @@ MonoBehaviour:
     m_Localized: Unlock More Daily Puzzles
     m_Metadata:
       m_Items: []
+  - m_Id: 6533887371268096
+    m_Localized: End of Tutorial
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 public class PuzzleCompleteDialog : Dialog
 {
@@ -11,11 +13,18 @@ public class PuzzleCompleteDialog : Dialog
     public PuzzleLoader NextLevelLoader;
     public List<GameObject> ShowWithNextLevel;
     public List<GameObject> ShowWithNoNextLevel;
+    public LocalizeStringEvent LocalizeEndOfPackLoc;
+    public LocalizedString EndOfTutorialText;
 
     private void Start()
     {
         Puzzle.PuzzleCompleted += OnPuzzleCompleted;
         gameObject.SetActive(false);
+
+        if(PuzzleProvider.Instance && PuzzleProvider.Instance.PuzzleConfig && PuzzleProvider.Instance.PuzzleConfig.Pack == "Tutorial")
+        {
+            LocalizeEndOfPackLoc.StringReference = EndOfTutorialText;
+        }
 
         var nextLevel = GetNextLevelIfExists();
         if (nextLevel is null)
