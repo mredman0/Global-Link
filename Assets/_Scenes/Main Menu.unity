@@ -25921,8 +25921,11 @@ MonoBehaviour:
   iOSInterstitialAdUnitId: 
   AndroidRewardedHintAdUnitId: ae8qpvrglvywjwh0
   iOSRewardedHintAdUnitId: 
+  PuzzlesPerInterstitial: 2
+  RewardedHintAvailable: 0
   TestSuiteMode: 0
   DoValidation: 0
+  AllowAdsInDevelopmentBuild: 0
 --- !u!1 &1102744125
 GameObject:
   m_ObjectHideFlags: 0
@@ -73088,16 +73091,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2065497222053666878, guid: bc07514ad2891a4469fc7ef4238e0059,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.8862745
-      objectReference: {fileID: 0}
-    - target: {fileID: 4108312265661270986, guid: bc07514ad2891a4469fc7ef4238e0059,
-        type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8190355747665409458, guid: bc07514ad2891a4469fc7ef4238e0059,
         type: 3}

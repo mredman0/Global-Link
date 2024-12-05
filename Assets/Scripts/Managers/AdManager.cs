@@ -39,7 +39,9 @@ public class AdManager : MonoBehaviour
     [Header("Debug")]
     public bool TestSuiteMode;
     public bool DoValidation;
+    public bool AllowAdsInDevelopmentBuild;
 
+    private bool AllAdsDisabled = false;
     private string AppKey = null;
     private string BannerAdUnitId;
     private string InterstitialAdUnitId;
@@ -56,17 +58,14 @@ public class AdManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-#if UNITY_IOS
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+        AllAdsDisabled = !AllowAdsInDevelopmentBuild;
+#elif UNITY_IOS
         AppKey = iOSAppKey;
         BannerAdUnitId = iOSBannerAdUnitId;
         InterstitialAdUnitId = iOSInterstitialAdUnitId;
         RewardedHintAdUnitId = iOSRewardedHintAdUnitId;
 #elif UNITY_ANDROID
-        AppKey = AndroidAppKey;
-        BannerAdUnitId = AndroidBannerAdUnitId;
-        InterstitialAdUnitId = AndroidInterstitialAdUnitId;
-        RewardedHintAdUnitId = AndroidRewardedHintAdUnitId;
-#elif UNITY_EDITOR
         AppKey = AndroidAppKey;
         BannerAdUnitId = AndroidBannerAdUnitId;
         InterstitialAdUnitId = AndroidInterstitialAdUnitId;
@@ -130,7 +129,7 @@ public class AdManager : MonoBehaviour
     }
 
 
-    #region Banner
+#region Banner
     private LevelPlayBannerAd BannerAd;
 	private void InitBannerAd()
     {
@@ -156,9 +155,9 @@ public class AdManager : MonoBehaviour
     void BannerOnAdCollapsedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdCollapsedEvent"); }
     void BannerOnAdLeftApplicationEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLeftApplicationEvent"); }
     void BannerOnAdExpandedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdExpandedEvent"); }
-    #endregion
+#endregion
 
-    #region Interstitial
+#region Interstitial
     // Interstitial Ads being shown depends on how many puzzles have been opened
     private uint PuzzlesOpenedSinceLastInterstitial;
     public void PuzzleOpened()
@@ -170,6 +169,11 @@ public class AdManager : MonoBehaviour
     private LevelPlayInterstitialAd InterstitialAd;
     public bool LoadInterstitial()
     {
+        if(AllAdsDisabled)
+        {
+            Debug.Log("Not loading Interstitial Ad: all ads are disabled");
+            return false;
+        }
         if(InterstitialAd != null)
         {
             Debug.Log("Not loading Interstitial Ad: ad already loaded and not yet destroyed");
@@ -197,7 +201,12 @@ public class AdManager : MonoBehaviour
 
     public bool ShowInterstitial()
     {
-        if(!OpenedEnoughPuzzlesForInterstitial())
+        if (AllAdsDisabled)
+        {
+            Debug.Log("Interstitial Ad not shown: all ads are disabled");
+            return false;
+        }
+        if (!OpenedEnoughPuzzlesForInterstitial())
         {
             Debug.Log("Interstitial Ad not shown: not enough puzzles opened since previous Interstitial Ad");
             return false;
@@ -257,12 +266,17 @@ public class AdManager : MonoBehaviour
     void InterstitialOnAdInfoChangedEvent(LevelPlayAdInfo adInfo)
     {
     }
-    #endregion
+#endregion
 
-    #region Rewarded Hint
+#region Rewarded Hint
     private LevelPlayRewardedAd RewardedHintAd;
     public bool LoadRewardedHint()
     {
+        if (AllAdsDisabled)
+        {
+            Debug.Log("Not loading Rewarded Hint Ad: all ads are disabled");
+            return false;
+        }
         if (RewardedHintAd != null)
         {
             return false;
@@ -283,6 +297,11 @@ public class AdManager : MonoBehaviour
     }
     public bool ShowRewardedHint()
     {
+        if (AllAdsDisabled)
+        {
+            Debug.Log("Not showing Rewarded Hint Ad: all ads are disabled");
+            return false;
+        }
         if (!RewardedHintAd.IsAdReady())
         {
             return false;
@@ -345,5 +364,5 @@ public class AdManager : MonoBehaviour
         }
         AdRewarded?.Invoke(reward.Name, reward.Amount);
     }
-    #endregion
+#endregion
 }
