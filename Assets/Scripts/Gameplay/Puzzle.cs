@@ -85,6 +85,12 @@ public class Puzzle : MonoBehaviour
 
     void Start()
     {
+        // Handle a bit of ad related stuff
+        AdManager.Instance.PuzzleOpened();
+        AdManager.Instance.LoadInterstitial();
+        AdManager.Instance.LoadRewardedHint();
+
+
         InitializePuzzle(manual: false);
 
         InputManager.Instance.Tap += OnTap;
@@ -97,6 +103,16 @@ public class Puzzle : MonoBehaviour
             if(tutorialInstructions)
             {
                 Instantiate(tutorialInstructions);
+            }
+
+            // Disable interstitial ads for the tutorial
+            foreach (var sceneLoader in FindObjectsOfType<SceneLoader>(includeInactive: true))
+            {
+                sceneLoader.AllowInterstitial = false;
+            }
+            foreach (var puzzleLoader in FindObjectsOfType<PuzzleLoader>(includeInactive: true))
+            {
+                puzzleLoader.AllowInterstitial = false;
             }
         }
     }

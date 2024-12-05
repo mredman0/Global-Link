@@ -6,15 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [Header("Settings")]
     public string DefaultSceneToLoad;
     public bool Additive = false;
+    public bool AllowInterstitial;
+
+    private string SceneToLoad;
 
     public void LoadScene(string name = "")
     {
-        if(string.IsNullOrWhiteSpace(name))
+        SceneToLoad = string.IsNullOrWhiteSpace(name) ? DefaultSceneToLoad : name;
+        if (AllowInterstitial)
         {
-            name = DefaultSceneToLoad;
+            AdManager.Instance.InterstitialClosed += DoLoad;
+            if (!AdManager.Instance.ShowInterstitial())
+            {
+                AdManager.Instance.InterstitialClosed -= DoLoad;
+                DoLoad();
+            }
+            return;
         }
-        Addressables.LoadSceneAsync(name, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+        DoLoad();
+    }
+
+    private void DoLoad()
+    {
+        if(AllowInterstitial)
+        {
+            AdManager.Instance.InterstitialClosed -= DoLoad;
+        }
+        Addressables.LoadSceneAsync(SceneToLoad, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
     }
 }

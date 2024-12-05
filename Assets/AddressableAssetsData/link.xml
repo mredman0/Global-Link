@@ -1,8 +1,8 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="AdForHint" preserve="all" />
+    <type fullname="AdManager" preserve="all" />
     <type fullname="AudioManager" preserve="all" />
-    <type fullname="BannerAdManager" preserve="all" />
     <type fullname="CameraController" preserve="all" />
     <type fullname="ColorManager" preserve="all" />
     <type fullname="ColorScheme" preserve="all" />
@@ -136,6 +136,7 @@
     <type fullname="UnityEngine.Mesh" preserve="all" />
     <type fullname="UnityEngine.MeshFilter" preserve="all" />
     <type fullname="UnityEngine.MeshRenderer" preserve="all" />
+    <type fullname="UnityEngine.MonoBehaviour" preserve="all" />
     <type fullname="UnityEngine.Object" preserve="all" />
     <type fullname="UnityEngine.RectTransform" preserve="all" />
     <type fullname="UnityEngine.RenderSettings" preserve="all" />

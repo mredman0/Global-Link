@@ -3002,7 +3002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772f4cc8dc7b49e42a53b3e22c29ae60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HintsToReward: 1
+  Button: {fileID: 6826074690896641466}
 --- !u!114 &4246427115109698425 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -889333942538753945, guid: e719283863035914c8750afc0189e1a3,
@@ -3013,6 +3013,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67cae1524a3cafa46a5c26771aa88aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6826074690896641466 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5279948895507768094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2457230453151133047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6308566040551212175
@@ -3077,6 +3089,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2041090386663776400, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
+        type: 3}
+      propertyPath: AllowInterstitial
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3826058093693681136, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
         type: 3}
@@ -3288,6 +3305,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9007931908348047433, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
+        type: 3}
+      propertyPath: AllowInterstitial
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9066721100824290417, guid: 9febe66a5c4033148a9a4a0d6b6765c7,
         type: 3}
       propertyPath: m_Name
@@ -3372,7 +3394,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -3383,7 +3405,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 6248192599896897133}
+      objectReference: {fileID: 283445176435945896}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -3402,7 +3424,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: GoBack
+      value: LoadScene
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -3412,7 +3434,7 @@ PrefabInstance:
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: PuzzleUIController, Assembly-CSharp
+      value: SceneLoader, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1728594216945802916, guid: e719283863035914c8750afc0189e1a3,
         type: 3}
@@ -3573,7 +3595,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7737170552555343465, guid: e719283863035914c8750afc0189e1a3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 283445176435945896}
   m_SourcePrefab: {fileID: 100100000, guid: e719283863035914c8750afc0189e1a3, type: 3}
 --- !u!224 &1151388940479870510 stripped
 RectTransform:
@@ -3587,12 +3613,33 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6486484647321559303}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3556556128970927982}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67cae1524a3cafa46a5c26771aa88aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3556556128970927982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7737170552555343465, guid: e719283863035914c8750afc0189e1a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6486484647321559303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &283445176435945896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3556556128970927982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e422660d08e09d44bb1a03cbe73b9a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultSceneToLoad: Main Menu
+  Additive: 0
+  AllowInterstitial: 1
 --- !u!1001 &6584745596347527640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3859,6 +3906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PuzzlePack: 
   PuzzleIdInPack: 
+  AllowInterstitial: 1
 --- !u!1001 &6637795315062053743
 PrefabInstance:
   m_ObjectHideFlags: 0
