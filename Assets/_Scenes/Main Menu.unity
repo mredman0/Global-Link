@@ -25922,6 +25922,7 @@ MonoBehaviour:
   AndroidRewardedHintAdUnitId: ae8qpvrglvywjwh0
   iOSRewardedHintAdUnitId: 
   PuzzlesPerInterstitial: 2
+  RetryLoadInterstitialDelay: 185
   RewardedHintAvailable: 0
   TestSuiteMode: 0
   DoValidation: 0

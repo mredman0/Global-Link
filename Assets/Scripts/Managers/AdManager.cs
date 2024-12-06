@@ -32,6 +32,7 @@ public class AdManager : MonoBehaviour
 
     [Header("Interstitial Settings")]
     public uint PuzzlesPerInterstitial = 2;
+    public float RetryLoadInterstitialDelay;
 
     [Header("State")]
     public bool RewardedHintAvailable;
@@ -60,6 +61,13 @@ public class AdManager : MonoBehaviour
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         AllAdsDisabled = !AllowAdsInDevelopmentBuild;
+        if(!AllAdsDisabled)
+        {
+            AppKey = AndroidAppKey;
+            BannerAdUnitId = AndroidBannerAdUnitId;
+            InterstitialAdUnitId = AndroidInterstitialAdUnitId;
+            RewardedHintAdUnitId = AndroidRewardedHintAdUnitId;
+        }
 #elif UNITY_IOS
         AppKey = iOSAppKey;
         BannerAdUnitId = iOSBannerAdUnitId;
@@ -181,7 +189,8 @@ public class AdManager : MonoBehaviour
         }
         if (LevelPlayInterstitialAd.IsPlacementCapped("Level_Complete"))
         {
-            Debug.Log("Not loading Interstitial Ad: placement capped");
+            Debug.Log($"Not loading Interstitial Ad: placement capped, will check again in {RetryLoadInterstitialDelay} seconds");
+            StartCoroutine(RetryLoadInterstitialAfterDelay());
             return false;
         }
 
@@ -265,6 +274,13 @@ public class AdManager : MonoBehaviour
 
     void InterstitialOnAdInfoChangedEvent(LevelPlayAdInfo adInfo)
     {
+    }
+
+    private IEnumerator RetryLoadInterstitialAfterDelay()
+    {
+        yield return new WaitForSeconds(RetryLoadInterstitialDelay);
+        Debug.Log($"Retrying to load Interstitial Ad after {RetryLoadInterstitialDelay} second delay");
+        LoadInterstitial();
     }
 #endregion
 
