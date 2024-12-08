@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class Build
 {
-    public const string ADB_PATH = @"C:\Program Files\Unity\Hub\Editor\2022.3.28f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\adb.exe";
-
     private static string[] scenes = new string[]
     {
         "Assets/_Scenes/Main Menu.unity",
@@ -19,9 +17,9 @@ public class Build
     };
 
     #region Build Actions
-    [MenuItem("Build/Build - Windows DEV")]
+    [MenuItem("Build/Windows/Build DEV")]
     public static void BuildWindowsDev() => BuildWindows(dev: true);
-    [MenuItem("Build/Build - Windows RELEASE")]
+    [MenuItem("Build/Windows/Build RELEASE")]
     public static void BuildWindowsRelease() => BuildWindows(dev: false);
     private static void BuildWindows(bool dev)
     {
@@ -43,9 +41,9 @@ public class Build
     }
 
 
-    [MenuItem("Build/Build+Run - Android DEV")]
+    [MenuItem("Build/Android/Build+Run DEV")]
     public static void BuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true);
-    [MenuItem("Build/Build+Run - Android RELEASE")]
+    [MenuItem("Build/Android/Build+Run RELEASE")]
     public static void BuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false);
     public static void BuildAndRunAndroid(bool dev)
     {
@@ -75,7 +73,7 @@ public class Build
         DeployToDevice(apkPath);
     }
 
-    [MenuItem("Build/Run - Android")]
+    [MenuItem("Build/Android/Run")]
     public static void RunAndroid()
     {
         string packageName = "com.RedPrismGames.ChromaSphere";
@@ -87,7 +85,7 @@ public class Build
 	private static bool IsDeviceConnected()
     {
         Process process = new Process();
-        process.StartInfo.FileName = ADB_PATH;
+        process.StartInfo.FileName = DevUtil.GetADBPath();
         process.StartInfo.Arguments = "devices";
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
@@ -112,7 +110,7 @@ public class Build
 
         // Execute ADB install command
         Process process = new Process();
-        process.StartInfo.FileName = ADB_PATH;
+        process.StartInfo.FileName = DevUtil.GetADBPath();
         process.StartInfo.Arguments = "install -r \"" + apkPath + "\""; // -r for reinstalling
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
@@ -141,7 +139,7 @@ public class Build
     private static void LaunchApp(string packageName)
     {
         Process process = new Process();
-        process.StartInfo.FileName = ADB_PATH;
+        process.StartInfo.FileName = DevUtil.GetADBPath();
         process.StartInfo.Arguments = $"shell am start -n {packageName}/com.unity3d.player.UnityPlayerActivity";
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
@@ -163,9 +161,91 @@ public class Build
             UnityEngine.Debug.Log("App launched successfully!");
         }
     }
-	#endregion
+    #endregion
 
-	private static void _Build(BuildPlayerOptions options) => BuildPipeline.BuildPlayer(options);
+    #region Build Player Target Actions
+    private const string PLAYER_MENU_PATH = "Build/_Player/";
+
+    [MenuItem(PLAYER_MENU_PATH + "Dedicated Server")]
+    public static void SelectDedicatedServer()
+    {
+        SetBuildTarget(BuildTarget.StandaloneWindows64, BuildTargetGroup.Standalone, true);
+    }
+
+    [MenuItem(PLAYER_MENU_PATH + "Windows")]
+    public static void SelectWindows()
+    {
+        SetBuildTarget(BuildTarget.StandaloneWindows, BuildTargetGroup.Standalone, false);
+    }
+
+    [MenuItem(PLAYER_MENU_PATH + "Android")]
+    public static void SelectAndroid()
+    {
+        SetBuildTarget(BuildTarget.Android, BuildTargetGroup.Android);
+    }
+
+    [MenuItem(PLAYER_MENU_PATH + "iOS")]
+    public static void SelectiOS()
+    {
+        SetBuildTarget(BuildTarget.iOS, BuildTargetGroup.iOS);
+    }
+
+    // Helper method to set build target and build group
+    private static void SetBuildTarget(BuildTarget target, BuildTargetGroup group, bool isServer = false)
+    {
+        if (EditorUserBuildSettings.activeBuildTarget != target)
+        {
+            EditorUserBuildSettings.SwitchActiveBuildTarget(group, target);
+        }
+
+        // Handle Dedicated Server specifics (if applicable)
+        if (isServer)
+        {
+            EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
+        }
+    }
+
+    // Validate menu options to show a checkmark if the target is active
+    [MenuItem(PLAYER_MENU_PATH + "Dedicated Server", true)]
+    public static bool ValidateDedicatedServer()
+    {
+        return ValidateBuildTarget(BuildTarget.StandaloneWindows64, BuildTargetGroup.Standalone, true);
+    }
+
+    [MenuItem(PLAYER_MENU_PATH + "Windows", true)]
+    public static bool ValidateWindows()
+    {
+        return ValidateBuildTarget(BuildTarget.StandaloneWindows, BuildTargetGroup.Standalone, false);
+    }
+
+    [MenuItem(PLAYER_MENU_PATH + "Android", true)]
+    public static bool ValidateAndroid()
+    {
+        return ValidateBuildTarget(BuildTarget.Android, BuildTargetGroup.Android);
+    }
+
+    [MenuItem(PLAYER_MENU_PATH + "iOS", true)]
+    public static bool ValidateiOS()
+    {
+        return ValidateBuildTarget(BuildTarget.iOS, BuildTargetGroup.iOS);
+    }
+
+    // Helper method to validate the current target
+    private static bool ValidateBuildTarget(BuildTarget target, BuildTargetGroup group, bool isServer = false)
+    {
+        bool isActive = EditorUserBuildSettings.activeBuildTarget == target;
+
+        if (target == BuildTarget.StandaloneWindows64 && isServer)
+        {
+            isActive &= EditorUserBuildSettings.standaloneBuildSubtarget == StandaloneBuildSubtarget.Server;
+        }
+
+        Menu.SetChecked(PLAYER_MENU_PATH + (isServer ? "Dedicated Server" : target.ToString()), isActive);
+        return true; // Always return true to keep the menu enabled
+    }
+    #endregion
+
+    private static void _Build(BuildPlayerOptions options) => BuildPipeline.BuildPlayer(options);
 }
 
 public class IPInputWindow : EditorWindow
@@ -205,7 +285,7 @@ public class IPInputWindow : EditorWindow
     private static void ConnectToDevice(string ipAddress)
     {
         Process process = new Process();
-        process.StartInfo.FileName = Build.ADB_PATH;
+        process.StartInfo.FileName = DevUtil.GetADBPath();
         process.StartInfo.Arguments = "connect " + ipAddress;
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
