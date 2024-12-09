@@ -20,7 +20,16 @@ MonoBehaviour:
   - m_GUID: 29639076cc218144d997e5fb0cf5a856
     m_Address: Dev
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Client
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 00c525eae12106245b5d8520d4ede142
+    m_Address: Puzzle Builder
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Client
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1fd48023c694cc7478d3fb82d6fc52a4, type: 2}

@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Build
 {
+    private const string ANDROID_PACKAGE_NAME = "com.redprismgames.chromasphere";
     private static string[] scenes = new string[]
     {
-        "Assets/_Scenes/Main Menu.unity",
-        "Assets/_Scenes/Settings.unity",
-        "Assets/_Scenes/Store.unity",
-        "Assets/_Scenes/Puzzle.unity",
+        "Assets/_Scenes/Init.unity",
     };
 
     #region Build Actions
@@ -21,8 +21,14 @@ public class Build
     public static void BuildWindowsDev() => BuildWindows(dev: true);
     [MenuItem("Build/Windows/Build RELEASE")]
     public static void BuildWindowsRelease() => BuildWindows(dev: false);
-    private static void BuildWindows(bool dev)
+    [MenuItem("Build/Windows/Clean Build DEV")]
+    public static void CleanBuildWindowsDev() => BuildWindows(dev: true, clean: true);
+    [MenuItem("Build/Windows/Clean Build RELEASE")]
+    public static void CleanBuildWindowsRelease() => BuildWindows(dev: false, clean: true);
+    private static void BuildWindows(bool dev, bool clean = false)
     {
+        SelectWindows(); // Make sure we're in Windows Standalone player mode
+
         var buildOptions = BuildOptions.None;
         if(dev)
         {
@@ -32,12 +38,52 @@ public class Build
         var options = new BuildPlayerOptions()
         {
             scenes = scenes,
-            locationPathName = "Builds/Windows/Global Link.exe",
+            locationPathName = "Builds/Windows/ChromaSphere.exe",
             target = BuildTarget.StandaloneWindows,
             options = buildOptions
         };
 
-        _Build(options);
+        _Build(options, isDedicatedServer: false, clean);
+    }
+
+
+    [MenuItem("Build/Server/Build DEV")]
+    public static void BuildServerDev() => BuildServer(dev: true);
+    [MenuItem("Build/Server/Build RELEASE")]
+    public static void BuildServerRelease() => BuildServer(dev: false);
+    [MenuItem("Build/Server/Clean Build DEV")]
+    public static void CleanBuildServerDev() => BuildServer(dev: true, clean: true);
+    [MenuItem("Build/Server/Clean Build RELEASE")]
+    public static void CleanBuildServerRelease() => BuildServer(dev: false, clean: true);
+    private static void BuildServer(bool dev, bool clean = false)
+    {
+        SelectDedicatedServer(); // Make sure we're in Dedicated Server player mode
+
+        var buildOptions = BuildOptions.None;
+        if (dev)
+        {
+            buildOptions |= BuildOptions.Development;
+        }
+
+        var options = new BuildPlayerOptions()
+        {
+            scenes = scenes,
+            locationPathName = "Builds/Server/ChromaSphere_Server.exe",
+            target = BuildTarget.StandaloneWindows64,
+            subtarget = (int)StandaloneBuildSubtarget.Server,
+            options = buildOptions
+        };
+
+        var success = _Build(options, isDedicatedServer: true, clean);
+        if(success)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Path.Combine(Directory.GetCurrentDirectory(), "Builds/Server/"),
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }
     }
 
 
@@ -45,19 +91,24 @@ public class Build
     public static void BuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true);
     [MenuItem("Build/Android/Build+Run RELEASE")]
     public static void BuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false);
-    public static void BuildAndRunAndroid(bool dev)
+    [MenuItem("Build/Android/Clean Build+Run DEV")]
+    public static void CleanBuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: true);
+    [MenuItem("Build/Android/Clean Build+Run RELEASE")]
+    public static void CleanBuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true);
+    public static void BuildAndRunAndroid(bool dev, bool clean = false)
     {
+        if (!Android_IsDeviceConnected())
+        {
+            Debug.LogError("No Android device detected. Connect a device first");
+            return;
+        }
+
+        SelectAndroid(); // Make sure we're in Android player mode
+
         var buildOptions = BuildOptions.None;
         if (dev)
         {
             buildOptions |= BuildOptions.Development;
-        }
-
-        // Check for connected devices
-        if (!IsDeviceConnected())
-        {
-            IPInputWindow.ShowWindow();
-            return;
         }
 
         var apkPath = "Builds/Android/ChromaSphere.apk";
@@ -69,20 +120,33 @@ public class Build
             options = buildOptions
         };
 
-        _Build(options);
-        DeployToDevice(apkPath);
+        var success = _Build(options, isDedicatedServer: false, clean);
+        if(!success)
+        {
+            return;
+        }
+        success = Android_DeployToDevice(apkPath);
+        if(!success)
+        {
+            return;
+        }
+        Android_LaunchApp(ANDROID_PACKAGE_NAME);
     }
 
     [MenuItem("Build/Android/Run")]
     public static void RunAndroid()
     {
-        string packageName = "com.RedPrismGames.ChromaSphere";
-        LaunchApp(packageName);
+        if (!Android_IsDeviceConnected())
+        {
+            Debug.LogError("No Android device detected. Connect a device first");
+            return;
+        }
+        Android_LaunchApp(ANDROID_PACKAGE_NAME);
     }
 	#endregion
 
 	#region Android Helper Functions
-	private static bool IsDeviceConnected()
+	private static bool Android_IsDeviceConnected()
     {
         Process process = new Process();
         process.StartInfo.FileName = DevUtil.GetADBPath();
@@ -99,13 +163,13 @@ public class Build
         return output.Contains("device ") || output.Contains("device\n") || output.Contains("device\r");
     }
 
-    private static void DeployToDevice(string apkPath)
+    private static bool Android_DeployToDevice(string apkPath)
     {
         // Make sure the APK path exists
         if (!File.Exists(apkPath))
         {
-            UnityEngine.Debug.LogError("APK not found: " + apkPath);
-            return;
+            Debug.LogError("APK not found: " + apkPath);
+            return false;
         }
 
         // Execute ADB install command
@@ -122,21 +186,18 @@ public class Build
         string error = process.StandardError.ReadToEnd();
         process.WaitForExit();
 
-        UnityEngine.Debug.Log("ADB Output: " + output);
+        Debug.Log("ADB Output: " + output);
         if (!string.IsNullOrEmpty(error))
         {
-            UnityEngine.Debug.LogError("ADB Error: " + error);
+            Debug.LogError("ADB Error: " + error);
+            return false;
         }
-        else
-        {
-            UnityEngine.Debug.Log("Deployment successful!");
 
-            string packageName = "com.RedPrismGames.ChromaSphere";
-            LaunchApp(packageName);
-        }
+        Debug.Log("Deployment successful!");
+        return true;
     }
 
-    private static void LaunchApp(string packageName)
+    private static void Android_LaunchApp(string packageName)
     {
         Process process = new Process();
         process.StartInfo.FileName = DevUtil.GetADBPath();
@@ -151,14 +212,14 @@ public class Build
         string error = process.StandardError.ReadToEnd();
         process.WaitForExit();
 
-        UnityEngine.Debug.Log("Launch Output: " + output);
+        Debug.Log("Launch Output: " + output);
         if (!string.IsNullOrEmpty(error))
         {
-            UnityEngine.Debug.LogError("Launch Error: " + error);
+            Debug.LogError("Launch Error: " + error);
         }
         else
         {
-            UnityEngine.Debug.Log("App launched successfully!");
+            Debug.Log("App launched successfully!");
         }
     }
     #endregion
@@ -203,6 +264,10 @@ public class Build
         {
             EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
         }
+        else
+        {
+            EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Player;
+        }
     }
 
     // Validate menu options to show a checkmark if the target is active
@@ -245,7 +310,24 @@ public class Build
     }
     #endregion
 
-    private static void _Build(BuildPlayerOptions options) => BuildPipeline.BuildPlayer(options);
+    private static bool _Build(BuildPlayerOptions options, bool isDedicatedServer, bool cleanBuild)
+    {
+        if (cleanBuild)
+        {
+            options.options |= BuildOptions.CleanBuildCache;
+
+            var pathParts = options.locationPathName.Split('/');
+            var directory = Path.Combine(pathParts.Take(pathParts.Length - 1).ToArray());
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, true);
+            }
+            Directory.CreateDirectory(directory);
+        }
+        CustomAddressablesBuild.ConfigureAddressables(isDedicatedServer);
+        var report = BuildPipeline.BuildPlayer(options);
+        return report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded;
+    }
 }
 
 public class IPInputWindow : EditorWindow
@@ -297,14 +379,14 @@ public class IPInputWindow : EditorWindow
         string error = process.StandardError.ReadToEnd();
         process.WaitForExit();
 
-        UnityEngine.Debug.Log("Connection Output: " + output);
+        Debug.Log("Connection Output: " + output);
         if (!string.IsNullOrEmpty(error))
         {
-            UnityEngine.Debug.LogError("Connection Error: " + error);
+            Debug.LogError("Connection Error: " + error);
         }
         else
         {
-            UnityEngine.Debug.Log("Connected to device: " + ipAddress);
+            Debug.Log("Connected to device: " + ipAddress);
         }
     }
 }

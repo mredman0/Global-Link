@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Default Client
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Default Client
   m_Data:
     m_SerializedData: []
   m_GUID: cb1942d65badd8f48a90fdd547e01764
@@ -20,32 +20,38 @@ MonoBehaviour:
   - m_GUID: bebcfe7fd4d1ca44db3b1bec1081ed1f
     m_Address: Main Menu
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a649cc7242473dc4e9b58ef5fbbf218b
     m_Address: Puzzle
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: da4da7bcef455b446a99494985b6ec1e
     m_Address: Audio
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5efdc5eca3d500148b6a96ad7dc3cd8a
     m_Address: ColorSchemes/Cool
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a900efed7834cd94d96c641aa20b5032
     m_Address: ColorSchemes/Default
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d43db6b7f61dc44fbb71ef90b980876
     m_Address: ColorSchemes/Hot
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1fd48023c694cc7478d3fb82d6fc52a4, type: 2}
