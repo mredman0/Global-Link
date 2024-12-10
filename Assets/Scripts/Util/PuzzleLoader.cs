@@ -35,7 +35,7 @@ public class PuzzleLoader : MonoBehaviour
 
 		if(PuzzlePack == "Daily")
 		{
-			PuzzleConfig = DailyPuzzleManager.Instance.DailyPuzzles[PuzzleIdInPack];
+			PuzzleConfig = DailyPuzzleManager.Instance.GetPuzzle(PuzzleIdInPack);
 		}
 		else
 		{

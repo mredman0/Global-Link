@@ -21,10 +21,11 @@ public class DailyPuzzleManager : MonoBehaviour
     public ushort FetchPuzzlesPort = 35611;
     public string FetchPuzzlesPath = "Puzzles/Daily";
     public bool UseCache = false;
-
+    
     [Header("State")]
     public bool PuzzlesAreReady = false;
-    public Dictionary<string, PuzzleConfig> DailyPuzzles;
+    public PuzzleConfig[] DailyPuzzles;
+    public Dictionary<string, List<int>> PuzzleGroups;
 
     // Start is called before the first frame update
     void Start()
@@ -143,24 +144,63 @@ public class DailyPuzzleManager : MonoBehaviour
         {
             return;
         }
-        DailyPuzzles = new Dictionary<string, PuzzleConfig>();
-        foreach (var config in payload.Puzzles.Select(p => PuzzleConfigPayload.ToPuzzleConfig(p)))
+        var orderedPayload = payload.Puzzles.OrderBy(p =>
         {
-            DailyPuzzles.Add(config.Id, config);
+            if(!int.TryParse(p.Id, out int idInt))
+            {
+                return int.MaxValue;
+            }
+            return idInt;
+        });
+        DailyPuzzles = orderedPayload.Select(p => PuzzleConfigPayload.ToPuzzleConfig(p)).ToArray();
+        PuzzleGroups = new Dictionary<string, List<int>>();
+        foreach(var p in orderedPayload)
+        {
+            if(!int.TryParse(p.Id, out int idInt))
+            {
+                continue;
+            }
+            if(!PuzzleGroups.ContainsKey(p.DailyPuzzleGroup))
+            {
+                PuzzleGroups.Add(p.DailyPuzzleGroup, new List<int>());
+            }
+            PuzzleGroups[p.DailyPuzzleGroup].Add(idInt);
         }
         PuzzlesAreReady = true;
         DailyPuzzlesReady?.Invoke();
     }
 
-    public bool IsPuzzleAvailable(string id) =>
-        DailyPuzzles.ContainsKey(id) && DailyPuzzles[id].NodeColors != null && DailyPuzzles[id].NodeColors.Any();
+    public PuzzleConfig GetPuzzle(string id)
+    {
+        if (!int.TryParse(id, out int idInt))
+        {
+            return null;
+        }
+        return GetPuzzle(idInt);
+    }
+
+    public PuzzleConfig GetPuzzle(int id) => id - 1 >= 0 && id - 1 < DailyPuzzles.Length ?
+        DailyPuzzles[id - 1] : null;
+
+    public bool IsPuzzleAvailable(string id)
+    {
+        if(!int.TryParse(id, out int idInt))
+        {
+            return false;
+        }
+        return IsPuzzleAvailable(idInt);
+    }
+
+    // Puzzle 1 is stored in index 0
+    public bool IsPuzzleAvailable(int id) => id-1 >= 0 && id-1 < DailyPuzzles.Length &&
+        DailyPuzzles[id-1].NodeColors != null && DailyPuzzles[id-1].NodeColors.Any();
 
     public string GetNextAvailablePuzzleId(string current)
     {
         if(int.TryParse(current, out int idAsInt))
         {
             idAsInt++;
-            while(idAsInt <= DailyPuzzles.Count)
+            while(idAsInt <= DailyPuzzles.Length)
             {
                 if(IsPuzzleAvailable(idAsInt.ToString()))
                 {
