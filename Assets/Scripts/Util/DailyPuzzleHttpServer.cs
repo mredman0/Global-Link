@@ -110,6 +110,9 @@ public class DailyPuzzleHttpServer : MonoBehaviour
         if(userId != null && userId.Contains("WITH_PURCHASE"))
         {
             puzzleAvailabilityKeys.Add(1);
+            puzzleAvailabilityKeys.Add(2);
+            puzzleAvailabilityKeys.Add(3);
+            puzzleAvailabilityKeys.Add(4);
         }
 
         var requestedDateStr = context.Request.Headers.Get("Request-Date") ?? "";
