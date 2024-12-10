@@ -10,6 +10,8 @@ public class DailyPuzzleManager : MonoBehaviour
 {
     public static DailyPuzzleManager Instance;
 
+    public const string REQUEST_DATE_FORMAT = "yyyy-MM-dd";
+
     public event Action DailyPuzzlesReady;
     public event Action<string> DailyPuzzleFetchFailed;
 
@@ -77,6 +79,8 @@ public class DailyPuzzleManager : MonoBehaviour
 
         // TODO populate user-id header with unique user identifier to verify purchase state server-side
         request.SetRequestHeader("User-Id", Debug.isDebugBuild ? "PLACEHOLDER_WITH_PURCHASE" : "PLACEHOLDER");
+
+        request.SetRequestHeader("Request-Date", DateTime.Now.ToString(REQUEST_DATE_FORMAT));
 
         // Send the GET request
         yield return request.SendWebRequest();
@@ -174,15 +178,18 @@ public class PuzzlesPayload
 {
     public PuzzleConfigPayload[] Puzzles;
 
-    public PuzzlesPayload(List<PuzzleConfig> puzzles)
+    public PuzzlesPayload(List<PuzzleConfigPayload> puzzles)
     {
-        Puzzles = puzzles.Select(c => new PuzzleConfigPayload(c)).ToArray();
+        Puzzles = puzzles.ToArray();
     }
 }
 
 [Serializable]
 public class PuzzleConfigPayload
 {
+    [Header("Daily Puzzle Extra Data")]
+    public string DailyPuzzleGroup;
+
     [Header("Metadata")]
     public string Pack;
     public string Id;
@@ -213,6 +220,8 @@ public class PuzzleConfigPayload
     public Quaternion CameraArmStart;
     public float CameraDistance;
     public float CameraFoV;
+
+    public PuzzleConfigPayload() { }
 
     public PuzzleConfigPayload(PuzzleConfig c)
     {

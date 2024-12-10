@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -111,9 +112,28 @@ public class DailyPuzzleHttpServer : MonoBehaviour
             puzzleAvailabilityKeys.Add(1);
         }
 
-        var puzzleList = DailyPuzzleGenManager.Instance.GetDailyPuzzles(dateTime: DateTime.Now, puzzleAvailabilityKeys);
+        var requestedDateStr = context.Request.Headers.Get("Request-Date") ?? "";
+        var couldParse = DateTime.TryParseExact(requestedDateStr, DailyPuzzleManager.REQUEST_DATE_FORMAT,
+            CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime requestedDate);
+        if(!couldParse ||
+            requestedDate.Date < DateTime.Today.Date.AddDays(-1) || requestedDate.Date > DateTime.Today.Date.AddDays(1))
+        {
+            requestedDate = DateTime.Today;
+        }
+
+        var puzzleList = DailyPuzzleGenManager.Instance.GetDailyPuzzles(dateTime: requestedDate, puzzleAvailabilityKeys);
         RespondWithJson(context, new PuzzlesPayload(puzzleList));
-        Debug.Log($"Served daily puzzles for {userId}");
+
+        var dayStr = "today's";
+        if(requestedDate.Date == DateTime.Today.Date.AddDays(-1))
+        {
+            dayStr = "yesterday's";
+        }
+        else if(requestedDate.Date == DateTime.Today.Date.AddDays(1))
+        {
+            dayStr = "tomorrow's";
+        }
+        Debug.Log($"Served {dayStr} daily puzzles for {userId}");
     }
 
     private void RespondWithJson(HttpListenerContext context, object toSerialize)

@@ -121,22 +121,25 @@ public class DailyPuzzleGenManager : MonoBehaviour
             var puzzleConfig = Generator.GeneratePackPuzzles().First();
             puzzleConfig.Pack = "Daily";
             puzzleConfig.Id = id.ToString();
-            puzzleSet.Puzzles.Add(puzzleConfig);
+            var payload = new PuzzleConfigPayload(puzzleConfig);
+            payload.DailyPuzzleGroup = parameters.PackId;
+            puzzleSet.Puzzles.Add(payload);
             id++;
         }
         foreach(var puzzle in puzzleSet.Puzzles)
         {
-            var redacted = ScriptableObject.CreateInstance<PuzzleConfig>();
+            var redacted = new PuzzleConfigPayload();
             redacted.Pack = puzzle.Pack;
             redacted.Id = puzzle.Id;
+            redacted.DailyPuzzleGroup = puzzle.DailyPuzzleGroup;
             puzzleSet.RedactedPuzzles.Add(redacted);
         }
         return puzzleSet;
     }
 
-    public List<PuzzleConfig> GetDailyPuzzles(DateTime dateTime, ISet<int> availabilityKeys)
+    public List<PuzzleConfigPayload> GetDailyPuzzles(DateTime dateTime, ISet<int> availabilityKeys)
     {
-        var results = new List<PuzzleConfig>();
+        var results = new List<PuzzleConfigPayload>();
         DailyPuzzles puzzleSet;
         if (dateTime.Date == Yesterday)
         {
@@ -174,7 +177,7 @@ public class DailyPuzzleGenManager : MonoBehaviour
 [Serializable]
 public class DailyPuzzles
 {
-    public List<PuzzleConfig> Puzzles = new List<PuzzleConfig>();
-    public List<PuzzleConfig> RedactedPuzzles = new List<PuzzleConfig>();
+    public List<PuzzleConfigPayload> Puzzles = new List<PuzzleConfigPayload>();
+    public List<PuzzleConfigPayload> RedactedPuzzles = new List<PuzzleConfigPayload>();
 }
 #endif
