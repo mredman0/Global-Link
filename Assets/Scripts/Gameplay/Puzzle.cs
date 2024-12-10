@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -187,8 +188,13 @@ public class Puzzle : MonoBehaviour
         // TODO Remove after investigation of disappearing lines over
         if (float.IsNaN(point.x) || float.IsNaN(point.y) || float.IsNaN(point.z))
         {
-            Debug.LogError($"Drawing resulted in bad point {point}");
-            Debug.LogError(Environment.StackTrace);
+            var errorsDir = Path.Combine(Application.persistentDataPath, "err");
+            if (!Directory.Exists(errorsDir))
+            {
+                Directory.CreateDirectory(errorsDir);
+            }
+            File.AppendAllText(Path.Combine(errorsDir, "drawing_errors.txt"),
+                $"Drawing resulted in bad point {point}\n{Environment.StackTrace}\n\n\n");
         }
 
         var path = node.Path;
@@ -1472,9 +1478,13 @@ public class Puzzle : MonoBehaviour
             // TODO Remove after investigation of disappearing lines over
             if (float.IsNaN(resultingP2.x) || float.IsNaN(resultingP2.y) || float.IsNaN(resultingP2.z))
             {
-                Debug.LogError($"Line smoothing resulted in bad point {resultingP2}");
-                Debug.LogError($"Line smoothing input that resulted in bad output:\n{p1}\n{p2}\n{p3}");
-                Debug.LogError(Environment.StackTrace);
+                var errorsDir = Path.Combine(Application.persistentDataPath, "err");
+                if (!Directory.Exists(errorsDir))
+                {
+                    Directory.CreateDirectory(errorsDir);
+                }
+                File.AppendAllText(Path.Combine(errorsDir, "drawing_errors.txt"),
+                    $"Line smoothing resulted in bad point {resultingP2}\nLine smoothing input that resulted in bad output:\n{p1}\n{p2}\n{p3}\n{Environment.StackTrace}\n\n\n");
             }
 
             NotifyWaypointsOfLinePointRemoved(p2);
@@ -1547,9 +1557,13 @@ public class Puzzle : MonoBehaviour
             if (float.IsNaN(resultingP2.x) || float.IsNaN(resultingP2.y) || float.IsNaN(resultingP2.z) ||
                 float.IsNaN(resultingP3.x) || float.IsNaN(resultingP3.y) || float.IsNaN(resultingP3.z))
             {
-                Debug.LogError($"Line dejittering resulted in bad output {resultingP2}, {resultingP3}");
-                Debug.LogError($"Line dejittering input that resulted in bad output:\n{p1}\n{p2}\n{p3}\n{p4}");
-                Debug.LogError(Environment.StackTrace);
+                var errorsDir = Path.Combine(Application.persistentDataPath, "err");
+                if (!Directory.Exists(errorsDir))
+                {
+                    Directory.CreateDirectory(errorsDir);
+                }
+                File.AppendAllText(Path.Combine(errorsDir, "drawing_errors.txt"),
+                    $"Line dejittering resulted in bad output {resultingP2}, {resultingP3}\nLine dejittering input that resulted in bad output:\n{p1}\n{p2}\n{p3}\n{p4}\n{Environment.StackTrace}\n\n\n");
             }
 
             NotifyWaypointsOfLinePointRemoved(p2);
