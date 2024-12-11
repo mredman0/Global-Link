@@ -1,5 +1,6 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="AdAwarePanel" preserve="all" />
     <type fullname="AdForHint" preserve="all" />
     <type fullname="AdManager" preserve="all" />
     <type fullname="AudioManager" preserve="all" />
@@ -10,6 +11,7 @@
     <type fullname="DailyPuzzleManager" preserve="all" />
     <type fullname="DailyPuzzlesPage" preserve="all" />
     <type fullname="DailyPuzzlesPageButton" preserve="all" />
+    <type fullname="DailyPuzzlesSection" preserve="all" />
     <type fullname="EffectSpawner" preserve="all" />
     <type fullname="GameManager" preserve="all" />
     <type fullname="GridCell" preserve="all" />

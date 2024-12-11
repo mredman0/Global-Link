@@ -87,17 +87,17 @@ public class Build
     }
 
 
-    [MenuItem("Build/Android/Build+Run DEV")]
-    public static void BuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true);
-    [MenuItem("Build/Android/Build+Run RELEASE")]
-    public static void BuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false);
+    [MenuItem("Build/Android/Clean Build DEV")]
+    public static void CleanBuildAndroidDev() => BuildAndRunAndroid(dev: true, clean: true);
+    [MenuItem("Build/Android/Clean Build RELEASE")]
+    public static void CleanBuildAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true);
     [MenuItem("Build/Android/Clean Build+Run DEV")]
-    public static void CleanBuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: true);
+    public static void CleanBuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: true, runAfterBuild: true);
     [MenuItem("Build/Android/Clean Build+Run RELEASE")]
-    public static void CleanBuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true);
-    public static void BuildAndRunAndroid(bool dev, bool clean = false)
+    public static void CleanBuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true, runAfterBuild: true);
+    public static void BuildAndRunAndroid(bool dev, bool clean = false, bool runAfterBuild = false)
     {
-        if (!Android_IsDeviceConnected())
+        if (runAfterBuild && !Android_IsDeviceConnected())
         {
             Debug.LogError("No Android device detected. Connect a device first");
             return;
@@ -111,7 +111,8 @@ public class Build
             buildOptions |= BuildOptions.Development;
         }
 
-        var apkPath = "Builds/Android/ChromaSphere.apk";
+        EditorUserBuildSettings.buildAppBundle = true;
+        var apkPath = "Builds/Android/ChromaSphere.aab";
         var options = new BuildPlayerOptions()
         {
             scenes = scenes,
@@ -130,7 +131,10 @@ public class Build
         {
             return;
         }
-        Android_LaunchApp(ANDROID_PACKAGE_NAME);
+        if(runAfterBuild)
+        {
+            Android_LaunchApp(ANDROID_PACKAGE_NAME);
+        }
     }
 
     [MenuItem("Build/Android/Run")]
