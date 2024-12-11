@@ -126,13 +126,13 @@ public class Build
         {
             return;
         }
-        success = Android_DeployToDevice(apkPath);
-        if(!success)
-        {
-            return;
-        }
         if(runAfterBuild)
         {
+            success = Android_DeployToDevice(apkPath);
+            if (!success)
+            {
+                return;
+            }
             Android_LaunchApp(ANDROID_PACKAGE_NAME);
         }
     }
