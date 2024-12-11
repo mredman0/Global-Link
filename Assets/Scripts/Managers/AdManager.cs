@@ -8,6 +8,8 @@ public class AdManager : MonoBehaviour
 {
     public static AdManager Instance;
 
+    public event Action SdkLoadFailed;
+
     public event Action InterstitialLoaded;
     public event Action InterstitialLoadFailed;
     public event Action InterstitialClosed;
@@ -36,6 +38,7 @@ public class AdManager : MonoBehaviour
 
     [Header("State")]
     public bool RewardedHintAvailable;
+    public int BannerAdHeight = 0;
 
     [Header("Debug")]
     public bool TestSuiteMode;
@@ -90,6 +93,10 @@ public class AdManager : MonoBehaviour
             IronSource.Agent.setMetaData("is_test_suite", "enable");
         }
 
+        float density = Screen.dpi / 160f;
+        float projectedBannerHeight = 50f * density;
+        BannerAdHeight = (int)projectedBannerHeight;
+
         LevelPlay.OnInitFailed += OnSdkInitFailed;
         LevelPlay.OnInitSuccess += OnSdkInitSuccess;
         LevelPlay.Init(AppKey, "TestUserId");
@@ -115,6 +122,8 @@ public class AdManager : MonoBehaviour
         }
         Debug.LogError("Ads SDK initialization failed, see following error for error code and message");
         Debug.LogError($"{error.ErrorCode}\n{error.ErrorMessage}");
+
+        SdkLoadFailed?.Invoke();
     }
     private void OnSdkInitSuccess(LevelPlayConfiguration config)
     {
@@ -141,9 +150,7 @@ public class AdManager : MonoBehaviour
     private LevelPlayBannerAd BannerAd;
 	private void InitBannerAd()
     {
-        var bannerSize = LevelPlayAdSize.CreateAdaptiveAdSize();
-        BannerAd = new LevelPlayBannerAd(BannerAdUnitId, bannerSize, LevelPlayBannerPosition.BottomCenter, respectSafeArea: true);
-
+        BannerAd = new LevelPlayBannerAd(BannerAdUnitId, LevelPlayAdSize.BANNER, LevelPlayBannerPosition.BottomCenter, respectSafeArea: false);
         BannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
         BannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
         BannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;

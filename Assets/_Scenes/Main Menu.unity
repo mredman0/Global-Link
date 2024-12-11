@@ -15027,6 +15027,7 @@ GameObject:
   - component: {fileID: 681081576}
   - component: {fileID: 681081578}
   - component: {fileID: 681081577}
+  - component: {fileID: 681081579}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -15107,6 +15108,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681081575}
   m_CullTransparentMesh: 1
+--- !u!114 &681081579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681081575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6b2ab5952219b4a9c0896c630d2eef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BannerAdAware: 1
 --- !u!1001 &692225450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26023,6 +26037,7 @@ MonoBehaviour:
   PuzzlesPerInterstitial: 2
   RetryLoadInterstitialDelay: 185
   RewardedHintAvailable: 0
+  BannerAdHeight: 0
   TestSuiteMode: 0
   DoValidation: 0
   AllowAdsInDevelopmentBuild: 0
@@ -73196,6 +73211,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Banner Ad Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190355747665409458, guid: bc07514ad2891a4469fc7ef4238e0059,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
