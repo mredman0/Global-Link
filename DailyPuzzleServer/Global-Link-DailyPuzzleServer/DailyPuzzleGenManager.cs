@@ -27,6 +27,8 @@ public class DailyPuzzleGenManager
 	private DateTime Today;
 	private DateTime Tomorrow;
 
+	private Timer CheckDateUpdateTimer;
+
 	public DailyPuzzleGenManager()
 	{
 		Generator = new PuzzlePackGeneratorLite();
@@ -49,23 +51,31 @@ public class DailyPuzzleGenManager
 
 		UpdateDate();
 		GeneratePuzzles(dayPassMode: false);
+
+		CheckDateUpdateTimer = new Timer(CheckDateUpdate);
+		CheckDateUpdateTimer.Change(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
 	}
 
-	private const float CHECK_DATE_INTERVAL = 60;
-	private float TimeUntilCheckDate = CHECK_DATE_INTERVAL;
-	// TODO change the way we check for date change
-	void Update()
+	private void CheckDateUpdate(object timerState)
 	{
-		TimeUntilCheckDate -= Time.deltaTime;
-		if (TimeUntilCheckDate <= 0)
+		bool dateChanged = UpdateDate();
+		if (dateChanged)
 		{
-			bool dateChanged = UpdateDate();
-			if (dateChanged)
-			{
-				GeneratePuzzles(dayPassMode: true);
-			}
-			TimeUntilCheckDate += CHECK_DATE_INTERVAL;
+			GeneratePuzzles(dayPassMode: true);
 		}
+	}
+
+	private bool UpdateDate()
+	{
+		var today = DateTime.Now.Date;
+		if (today > Today)
+		{
+			Yesterday = today.AddDays(-1).Date;
+			Today = today;
+			Tomorrow = today.AddDays(1).Date;
+			return true;
+		}
+		return false;
 	}
 
 	private bool LoadAllPackGenConfigs()
@@ -146,19 +156,6 @@ public class DailyPuzzleGenManager
 			AvailabilityKeys.Add(keyInt);
 		}
 		return true;
-	}
-
-	private bool UpdateDate()
-	{
-		var today = DateTime.Now.Date;
-		if (today > Today)
-		{
-			Yesterday = today.AddDays(-1).Date;
-			Today = today;
-			Tomorrow = today.AddDays(1).Date;
-			return true;
-		}
-		return false;
 	}
 
 	private void GeneratePuzzles(bool dayPassMode)
