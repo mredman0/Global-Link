@@ -1,0 +1,3087 @@
+{
+  "Configs": [
+    {
+      "PackId": "Beginner++",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 3,
+      "MaxNodePairs": 4,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 5,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 1,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.5,
+            "inTangent": 0.5,
+            "outTangent": 0.5,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.5,
+            "outTangent": 0.5,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0467862338,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.10014455,
+            "value": 0.499184072,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.3264157,
+            "value": -0.00113663124,
+            "inTangent": -2.211156,
+            "outTangent": -2.211156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 0.4,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.7992401,
+            "value": -0.00256347656,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.00177,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -2.76013184,
+            "outTangent": -2.76013184,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.183842048,
+            "value": 0.492571741,
+            "inTangent": -4.32772875,
+            "outTangent": -4.32772875,
+            "inWeight": 0.150673881,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.4,
+            "value": 0.0,
+            "inTangent": -2.27875829,
+            "outTangent": -2.27875829,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Beginner++",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Beginner+",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 3,
+      "MaxNodePairs": 4,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 5,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 1,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.199999988,
+            "outTangent": -0.199999988,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.8,
+            "inTangent": -0.199999988,
+            "outTangent": -0.199999988,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0467862338,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.323665977,
+            "value": 0.49691084,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.701477051,
+            "value": 0.0,
+            "inTangent": -1.31523633,
+            "outTangent": -1.31523633,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 0.4,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.7992401,
+            "value": -0.00256347656,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.00177,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -3.26706648,
+            "outTangent": -3.26706648,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.141320556,
+            "value": 0.538296342,
+            "inTangent": -4.32772875,
+            "outTangent": -4.32772875,
+            "inWeight": 0.150673881,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.3,
+            "value": 0.0,
+            "inTangent": -3.39235067,
+            "outTangent": -3.39235067,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Beginner+",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Beginner",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 3,
+      "MaxNodePairs": 4,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 4,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 1,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.199999988,
+            "outTangent": -0.199999988,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.8,
+            "inTangent": -0.199999988,
+            "outTangent": -0.199999988,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0467862338,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.323665977,
+            "value": 0.49691084,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.701477051,
+            "value": 0.0,
+            "inTangent": -1.31523633,
+            "outTangent": -1.31523633,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 0.4,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.7992401,
+            "value": -0.00256347656,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.00177,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -4.70631456,
+            "outTangent": -4.70631456,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.0806211,
+            "value": 0.620571733,
+            "inTangent": -4.32772875,
+            "outTangent": -4.32772875,
+            "inWeight": 0.150673881,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.2,
+            "value": 0.0,
+            "inTangent": -5.1983366,
+            "outTangent": -5.1983366,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Beginner",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Expert++",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 5,
+      "MaxNodePairs": 6,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 10,
+      "MinWarpPairs": 1,
+      "MaxWarpPairs": 3,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.75,
+            "inTangent": -0.4,
+            "outTangent": -0.4,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.35,
+            "inTangent": -0.4,
+            "outTangent": -0.4,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.05,
+            "value": 0.0,
+            "inTangent": -20.0,
+            "outTangent": -20.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.686416566,
+            "value": 0.0,
+            "inTangent": 10.1674547,
+            "outTangent": 10.1674547,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.7847696,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.794682145,
+            "value": 0.626156449,
+            "inTangent": -1.235329,
+            "outTangent": -1.235329,
+            "inWeight": 0.05442017,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.8248267,
+            "value": 0.0,
+            "inTangent": -20.77178,
+            "outTangent": -20.77178,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.303,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Expert++",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Expert+",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 5,
+      "MaxNodePairs": 6,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 10,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 3,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.75,
+            "inTangent": -0.4,
+            "outTangent": -0.4,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.35,
+            "inTangent": -0.4,
+            "outTangent": -0.4,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.1,
+            "value": 0.0,
+            "inTangent": -10.0,
+            "outTangent": -10.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.576478958,
+            "value": 0.0,
+            "inTangent": 10.1674547,
+            "outTangent": 10.1674547,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.674832,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.684744537,
+            "value": 0.626156449,
+            "inTangent": -1.235329,
+            "outTangent": -1.235329,
+            "inWeight": 0.05442017,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.7148891,
+            "value": 0.0,
+            "inTangent": -20.77178,
+            "outTangent": -20.77178,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Expert+",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Expert",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 5,
+      "MaxNodePairs": 6,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 10,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 3,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.65,
+            "outTangent": -0.65,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.35,
+            "inTangent": -0.65,
+            "outTangent": -0.65,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.15,
+            "value": 0.0,
+            "inTangent": -6.66666651,
+            "outTangent": -6.66666651,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.5235181,
+            "value": 0.0,
+            "inTangent": 10.1674547,
+            "outTangent": 10.1674547,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.6218711,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.631783664,
+            "value": 0.626156449,
+            "inTangent": -1.235329,
+            "outTangent": -1.235329,
+            "inWeight": 0.05442017,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.661928236,
+            "value": 0.0,
+            "inTangent": -20.77178,
+            "outTangent": -20.77178,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Expert",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Grandmaster++",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 6,
+      "MaxNodePairs": 6,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 12,
+      "MinWarpPairs": 3,
+      "MaxWarpPairs": 4,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.288897067,
+            "outTangent": -0.288897067,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.8746517,
+            "value": 0.7473157,
+            "inTangent": -1.13096237,
+            "outTangent": -1.13096237,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.5,
+            "inTangent": -1.97302759,
+            "outTangent": -1.97302759,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.01,
+            "value": 0.0,
+            "inTangent": -100.0,
+            "outTangent": -100.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.8323618,
+            "value": 0.0,
+            "inTangent": 7.89045572,
+            "outTangent": 7.89045572,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.9590972,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.303,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Grandmaster++",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Grandmaster+",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 6,
+      "MaxNodePairs": 6,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 11,
+      "MinWarpPairs": 1,
+      "MaxWarpPairs": 3,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.288897067,
+            "outTangent": -0.288897067,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.8746517,
+            "value": 0.7473157,
+            "inTangent": -1.13096237,
+            "outTangent": -1.13096237,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.5,
+            "inTangent": -1.97302759,
+            "outTangent": -1.97302759,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.01,
+            "value": 0.0,
+            "inTangent": -100.0,
+            "outTangent": -100.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.7627988,
+            "value": 0.0,
+            "inTangent": 7.89045572,
+            "outTangent": 7.89045572,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.8895342,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.930436969,
+            "value": 0.3,
+            "inTangent": -17.1137447,
+            "outTangent": -17.1137447,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.303,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Grandmaster+",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Grandmaster",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 6,
+      "MaxNodePairs": 6,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 11,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 3,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.288897067,
+            "outTangent": -0.288897067,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.8746517,
+            "value": 0.7473157,
+            "inTangent": -1.13096237,
+            "outTangent": -1.13096237,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.5,
+            "inTangent": -1.97302759,
+            "outTangent": -1.97302759,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.01,
+            "value": 0.0,
+            "inTangent": -100.0,
+            "outTangent": -100.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.727178037,
+            "value": 0.0,
+            "inTangent": 7.89045572,
+            "outTangent": 7.89045572,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.8539134,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.8948162,
+            "value": 0.3,
+            "inTangent": -17.1137447,
+            "outTangent": -17.1137447,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Grandmaster",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Intermediate++",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 4,
+      "MaxNodePairs": 5,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 8,
+      "MinWarpPairs": 1,
+      "MaxWarpPairs": 2,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.2,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.02,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.114437461,
+            "value": 0.4991844,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.4,
+            "value": 0.0,
+            "inTangent": -1.74807382,
+            "outTangent": -1.74807382,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.387947381,
+            "value": 0.0,
+            "inTangent": 10.1674547,
+            "outTangent": 10.1674547,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4863004,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.496213,
+            "value": 0.626156449,
+            "inTangent": -1.235329,
+            "outTangent": -1.235329,
+            "inWeight": 0.05442017,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.526357532,
+            "value": 0.0,
+            "inTangent": -20.771801,
+            "outTangent": -20.771801,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.303,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Intermediate++",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Intermediate+",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 4,
+      "MaxNodePairs": 5,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 7,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 2,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.2,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.02,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.114437461,
+            "value": 0.4991844,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.4,
+            "value": 0.0,
+            "inTangent": -1.74807382,
+            "outTangent": -1.74807382,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.3008529,
+            "value": 0.0,
+            "inTangent": 10.1674547,
+            "outTangent": 10.1674547,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.399205923,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.4091185,
+            "value": 0.626156449,
+            "inTangent": -1.235329,
+            "outTangent": -1.235329,
+            "inWeight": 0.05442017,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.439263016,
+            "value": 0.0,
+            "inTangent": -20.771822,
+            "outTangent": -20.771822,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.303,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Intermediate+",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "Intermediate",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 4,
+      "MaxNodePairs": 5,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 6,
+      "MinWarpPairs": 0,
+      "MaxWarpPairs": 2,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.2,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.02,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.114437461,
+            "value": 0.4991844,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.4,
+            "value": 0.0,
+            "inTangent": -1.74807382,
+            "outTangent": -1.74807382,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 1.0,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.301772624,
+            "value": -0.00376856327,
+            "inTangent": 10.2188263,
+            "outTangent": 10.2188263,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.4,
+            "value": 1.0,
+            "inTangent": 10.2188263,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.7,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 69
+          },
+          {
+            "time": 0.749815941,
+            "value": 0.00170060329,
+            "inTangent": -20.039753,
+            "outTangent": -20.039753,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.25,
+            "value": 0.0,
+            "inTangent": 10.1674547,
+            "outTangent": 10.1674547,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.348353028,
+            "value": 1.0,
+            "inTangent": -0.00343726156,
+            "outTangent": -0.00343726156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.145801634,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.3582656,
+            "value": 0.626156449,
+            "inTangent": -1.235329,
+            "outTangent": -1.235329,
+            "inWeight": 0.05442017,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.388410121,
+            "value": 0.0,
+            "inTangent": -20.771822,
+            "outTangent": -20.771822,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 4,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.0,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Intermediate",
+      "hideFlags": 0
+    },
+    {
+      "PackId": "TunnelTroubleBeginner",
+      "NumPuzzles": 50,
+      "Mode": 0,
+      "GridCellsPerRow": [
+        1,
+        6,
+        10,
+        16,
+        20,
+        25,
+        20,
+        16,
+        10,
+        6,
+        1
+      ],
+      "MinNodePairs": 3,
+      "MaxNodePairs": 4,
+      "TargetNodePairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inTangent": 0.0,
+            "outTangent": 0.0,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "TargetColorsPlusWaypoints": 4,
+      "MinWarpPairs": 4,
+      "MaxWarpPairs": 5,
+      "TargetWarpPairs": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 0.2,
+            "inTangent": -0.8,
+            "outTangent": -0.8,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWalling": {
+        "keys": [
+          {
+            "time": 0.0467862338,
+            "value": 0.0,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.323665977,
+            "value": 0.49691084,
+            "inTangent": 0.0272643156,
+            "outTangent": 0.0272643156,
+            "inWeight": 0.333333343,
+            "outWeight": 0.126951411,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.701477051,
+            "value": 0.0,
+            "inTangent": -1.31523633,
+            "outTangent": -1.31523633,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNormalness": 0.4,
+      "PreWallClustering": {
+        "keys": [
+          {
+            "time": 0.7992401,
+            "value": -0.00256347656,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 1.0,
+            "value": 1.00177,
+            "inTangent": 5.00266027,
+            "outTangent": 5.00266027,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 2,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PreWallNoodling": {
+        "keys": [
+          {
+            "time": 0.00358852,
+            "value": 0.504003,
+            "inTangent": -0.177875817,
+            "outTangent": -0.177875817,
+            "inWeight": 0.09287064,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.228935629,
+            "value": 0.107319385,
+            "inTangent": -0.7784934,
+            "outTangent": -0.7784934,
+            "inWeight": 0.333333343,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.50213623,
+            "value": 0.0,
+            "inTangent": -0.392822653,
+            "outTangent": -0.392822653,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "PostWalling": {
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inTangent": -4.70631456,
+            "outTangent": -4.70631456,
+            "inWeight": 0.0,
+            "outWeight": 0.333333343,
+            "weightedMode": 0,
+            "tangentMode": 34
+          },
+          {
+            "time": 0.0806211,
+            "value": 0.620571733,
+            "inTangent": -4.32772875,
+            "outTangent": -4.32772875,
+            "inWeight": 0.150673881,
+            "outWeight": 0.0533443056,
+            "weightedMode": 0,
+            "tangentMode": 0
+          },
+          {
+            "time": 0.2,
+            "value": 0.0,
+            "inTangent": -5.1983366,
+            "outTangent": -5.1983366,
+            "inWeight": 0.333333343,
+            "outWeight": 0.0,
+            "weightedMode": 0,
+            "tangentMode": 34
+          }
+        ],
+        "length": 3,
+        "preWrapMode": 8,
+        "postWrapMode": 8
+      },
+      "EnforceMinColors": 0.0,
+      "EnforceMinWarpPairs": 0.483,
+      "EnforceMinWaypoints": 0.0,
+      "name": "Tunnel Trouble Beginner",
+      "hideFlags": 0
+    }
+  ]
+}
