@@ -88,14 +88,14 @@ public class Build
 
 
     [MenuItem("Build/Android/Clean Build DEV")]
-    public static void CleanBuildAndroidDev() => BuildAndRunAndroid(dev: true, clean: true);
+    public static void CleanBuildAndroidDev() => BuildAndRunAndroid(dev: true, clean: true, buildAppBundle: true);
     [MenuItem("Build/Android/Clean Build RELEASE")]
-    public static void CleanBuildAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true);
+    public static void CleanBuildAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true, buildAppBundle: true);
     [MenuItem("Build/Android/Clean Build+Run DEV")]
-    public static void CleanBuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: true, runAfterBuild: true);
+    public static void CleanBuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: true, runAfterBuild: true, buildAppBundle: false);
     [MenuItem("Build/Android/Clean Build+Run RELEASE")]
-    public static void CleanBuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true, runAfterBuild: true);
-    public static void BuildAndRunAndroid(bool dev, bool clean = false, bool runAfterBuild = false)
+    public static void CleanBuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true, runAfterBuild: true, buildAppBundle: false);
+    public static void BuildAndRunAndroid(bool dev, bool clean = false, bool runAfterBuild = false, bool buildAppBundle = false)
     {
         if (runAfterBuild && !Android_IsDeviceConnected())
         {
@@ -111,8 +111,10 @@ public class Build
             buildOptions |= BuildOptions.Development;
         }
 
-        EditorUserBuildSettings.buildAppBundle = true;
-        var apkPath = "Builds/Android/ChromaSphere.aab";
+        EditorUserBuildSettings.buildAppBundle = buildAppBundle;
+        PlayerSettings.Android.useAPKExpansionFiles = buildAppBundle;
+        var extension = buildAppBundle ? "aab" : "apk";
+        var apkPath = $"Builds/Android/ChromaSphere.{extension}";
         var options = new BuildPlayerOptions()
         {
             scenes = scenes,
