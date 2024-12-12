@@ -17,8 +17,8 @@ public class DailyPuzzleManager : MonoBehaviour
 
 
     [Header("Settings")]
-    public string FetchPuzzlesAddress = "74.103.128.214";
-    public ushort FetchPuzzlesPort = 35611;
+    public string FetchPuzzlesAddress = "18.215.172.110";
+    public ushort FetchPuzzlesPort = 55611;
     public string FetchPuzzlesPath = "Puzzles/Daily";
     public bool UseCache = false;
     

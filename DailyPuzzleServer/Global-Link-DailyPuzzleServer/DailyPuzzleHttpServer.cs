@@ -13,7 +13,7 @@ public class DailyPuzzleHttpServer
 {
 	public const string REQUEST_DATE_FORMAT = "yyyy-MM-dd";
 
-	public int Port = 35611;
+	public int Port = 55611;
 
 	private HttpListener httpListener;
 	private Thread serverThread;
