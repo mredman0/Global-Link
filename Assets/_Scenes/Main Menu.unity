@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26026,6 +26025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135f9a1ef7911674286f9343f11de839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GLOBAL_DO_ADS: 0
   AndroidAppKey: 2057e49c5
   iOSAppKey: 
   AndroidBannerAdUnitId: 96u3d5n12qqljpko

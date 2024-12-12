@@ -20,6 +20,9 @@ public class AdManager : MonoBehaviour
 
     public event Action<string, int> AdRewarded;
 
+    [Header("GLOBAL DO ADS")]
+    public bool GLOBAL_DO_ADS = true;
+
     [Header("App Keys")]
     public string AndroidAppKey;
     public string iOSAppKey;
@@ -63,15 +66,12 @@ public class AdManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        AllAdsDisabled = !AllowAdsInDevelopmentBuild;
-        if(!AllAdsDisabled)
-        {
-            AppKey = AndroidAppKey;
-            BannerAdUnitId = AndroidBannerAdUnitId;
-            InterstitialAdUnitId = AndroidInterstitialAdUnitId;
-            RewardedHintAdUnitId = AndroidRewardedHintAdUnitId;
-        }
-#elif UNITY_IOS
+        AllAdsDisabled = !GLOBAL_DO_ADS || !AllowAdsInDevelopmentBuild;
+#else
+        AllAdsDisabled = !GLOBAL_DO_ADS;
+#endif
+
+#if UNITY_IOS
         AppKey = iOSAppKey;
         BannerAdUnitId = iOSBannerAdUnitId;
         InterstitialAdUnitId = iOSInterstitialAdUnitId;
@@ -83,7 +83,7 @@ public class AdManager : MonoBehaviour
         RewardedHintAdUnitId = AndroidRewardedHintAdUnitId;
 #endif
 
-        if (string.IsNullOrWhiteSpace(AppKey))
+        if (AllAdsDisabled || string.IsNullOrWhiteSpace(AppKey))
         {
             return;
         }
