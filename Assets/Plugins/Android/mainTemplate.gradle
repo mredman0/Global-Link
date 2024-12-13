@@ -24,23 +24,16 @@ apply plugin: 'com.android.library'
 **APPLY_PLUGINS**
 
 dependencies {
+	def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
+	//implementation files(unityProjectPath + "/Assets/Plugins/Android/gpgs-plugin-support-2.0.0.aar")
+	implementation 'com.google.android.gms:play-services-games-v2:20.1.2'
+	
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
     implementation 'com.google.android.gms:play-services-ads-identifier:18.1.0' // Assets/LevelPlay/Editor/IronSourceSDKDependencies.xml:12
     implementation 'com.unity3d.ads:unity-ads:4.12.5' // Assets/LevelPlay/Editor/ISUnityAdsAdapterDependencies.xml:12
     implementation 'com.unity3d.ads-mediation:mediation-sdk:8.5.0' // Assets/LevelPlay/Editor/IronSourceSDKDependencies.xml:5
     implementation 'com.unity3d.ads-mediation:unityads-adapter:4.3.45' // Assets/LevelPlay/Editor/ISUnityAdsAdapterDependencies.xml:5
-	
-	implementation 'androidx.core:core:1.9.0'
-	implementation 'androidx.annotation:annotation:1.2.0'
-	
-	implementation ('androidx.core:core:1.9.0') {
-        exclude group: 'androidx.core', module: 'core-1.2.0'
-    }
-    implementation ('androidx.annotation:annotation:1.2.0') {
-        exclude group: 'androidx.annotation', module: 'annotation-1.1.0'
-    }
-	
 // Android Resolver Dependencies End
 **DEPS**}
 

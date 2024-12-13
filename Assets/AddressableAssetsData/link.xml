@@ -37,6 +37,7 @@
     <type fullname="PackInfo" preserve="all" />
     <type fullname="PackPage" preserve="all" />
     <type fullname="PageNavigator" preserve="all" />
+    <type fullname="PlayerAuthManager" preserve="all" />
     <type fullname="PurchaseItem" preserve="all" />
     <type fullname="PurchaseManager" preserve="all" />
     <type fullname="PurchaseUIController" preserve="all" />
@@ -61,6 +62,7 @@
     <type fullname="TutorialInstructionWaitForDrag" preserve="all" />
     <type fullname="TutorialInstructionWaitForEvent" preserve="all" />
     <type fullname="UIElementHighlighter" preserve="all" />
+    <type fullname="UnityServicesManager" preserve="all" />
     <type fullname="Wall" preserve="all" />
     <type fullname="Warp" preserve="all" />
     <type fullname="Waypoint" preserve="all" />

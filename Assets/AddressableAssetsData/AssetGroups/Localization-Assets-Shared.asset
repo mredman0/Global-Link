@@ -17,24 +17,24 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: a1d6f143d7eab9549bf0f28b1775d9b0
   m_SerializeEntries:
-  - m_GUID: 0f9102db8f7e5ec489dc09a590c5d9d4
-    m_Address: Assets/Util/i18n/UI Text Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 06bb81b849583d74da3a78bb227de928
     m_Address: Assets/Util/i18n/String Tables/Locales/Locales Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fe498780169c5e24b8cd112ece6d617e
-    m_Address: Assets/Util/i18n/String Tables/Packs/Packs Shared Data.asset
+  - m_GUID: 0f9102db8f7e5ec489dc09a590c5d9d4
+    m_Address: Assets/Util/i18n/UI Text Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6b586f43c96c0614982e5d354f1e02dd
     m_Address: Assets/Util/i18n/String Tables/Tutorial Prompts/Tutorial Prompts Shared
       Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe498780169c5e24b8cd112ece6d617e
+    m_Address: Assets/Util/i18n/String Tables/Packs/Packs Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

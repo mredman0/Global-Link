@@ -17,14 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: fbd90f4dd4777b24cac1deca3fb36002
   m_SerializeEntries:
-  - m_GUID: e9dc394b536bff34e8661641a1410652
-    m_Address: UI Text_zh-TW
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-zh-TW
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 76ae0452c4eb5a448a97460032bf5b4a
-    m_Address: Locales_zh-TW
+  - m_GUID: 27e166b18849e9746af5f71818f13d6b
+    m_Address: Tutorial Prompts_zh-TW
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-TW
@@ -35,8 +29,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 27e166b18849e9746af5f71818f13d6b
-    m_Address: Tutorial Prompts_zh-TW
+  - m_GUID: 76ae0452c4eb5a448a97460032bf5b4a
+    m_Address: Locales_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9dc394b536bff34e8661641a1410652
+    m_Address: UI Text_zh-TW
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-TW
