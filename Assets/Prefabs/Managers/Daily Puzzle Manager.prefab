@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa43a65436578a94b8146e5b71f5a900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FetchPuzzlesAddress: 18.215.172.110
+  FetchPuzzlesAddress: 3.229.168.90
   FetchPuzzlesPort: 55611
   FetchPuzzlesPath: Puzzles/Daily
   UseCache: 1
