@@ -26,6 +26,13 @@ public class HintManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         LoadHints();
+
+        PurchaseManager.Instance.HintsPurchased += GainHints;
+    }
+
+    private void OnDestroy()
+    {
+        PurchaseManager.Instance.HintsPurchased -= GainHints;
     }
 
     public bool UseHint()

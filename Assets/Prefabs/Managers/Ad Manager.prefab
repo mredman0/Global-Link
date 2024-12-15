@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1164461228650429674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7531302522029063632}
+  - component: {fileID: 1625237370578576848}
+  m_Layer: 0
+  m_Name: Ad Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7531302522029063632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164461228650429674}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 797.9843, y: 2205.422, z: 420.0542}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1625237370578576848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164461228650429674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 135f9a1ef7911674286f9343f11de839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GLOBAL_DO_ADS: 0
+  AndroidAppKey: 2057e49c5
+  iOSAppKey: 
+  AndroidBannerAdUnitId: 96u3d5n12qqljpko
+  iOSBannerAdUnitId: 
+  AndroidInterstitialAdUnitId: fxjqymdmlb5q34b2
+  iOSInterstitialAdUnitId: 
+  AndroidRewardedHintAdUnitId: ae8qpvrglvywjwh0
+  iOSRewardedHintAdUnitId: 
+  PuzzlesPerInterstitial: 2
+  RetryLoadInterstitialDelay: 185
+  RewardedHintAvailable: 0
+  BannerAdHeight: 0
+  AdFreeMode: 0
+  TestSuiteMode: 0
+  DoValidation: 1
+  AllowAdsInDevelopmentBuild: 1

@@ -211,6 +211,8 @@ public class DailyPuzzleManager : MonoBehaviour
         }
         return null;
     }
+
+    public bool AnyPuzzlesNotUnlocked() => DailyPuzzles.Any(p => !IsPuzzleAvailable(p.Id));
 }
 
 [Serializable]

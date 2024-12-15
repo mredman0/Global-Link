@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Purchasing;
 using UnityEngine.SceneManagement;
 
 public class PurchaseUIController : MonoBehaviour
 {
-    public PurchaseItem AdFreeItem;
+    public Dialog ErrorDialog;
 
     // Start is called before the first frame update
     void Start()
     {
-        AdFreeItem.SetOwned(PurchaseManager.Instance.IsAdFreeOwned());
-
         if (Puzzle.Current)
         {
             Puzzle.Current.LockInput();
@@ -20,11 +19,13 @@ public class PurchaseUIController : MonoBehaviour
         }
 
         InputManager.Instance.AddBackAction(this, HideStore);
+        PurchaseManager.Instance.PurchaseFailed += OnPurchaseFailed;
     }
 
     private void OnDestroy()
     {
         InputManager.Instance.RemoveBackAction(this);
+        PurchaseManager.Instance.PurchaseFailed -= OnPurchaseFailed;
     }
 
     public void HideStore()
@@ -37,26 +38,8 @@ public class PurchaseUIController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    #region Ad Free
-    public void PurchaseAdFree()
+    private void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
     {
-        if(PurchaseManager.Instance.PurchaseAdFree())
-        {
-            // TODO
-            Debug.Log("Ad Free experience purchased");
-
-            AdFreeItem.SetOwned(true);
-        }
+        ErrorDialog.Show();
     }
-	#endregion
-
-	#region Hints
-	public void PurchaseHints(int amount)
-    {
-        if(PurchaseManager.Instance.PurchaseHints(amount))
-        {
-            HintManager.Instance.GainHints(amount);
-        }
-    }
-	#endregion
 }

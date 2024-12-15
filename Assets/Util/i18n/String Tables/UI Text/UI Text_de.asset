@@ -142,6 +142,11 @@ MonoBehaviour:
     m_Localized: Ende des Tutorials
     m_Metadata:
       m_Items: []
+  - m_Id: 10807342920912896
+    m_Localized: "W\xE4hrend des Kaufs ist ein Fehler aufgetreten, und er konnte
+      nicht abgeschlossen werden."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

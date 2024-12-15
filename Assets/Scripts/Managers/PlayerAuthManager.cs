@@ -19,15 +19,25 @@ public class PlayerAuthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (Instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         MainThreadContext = SynchronizationContext.Current;
-#if ( UNITY_ANDROID )
+
+#if UNITY_EDITOR
+        Action onStartup = null;
+#elif (UNITY_ANDROID)
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         Action onStartup = LoginGooglePlayGames;
 #else
         Action onStartup = null;
 #endif
-        if(onStartup is null)
+        if (onStartup is null)
         {
             return;
         }
@@ -40,7 +50,9 @@ public class PlayerAuthManager : MonoBehaviour
 
     private void OnDestroy()
     {
-#if (UNITY_ANDROID)
+#if UNITY_EDITOR
+        Action onStartup = null;
+#elif (UNITY_ANDROID)
         Action onStartup = LoginGooglePlayGames;
 #else
         Action onStartup = null;

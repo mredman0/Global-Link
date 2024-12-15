@@ -11,6 +11,7 @@ public class DailyPuzzlesPage : MonoBehaviour
     [Header("Required References")]
     public GameObject SectionPrefab;
     public Transform SectionContainer;
+    public GameObject UnlockMorePuzzlesButton;
 
     [Header("Localization Lookup")]
     public PackInfo[] PackInfo;
@@ -39,5 +40,6 @@ public class DailyPuzzlesPage : MonoBehaviour
             var packInfo = PackInfo.FirstOrDefault(p => p.Id == kvp.Key);
             section.Init(packInfo, kvp.Value);
         }
+        UnlockMorePuzzlesButton.SetActive(DailyPuzzleManager.Instance.AnyPuzzlesNotUnlocked());
     }
 }

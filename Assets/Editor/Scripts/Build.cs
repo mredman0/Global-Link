@@ -113,6 +113,7 @@ public class Build
 
         EditorUserBuildSettings.buildAppBundle = buildAppBundle;
         PlayerSettings.Android.useAPKExpansionFiles = buildAppBundle;
+
         var extension = buildAppBundle ? "aab" : "apk";
         var apkPath = $"Builds/Android/ChromaSphere.{extension}";
         var options = new BuildPlayerOptions()
@@ -124,11 +125,16 @@ public class Build
         };
 
         var success = _Build(options, isDedicatedServer: false, clean);
-        if(!success)
+        if (!success)
         {
             return;
         }
-        if(runAfterBuild)
+        if (buildAppBundle && !dev)
+        {
+            PlayerSettings.Android.bundleVersionCode++;
+            Debug.Log($"Android bundle version code incremented to {PlayerSettings.Android.bundleVersionCode}");
+        }
+        if (runAfterBuild)
         {
             success = Android_DeployToDevice(apkPath);
             if (!success)

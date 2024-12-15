@@ -139,6 +139,10 @@ MonoBehaviour:
     m_Key: End of Tutorial
     m_Metadata:
       m_Items: []
+  - m_Id: 10807342920912896
+    m_Key: Purchase Error
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

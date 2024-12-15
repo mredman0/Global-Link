@@ -42,6 +42,7 @@ public class AdManager : MonoBehaviour
     [Header("State")]
     public bool RewardedHintAvailable;
     public int BannerAdHeight = 0;
+    public bool AdFreeMode;
 
     [Header("Debug")]
     public bool TestSuiteMode;
@@ -65,6 +66,26 @@ public class AdManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        if(PurchaseManager.Instance.IsInitialized)
+        {
+            OnPurchaseManagerInitialized();
+        }
+        PurchaseManager.Instance.Initialized += OnPurchaseManagerInitialized;
+        PurchaseManager.Instance.AdFreeChanged += SetAdFree;
+    }
+
+    private void OnDestroy()
+    {
+        PurchaseManager.Instance.Initialized -= OnPurchaseManagerInitialized;
+        PurchaseManager.Instance.AdFreeChanged -= SetAdFree;
+
+        BannerAd?.DestroyAd();
+        InterstitialAd?.DestroyAd();
+        RewardedHintAd?.DestroyAd();
+    }
+
+    private void OnPurchaseManagerInitialized()
+    {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
         AllAdsDisabled = !GLOBAL_DO_ADS || !AllowAdsInDevelopmentBuild;
 #else
@@ -102,13 +123,6 @@ public class AdManager : MonoBehaviour
         LevelPlay.Init(AppKey, "TestUserId");
     }
 
-    private void OnDestroy()
-    {
-        BannerAd?.DestroyAd();
-        InterstitialAd?.DestroyAd();
-        RewardedHintAd?.DestroyAd();
-    }
-
     private void OnApplicationPause(bool pause)
     {
         LevelPlay.SetPauseGame(pause);
@@ -138,15 +152,18 @@ public class AdManager : MonoBehaviour
             return;
         }
 
-        InitBannerAd();
-        LoadInterstitial();
+        if(!AdFreeMode)
+        {
+            InitBannerAd();
+            LoadInterstitial();
+        }
         PuzzlesOpenedSinceLastInterstitial = 0; // Should this start higher to prevent abusing restarting the app to avoid interstitials?
 
         LoadRewardedHint();
     }
 
 
-#region Banner
+    #region Banner
     private LevelPlayBannerAd BannerAd;
 	private void InitBannerAd()
     {
@@ -170,9 +187,9 @@ public class AdManager : MonoBehaviour
     void BannerOnAdCollapsedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdCollapsedEvent"); }
     void BannerOnAdLeftApplicationEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLeftApplicationEvent"); }
     void BannerOnAdExpandedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdExpandedEvent"); }
-#endregion
+    #endregion
 
-#region Interstitial
+    #region Interstitial
     // Interstitial Ads being shown depends on how many puzzles have been opened
     private uint PuzzlesOpenedSinceLastInterstitial;
     public void PuzzleOpened()
@@ -184,6 +201,10 @@ public class AdManager : MonoBehaviour
     private LevelPlayInterstitialAd InterstitialAd;
     public bool LoadInterstitial()
     {
+        if(AdFreeMode)
+        {
+            return false;
+        }
         if(AllAdsDisabled)
         {
             Debug.Log("Not loading Interstitial Ad: all ads are disabled");
@@ -217,6 +238,10 @@ public class AdManager : MonoBehaviour
 
     public bool ShowInterstitial()
     {
+        if (AdFreeMode)
+        {
+            return false;
+        }
         if (AllAdsDisabled)
         {
             Debug.Log("Interstitial Ad not shown: all ads are disabled");
@@ -291,7 +316,7 @@ public class AdManager : MonoBehaviour
     }
 #endregion
 
-#region Rewarded Hint
+    #region Rewarded Hint
     private LevelPlayRewardedAd RewardedHintAd;
     public bool LoadRewardedHint()
     {
@@ -387,5 +412,37 @@ public class AdManager : MonoBehaviour
         }
         AdRewarded?.Invoke(reward.Name, reward.Amount);
     }
-#endregion
+	#endregion
+
+	#region Ad-Free Mode
+    public void SetAdFree(bool adFree)
+    {
+        AdFreeMode = adFree;
+        if(adFree)
+        {
+            if (InterstitialAd != null)
+            {
+                InterstitialAd.DestroyAd();
+                InterstitialAd = null;
+            }
+            if (BannerAd != null)
+            {
+                BannerAd.DestroyAd();
+                BannerAd = null;
+                BannerAdHeight = 0;
+            }
+        }
+        else
+        {
+            if(InterstitialAd is null)
+            {
+                LoadInterstitial();
+            }
+            if(BannerAd is null)
+            {
+                InitBannerAd();
+            }
+        }
+    }
+	#endregion
 }

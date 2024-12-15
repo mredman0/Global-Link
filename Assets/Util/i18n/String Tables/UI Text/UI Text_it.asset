@@ -142,6 +142,11 @@ MonoBehaviour:
     m_Localized: Fine del tutorial
     m_Metadata:
       m_Items: []
+  - m_Id: 10807342920912896
+    m_Localized: "Si \xE8 verificato un errore durante l\u2019acquisto e non \xE8
+      stato possibile completarlo."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

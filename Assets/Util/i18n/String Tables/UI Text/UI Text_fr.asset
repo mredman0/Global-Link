@@ -143,6 +143,11 @@ MonoBehaviour:
     m_Localized: Fin du tutoriel
     m_Metadata:
       m_Items: []
+  - m_Id: 10807342920912896
+    m_Localized: "Une erreur s\u2019est produite lors de l\u2019achat et il n\u2019a
+      pas pu \xEAtre compl\xE9t\xE9."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
