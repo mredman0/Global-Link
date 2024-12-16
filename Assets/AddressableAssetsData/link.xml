@@ -55,6 +55,7 @@
     <type fullname="SettingsController" preserve="all" />
     <type fullname="SettingsManager" preserve="all" />
     <type fullname="SpecialOptionPicker" preserve="all" />
+    <type fullname="StorePageButton" preserve="all" />
     <type fullname="TextOptionPicker" preserve="all" />
     <type fullname="Tutorial2Script" preserve="all" />
     <type fullname="Tutorial3Script" preserve="all" />
