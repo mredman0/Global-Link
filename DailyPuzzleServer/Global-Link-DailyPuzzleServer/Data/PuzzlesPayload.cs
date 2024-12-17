@@ -1,5 +1,6 @@
 ﻿
-[Serializable]
+using System.Text.Json.Serialization;
+
 public class PuzzlesPayload
 {
 	public PuzzleConfigPayload[] Puzzles;

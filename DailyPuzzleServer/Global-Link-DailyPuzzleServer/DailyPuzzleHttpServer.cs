@@ -15,10 +15,6 @@ public class DailyPuzzleHttpServer
 
 	public int Port = 55611;
 
-	private HttpListener httpListener;
-	private Thread serverThread;
-	private bool isRunning;
-
 	private DailyPuzzleGenManager DailyPuzzleGenManager;
 
 	public DailyPuzzleHttpServer()
@@ -28,85 +24,42 @@ public class DailyPuzzleHttpServer
 
 	public void StartServer()
 	{
-		if (isRunning)
+		var builder = WebApplication.CreateBuilder();
+
+		builder.WebHost.ConfigureKestrel(options =>
 		{
-			Console.WriteLine("WARNING: Server is already running.");
-			return;
-		}
-
-		// Create and configure the HTTP listener
-		httpListener = new HttpListener();
-		httpListener.Prefixes.Add($"http://*:{Port}/"); // Change port as needed
-		isRunning = true;
-
-		// Start the server thread
-		serverThread = new Thread(HandleRequests);
-		serverThread.Start();
-		Console.WriteLine($"HTTP server started on http://*:{Port}/");
-	}
-
-	public void StopServer()
-	{
-		if (!isRunning) return;
-
-		isRunning = false;
-		httpListener.Stop();
-		httpListener.Close();
-
-		if (serverThread != null && serverThread.IsAlive)
-			serverThread.Join();
-
-		Console.WriteLine("HTTP server stopped.");
-	}
-
-	private void HandleRequests()
-	{
-		httpListener.Start();
-		Console.WriteLine("Listening...");
-
-		while (isRunning)
-		{
-			try
+			options.Listen(IPAddress.Any, Port, listenOptions =>
 			{
-				// Wait for an incoming request
-				HttpListenerContext context = httpListener.GetContext();
-				ProcessRequest(context);
-			}
-			catch (HttpListenerException ex)
-			{
-				if (isRunning)
-					Console.WriteLine("ERROR: HTTP Listener exception: " + ex.Message);
-			}
-		}
+				listenOptions.UseHttps("cert.pfx", "12346");
+			});
+		});
+
+		var app = builder.Build();
+		
+		BuildEndpoints(app);
+
+#if DEBUG
+		Console.WriteLine($"Starting Kestrel server on http://*:{Port}");
+		app.Run($"http://*:{Port}");
+#else
+		Console.WriteLine($"Starting Kestrel server on https://*:{Port}");
+		app.Run($"https://*:{Port}");
+#endif
 	}
 
-	private void ProcessRequest(HttpListenerContext context)
+	private void BuildEndpoints(WebApplication app)
 	{
-		// Get the request
-		HttpListenerRequest request = context.Request;
-
-		var urlParts = request.RawUrl.Split("/", StringSplitOptions.RemoveEmptyEntries);
-
-		if (urlParts.Length == 2 && urlParts[0] == "Puzzles" && urlParts[1] == "Daily")
-		{
-			ProcessDailyPuzzlesRequest(context);
-		}
-		else // No expected path found
-		{
-			context.Response.StatusCode = 404;
-			context.Response.Close();
-			Console.WriteLine($"Served 404 for request: {request.HttpMethod} {request.RawUrl}");
-		}
+		app.MapGet("/Puzzles/Daily", Puzzles_Daily);
 	}
 
-	private void ProcessDailyPuzzlesRequest(HttpListenerContext context)
+	private async Task Puzzles_Daily(HttpRequest request, HttpResponse response)
 	{
-		// TODO do something with the user id
-		var userId = context.Request.Headers.Get("User-Id") ?? "";
+		// Extract "User-Id" from headers
+		var userId = request.Headers["User-Id"].ToString() ?? "";
 
-		// TODO fill in hash set based on verified user purchases
+		// Prepare availability keys based on user purchases
 		var puzzleAvailabilityKeys = new HashSet<int>();
-		if (userId != null && userId.Contains("WITH_PURCHASE"))
+		if (!string.IsNullOrEmpty(userId) && userId.Contains("WITH_PURCHASE"))
 		{
 			puzzleAvailabilityKeys.Add(1);
 			puzzleAvailabilityKeys.Add(2);
@@ -114,42 +67,39 @@ public class DailyPuzzleHttpServer
 			puzzleAvailabilityKeys.Add(4);
 		}
 
-		var requestedDateStr = context.Request.Headers.Get("Request-Date") ?? "";
-		var couldParse = DateTime.TryParseExact(requestedDateStr, REQUEST_DATE_FORMAT,
-			CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime requestedDate);
+		// Parse the "Request-Date" header
+		var requestedDateStr = request.Headers["Request-Date"].ToString();
+		var couldParse = DateTime.TryParseExact(
+			requestedDateStr,
+			REQUEST_DATE_FORMAT,
+			CultureInfo.InvariantCulture,
+			DateTimeStyles.None,
+			out DateTime requestedDate
+		);
+
 		if (!couldParse ||
-			requestedDate.Date < DateTime.Today.Date.AddDays(-1) || requestedDate.Date > DateTime.Today.Date.AddDays(1))
+			requestedDate.Date < DateTime.Today.Date.AddDays(-1) ||
+			requestedDate.Date > DateTime.Today.Date.AddDays(1))
 		{
 			requestedDate = DateTime.Today;
 		}
 
-		var puzzleList = DailyPuzzleGenManager.GetDailyPuzzles(dateTime: requestedDate, puzzleAvailabilityKeys);
-		RespondWithJson(context, new PuzzlesPayload(puzzleList));
+		var puzzleList = DailyPuzzleGenManager.GetDailyPuzzles(requestedDate, puzzleAvailabilityKeys);
 
-		var dayStr = "today's";
-		if (requestedDate.Date == DateTime.Today.Date.AddDays(-1))
-		{
-			dayStr = "yesterday's";
-		}
-		else if (requestedDate.Date == DateTime.Today.Date.AddDays(1))
-		{
-			dayStr = "tomorrow's";
-		}
-		Console.WriteLine($"Served {dayStr} daily puzzles for {userId}");
-	}
-
-	private void RespondWithJson(HttpListenerContext context, object toSerialize)
-	{
-		var response = context.Response;
+		// Prepare the response
+		var payload = new PuzzlesPayload(puzzleList);
 		response.ContentType = "application/json";
-		response.StatusCode = 200;
+		await response.WriteAsync(JsonConvert.SerializeObject(payload));
+		//await response.WriteAsJsonAsync(new { something = "hello" });
 
-		string responseData = JsonConvert.SerializeObject(toSerialize);
+		// Log the request
+		var dayStr = requestedDate.Date switch
+		{
+			var d when d == DateTime.Today.Date.AddDays(-1) => "yesterday's",
+			var d when d == DateTime.Today.Date.AddDays(1) => "tomorrow's",
+			_ => "today's"
+		};
 
-		// Write the response
-		byte[] buffer = Encoding.UTF8.GetBytes(responseData);
-		response.ContentLength64 = buffer.Length;
-		response.OutputStream.Write(buffer, 0, buffer.Length);
-		response.OutputStream.Close();
+		Console.WriteLine($"Served {dayStr} daily puzzles for {userId}");
 	}
 }

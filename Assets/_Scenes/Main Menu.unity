@@ -73318,6 +73318,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 944249027005072508, guid: c8b09d0f62d19794f88e4af319e73831,
+        type: 3}
+      propertyPath: FetchPuzzlesAddress
+      value: https://redprismgames.com
+      objectReference: {fileID: 0}
     - target: {fileID: 7616562566437679307, guid: c8b09d0f62d19794f88e4af319e73831,
         type: 3}
       propertyPath: m_Name

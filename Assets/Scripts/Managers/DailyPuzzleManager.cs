@@ -17,7 +17,7 @@ public class DailyPuzzleManager : MonoBehaviour
 
 
     [Header("Settings")]
-    public string FetchPuzzlesAddress = "18.215.172.110";
+    public string FetchPuzzlesAddress = "https://redprismgames.com";
     public ushort FetchPuzzlesPort = 55611;
     public string FetchPuzzlesPath = "Puzzles/Daily";
     public bool UseCache = false;
@@ -76,7 +76,7 @@ public class DailyPuzzleManager : MonoBehaviour
     private IEnumerator FetchJsonCoroutine()
     {
         var requestDate = DateTime.Now.Date;
-        var url = $"http://{FetchPuzzlesAddress}:{FetchPuzzlesPort}/{FetchPuzzlesPath}";
+        var url = $"{FetchPuzzlesAddress}:{FetchPuzzlesPort}/{FetchPuzzlesPath}";
         using UnityWebRequest request = UnityWebRequest.Get(url);
 
         // TODO populate user-id header with unique user identifier to verify purchase state server-side
