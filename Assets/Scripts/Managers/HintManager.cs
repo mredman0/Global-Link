@@ -56,7 +56,7 @@ public class HintManager : MonoBehaviour
             Debug.LogWarning("Do not use GainHints to reduce number of hints.");
             return;
         }
-#if !DEMO && FALSE
+#if !DEMO
         Hints += amount;
         SaveHints();
 #endif
