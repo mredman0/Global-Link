@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,6 +25,10 @@ public class HintCounter : MonoBehaviour
     private void OnHintUsed() => OnHintCountChanged();
     private void OnHintCountChanged()
     {
+#if DEMO
+        CountText.text = "∞";
+#else
         CountText.text = HintManager.Instance.GetHints().ToString();
+#endif
     }
 }

@@ -37,12 +37,14 @@ public class HintManager : MonoBehaviour
 
     public bool UseHint()
     {
+#if !DEMO
         if(Hints < 1)
         {
             return false;
         }
         Hints--;
         SaveHints();
+#endif
         HintUsed?.Invoke();
         return true;
     }
@@ -54,8 +56,10 @@ public class HintManager : MonoBehaviour
             Debug.LogWarning("Do not use GainHints to reduce number of hints.");
             return;
         }
+#if !DEMO && FALSE
         Hints += amount;
         SaveHints();
+#endif
         HintGained?.Invoke();
     }
 
