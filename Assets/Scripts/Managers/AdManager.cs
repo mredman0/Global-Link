@@ -66,6 +66,10 @@ public class AdManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+#if DEMO
+        SetAdFree(true);
+#endif
+
         if(PurchaseManager.Instance.IsInitialized)
         {
             OnPurchaseManagerInitialized();
@@ -163,7 +167,7 @@ public class AdManager : MonoBehaviour
     }
 
 
-    #region Banner
+#region Banner
     private LevelPlayBannerAd BannerAd;
 	private void InitBannerAd()
     {
@@ -187,9 +191,9 @@ public class AdManager : MonoBehaviour
     void BannerOnAdCollapsedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdCollapsedEvent"); }
     void BannerOnAdLeftApplicationEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLeftApplicationEvent"); }
     void BannerOnAdExpandedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdExpandedEvent"); }
-    #endregion
+#endregion
 
-    #region Interstitial
+#region Interstitial
     // Interstitial Ads being shown depends on how many puzzles have been opened
     private uint PuzzlesOpenedSinceLastInterstitial;
     public void PuzzleOpened()
@@ -316,7 +320,7 @@ public class AdManager : MonoBehaviour
     }
 #endregion
 
-    #region Rewarded Hint
+#region Rewarded Hint
     private LevelPlayRewardedAd RewardedHintAd;
     public bool LoadRewardedHint()
     {
@@ -412,9 +416,9 @@ public class AdManager : MonoBehaviour
         }
         AdRewarded?.Invoke(reward.Name, reward.Amount);
     }
-	#endregion
+#endregion
 
-	#region Ad-Free Mode
+#region Ad-Free Mode
     public void SetAdFree(bool adFree)
     {
         AdFreeMode = adFree;
@@ -444,5 +448,5 @@ public class AdManager : MonoBehaviour
             }
         }
     }
-	#endregion
+#endregion
 }

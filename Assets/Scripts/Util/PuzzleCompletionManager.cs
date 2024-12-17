@@ -133,10 +133,15 @@ public class PuzzleCompletionManager : MonoBehaviour
         TotalPuzzles[pack] = 0;
         try
         {
-            var packInfo = Addressables.LoadAssetAsync<PackInfo>($"Packs/{pack}.asset").WaitForCompletion();
-            TotalPuzzles[pack] = packInfo.NumLevels;
+            TotalPuzzles[pack] = PackInfo[pack].NumLevels;
         }
         catch { }
+#if DEMO
+        if(pack != "Tutorial")
+        {
+            TotalPuzzles[pack] = Mathf.Min(TotalPuzzles[pack], 3);
+        }
+#endif
 
         // Get completed puzzles
         var path = Path.Combine(CompletionFolder, $"{pack}.dat");

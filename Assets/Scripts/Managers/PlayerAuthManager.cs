@@ -28,6 +28,10 @@ public class PlayerAuthManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         MainThreadContext = SynchronizationContext.Current;
 
+#if DEMO
+        return;
+#endif
+
 #if UNITY_EDITOR
         Action onStartup = null;
 #elif (UNITY_ANDROID)

@@ -37,12 +37,13 @@ public class DailyPuzzleManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
+#if !DEMO
         CacheDirectory = Path.Combine(Application.persistentDataPath, "DPD");
 
         LoadPuzzles();
+#endif
     }
-
+#if !DEMO
     private void LoadPuzzles()
     {
         if (!UseCache || !LoadCachedPuzzles())
@@ -169,6 +170,7 @@ public class DailyPuzzleManager : MonoBehaviour
         PuzzlesAreReady = true;
         DailyPuzzlesReady?.Invoke();
     }
+#endif
 
     public PuzzleConfig GetPuzzle(string id)
     {

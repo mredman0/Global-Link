@@ -7,10 +7,14 @@ using UnityEngine;
 
 public class CustomAddressablesBuild
 {
-    public static void ConfigureAddressables(bool isDedicatedServer)
+    public static void ConfigureAddressables(bool isDedicatedServer, bool isDemo)
     {
         var excludeLabels = new List<string>();
         excludeLabels.Add(isDedicatedServer ? "Exclude-On-Server" : "Exclude-On-Client");
+        if(isDemo)
+        {
+            excludeLabels.Add("Exclude-On-Demo");
+        }
 
         var defaultGroupName = isDedicatedServer ? "Default Server" : "Default Client";
 
@@ -60,9 +64,9 @@ public class CustomAddressablesBuild
         }
     }
 
-    public static void ConfigureAndBuildAddressables(bool isDedicatedServer)
+    public static void ConfigureAndBuildAddressables(bool isDedicatedServer, bool isDemo)
     {
-        ConfigureAddressables(isDedicatedServer);
+        ConfigureAddressables(isDedicatedServer, isDemo);
         AddressableAssetSettings.BuildPlayerContent();
     }
 }

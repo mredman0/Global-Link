@@ -42,6 +42,10 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		DontDestroyOnLoad(gameObject);
 		MainThreadContext = SynchronizationContext.Current;
 
+#if DEMO
+		return;
+#endif
+
 		if (UnityServicesManager.Instance.Initialized)
 		{
 			Initialize();
@@ -89,7 +93,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 
 	private const string ID_PREFIX = "com.redprismgames.chromasphere.";
 
-	#region IDetailedStoreListener
+#region IDetailedStoreListener
 	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
 	{
 		Debug.Log("UnityPurchasing initialized");
@@ -163,14 +167,14 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 	{
 		PurchaseFailed?.Invoke(product, failureReason);
 	}
-	#endregion
+#endregion
 
-	#region API
+#region API
 	public void InitiatePurchase(string productId)
 	{
 		Controller.InitiatePurchase(productId);
 	}
 
 	public Product GetProduct(string productId) => Controller.products.WithID(productId);
-	#endregion
+#endregion
 }

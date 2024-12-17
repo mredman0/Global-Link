@@ -21,6 +21,7 @@ MonoBehaviour:
     m_Address: Expert
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Exclude-On-Demo
     - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0

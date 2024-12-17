@@ -24,6 +24,10 @@ public class UnityServicesManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+#if DEMO
+        return;
+#endif
+
         Debug.Log("Beginning Unity Services initialization...");
         UnityServices.InitializeAsync().ContinueWith(task => {
             if (task.IsCompleted)

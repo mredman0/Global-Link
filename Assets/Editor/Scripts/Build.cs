@@ -87,6 +87,15 @@ public class Build
     }
 
 
+	#region Android Actions
+	[MenuItem("Build/Android/Build DEV")]
+    public static void BuildAndroidDev() => BuildAndRunAndroid(dev: true, clean: false, buildAppBundle: true);
+    [MenuItem("Build/Android/Build RELEASE")]
+    public static void BuildAndroidRelease() => BuildAndRunAndroid(dev: false, clean: false, buildAppBundle: true);
+    [MenuItem("Build/Android/Build+Run DEV")]
+    public static void BuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: false, runAfterBuild: true, buildAppBundle: false);
+    [MenuItem("Build/Android/Build+Run RELEASE")]
+    public static void BuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: false, runAfterBuild: true, buildAppBundle: false);
     [MenuItem("Build/Android/Clean Build DEV")]
     public static void CleanBuildAndroidDev() => BuildAndRunAndroid(dev: true, clean: true, buildAppBundle: true);
     [MenuItem("Build/Android/Clean Build RELEASE")]
@@ -95,7 +104,28 @@ public class Build
     public static void CleanBuildAndRunAndroidDev() => BuildAndRunAndroid(dev: true, clean: true, runAfterBuild: true, buildAppBundle: false);
     [MenuItem("Build/Android/Clean Build+Run RELEASE")]
     public static void CleanBuildAndRunAndroidRelease() => BuildAndRunAndroid(dev: false, clean: true, runAfterBuild: true, buildAppBundle: false);
-    public static void BuildAndRunAndroid(bool dev, bool clean = false, bool runAfterBuild = false, bool buildAppBundle = false)
+    #endregion
+
+    #region Android Demo Actions
+    [MenuItem("Build/Android DEMO/Build DEV")]
+    public static void BuildAndroidDemoDev() => BuildAndRunAndroid(dev: true, clean: false, buildAppBundle: true, demo: true);
+    [MenuItem("Build/Android DEMO/Build RELEASE")]
+    public static void BuildAndroidDemoRelease() => BuildAndRunAndroid(dev: false, clean: false, buildAppBundle: true, demo: true);
+    [MenuItem("Build/Android DEMO/Build+Run DEV")]
+    public static void BuildAndRunAndroidDemoDev() => BuildAndRunAndroid(dev: true, clean: false, runAfterBuild: true, buildAppBundle: false, demo: true);
+    [MenuItem("Build/Android DEMO/Build+Run RELEASE")]
+    public static void BuildAndRunAndroidDemoRelease() => BuildAndRunAndroid(dev: false, clean: false, runAfterBuild: true, buildAppBundle: false, demo: true);
+    [MenuItem("Build/Android DEMO/Clean Build DEV")]
+    public static void CleanBuildAndroidDemoDev() => BuildAndRunAndroid(dev: true, clean: true, buildAppBundle: true, demo: true);
+    [MenuItem("Build/Android DEMO/Clean Build RELEASE")]
+    public static void CleanBuildAndroidDemoRelease() => BuildAndRunAndroid(dev: false, clean: true, buildAppBundle: true, demo: true);
+    [MenuItem("Build/Android DEMO/Clean Build+Run DEV")]
+    public static void CleanBuildAndRunAndroidDemoDev() => BuildAndRunAndroid(dev: true, clean: true, runAfterBuild: true, buildAppBundle: false, demo: true);
+    [MenuItem("Build/Android DEMO/Clean Build+Run RELEASE")]
+    public static void CleanBuildAndRunAndroidDemoRelease() => BuildAndRunAndroid(dev: false, clean: true, runAfterBuild: true, buildAppBundle: false, demo: true);
+    #endregion
+
+    public static void BuildAndRunAndroid(bool dev, bool clean = false, bool runAfterBuild = false, bool buildAppBundle = false, bool demo = false)
     {
         if (runAfterBuild && !Android_IsDeviceConnected())
         {
@@ -104,6 +134,12 @@ public class Build
         }
 
         SelectAndroid(); // Make sure we're in Android player mode
+
+        var scriptingDefines = new List<string>();
+        if(demo)
+        {
+            scriptingDefines.Add("DEMO");
+        }
 
         var buildOptions = BuildOptions.None;
         if (dev)
@@ -121,7 +157,8 @@ public class Build
             scenes = scenes,
             locationPathName = apkPath,
             target = BuildTarget.Android,
-            options = buildOptions
+            options = buildOptions,
+            extraScriptingDefines = scriptingDefines.ToArray()
         };
 
         var success = _Build(options, isDedicatedServer: false, clean);
@@ -336,7 +373,7 @@ public class Build
             }
             Directory.CreateDirectory(directory);
         }
-        CustomAddressablesBuild.ConfigureAddressables(isDedicatedServer);
+        CustomAddressablesBuild.ConfigureAddressables(isDedicatedServer, options.extraScriptingDefines.Contains("DEMO"));
         var report = BuildPipeline.BuildPlayer(options);
         return report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded;
     }
