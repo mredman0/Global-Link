@@ -53,6 +53,7 @@
     <type fullname="PuzzleProvider" preserve="all" />
     <type fullname="PuzzleUIController" preserve="all" />
     <type fullname="SceneLoader" preserve="all" />
+    <type fullname="ScreenshotUtility" preserve="all" />
     <type fullname="SettingsController" preserve="all" />
     <type fullname="SettingsManager" preserve="all" />
     <type fullname="SpecialOptionPicker" preserve="all" />

@@ -67,27 +67,17 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		{
 			purchasingModule.useFakeStoreAlways = UseFakeStore;
 			purchasingModule.useFakeStoreUIMode = FakeStoreUIMode;
-		}
-		var builder = ConfigurationBuilder.Instance(purchasingModule);
-
-		if(UseFakeStore)
-		{
 			Debug.Log("Using Fake Store...");
-			builder.AddProducts(new List<ProductDefinition>()
-			{
-				new ProductDefinition($"{ID_PREFIX}hints_small", $"{ID_PREFIX}hints_small", ProductType.Consumable, true, new PayoutDefinition(PayoutType.Resource, "hint", 10)),
-				new ProductDefinition($"{ID_PREFIX}hints_large", $"{ID_PREFIX}hints_large", ProductType.Consumable, true, new PayoutDefinition(PayoutType.Resource, "hint", 100)),
-				new ProductDefinition($"{ID_PREFIX}ad_free", $"{ID_PREFIX}ad_free", ProductType.NonConsumable, true),
-			});
-		}
-		else
-		{
-			builder.AddProduct($"{ID_PREFIX}hints_small", ProductType.Consumable);
-			builder.AddProduct($"{ID_PREFIX}hints_large", ProductType.Consumable);
-			builder.AddProduct($"{ID_PREFIX}ad_free", ProductType.NonConsumable);
 		}
 
-		Debug.Log("Calling UnityPurchasing.Initialize...");
+		var builder = ConfigurationBuilder.Instance(purchasingModule);
+		builder.AddProducts(new List<ProductDefinition>()
+		{
+			new ProductDefinition($"{ID_PREFIX}hints_small", $"{ID_PREFIX}hints_small", ProductType.Consumable, true, new PayoutDefinition(PayoutType.Resource, "hint", 10)),
+			new ProductDefinition($"{ID_PREFIX}hints_large", $"{ID_PREFIX}hints_large", ProductType.Consumable, true, new PayoutDefinition(PayoutType.Resource, "hint", 100)),
+			new ProductDefinition($"{ID_PREFIX}ad_free", $"{ID_PREFIX}ad_free", ProductType.NonConsumable, true),
+		});
+
 		UnityPurchasing.Initialize(this, builder);
 	}
 
