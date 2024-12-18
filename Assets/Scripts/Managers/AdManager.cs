@@ -124,7 +124,13 @@ public class AdManager : MonoBehaviour
 
         LevelPlay.OnInitFailed += OnSdkInitFailed;
         LevelPlay.OnInitSuccess += OnSdkInitSuccess;
-        LevelPlay.Init(AppKey, "TestUserId");
+#if UNITY_ANDROID
+        var userId = GooglePlayGames.PlayGamesPlatform.Instance?.GetUserId() ?? "";
+#else
+        var userId = "TestUserId";
+#endif
+        Debug.Log($"Initializing LevelPlay with userId: {userId}");
+        LevelPlay.Init(AppKey, userId);
     }
 
     private void OnApplicationPause(bool pause)
@@ -183,11 +189,19 @@ public class AdManager : MonoBehaviour
 
         BannerAd.LoadAd();
     }
-    void BannerOnAdLoadedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLoadedEvent"); }
-    void BannerOnAdLoadFailedEvent(LevelPlayAdError ironSourceError) { Debug.LogWarning("BannerOnAdLoadFailedEvent"); }
+    void BannerOnAdLoadedEvent(LevelPlayAdInfo adInfo) { }
+    void BannerOnAdLoadFailedEvent(LevelPlayAdError ironSourceError)
+    {
+        Debug.LogWarning("BannerOnAdLoadFailedEvent");
+        Debug.LogWarning($"{ironSourceError.ErrorCode}: {ironSourceError.ErrorMessage}");
+    }
     void BannerOnAdClickedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdClickedEvent"); }
-    void BannerOnAdDisplayedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdDisplayedEvent"); }
-    void BannerOnAdDisplayFailedEvent(LevelPlayAdDisplayInfoError adInfoError) { Debug.LogWarning("BannerOnAdDisplayFailedEvent"); }
+    void BannerOnAdDisplayedEvent(LevelPlayAdInfo adInfo) { }
+    void BannerOnAdDisplayFailedEvent(LevelPlayAdDisplayInfoError adInfoError)
+    {
+        Debug.LogWarning("BannerOnAdDisplayFailedEvent");
+        Debug.LogWarning($"{adInfoError.LevelPlayError.ErrorCode}: {adInfoError.LevelPlayError.ErrorMessage}");
+    }
     void BannerOnAdCollapsedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdCollapsedEvent"); }
     void BannerOnAdLeftApplicationEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLeftApplicationEvent"); }
     void BannerOnAdExpandedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdExpandedEvent"); }
