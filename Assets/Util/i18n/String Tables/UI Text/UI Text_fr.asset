@@ -148,6 +148,14 @@ MonoBehaviour:
       pas pu \xEAtre compl\xE9t\xE9."
     m_Metadata:
       m_Items: []
+  - m_Id: 12005776692629504
+    m_Localized: Plus de puzzles quotidiens
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12008259829649408
+    m_Localized: TOUS
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

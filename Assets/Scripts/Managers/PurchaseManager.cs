@@ -18,6 +18,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 	public event Action<Product, PurchaseFailureReason> PurchaseFailed;
 	public event Action<bool> AdFreeChanged;
 	public event Action<int> HintsPurchased;
+	public event Action DailyPuzzleAccessChanged;
 
 	[Header("Settings")]
 	public bool UseFakeStore;
@@ -73,15 +74,22 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		var builder = ConfigurationBuilder.Instance(purchasingModule);
 		builder.AddProducts(new List<ProductDefinition>()
 		{
+			new ProductDefinition($"{ID_PREFIX}ad_free", $"{ID_PREFIX}ad_free", ProductType.NonConsumable, true),
+
 			new ProductDefinition($"{ID_PREFIX}hints_small", $"{ID_PREFIX}hints_small", ProductType.Consumable, true, new PayoutDefinition(PayoutType.Resource, "hint", 10)),
 			new ProductDefinition($"{ID_PREFIX}hints_large", $"{ID_PREFIX}hints_large", ProductType.Consumable, true, new PayoutDefinition(PayoutType.Resource, "hint", 100)),
-			new ProductDefinition($"{ID_PREFIX}ad_free", $"{ID_PREFIX}ad_free", ProductType.NonConsumable, true),
+
+			new ProductDefinition($"{ID_PREFIX}daily_puzzles_beginner", $"{ID_PREFIX}daily_puzzles_beginner", ProductType.NonConsumable, true),
+			new ProductDefinition($"{ID_PREFIX}daily_puzzles_intermediate", $"{ID_PREFIX}daily_puzzles_intermediate", ProductType.NonConsumable, true),
+			new ProductDefinition($"{ID_PREFIX}daily_puzzles_expert", $"{ID_PREFIX}daily_puzzles_expert", ProductType.NonConsumable, true),
+			new ProductDefinition($"{ID_PREFIX}daily_puzzles_grandmaster", $"{ID_PREFIX}daily_puzzles_grandmaster", ProductType.NonConsumable, true),
+			new ProductDefinition($"{ID_PREFIX}daily_puzzles_all", $"{ID_PREFIX}daily_puzzles_all", ProductType.NonConsumable, true),
 		});
 
 		UnityPurchasing.Initialize(this, builder);
 	}
 
-	private const string ID_PREFIX = "com.redprismgames.chromasphere.";
+	public const string ID_PREFIX = "com.redprismgames.chromasphere.";
 
 #region IDetailedStoreListener
 	public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
@@ -146,6 +154,17 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 			AdFreeChanged?.Invoke(true);
 			return PurchaseProcessingResult.Complete;
 		}
+		
+		if(id == "daily_puzzles_beginner" ||
+			id == "daily_puzzles_intermediate" ||
+			id == "daily_puzzles_expert" ||
+			id == "daily_puzzles_grandmaster" ||
+			id == "daily_puzzles_all")
+		{
+			DailyPuzzleAccessChanged?.Invoke();
+			return PurchaseProcessingResult.Complete;
+		}
+
 		return PurchaseProcessingResult.Complete;
 	}
 

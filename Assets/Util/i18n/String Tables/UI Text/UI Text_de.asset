@@ -147,6 +147,14 @@ MonoBehaviour:
       nicht abgeschlossen werden."
     m_Metadata:
       m_Items: []
+  - m_Id: 12005776692629504
+    m_Localized: "Mehr t\xE4gliche R\xE4tsel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12008259829649408
+    m_Localized: ALLE
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

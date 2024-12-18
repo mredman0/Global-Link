@@ -143,6 +143,14 @@ MonoBehaviour:
     m_Key: Purchase Error
     m_Metadata:
       m_Items: []
+  - m_Id: 12005776692629504
+    m_Key: More Daily Puzzles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12008259829649408
+    m_Key: ALL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

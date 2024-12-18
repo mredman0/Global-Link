@@ -11,15 +11,21 @@ public class DailyPuzzlesPageButton : MonoBehaviour
     {
         Button.interactable = DailyPuzzleManager.Instance.PuzzlesAreReady;
         DailyPuzzleManager.Instance.DailyPuzzlesReady += OnDailyPuzzlesReady;
+        DailyPuzzleManager.Instance.DailyPuzzlesUnready += OnDailyPuzzlesUnready;
     }
 
     private void OnDestroy()
     {
         DailyPuzzleManager.Instance.DailyPuzzlesReady -= OnDailyPuzzlesReady;
+        DailyPuzzleManager.Instance.DailyPuzzlesUnready -= OnDailyPuzzlesUnready;
     }
 
     private void OnDailyPuzzlesReady()
     {
         Button.interactable = true;
+    }
+    private void OnDailyPuzzlesUnready()
+    {
+        Button.interactable = false;
     }
 }
