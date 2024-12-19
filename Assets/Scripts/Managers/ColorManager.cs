@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -8,13 +10,15 @@ public class ColorManager : MonoBehaviour
 {
     public static ColorManager Instance { get; set; }
 
-    public delegate void ColorSchemeChangedEvent();
-    public event ColorSchemeChangedEvent ColorSchemeChanged;
+    public event Action Initialized;
+
+    public event Action ColorSchemeChanged;
 
     [Header("Required References")]
     public List<string> BaseColorSchemes;
 
     [Header("State")]
+    public bool IsInitialized = false;
     public ColorScheme Current;
     public string CurrentId;
     public Dictionary<string, ColorScheme> AvailableColorSchemes = new Dictionary<string, ColorScheme>();
@@ -42,19 +46,29 @@ public class ColorManager : MonoBehaviour
         {
             colorSchemesToLoad = availableColorSchemesValue.Split(',');
         }
-        foreach(var schemeToLoad in colorSchemesToLoad)
+        LoadColorSchemes(colorSchemesToLoad, OnFirstLoadComplete);
+    }
+
+    private void LoadColorSchemes(IEnumerable<string> schemeIds, Action onLoadComplete)
+    {
+        var handle = Addressables.LoadAssetsAsync<ColorScheme>(schemeIds.Select(id => $"ColorSchemes/{id}"), (scheme) =>
         {
-            LoadColorScheme(schemeToLoad);
-        }
+            AvailableColorSchemes[scheme.Id] = scheme;
+        }, Addressables.MergeMode.Union);
+        handle.Completed += (_) => onLoadComplete?.Invoke();
+    }
+
+    private void OnFirstLoadComplete()
+    {
         SettingsManager.Instance.SetString(AVAILABLE_COLOR_SCHEMES_KEY, string.Join(',', AvailableColorSchemes.Keys));
-
-
         var saved = SettingsManager.Instance.GetString(CURRENT_COLOR_SCHEME_KEY);
-        if(!AvailableColorSchemes.ContainsKey(saved))
+        if (!AvailableColorSchemes.ContainsKey(saved))
         {
             saved = SettingsManager.Instance.GetStringDefault(CURRENT_COLOR_SCHEME_KEY);
         }
         SelectColorScheme(saved);
+        IsInitialized = true;
+        Initialized?.Invoke();
     }
 
     public void LoadColorScheme(string colorSchemeId)

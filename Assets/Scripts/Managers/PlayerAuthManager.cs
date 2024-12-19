@@ -1,11 +1,14 @@
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.Services.Authentication;
 using UnityEngine;
+
+#if UNITY_ANDROID
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+#endif
 
 public class PlayerAuthManager : MonoBehaviour
 {

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340feea8c6717b347854f473f7fb1aa3, type: 3}
   m_Name: Cool
   m_EditorClassIdentifier: 
+  Id: Cool
   Colors:
   - {r: 0.3882353, g: 0.53333336, b: 0.8627451, a: 1}
   - {r: 0.3529412, g: 0.91764706, b: 0.3529412, a: 1}

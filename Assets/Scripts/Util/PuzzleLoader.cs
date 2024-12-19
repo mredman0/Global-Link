@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 public class PuzzleLoader : MonoBehaviour
@@ -33,32 +35,43 @@ public class PuzzleLoader : MonoBehaviour
 			return;
 		}
 
-		if(PuzzlePack == "Daily")
+		void onPuzzleLoaded()
+		{
+			if (AllowInterstitial)
+			{
+				AdManager.Instance.InterstitialClosed += DoLoad;
+				if (!AdManager.Instance.ShowInterstitial())
+				{
+					AdManager.Instance.InterstitialClosed -= DoLoad;
+					DoLoad();
+				}
+				return;
+			}
+			DoLoad();
+		}
+
+		if (PuzzlePack == "Daily")
 		{
 			PuzzleConfig = DailyPuzzleManager.Instance.GetPuzzle(PuzzleIdInPack);
+			onPuzzleLoaded();
 		}
 		else
 		{
 			string resourcePath = $"{PuzzlePack}/{PuzzleIdInPack}.asset";
-			PuzzleConfig = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath).WaitForCompletion();
-			if (!PuzzleConfig)
+			var loadHandle = Addressables.LoadAssetAsync<PuzzleConfig>(resourcePath);
+			loadHandle.Completed += (result) =>
 			{
-				Debug.LogError($"No puzzle found at resource path: {resourcePath}");
-				return;
-			}
+				if (result.Status != AsyncOperationStatus.Succeeded)
+				{
+					Debug.LogError($"No puzzle found at resource path: {resourcePath}");
+					return;
+				}
+				PuzzleConfig = result.Result;
+
+				onPuzzleLoaded();
+			};
 		}
 
-		if(AllowInterstitial)
-		{
-			AdManager.Instance.InterstitialClosed += DoLoad;
-			if(!AdManager.Instance.ShowInterstitial())
-			{
-				AdManager.Instance.InterstitialClosed -= DoLoad;
-				DoLoad();
-			}
-			return;
-		}
-		DoLoad();
 	}
 
 	private void DoLoad()

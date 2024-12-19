@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340feea8c6717b347854f473f7fb1aa3, type: 3}
   m_Name: Hot
   m_EditorClassIdentifier: 
+  Id: Hot
   Colors:
   - {r: 1, g: 0.5882353, b: 0.21960784, a: 1}
   - {r: 0.9098039, g: 0.3372549, b: 0.6392157, a: 1}

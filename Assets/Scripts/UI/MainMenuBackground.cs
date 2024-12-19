@@ -36,12 +36,20 @@ public class MainMenuBackground : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+        if(ColorManager.Instance.IsInitialized)
+        {
+            Init();
+        }
+        else
+        {
+            ColorManager.Instance.Initialized += Init;
+        }
         ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
     }
 
     private void OnDestroy()
     {
+        ColorManager.Instance.Initialized -= Init;
         ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
     }
 
