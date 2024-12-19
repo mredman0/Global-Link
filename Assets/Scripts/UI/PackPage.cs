@@ -24,7 +24,9 @@ public class PackPage : MonoBehaviour
             {
                 button.gameObject.SetActive(false);
             }
-            button.gameObject.SetActive(idInt < 4);
+            
+            var numToInclude = (button.PuzzlePack.Contains("Expert") || button.PuzzlePack.Contains("Grandmaster")) ? 1 : 3;
+            button.gameObject.SetActive(idInt <= numToInclude);
         }
     }
 #endif

@@ -139,7 +139,8 @@ public class PuzzleCompletionManager : MonoBehaviour
 #if DEMO
         if(pack != "Tutorial")
         {
-            TotalPuzzles[pack] = Mathf.Min(TotalPuzzles[pack], 3);
+            var numToInclude = (pack.Contains("Expert") || pack.Contains("Grandmaster")) ? 1 : 3;
+            TotalPuzzles[pack] = Mathf.Min(TotalPuzzles[pack], numToInclude);
         }
 #endif
 
