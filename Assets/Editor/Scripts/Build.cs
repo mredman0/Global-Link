@@ -148,6 +148,7 @@ public class Build
         }
 
         EditorUserBuildSettings.buildAppBundle = buildAppBundle;
+        EditorUserBuildSettings.androidCreateSymbols = buildAppBundle ? AndroidCreateSymbols.Public : AndroidCreateSymbols.Disabled;
         PlayerSettings.Android.useAPKExpansionFiles = buildAppBundle;
 
         var extension = buildAppBundle ? "aab" : "apk";
@@ -160,6 +161,15 @@ public class Build
             options = buildOptions,
             extraScriptingDefines = scriptingDefines.ToArray()
         };
+
+        PlayerSettings.keystorePass = System.Environment.GetEnvironmentVariable("UNITY_ANDROID_KEYSTORE_PASS");
+        PlayerSettings.keyaliasPass = System.Environment.GetEnvironmentVariable("UNITY_ANDROID_KEYSTORE_ALIAS_PASS");
+
+        if (string.IsNullOrEmpty(PlayerSettings.keystorePass) || string.IsNullOrEmpty(PlayerSettings.keyaliasPass))
+        {
+            Debug.LogError("Please make sure UNITY_ANDROID_KEYSTORE_PASS and UNITY_ANDROID_KEYSTORE_ALIAS_PASS are defined!");
+            return;
+        }
 
         var success = _Build(options, isDedicatedServer: false, clean);
         if (!success)
