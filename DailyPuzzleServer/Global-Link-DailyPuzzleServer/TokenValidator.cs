@@ -2,6 +2,6 @@
 {
 	public abstract class TokenValidator
 	{
-		public abstract Task<bool> ValidateTokenAsync(string productId, string purchaseToken);
+		public abstract Task<bool?> ValidateTokenAsync(string productId, string purchaseToken);
 	}
 }

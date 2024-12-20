@@ -38,6 +38,7 @@ public class DailyPuzzleHttpServer
 				listenOptions.UseHttps("cert.pfx", "12346");
 			});
 		});
+		builder.Logging.ClearProviders();
 
 		var app = builder.Build();
 		
@@ -107,22 +108,25 @@ public class DailyPuzzleHttpServer
 			var valid = DatabaseUtility.GetValidityForHash(hash, out DateTime? lastValidated);
 			var shouldValidate = false;
 			var isRevalidate = false;
-			if(valid.HasValue && !valid.Value)
+			if(valid.HasValue)
 			{
 				if(!valid.Value)
 				{
 					// Record is explicitly marked as invalid, ignore it
+					Log($"{hash} is invalid");
 					continue;
 				}
 				else if(lastValidated is null || (DateTime.UtcNow - lastValidated) > PURCHASE_TOKEN_VALID_FOR)
 				{
 					// Record is expired, we should revalidate
+					Log($"{hash} is expired");
 					shouldValidate = true;
 					isRevalidate = true;
 				}
 				else
 				{
 					// Record is valid, add corresponding products
+					Log($"{hash} is valid");
 					AddProductCodes(ref unlockedProducts, productId);
 				}
 			}
@@ -135,8 +139,18 @@ public class DailyPuzzleHttpServer
 
 			if(shouldValidate)
 			{
-				bool isValid = await purchaseValidator.ValidateTokenAsync(productId, token);
-				if (isValid)
+				bool? validated = await purchaseValidator.ValidateTokenAsync(productId, token);
+				if(!validated.HasValue)
+				{
+					// In case we can't validate due to some error with the API, leave things in the state they were before
+					// So if it was valid before, give them the benefit of the doubt until we try to validate again later
+					if(valid.HasValue && valid.Value)
+					{
+						// Add corresponding products
+						AddProductCodes(ref unlockedProducts, productId);
+					}
+				}
+				else if (validated.Value)
 				{
 					if(isRevalidate)
 					{
@@ -237,5 +251,10 @@ public class DailyPuzzleHttpServer
 	{
 		byte[] bytes = System.Text.Encoding.UTF8.GetBytes(token);
 		return Convert.ToBase64String(System.Security.Cryptography.SHA256.HashData(bytes));
+	}
+
+	private static void Log(string message)
+	{
+		Console.WriteLine($"[Server]: {message}");
 	}
 }

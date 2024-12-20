@@ -15,7 +15,6 @@ namespace Global_Link_DailyPuzzleServer
 		{
 			// Authenticate using the service account JSON file
 			var credential = GoogleCredential.FromFile(_gcloudCredentialsPath);
-				//.CreateScoped(AndroidPublisherService.Scope.Androidpublisher);
 
 			// Initialize the Android Publisher API client
 			_androidPublisherService = new AndroidPublisherService(new BaseClientService.Initializer()
@@ -25,19 +24,19 @@ namespace Global_Link_DailyPuzzleServer
 			});
 		}
 
-		public override async Task<bool> ValidateTokenAsync(string productId, string purchaseToken)
+		public override async Task<bool?> ValidateTokenAsync(string productId, string purchaseToken)
 		{
+			var request = _androidPublisherService.Purchases.Products.Get(_packageName, productId, purchaseToken);
 			try
 			{
 				// Call the purchases.products.get API to validate the token
-				var request = _androidPublisherService.Purchases.Products.Get(_packageName, productId, purchaseToken);
 				var purchase = await request.ExecuteAsync();
 
 				// Check if the purchase state is valid
 				// A valid purchase will have purchaseState = 0 (purchased), 1 (refunded), or 2 (canceled)
 				if (purchase.PurchaseState == 0)
 				{
-					Console.WriteLine("Token is valid.");
+					Console.WriteLine("Token validated.");
 					return true;  // The purchase is valid
 				}
 
@@ -48,7 +47,7 @@ namespace Global_Link_DailyPuzzleServer
 			{
 				// Handle API errors or network issues
 				Console.WriteLine("Error validating token: " + ex.Message);
-				return false;
+				return null;
 			}
 		}
 	}
