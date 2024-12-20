@@ -23,8 +23,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4690c55cce8abdc4ab43e1ceec50cdbd
+    m_Address: Assets/TWD
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5efdc5eca3d500148b6a96ad7dc3cd8a
     m_Address: ColorSchemes/Cool
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 616b4fc5b6ce61243bfae05685eda8c2
+    m_Address: Assets/Models
     m_ReadOnly: 0
     m_SerializedLabels:
     - Exclude-On-Server
@@ -41,14 +53,38 @@ MonoBehaviour:
     m_SerializedLabels:
     - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b61fefb8caa995b449443cc7cea4a1f8
+    m_Address: Assets/Prefabs
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bebcfe7fd4d1ca44db3b1bec1081ed1f
     m_Address: Main Menu
     m_ReadOnly: 0
     m_SerializedLabels:
     - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6489f209e70d644fbd09d58710b1cf0
+    m_Address: Assets/Shaders
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: da4da7bcef455b446a99494985b6ec1e
     m_Address: Audio
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4defd0593108b9428f1ecbd4f97dcf5
+    m_Address: Assets/Textures
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e68f94978e610ad4191b8686247a73d4
+    m_Address: Assets/Materials
     m_ReadOnly: 0
     m_SerializedLabels:
     - Exclude-On-Server

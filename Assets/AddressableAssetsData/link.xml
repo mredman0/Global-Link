@@ -20,7 +20,6 @@
     <type fullname="HintManager" preserve="all" />
     <type fullname="Incrementor" preserve="all" />
     <type fullname="InputManager" preserve="all" />
-    <type fullname="LanguageManager" preserve="all" />
     <type fullname="Lifetime" preserve="all" />
     <type fullname="LoadPuzzleButton" preserve="all" />
     <type fullname="LookAtCamera" preserve="all" />
@@ -143,6 +142,7 @@
     <type fullname="UnityEngine.Mesh" preserve="all" />
     <type fullname="UnityEngine.MeshFilter" preserve="all" />
     <type fullname="UnityEngine.MeshRenderer" preserve="all" />
+    <type fullname="UnityEngine.MonoBehaviour" preserve="all" />
     <type fullname="UnityEngine.Object" preserve="all" />
     <type fullname="UnityEngine.RectTransform" preserve="all" />
     <type fullname="UnityEngine.RenderSettings" preserve="all" />

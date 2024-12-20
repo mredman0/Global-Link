@@ -134,7 +134,7 @@ public class Build
         }
 
         SelectAndroid(); // Make sure we're in Android player mode
-
+        
         var scriptingDefines = new List<string>();
         if(demo)
         {
@@ -373,7 +373,14 @@ public class Build
             }
             Directory.CreateDirectory(directory);
         }
-        CustomAddressablesBuild.ConfigureAddressables(isDedicatedServer, options.extraScriptingDefines.Contains("DEMO"));
+        var result = CustomAddressablesBuild.ConfigureAndBuildAddressables(isDedicatedServer, options.extraScriptingDefines.Contains("DEMO"));
+        if(!string.IsNullOrEmpty(result.Error))
+        {
+            Debug.LogError($"Addressables Build Failed");
+            Debug.LogError(result.Error);
+            Debug.LogError($"Not continuing with build as addressables build failed");
+            return false;
+        }
         var report = BuildPipeline.BuildPlayer(options);
         return report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded;
     }

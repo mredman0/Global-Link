@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -138,11 +139,11 @@ public class SettingsController : MonoBehaviour
     #region Language
     private void LoadLanguage()
     {
-        LanguageOptionPicker.SetValue(LanguageManager.Instance.CurrentLocale().Identifier.Code);
+        LanguageOptionPicker.SetValue(LocalizationSettings.SelectedLocale.Identifier.Code);
     }
     public void SetLanguage(string locale)
     {
-        LanguageManager.Instance.SetLocale(locale);
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(new LocaleIdentifier(locale));
     }
     #endregion
 

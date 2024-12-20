@@ -4,6 +4,7 @@ using UnityEditor.AddressableAssets;
 using System.Collections.Generic;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using UnityEngine;
+using UnityEditor.AddressableAssets.Build;
 
 public class CustomAddressablesBuild
 {
@@ -64,9 +65,10 @@ public class CustomAddressablesBuild
         }
     }
 
-    public static void ConfigureAndBuildAddressables(bool isDedicatedServer, bool isDemo)
+    public static AddressablesPlayerBuildResult ConfigureAndBuildAddressables(bool isDedicatedServer, bool isDemo)
     {
         ConfigureAddressables(isDedicatedServer, isDemo);
-        AddressableAssetSettings.BuildPlayerContent();
+        AddressableAssetSettings.BuildPlayerContent(out AddressablesPlayerBuildResult result);
+        return result;
     }
 }

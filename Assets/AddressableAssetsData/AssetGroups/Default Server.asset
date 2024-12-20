@@ -23,6 +23,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - Exclude-On-Client
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cef6a0132350ee4c89835658bcb6a1f
+    m_Address: Assets/PuzzleBuilderLite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Client
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69b059b5695fad840afd4c26b39c30fc
+    m_Address: Assets/PuzzleBuilder
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Client
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d77eaec039136bf4eba7c3546b1c46a3
     m_Address: Daily Puzzle Provider
     m_ReadOnly: 0

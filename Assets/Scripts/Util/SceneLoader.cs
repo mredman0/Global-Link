@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
@@ -10,6 +12,9 @@ public class SceneLoader : MonoBehaviour
     public string DefaultSceneToLoad;
     public bool Additive = false;
     public bool AllowInterstitial;
+
+    [Header("State")]
+    public AsyncOperationHandle<SceneInstance>? LoadHandle;
 
     private string SceneToLoad;
 
@@ -35,6 +40,14 @@ public class SceneLoader : MonoBehaviour
         {
             AdManager.Instance.InterstitialClosed -= DoLoad;
         }
-        Addressables.LoadSceneAsync(SceneToLoad, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+        LoadHandle = Addressables.LoadSceneAsync(SceneToLoad, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+        LoadHandle.Value.Completed += LoadComplete;
+    }
+
+    private void LoadComplete(AsyncOperationHandle<SceneInstance> handle)
+    {
+        handle.Completed -= LoadComplete;
+        handle.Release();
+        LoadHandle = null;
     }
 }
