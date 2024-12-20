@@ -41,6 +41,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Exclude-On-Server
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8be317e0e994c8e4cb8c3fc2b93728f4
+    m_Address: Assets/Animation
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Exclude-On-Server
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a649cc7242473dc4e9b58ef5fbbf218b
     m_Address: Puzzle
     m_ReadOnly: 0
