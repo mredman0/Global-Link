@@ -22,6 +22,7 @@ public class PuzzleBackgroundController : MonoBehaviour
         CurrentColorIndex = -1;
         Puzzle.NodeSelected += OnNodeSelected;
         Puzzle.NodeDeselected += OnNodeDeselected;
+        Puzzle.ResetUsed += OnNodeDeselected;
 
         ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
     }
@@ -30,6 +31,7 @@ public class PuzzleBackgroundController : MonoBehaviour
     {
         Puzzle.NodeSelected -= OnNodeSelected;
         Puzzle.NodeDeselected -= OnNodeDeselected;
+        Puzzle.ResetUsed -= OnNodeDeselected;
 
         ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
     }
