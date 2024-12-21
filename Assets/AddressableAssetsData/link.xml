@@ -26,6 +26,7 @@
     <type fullname="LookAtSphereWithCameraUp" preserve="all" />
     <type fullname="MainMenuBackground" preserve="all" />
     <type fullname="MainMenuBackgroundRotator" preserve="all" />
+    <type fullname="MainMenuMainPage" preserve="all" />
     <type fullname="MaintainHorizontalFOV" preserve="all" />
     <type fullname="MenuManager" preserve="all" />
     <type fullname="MenuPage" preserve="all" />
@@ -153,6 +154,7 @@
     <type fullname="UnityEngine.Events.ArgumentCache" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.Events.PersistentCallGroup" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.Events.PersistentListenerMode" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Events.UnityEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.RectOffset" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
