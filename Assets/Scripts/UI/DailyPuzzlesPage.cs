@@ -33,6 +33,11 @@ public class DailyPuzzlesPage : MonoBehaviour
 
     private void OnDailyPuzzlesReady()
     {
+        foreach(var section in SectionContainer.GetComponentsInChildren<DailyPuzzlesSection>())
+        {
+            Destroy(section.gameObject);
+        }
+
         foreach(var kvp in DailyPuzzleManager.Instance.PuzzleGroups.OrderBy(kvp => kvp.Value.First()))
         {
             var sectionGO = Instantiate(SectionPrefab, SectionContainer);

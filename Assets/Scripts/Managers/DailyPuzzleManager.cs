@@ -148,6 +148,10 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("Store-Type", "iOS");
 #endif
 
+#if UNITY_EDITOR
+        var devProducts = new List<string>();
+#endif
+
         var productIds = new List<string>();
         var tokens = new List<string>();
 
@@ -165,12 +169,16 @@ public class DailyPuzzleManager : MonoBehaviour
             var product = PurchaseManager.Instance.GetProduct(productId);
             if (product != null && product.hasReceipt)
             {
+#if UNITY_EDITOR
+                devProducts.Add(productId);
+#else
                 var token = GetTokenFromReceipt(product.receipt);
                 if(!string.IsNullOrEmpty(token))
                 {
                     productIds.Add(productId);
                     tokens.Add(token);
                 }
+#endif
             }
         }
 
@@ -178,7 +186,6 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("Purchase-Tokens", string.Join(',', tokens));
 
 #if UNITY_EDITOR
-        var devProducts = new List<string>();
         if(EditorIncludeBeginner)
         {
             devProducts.Add($"{PurchaseManager.ID_PREFIX}daily_puzzles_beginner");
@@ -199,7 +206,7 @@ public class DailyPuzzleManager : MonoBehaviour
         {
             devProducts.Add($"{PurchaseManager.ID_PREFIX}daily_puzzles_all");
         }
-        request.SetRequestHeader("h8921rgh893wihgvi8w390hy9h2i389o3tr", string.Join(',', devProducts));
+        request.SetRequestHeader("h8921rgh893wihgvi8w390hy9h2i389o3tr", string.Join(',', devProducts.Distinct()));
 #endif
 
         request.SetRequestHeader("Request-Date", DateTime.Now.ToString(REQUEST_DATE_FORMAT));
@@ -302,7 +309,7 @@ public class DailyPuzzleManager : MonoBehaviour
     }
 #endif
 
-    public PuzzleConfig GetPuzzle(string id)
+                public PuzzleConfig GetPuzzle(string id)
     {
         if (!int.TryParse(id, out int idInt))
         {

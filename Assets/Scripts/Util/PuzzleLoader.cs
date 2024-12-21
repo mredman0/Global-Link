@@ -80,6 +80,7 @@ public class PuzzleLoader : MonoBehaviour
 		{
 			AdManager.Instance.InterstitialClosed -= DoLoad;
 		}
+		LoadingIndicator.Instance?.Show();
 		PuzzleProvider.Instance.PuzzleConfig = PuzzleConfig;
 		Addressables.LoadSceneAsync("Puzzle");
 	}

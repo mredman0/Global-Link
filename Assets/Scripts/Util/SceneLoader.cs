@@ -40,6 +40,10 @@ public class SceneLoader : MonoBehaviour
         {
             AdManager.Instance.InterstitialClosed -= DoLoad;
         }
+        if(!Additive)
+        {
+            LoadingIndicator.Instance?.Show();
+        }
         LoadHandle = Addressables.LoadSceneAsync(SceneToLoad, Additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
         LoadHandle.Value.Completed += LoadComplete;
     }
