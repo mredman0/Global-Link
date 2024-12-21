@@ -36,6 +36,7 @@ public class DailyPuzzleManager : MonoBehaviour
     public bool PuzzlesAreReady = false;
     public PuzzleConfig[] DailyPuzzles;
     public Dictionary<string, List<int>> PuzzleGroups;
+    public DateTime? LoadedDate;
 
     private bool RefetchPuzzlesWhenReady = false;
 
@@ -95,7 +96,8 @@ public class DailyPuzzleManager : MonoBehaviour
         {
             return false;
         }
-        string fileToLoad = Path.Combine(CacheDirectory, $"{DateTime.Now.ToString(DateFormat)}.dat");
+        var today = DateTime.Now.Date;
+        string fileToLoad = Path.Combine(CacheDirectory, $"{today.ToString(DateFormat)}.dat");
         if(!File.Exists(fileToLoad))
         {
             return false;
@@ -112,6 +114,7 @@ public class DailyPuzzleManager : MonoBehaviour
             RefetchPuzzlesWhenReady = false;
             RefetchPuzzles();
         }
+        LoadedDate = today;
         return true;
     }
 
@@ -233,7 +236,8 @@ public class DailyPuzzleManager : MonoBehaviour
             var payload = JsonUtility.FromJson<PuzzlesPayload>(json);
             PuzzleCompletionManager.Instance.ResetDailyPuzzleCompletion();
             PopulateDailyPuzzles(payload);
-            if(UseCache)
+            LoadedDate = requestDate;
+            if (UseCache)
             {
                 CachePuzzles(payload, requestDate);
             }
@@ -309,7 +313,20 @@ public class DailyPuzzleManager : MonoBehaviour
     }
 #endif
 
-                public PuzzleConfig GetPuzzle(string id)
+    public void RefetchPuzzlesIfNewDay()
+    {
+        if(!LoadedDate.HasValue || Initializing)
+        {
+            return;
+        }
+        var today = DateTime.Now.Date;
+        if(today != LoadedDate)
+        {
+            RefetchPuzzles();
+        }
+    }
+
+    public PuzzleConfig GetPuzzle(string id)
     {
         if (!int.TryParse(id, out int idInt))
         {
