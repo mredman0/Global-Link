@@ -426,37 +426,44 @@ public class Puzzle : MonoBehaviour
             {
                 // Selection by line
                 Node selectedNodeByLine = null;
+                var tappedColor = -1;
+                MultiLineRenderer tappedPath = null;
                 Vector3? tappedPoint = null;
+                var closestPathDistance = float.MaxValue;
+                var maximumDistanceForPathTap = Paths.Values.FirstOrDefault()?.EndWidth ?? 0;
 
                 foreach (var kvp in Paths)
                 {
                     var numPoints = kvp.Value.PositionCount;
                     var points = new Vector3[numPoints];
                     kvp.Value.GetPositions(points);
+
                     for(int i = 0; i < numPoints; i++)
                     {
-                        if(Vector3.Distance(points[i], hitInfo.point) < kvp.Value.EndWidth)
+                        var dist = Vector3.Distance(points[i], hitInfo.point);
+                        if (dist < closestPathDistance)
                         {
                             tappedPoint = points[i];
+                            closestPathDistance = dist;
+                            tappedColor = kvp.Key;
+                            tappedPath = kvp.Value;
+                        }
+                    }
+                }
+                if (tappedPoint.HasValue && closestPathDistance < maximumDistanceForPathTap)
+                {
+                    var nodesOfColor = Nodes.Where(n => n.Color == tappedColor);
+                    foreach (var nodeOfColor in nodesOfColor)
+                    {
+                        if (nodeOfColor.Path == tappedPath && nodeOfColor.transform.position == tappedPath.GetPosition(0))
+                        {
+                            selectedNodeByLine = nodeOfColor;
                             break;
                         }
                     }
-                    if(tappedPoint.HasValue)
-                    {
-                        var nodesOfColor = Nodes.Where(n => n.Color == kvp.Key);
-                        foreach(var nodeOfColor in nodesOfColor)
-                        {
-                            if(nodeOfColor.Path == kvp.Value && nodeOfColor.transform.position == kvp.Value.GetPosition(0))
-                            {
-                                selectedNodeByLine = nodeOfColor;
-                                break;
-                            }
-                        }
-                        break;
-                    }
                 }
 
-                if(selectedNodeByLine)
+                if (selectedNodeByLine)
                 {
                     OnPathTapped(selectedNodeByLine, tappedPoint.Value);
                 }
