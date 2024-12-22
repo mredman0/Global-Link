@@ -13,9 +13,6 @@ using UnityEngine;
 public class DailyPuzzleHttpServer
 {
 	public const string REQUEST_DATE_FORMAT = "yyyy-MM-dd";
-	public readonly TimeSpan PURCHASE_TOKEN_VALID_FOR = TimeSpan.FromDays(3);
-
-	public int Port = 55611;
 
 	private DailyPuzzleGenManager DailyPuzzleGenManager;
 
@@ -33,7 +30,7 @@ public class DailyPuzzleHttpServer
 
 		builder.WebHost.ConfigureKestrel(options =>
 		{
-			options.Listen(IPAddress.Any, Port, listenOptions =>
+			options.Listen(IPAddress.Any, Config.Current.Server_Port, listenOptions =>
 			{
 				listenOptions.UseHttps("cert.pfx", "12346");
 			});
@@ -45,11 +42,11 @@ public class DailyPuzzleHttpServer
 		BuildEndpoints(app);
 
 #if DEBUG
-		Console.WriteLine($"Starting Kestrel server on http://*:{Port}");
-		app.Run($"http://*:{Port}");
+		Console.WriteLine($"Starting Kestrel server on http://*:{Config.Current.Server_Port}");
+		app.Run($"http://*:{Config.Current.Server_Port}");
 #else
-		Console.WriteLine($"Starting Kestrel server on https://*:{Port}");
-		app.Run($"https://*:{Port}");
+		Console.WriteLine($"Starting Kestrel server on https://*:{Config.Current.Server_Port}");
+		app.Run($"https://*:{Config.Current.Server_Port}");
 #endif
 	}
 
@@ -105,7 +102,7 @@ public class DailyPuzzleHttpServer
 			var productId = productIds[i];
 			var hash = HashToken(token);
 
-			var valid = DatabaseUtility.GetValidityForHash(hash, out DateTime? lastValidated);
+			var valid = DatabaseUtility.GetValidityForHash(hash, out DateTime? validUntil, out int? timesValidated);
 			var shouldValidate = false;
 			var isRevalidate = false;
 			if(valid.HasValue)
@@ -116,7 +113,7 @@ public class DailyPuzzleHttpServer
 					Log($"{hash} is invalid");
 					continue;
 				}
-				else if(lastValidated is null || (DateTime.UtcNow - lastValidated) > PURCHASE_TOKEN_VALID_FOR)
+				else if(validUntil is null || (DateTime.UtcNow) > validUntil)
 				{
 					// Record is expired, we should revalidate
 					Log($"{hash} is expired");
@@ -154,11 +151,15 @@ public class DailyPuzzleHttpServer
 				{
 					if(isRevalidate)
 					{
-						DatabaseUtility.UpdateLastValidated(hash, DateTime.UtcNow);
+						var revalidatedValidUntil = DateTime.UtcNow + ValidityDurationBasedOnTrust(timesValidated ?? 0);
+						Log($"Revalidated token will be considered valid for the next {(revalidatedValidUntil - DateTime.UtcNow).TotalHours} hours");
+						DatabaseUtility.UpdateValidUntil(hash, revalidatedValidUntil, timesValidated.HasValue ? timesValidated.Value+1 : 1);
 					}
 					else
 					{
-						DatabaseUtility.InsertTokenHash(hash, DateTime.UtcNow, isValid: true);
+						var newTokenValidUntil = DateTime.UtcNow + ValidityDurationBasedOnTrust(0);
+						Log($"Newly validated token will be considered valid for the next {(newTokenValidUntil - DateTime.UtcNow).TotalHours} hours");
+						DatabaseUtility.InsertTokenHash(hash, newTokenValidUntil, isValid: true);
 					}
 					// Add corresponding products
 					AddProductCodes(ref unlockedProducts, productId);
@@ -245,6 +246,13 @@ public class DailyPuzzleHttpServer
 			return;
 		}
 		codes.AddRange(ProductIdToProductCodes[id]);
+	}
+
+	private static TimeSpan ValidityDurationBasedOnTrust(int timesValidated)
+	{
+		var table = Config.Current.Server_TokenValidityDaysTable;
+		var lookup = table[Math.Clamp(timesValidated, 0, table.Length-1)];
+		return TimeSpan.FromDays(lookup);
 	}
 
 	private string HashToken(string token)
