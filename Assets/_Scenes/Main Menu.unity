@@ -74107,6 +74107,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5813437451644562135, guid: 0199156845cbffa4ba74d3eb99ea0e30,
+        type: 3}
+      propertyPath: DebugTestDSANotification
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813437451644562135, guid: 0199156845cbffa4ba74d3eb99ea0e30,
+        type: 3}
+      propertyPath: NotificationsDialogPrefab
+      value: 
+      objectReference: {fileID: 9066721100824290417, guid: ef706d1123340ee4e994fc35cc11c13b,
+        type: 3}
+    - target: {fileID: 5813437451644562135, guid: 0199156845cbffa4ba74d3eb99ea0e30,
+        type: 3}
+      propertyPath: NotificationsDialogMainCanvas
+      value: 
+      objectReference: {fileID: 624637793}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
