@@ -126,20 +126,20 @@ public class DailyPuzzleManager : MonoBehaviour
         }
         else
         {
-            RefetchPuzzles();
+            RefetchPuzzles(resetCompletion: false);
         }
     }
 
-    private void RefetchPuzzles()
+    private void RefetchPuzzles(bool resetCompletion = true)
     {
         ClearCache();
         Initializing = true;
         PuzzlesAreReady = false;
         DailyPuzzlesUnready?.Invoke();
-        StartCoroutine(FetchJsonCoroutine());
+        StartCoroutine(FetchJsonCoroutine(resetCompletion));
     }
 
-    private IEnumerator FetchJsonCoroutine()
+    private IEnumerator FetchJsonCoroutine(bool resetCompletion = true)
     {
         var requestDate = DateTime.Now.Date;
         var url = $"{FetchPuzzlesAddress}:{FetchPuzzlesPort}/{FetchPuzzlesPath}";
@@ -234,7 +234,10 @@ public class DailyPuzzleManager : MonoBehaviour
             string json = request.downloadHandler.text;
 
             var payload = JsonUtility.FromJson<PuzzlesPayload>(json);
-            PuzzleCompletionManager.Instance.ResetDailyPuzzleCompletion();
+            if(resetCompletion)
+            {
+                PuzzleCompletionManager.Instance.ResetDailyPuzzleCompletion();
+            }
             PopulateDailyPuzzles(payload);
             LoadedDate = requestDate;
             if (UseCache)
