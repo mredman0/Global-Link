@@ -180,6 +180,8 @@ public class Build
         {
             PlayerSettings.Android.bundleVersionCode++;
             Debug.Log($"Android bundle version code incremented to {PlayerSettings.Android.bundleVersionCode}");
+            PlayerSettings.bundleVersion = IncrementVersionNumber(PlayerSettings.bundleVersion);
+            Debug.Log($"Version number incremented to {PlayerSettings.bundleVersion}");
         }
         if (runAfterBuild)
         {
@@ -394,6 +396,17 @@ public class Build
         var report = BuildPipeline.BuildPlayer(options);
         return report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded;
     }
+
+	#region Version Numbering
+    public static string IncrementVersionNumber(string current)
+    {
+        var parts = current.Split('.');
+        var major = int.Parse(parts[0]);
+        var minor = int.Parse(parts[1]);
+        var build = int.Parse(parts[2]);
+        return $"{major}.{minor}.{build+1}";
+    }
+	#endregion
 }
 
 public class IPInputWindow : EditorWindow
