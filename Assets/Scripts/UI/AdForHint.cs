@@ -46,7 +46,7 @@ public class AdForHint : MonoBehaviour
 	{
 		if (reward == HINT_REWARD_KEY)
 		{
-			HintManager.Instance.GainHints(amount);
+			_ = HintManager.Instance.GainHints(amount);
 			AdManager.Instance.LoadRewardedHint();
 		}
 	}

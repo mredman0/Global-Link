@@ -26,6 +26,8 @@ public class PlayerAuthManager : MonoBehaviour
     [Header("Settings")]
     public bool DebugTestDSANotification;
 
+    public bool IsAuthenticated => UnityServicesManager.Instance.Initialized && AuthenticationService.Instance.IsSignedIn;
+
     private SynchronizationContext MainThreadContext;
     private List<Notification> UnreadNotifications;
 
@@ -46,13 +48,13 @@ public class PlayerAuthManager : MonoBehaviour
 #endif
 
 #if UNITY_EDITOR
-        Action onStartup = null;
+        Action onStartup = SignInAnonymously;
 #elif (UNITY_ANDROID)
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         Action onStartup = LoginGooglePlayGames;
 #else
-        Action onStartup = null;
+        Action onStartup = SignInAnonymously;
 #endif
         if (onStartup is null)
         {
@@ -68,13 +70,13 @@ public class PlayerAuthManager : MonoBehaviour
     private void OnDestroy()
     {
 #if UNITY_EDITOR
-        Action onStartup = null;
+        Action onStartup = SignInAnonymously;
 #elif (UNITY_ANDROID)
         Action onStartup = LoginGooglePlayGames;
 #else
-        Action onStartup = null;
+        Action onStartup = SignInAnonymously;
 #endif
-        if(onStartup is null)
+        if (onStartup is null)
         {
             return;
         }
@@ -122,6 +124,7 @@ public class PlayerAuthManager : MonoBehaviour
             else
             {
                 Debug.LogError("Failed to retrieve Google play games authorization code");
+                SignInAnonymously();
             }
         });
     }
@@ -133,10 +136,36 @@ public class PlayerAuthManager : MonoBehaviour
 
     private async Task SignInWithGooglePlayGamesAsync(string authCode)
     {
+        Debug.Log("Signing in with Google Play Games...");
+        await SignInAsync(async () => await AuthenticationService.Instance.SignInWithGooglePlayGamesAsync(authCode), onFailure: SignInAnonymously);
+    }
+#endif
+
+	#region Anonymous
+    private void SignInAnonymously()
+    {
+        _ = SignInAnonymouslyAsync();
+    }
+    private async Task SignInAnonymouslyAsync()
+    {
+        Debug.Log("Signing in anonymously...");
+        await SignInAsync(async () => await AuthenticationService.Instance.SignInAnonymouslyAsync());
+    }
+	#endregion
+
+    private async Task SignInAsync(Func<Task> signInFunction, Action onSuccess = null, Action onFailure = null)
+    {
+        if (SynchronizationContext.Current != MainThreadContext)
+        {
+            MainThreadContext.Post(_ => _ = SignInAsync(signInFunction, onSuccess, onFailure), null);
+            return;
+        }
+
+        var success = false;
         try
         {
-            await AuthenticationService.Instance.SignInWithGooglePlayGamesAsync(authCode);
-            
+            await signInFunction();
+
             // Verify the LastNotificationDate
             var lastNotificationDate = AuthenticationService.Instance.LastNotificationDate;
             long storedNotificationDate = GetLastNotificationReadDate();
@@ -147,7 +176,8 @@ public class PlayerAuthManager : MonoBehaviour
                 UnreadNotifications = await AuthenticationService.Instance.GetNotificationsAsync();
             }
 
-            Debug.Log("Successfully signed in with Google Play Games.");
+            Debug.Log("Successfully signed in.");
+            success = true;
             AuthenticationComplete?.Invoke();
         }
         catch (AuthenticationException e)
@@ -166,7 +196,7 @@ public class PlayerAuthManager : MonoBehaviour
         }
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-        if(DebugTestDSANotification)
+        if (DebugTestDSANotification)
         {
             UnreadNotifications ??= new List<Notification>();
             UnreadNotifications.Add(new Notification()
@@ -179,18 +209,26 @@ public class PlayerAuthManager : MonoBehaviour
         }
 #endif
 
-        if(UnreadNotifications != null && UnreadNotifications.Count > 0)
+        if (UnreadNotifications != null && UnreadNotifications.Count > 0)
         {
             var dialogGO = Instantiate(NotificationsDialogPrefab, NotificationsDialogMainCanvas.transform);
             var dialog = dialogGO.GetComponent<ConfirmationDialog>();
 
             ReadNextNotification(dialog);
         }
-    }
-#endif
 
-		#region Auth Service Notifications Read Time
-		private void ReadNextNotification(ConfirmationDialog dialog)
+        if(success)
+        {
+            onSuccess?.Invoke();
+        }
+        else
+        {
+            onFailure?.Invoke();
+        }
+    }
+
+	#region Auth Service Notifications Read Time
+	private void ReadNextNotification(ConfirmationDialog dialog)
     {
         if(UnreadNotifications != null && UnreadNotifications.Any())
         {

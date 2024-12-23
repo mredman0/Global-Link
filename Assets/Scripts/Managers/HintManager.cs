@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Services.CloudSave;
 using UnityEngine;
 
 public class HintManager : MonoBehaviour
@@ -11,6 +13,8 @@ public class HintManager : MonoBehaviour
     public event Action HintUsed;
 
     private const string HINTS_KEY = "Hints";
+    private const string OFFLINE_USED_HINTS_KEY = "Hints_OU";
+    private const string DEFAULT_HINTS_GRANTED_KEY = "Hints_DG";
     private const int DEFAULT_HINTS = 3;
 
     private int Hints;
@@ -25,14 +29,57 @@ public class HintManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        LoadHints();
 
-        PurchaseManager.Instance.HintsPurchased += GainHints;
+        if(PlayerAuthManager.Instance.IsAuthenticated)
+        {
+            StartupSync();
+        }
+        PlayerAuthManager.Instance.AuthenticationComplete += StartupSync;
+
+        PurchaseManager.Instance.HintsPurchased += GainHintsSync;
     }
 
     private void OnDestroy()
     {
-        PurchaseManager.Instance.HintsPurchased -= GainHints;
+        PlayerAuthManager.Instance.AuthenticationComplete -= StartupSync;
+        PurchaseManager.Instance.HintsPurchased -= GainHintsSync;
+    }
+
+    private void StartupSync()
+    {
+        _ = Startup();
+    }
+    private async Task Startup()
+    {
+        var loaded = await LoadHints();
+        if(!loaded)
+        {
+            var defaultGranted = PlayerPrefs.GetInt(DEFAULT_HINTS_GRANTED_KEY, 0);
+            if(defaultGranted == 0)
+            {
+                Hints = DEFAULT_HINTS;
+                var saved = await SaveHints();
+                if(saved)
+                {
+                    PlayerPrefs.SetInt(DEFAULT_HINTS_GRANTED_KEY, 1);
+                }
+            }
+        }
+        var offlineUsed = PlayerPrefs.GetInt(OFFLINE_USED_HINTS_KEY, 0);
+        if (offlineUsed > 0)
+        {
+            var previous = Hints;
+            Hints -= Mathf.Max(0, Hints - offlineUsed);
+            var saved = await SaveHints();
+            if(!saved)
+            {
+                Hints = previous;
+            }
+            else
+            {
+                PlayerPrefs.DeleteKey(OFFLINE_USED_HINTS_KEY);
+            }
+        }
     }
 
     public bool UseHint()
@@ -43,13 +90,23 @@ public class HintManager : MonoBehaviour
             return false;
         }
         Hints--;
-        SaveHints();
+        SaveHints().ContinueWith((t =>
+        {
+            if(!t.Result)
+            {
+                PlayerPrefs.SetInt(OFFLINE_USED_HINTS_KEY, PlayerPrefs.GetInt(OFFLINE_USED_HINTS_KEY, 0) + 1);
+            }
+        }));
 #endif
         HintUsed?.Invoke();
         return true;
     }
 
-    public void GainHints(int amount)
+    private void GainHintsSync(int amount)
+    {
+        _ = GainHints(amount);
+    }
+    public async Task GainHints(int amount)
     {
         if(amount < 1)
         {
@@ -58,20 +115,38 @@ public class HintManager : MonoBehaviour
         }
 #if !DEMO
         Hints += amount;
-        SaveHints();
+        await SaveHints();
 #endif
         HintGained?.Invoke();
     }
 
     public int GetHints() => Hints;
 
-    private void SaveHints()
+    private async Task<bool> SaveHints()
     {
-        PlayerPrefs.SetInt(HINTS_KEY, Hints);
+        try
+        {
+            var data = new Dictionary<string, object>() { { HINTS_KEY, Hints } };
+            await CloudSaveService.Instance.Data.Player.SaveAsync(data);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
-    private void LoadHints()
+    private async Task<bool> LoadHints()
     {
-        Hints = PlayerPrefs.GetInt(HINTS_KEY, DEFAULT_HINTS);
+        try
+        {
+            var data = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>() { HINTS_KEY });
+            Hints = data[HINTS_KEY].Value.GetAs<int>();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

@@ -857,7 +857,7 @@ public class Puzzle : MonoBehaviour
         if(!success)
         {
             Debug.LogWarning($"Something went wrong solving for color {colorToSolve}, refunding hint");
-            HintManager.Instance.GainHints(1);
+            _ = HintManager.Instance.GainHints(1);
             return;
         }
 
