@@ -6,6 +6,7 @@ using UnityEngine;
 public class AdAwarePanel : MonoBehaviour
 {
     public bool BannerAdAware = true;
+    public RectTransform BannerAdBackground;
 
     // Start is called before the first frame update
     void Start()
@@ -14,6 +15,17 @@ public class AdAwarePanel : MonoBehaviour
         {
             AdjustOffsetMinForBanner();
         }
+        AdManager.Instance.AdFreeChanged += OnAdFreeChanged;
+    }
+
+    private void OnDestroy()
+    {
+        AdManager.Instance.AdFreeChanged -= OnAdFreeChanged;
+    }
+
+    private void OnAdFreeChanged(bool adFree)
+    {
+        AdjustOffsetMinForBanner();
     }
 
     private void AdjustOffsetMinForBanner()
@@ -22,5 +34,12 @@ public class AdAwarePanel : MonoBehaviour
         var offsetMin = rect.offsetMin;
         offsetMin.y = AdManager.Instance.BannerAdHeight;
         rect.offsetMin = offsetMin;
+
+        if(BannerAdBackground)
+        {
+            var bannerAdOffsetMax = BannerAdBackground.offsetMax;
+            bannerAdOffsetMax.y = AdManager.Instance.BannerAdHeight;
+            BannerAdBackground.offsetMax = bannerAdOffsetMax;
+        }
     }
 }

@@ -10,6 +10,8 @@ public class AdManager : MonoBehaviour
 
     public event Action SdkLoadFailed;
 
+    public event Action<bool> AdFreeChanged;
+
     public event Action InterstitialLoaded;
     public event Action InterstitialLoadFailed;
     public event Action InterstitialClosed;
@@ -461,6 +463,7 @@ public class AdManager : MonoBehaviour
                 InitBannerAd();
             }
         }
+        AdFreeChanged?.Invoke(adFree);
     }
 #endregion
 }
