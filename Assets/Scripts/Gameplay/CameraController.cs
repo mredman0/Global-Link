@@ -379,6 +379,11 @@ public class CameraController : MonoBehaviour
 
     public void GradualSnap(Quaternion start, Quaternion end)
     {
+        if(!AllowRoll)
+        {
+            var endEuler = end.eulerAngles;
+            end = Quaternion.Euler(endEuler.x, endEuler.y, start.eulerAngles.z);
+        }
         var degreesBetween = Quaternion.Angle(start, end);
         if(degreesBetween == 0)
         {
