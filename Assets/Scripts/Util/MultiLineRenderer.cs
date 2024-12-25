@@ -175,10 +175,72 @@ public class MultiLineRenderer : MonoBehaviour
         Lines.Clear();
         positionCount = 0;
     }
-    #endregion
+	#endregion
 
-    #region Internal Update
-    private void PropogateWidthChange()
+	#region Point Cleanup
+    public List<Vector3> CleanupPoints()
+    {
+        var pointsRemoved = new List<Vector3>();
+        foreach(var line in Lines)
+        {
+            pointsRemoved.AddRange(CleanupPoints(line));
+        }
+        return pointsRemoved;
+    }
+    public List<Vector3> CleanupCurrentLinePoints()
+    {
+        return CleanupPoints(Lines.Last());
+    }
+
+	private List<Vector3> CleanupPoints(LineRenderer line)
+    {
+        if(!Lines.Contains(line))
+        {
+            Debug.LogError($"Cannot clean up points... MultiLineRenderer \"{name}\" does not contain LineRenderer \"{line.name}\"!");
+            return null;
+        }
+        var tryAgain = true;
+        var pointsRemoved = new List<Vector3>();
+        while (tryAgain)
+        {
+            Vector3[] positions = new Vector3[line.positionCount];
+            line.GetPositions(positions);
+
+            var pointsToRemove = new List<Vector3>();
+
+            for (int i = 0; i < positions.Length - 2; i++)
+            {
+                float distanceToNext = Vector3.Distance(positions[i], positions[i + 1]);
+                float distanceToTwoAhead = Vector3.Distance(positions[i], positions[i + 2]);
+
+                if (distanceToTwoAhead < distanceToNext)
+                {
+                    pointsToRemove.Add(positions[i + 1]);
+                }
+            }
+
+            if (pointsToRemove.Any())
+            {
+                var positionsList = positions.ToList();
+                var trimmedPositions = positionsList.Except(pointsToRemove).ToArray();
+                line.positionCount = trimmedPositions.Length;
+                for (int i = 0; i < trimmedPositions.Length; i++)
+                {
+                    line.SetPosition(i, trimmedPositions[i]);
+                }
+
+                // Set positionCount internally which won't make additional changes
+                positionCount -= pointsToRemove.Count;
+                pointsRemoved.AddRange(pointsToRemove);
+            }
+            tryAgain = pointsToRemove.Any();
+        }
+        return pointsRemoved;
+    }
+	#endregion
+
+	#region Internal Update
+	private void PropogateWidthChange()
     {
         foreach (var line in Lines)
         {

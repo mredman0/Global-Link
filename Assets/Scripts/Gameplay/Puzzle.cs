@@ -228,6 +228,16 @@ public class Puzzle : MonoBehaviour
             NotifyWaypointsOfLinePointDrawn(point, node.Color);
             NotifyWarpsOfLinePointDrawn(path, point, node.Color);
         }
+
+        if(!mergedOutOfWarp)
+        {
+            var pointsRemoved = path.CleanupCurrentLinePoints();
+            foreach(var removedPoint in pointsRemoved)
+            {
+                NotifyWaypointsOfLinePointRemoved(removedPoint);
+                NotifyWarpsOfLinePointRemoved(removedPoint);
+            }
+        }
     }
 
     private void NotifyWaypointsOfLinePointDrawn(Vector3 point, int color)
@@ -300,35 +310,42 @@ public class Puzzle : MonoBehaviour
             return false;
         }
 
-        // Additionally, the path must have at least 1 point between drawnPoint and mergeOrigin that is OUTSIDE the warp cell
-        var hasLeftDestinationWarp = false;
-        int i = 0;
-        for(;i < path.PositionCount; i++)
-        {
-            if(path.GetPosition(i) == mergeOrigin)
-            {
-                break;
-            }
-        }
-        i++;
-        for(; i < path.PositionCount; i++)
-        {
-            var pos = path.GetPosition(i);
-            if(pos == drawnPoint)
-            {
-                break;
-            }
-            var cell = Grid.GetLookingAtCell(pos.ToPolar());
-            if(cell != warp.GridCell)
-            {
-                hasLeftDestinationWarp = true;
-                break;
-            }
-        }
-        if(!hasLeftDestinationWarp)
+        // The distance to the warp must be pretty close
+        if(Vector3.Distance(drawnPoint, mergeOriginCell.transform.position) > 0.1f)
         {
             return false;
         }
+
+
+        // Additionally, the path must have at least 1 point between drawnPoint and mergeOrigin that is OUTSIDE the warp cell
+        //var hasLeftDestinationWarp = false;
+        //int i = 0;
+        //for(;i < path.PositionCount; i++)
+        //{
+        //    if(path.GetPosition(i) == mergeOrigin)
+        //    {
+        //        break;
+        //    }
+        //}
+        //i++;
+        //for(; i < path.PositionCount; i++)
+        //{
+        //    var pos = path.GetPosition(i);
+        //    if(pos == drawnPoint)
+        //    {
+        //        break;
+        //    }
+        //    var cell = Grid.GetLookingAtCell(pos.ToPolar());
+        //    if(cell != warp.GridCell)
+        //    {
+        //        hasLeftDestinationWarp = true;
+        //        break;
+        //    }
+        //}
+        //if(!hasLeftDestinationWarp)
+        //{
+        //    return false;
+        //}
 
         var source = warp.PairedWarp;
         var pathTrimPoint = source.PointDrawnInCell.Value;
