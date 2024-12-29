@@ -9,6 +9,8 @@ public class HintManager : MonoBehaviour
 {
     public static HintManager Instance;
 
+    public event Action Initialized;
+
     public event Action HintGained;
     public event Action HintUsed;
 
@@ -80,6 +82,7 @@ public class HintManager : MonoBehaviour
                 PlayerPrefs.DeleteKey(OFFLINE_USED_HINTS_KEY);
             }
         }
+        Initialized?.Invoke();
     }
 
     public bool UseHint()

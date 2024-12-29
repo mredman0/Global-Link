@@ -10,6 +10,7 @@ public class HintCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HintManager.Instance.Initialized += OnHintCountChanged;
         HintManager.Instance.HintGained += OnHintGained;
         HintManager.Instance.HintUsed += OnHintUsed;
         OnHintCountChanged();
@@ -17,6 +18,7 @@ public class HintCounter : MonoBehaviour
 
     private void OnDestroy()
     {
+        HintManager.Instance.Initialized -= OnHintCountChanged;
         HintManager.Instance.HintGained -= OnHintGained;
         HintManager.Instance.HintUsed -= OnHintUsed;
     }
