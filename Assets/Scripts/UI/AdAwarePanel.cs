@@ -14,12 +14,14 @@ public class AdAwarePanel : MonoBehaviour
         if(BannerAdAware)
         {
             AdjustOffsetMinForBanner();
+            AdManager.Instance.BannerAdInitialized += AdjustOffsetMinForBanner;
         }
         AdManager.Instance.AdFreeChanged += OnAdFreeChanged;
     }
 
     private void OnDestroy()
     {
+        AdManager.Instance.BannerAdInitialized -= AdjustOffsetMinForBanner;
         AdManager.Instance.AdFreeChanged -= OnAdFreeChanged;
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    private SynchronizationContext MainThreadContext;
+
     private void Start()
     {
         if(Instance)
@@ -18,11 +21,39 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+        MainThreadContext = SynchronizationContext.Current;
 
         Application.targetFrameRate = 120;
-        DontDestroyOnLoad(gameObject);
 
-        if(HasTutorialBeenShown())
+        Debug.Log($"GameManager startup");
+        if (UnityServicesManager.Instance.Initialized)
+        {
+            Debug.Log($"GameManager: UnityServices already initialized");
+            ShowTutorialIfNeeded();
+        }
+        UnityServicesManager.Instance.ServicesInitialized += ShowTutorialIfNeeded;
+        UnityServicesManager.Instance.ServicesInitializationFailed += ShowTutorialIfNeeded;
+        Debug.Log($"GameManager hooked UnityServicesManager events");
+    }
+
+    private void OnDestroy()
+    {
+        UnityServicesManager.Instance.ServicesInitialized -= ShowTutorialIfNeeded;
+        UnityServicesManager.Instance.ServicesInitializationFailed -= ShowTutorialIfNeeded;
+        Debug.Log($"GameManager UNHOOKED UnityServicesManager events");
+    }
+
+    private void ShowTutorialIfNeeded()
+    {
+        if (SynchronizationContext.Current != MainThreadContext)
+        {
+            MainThreadContext.Post(_ => ShowTutorialIfNeeded(), null);
+            return;
+        }
+
+        Debug.Log($"GameManager: Showing tutorial if needed. Has been shown already? {HasTutorialBeenShown()}");
+        if (!HasTutorialBeenShown())
         {
             var puzzleLoader = GetComponent<PuzzleLoader>();
             puzzleLoader.PuzzlePack = "Tutorial";
@@ -31,7 +62,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool HasTutorialBeenShown() => PlayerPrefs.GetInt(TUTORIAL_SHOWN_KEY, 0) == 0;
+    public bool HasTutorialBeenShown() => PlayerPrefs.GetInt(TUTORIAL_SHOWN_KEY, 0) > 0;
     public void SetTutorialShown() => PlayerPrefs.SetInt(TUTORIAL_SHOWN_KEY, 1);
     public void ResetTutorialShown() => PlayerPrefs.SetInt(TUTORIAL_SHOWN_KEY, 0);
 

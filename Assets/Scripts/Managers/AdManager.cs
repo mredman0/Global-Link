@@ -12,6 +12,8 @@ public class AdManager : MonoBehaviour
 
     public event Action<bool> AdFreeChanged;
 
+    public event Action BannerAdInitialized;
+
     public event Action InterstitialLoaded;
     public event Action InterstitialLoadFailed;
     public event Action InterstitialClosed;
@@ -190,6 +192,7 @@ public class AdManager : MonoBehaviour
         BannerAd.OnAdExpanded += BannerOnAdExpandedEvent;
 
         BannerAd.LoadAd();
+        BannerAdInitialized?.Invoke();
     }
     void BannerOnAdLoadedEvent(LevelPlayAdInfo adInfo) { }
     void BannerOnAdLoadFailedEvent(LevelPlayAdError ironSourceError)
