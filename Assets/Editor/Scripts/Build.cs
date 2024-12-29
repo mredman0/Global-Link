@@ -194,6 +194,24 @@ public class Build
         }
     }
 
+
+    [MenuItem("Build/Android/Redeploy+Run")]
+    public static void RedeployAndRunAndroid()
+    {
+        if (!Android_IsDeviceConnected())
+        {
+            Debug.LogError("No Android device detected. Connect a device first");
+            return;
+        }
+        var apkPath = $"Builds/Android/ChromaSphere.apk";
+        var success = Android_DeployToDevice(apkPath);
+        if(!success)
+        {
+            return;
+        }
+        Android_LaunchApp(ANDROID_PACKAGE_NAME);
+    }
+
     [MenuItem("Build/Android/Run")]
     public static void RunAndroid()
     {
