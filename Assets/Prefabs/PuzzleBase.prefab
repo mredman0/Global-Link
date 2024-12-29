@@ -415,6 +415,7 @@ MonoBehaviour:
   Speed: 27
   MaxSpeed: 5
   Friction: 1
+  ControlModeFriction: 10
   RotationSensitivity: 1
   AllowMomentumWithActiveNode: 1
   InputLocks: 0
@@ -428,6 +429,7 @@ MonoBehaviour:
   GradualSnapStart: {x: 0, y: 0, z: 0, w: 0}
   GradualSnapEnd: {x: 0, y: 0, z: 0, w: 0}
   GradualSnapLockUntilRelease: 0
+  ControlMode: 0
 --- !u!114 &7707340602658377250
 MonoBehaviour:
   m_ObjectHideFlags: 0

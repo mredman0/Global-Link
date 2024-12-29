@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     public float Speed = 8f;
     public float MaxSpeed = 1f;
     public float Friction = 1f;
+    public float ControlModeFriction = 10f;
     public float RotationSensitivity = 1f;
     public bool AllowMomentumWithActiveNode = false;
     public int InputLocks = 0;
@@ -37,6 +38,7 @@ public class CameraController : MonoBehaviour
     public Quaternion GradualSnapEnd;
     public bool GradualSnapLockUntilRelease = false;
 
+    public bool ControlMode = false;
     public bool Panning { get; set; } = false;
     public float PanAmountThisDrag { get; set; } = 0f;
     public Camera Camera { get; set; }
@@ -66,6 +68,10 @@ public class CameraController : MonoBehaviour
 
         if (Puzzle)
         {
+            Puzzle.NodeSelected += OnNodeSelected;
+            Puzzle.NodeDeselected += OnNodeDeselected;
+            Puzzle.ResetUsed += OnNodeDeselected;
+
             Puzzle.PuzzleCompleted += OnPuzzleCompleted;
         }
 
@@ -189,6 +195,16 @@ public class CameraController : MonoBehaviour
         RotateMomentum = rotationAdjusted;
     }
 
+    private void OnNodeSelected(Node node)
+    {
+        ControlMode = true;
+    }
+
+    private void OnNodeDeselected()
+    {
+        ControlMode = false;
+    }
+
     private void OnPuzzleCompleted()
     {
         DoPuzzleCompleteSpin = true;
@@ -299,12 +315,14 @@ public class CameraController : MonoBehaviour
             if ((AllowMomentumWithActiveNode || !Puzzle || !Puzzle.ActiveNode) && (Momentum.x != 0 || Momentum.y != 0))
             {
                 HandleMotion(Momentum);
-                Momentum *= (1 - Mathf.Clamp(Friction * Time.fixedDeltaTime, 0, 1));
+                var friction = ControlMode ? ControlModeFriction : Friction;
+                Momentum *= (1 - Mathf.Clamp(friction * Time.fixedDeltaTime, 0, 1));
             }
             if ((AllowMomentumWithActiveNode || !Puzzle || !Puzzle.ActiveNode) && (RotateMomentum != 0))
             {
                 CameraArm.transform.Rotate(0, 0, RotateMomentum, Space.Self);
-                RotateMomentum *= (1 - Mathf.Clamp(Friction * Time.fixedDeltaTime, 0, 1));
+                var friction = ControlMode ? ControlModeFriction : Friction;
+                RotateMomentum *= (1 - Mathf.Clamp(friction * Time.fixedDeltaTime, 0, 1));
             }
         }
     }
