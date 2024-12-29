@@ -97,7 +97,6 @@ public class PlayerAuthManager : MonoBehaviour
             Debug.Log($"Google Play Games user already authenticated... {PlayGamesPlatform.Instance.localUser.id}");
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, code =>
             {
-                Debug.Log("Authorization code: " + code);
                 if(!string.IsNullOrEmpty(code))
                 {
                     SignInWithGooglePlayGames(code);
@@ -176,7 +175,7 @@ public class PlayerAuthManager : MonoBehaviour
                 UnreadNotifications = await AuthenticationService.Instance.GetNotificationsAsync();
             }
 
-            Debug.Log("Successfully signed in.");
+            Debug.Log($"Successfully signed in. PlayerId: {AuthenticationService.Instance.PlayerId}");
             success = true;
             AuthenticationComplete?.Invoke();
         }

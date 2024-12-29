@@ -26,22 +26,18 @@ public class GameManager : MonoBehaviour
 
         Application.targetFrameRate = 120;
 
-        Debug.Log($"GameManager startup");
         if (UnityServicesManager.Instance.Initialized)
         {
-            Debug.Log($"GameManager: UnityServices already initialized");
             ShowTutorialIfNeeded();
         }
         UnityServicesManager.Instance.ServicesInitialized += ShowTutorialIfNeeded;
         UnityServicesManager.Instance.ServicesInitializationFailed += ShowTutorialIfNeeded;
-        Debug.Log($"GameManager hooked UnityServicesManager events");
     }
 
     private void OnDestroy()
     {
         UnityServicesManager.Instance.ServicesInitialized -= ShowTutorialIfNeeded;
         UnityServicesManager.Instance.ServicesInitializationFailed -= ShowTutorialIfNeeded;
-        Debug.Log($"GameManager UNHOOKED UnityServicesManager events");
     }
 
     private void ShowTutorialIfNeeded()
@@ -52,7 +48,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"GameManager: Showing tutorial if needed. Has been shown already? {HasTutorialBeenShown()}");
         if (!HasTutorialBeenShown())
         {
             var puzzleLoader = GetComponent<PuzzleLoader>();
