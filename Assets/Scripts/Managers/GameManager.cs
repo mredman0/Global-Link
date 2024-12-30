@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    [Header("Settings")]
+    public int TargetFrameRate = 120;
+
     private SynchronizationContext MainThreadContext;
 
     private void Start()
@@ -24,7 +27,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         MainThreadContext = SynchronizationContext.Current;
 
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = TargetFrameRate;
 
         if (UnityServicesManager.Instance.Initialized)
         {

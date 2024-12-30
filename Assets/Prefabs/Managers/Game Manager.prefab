@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f61b432ca838144b798878f11725cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetFrameRate: 120
 --- !u!114 &3093421299934497039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,3 +60,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PuzzlePack: 
   PuzzleIdInPack: 
+  AllowInterstitial: 0
