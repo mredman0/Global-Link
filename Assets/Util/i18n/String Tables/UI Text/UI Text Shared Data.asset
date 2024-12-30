@@ -151,6 +151,10 @@ MonoBehaviour:
     m_Key: ALL
     m_Metadata:
       m_Items: []
+  - m_Id: 16543813208395776
+    m_Key: Startup Tutorial Prompt
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

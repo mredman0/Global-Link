@@ -21,7 +21,7 @@ MonoBehaviour:
   - m_Id: 440582557696
     m_Localized: 'Willkommen bei Der ChromaSphere.
 
-      
+
 
       (Tippen, um fortzufahren)'
     m_Metadata:
@@ -71,7 +71,6 @@ MonoBehaviour:
     m_Localized: 'Oben rechts wird angezeigt, welche Farben Wegpunkte haben und welche
       verbunden sind.
 
-      
 
       (Tippen, um fortzufahren)'
     m_Metadata:
@@ -113,6 +112,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 23441927589888
     m_Localized: Verbinde nun die Linie mit dem anderen Chroma.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997376521785344
+    m_Localized: "Wenn du feststeckst, tippe auf den Hinweis-Button, um eine Farbe
+      automatisch zu l\xF6sen!\n\r\n(Tippen, um fortzufahren)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Localized: 'Wenn dir die Hinweise ausgehen, kannst du eine Werbung anschauen,
+      um einen weiteren zu erhalten, oder zum Shop gehen.
+
+
+      (Tippen, um fortzufahren)'
     m_Metadata:
       m_Items: []
   references:

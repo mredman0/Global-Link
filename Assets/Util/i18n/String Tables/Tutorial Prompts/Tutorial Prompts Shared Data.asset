@@ -39,6 +39,14 @@ MonoBehaviour:
     m_Key: Tutorial 2 Intro To Blockages
     m_Metadata:
       m_Items: []
+  - m_Id: 9997376521785344
+    m_Key: Tutorial 2 Highlight Hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Key: Tutorial 2 Highlight Gain Hint
+    m_Metadata:
+      m_Items: []
   - m_Id: 13943146041344
     m_Key: Tutorial 2 Disconnect Bad Line
     m_Metadata:

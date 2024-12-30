@@ -21,7 +21,6 @@ MonoBehaviour:
   - m_Id: 440582557696
     m_Localized: 'Bienvenido a El ChromaSphere.
 
-      
 
       (Pulse para continuar)'
     m_Metadata:
@@ -108,6 +107,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 23441927589888
     m_Localized: "Ahora conecta la l\xEDnea con el otro Chroma."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997376521785344
+    m_Localized: "Si alguna vez te atascas, toca el bot\xF3n de pista para resolver
+      un color autom\xE1ticamente!\n\r\n(Pulse para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Localized: "Si te quedas sin pistas, puedes ver un anuncio para conseguir una
+      m\xE1s o dirigirte a la tienda.\n\n(Pulse para continuar)"
     m_Metadata:
       m_Items: []
   references:

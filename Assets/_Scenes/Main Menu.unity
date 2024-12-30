@@ -9356,6 +9356,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 280485070439819314, guid: ddc8ce1dcc880f541bbfc3631192ca85,
+        type: 3}
+      propertyPath: MainCanvas
+      value: 
+      objectReference: {fileID: 624637793}
+    - target: {fileID: 280485070439819314, guid: ddc8ce1dcc880f541bbfc3631192ca85,
+        type: 3}
+      propertyPath: TutorialDialogParent
+      value: 
+      objectReference: {fileID: 681081576}
+    - target: {fileID: 280485070439819314, guid: ddc8ce1dcc880f541bbfc3631192ca85,
+        type: 3}
+      propertyPath: ShowTutorialDialogPrefab
+      value: 
+      objectReference: {fileID: 9066721100824290417, guid: d2731675e6961f94c98be932c8088fe3,
+        type: 3}
     - target: {fileID: 292526688618264052, guid: ddc8ce1dcc880f541bbfc3631192ca85,
         type: 3}
       propertyPath: m_Name

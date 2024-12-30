@@ -99,7 +99,6 @@ public class Puzzle : MonoBehaviour
 
         if (PuzzleConfig.Pack == "Tutorial" && TutorialInstructionsProvider.Instance)
         {
-            GameManager.Instance.SetTutorialShown();
             var tutorialInstructions = TutorialInstructionsProvider.Instance.GetTutorialInstructionsPrefab(PuzzleConfig.Id);
             if(tutorialInstructions)
             {

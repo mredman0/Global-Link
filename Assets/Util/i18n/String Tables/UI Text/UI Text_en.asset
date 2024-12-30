@@ -154,6 +154,14 @@ MonoBehaviour:
     m_Localized: ALL
     m_Metadata:
       m_Items: []
+  - m_Id: 16543813208395776
+    m_Localized: 'Welcome!
+
+
+      It looks like you''re new here. Would you like
+      to visit the tutorial?'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

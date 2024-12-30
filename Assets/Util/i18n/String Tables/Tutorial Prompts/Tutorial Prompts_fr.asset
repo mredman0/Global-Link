@@ -21,10 +21,8 @@ MonoBehaviour:
   - m_Id: 440582557696
     m_Localized: 'Bienvenue dans Le ChromaSphere.
 
-      
 
-      (Appuyez pour
-      continuer)'
+      (Appuyez pour continuer)'
     m_Metadata:
       m_Items: []
   - m_Id: 7603900141568
@@ -50,7 +48,6 @@ MonoBehaviour:
   - m_Id: 13148308656128
     m_Localized: 'Les murs et les autres couleurs bloqueront le chemin.
 
-      
 
       (Appuyez
       pour continuer)'
@@ -106,10 +103,8 @@ MonoBehaviour:
     m_Localized: 'Les tunnels permettent aux lignes de traverser la ChromaSphere
       pour atteindre une autre partie de la surface.
 
-      
 
-      (Appuyez pour
-      continuer)'
+      (Appuyez pour continuer)'
     m_Metadata:
       m_Items: []
   - m_Id: 23402526298112
@@ -119,6 +114,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 23441927589888
     m_Localized: "Maintenant, connectez la ligne \xE0 l\u2019autre Chroma."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997376521785344
+    m_Localized: "Si vous \xEAtes bloqu\xE9, appuyez sur le bouton d'indice pour
+      r\xE9soudre automatiquement une couleur !\n\n(Appuyez pour continuer)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Localized: "Si vous manquez d'indices, vous pouvez regarder une publicit\xE9
+      pour en obtenir un de plus ou aller \xE0 la boutique.\n\n(Appuyez pour continuer)"
     m_Metadata:
       m_Items: []
   references:

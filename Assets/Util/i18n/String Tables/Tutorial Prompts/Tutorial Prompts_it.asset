@@ -21,7 +21,6 @@ MonoBehaviour:
   - m_Id: 440582557696
     m_Localized: 'Benvenuto in Il ChromaSphere.
 
-      
 
       (Tocca per continuare)'
     m_Metadata:
@@ -39,10 +38,9 @@ MonoBehaviour:
     m_Localized: 'Le piccole sfere rosse sono i Chromas. Devono essere connesse ad
       altri Chromas dello stesso colore.
 
-      
 
-      Per cominciare, seleziona
-      un Chroma toccandolo.'
+      Per cominciare, seleziona un Chroma
+      toccandolo.'
     m_Metadata:
       m_Items: []
   - m_Id: 10487182151680
@@ -53,7 +51,6 @@ MonoBehaviour:
   - m_Id: 13148308656128
     m_Localized: 'I muri e gli altri colori bloccheranno il percorso.
 
-      
 
       (Tocca
       per continuare)'
@@ -72,12 +69,10 @@ MonoBehaviour:
   - m_Id: 18077219835904
     m_Localized: 'Le regioni colorate con contorni sono Punti di Controllo.
 
-      
 
       Tutti
       i Punti di Controllo devono essere attraversati da una linea dello stesso colore.
 
-      
 
       (Tocca
       per continuare)'
@@ -87,7 +82,6 @@ MonoBehaviour:
     m_Localized: 'In alto a destra viene mostrato quali colori hanno Punti di Controllo
       e quali sono collegati.
 
-      
 
       (Tocca per continuare)'
     m_Metadata:
@@ -95,7 +89,6 @@ MonoBehaviour:
   - m_Id: 18170949947392
     m_Localized: 'Usa il pulsante Annulla per annullare l''ultima azione.
 
-      
 
       (Tocca
       per continuare)'
@@ -105,7 +98,6 @@ MonoBehaviour:
     m_Localized: 'Usa il pulsante Ripristina per riportare l''intera ChromaSphere
       al suo stato originale.
 
-      
 
       (Tocca per continuare)'
     m_Metadata:
@@ -128,10 +120,9 @@ MonoBehaviour:
     m_Localized: 'I tunnel permettono alle linee di attraversare la ChromaSphere
       per raggiungere un''altra parte della superficie.
 
-      
 
-      (Tocca per
-      continuare)'
+
+      (Tocca per continuare)'
     m_Metadata:
       m_Items: []
   - m_Id: 23402526298112
@@ -141,6 +132,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 23441927589888
     m_Localized: "Ora collega la linea all\u2019altro Chroma."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997376521785344
+    m_Localized: 'Se rimani bloccato, tocca il pulsante Suggerimento per risolvere
+      automaticamente un colore!
+
+
+      (Tocca per continuare)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Localized: 'Se finisci i suggerimenti, puoi guardare un annuncio per ottenerne
+      un altro o andare al negozio.
+
+
+      (Tocca per continuare)'
     m_Metadata:
       m_Items: []
   references:

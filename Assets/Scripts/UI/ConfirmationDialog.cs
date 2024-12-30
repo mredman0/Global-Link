@@ -10,8 +10,17 @@ using UnityEngine.UI;
 
 public class ConfirmationDialog : Dialog
 {
+    [Header("Required References")]
     public TMP_Text messageText;
     public LocalizeStringEvent messageLoc;
+
+    [Header("Optional References")]
+    public Button BackButton;
+    public Button ConfirmButton;
+    public Button CancelButton;
+
+    [Header("Settings")]
+    public float ButtonsDisabledSeconds = 0;
 
     private Action onConfirm;
 
@@ -19,23 +28,57 @@ public class ConfirmationDialog : Dialog
 
     public void Show(LocalizedString message, Action confirm = null, Action cancel = null)
     {
-        onConfirm = confirm ?? NOP;
-        onCancel = cancel ?? NOP;
         messageLoc.StringReference = message;
-        Show();
+        Show(confirm, cancel);
     }
 
     public void Show(string message, Action confirm = null, Action cancel = null)
     {
+        messageText.text = message;
+        Show(confirm, cancel);
+    }
+
+    public void Show(Action confirm = null, Action cancel = null)
+    {
+        if(ButtonsDisabledSeconds > 0)
+        {
+            SetButtonsActive(false);
+            StartCoroutine(SetButtonsActiveDelayed(true, ButtonsDisabledSeconds));
+        }
+        else
+        {
+            SetButtonsActive(true);
+        }
+
         onConfirm = confirm ?? NOP;
         onCancel = cancel ?? NOP;
-        messageText.text = message;
-        Show();
+        base.Show();
     }
 
     public void Confirm()
     {
         onConfirm?.Invoke();
         Hide();
+    }
+
+    private IEnumerator SetButtonsActiveDelayed(bool active, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SetButtonsActive(active);
+    }
+    private void SetButtonsActive(bool active)
+    {
+        if(BackButton)
+        {
+            BackButton.interactable = active;
+        }
+        if (ConfirmButton)
+        {
+            ConfirmButton.interactable = active;
+        }
+        if (CancelButton)
+        {
+            CancelButton.interactable = active;
+        }
     }
 }

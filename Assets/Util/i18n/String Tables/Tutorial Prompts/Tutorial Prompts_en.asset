@@ -135,6 +135,22 @@ MonoBehaviour:
     m_Localized: Now connect the line to the other Chroma.
     m_Metadata:
       m_Items: []
+  - m_Id: 9997376521785344
+    m_Localized: 'If you ever get stuck, tap the Hint Button to solve a color automatically!
+
+
+      (Tap
+      to continue)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Localized: 'If you run out of Hints, you can watch an Ad for one more, or head
+      to the Store.
+
+
+      (Tap to continue)'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
