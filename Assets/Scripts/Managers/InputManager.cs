@@ -45,8 +45,16 @@ public class InputManager : MonoBehaviour
     public Vector2 NormalizeScreenPosition(Vector2 position) =>
         new Vector2(position.x / Screen.width, position.y / Screen.width);
 
-    private void FixedUpdate()
+    private void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Escape) && OnBackStack.Any())
+        {
+            OnBackStack.Last().action();
+        }
+
+        // Mechanism to normalize inputs for low FPS. Simulate multiple frames inbetween
+        var subDivisions = Mathf.Ceil(Time.deltaTime * 120);
+
         var pressing = Input.GetMouseButton(0) || Input.touchCount > 0;
         var previouslyTwoPressing = TwoTouching;
         var twoPressing = Input.touchCount > 1;
@@ -77,7 +85,11 @@ public class InputManager : MonoBehaviour
                             prev = 360f + prev;
                         }
                     }
-                    Rotate?.Invoke(currentAngle - prev);
+                    var rotateSubDivision = (currentAngle - prev) / subDivisions;
+                    for (int i = 0; i < subDivisions; i++)
+                    {
+                        Rotate?.Invoke(rotateSubDivision);
+                    }
                 }
             }
             TwoTouchAngle = currentAngle;
@@ -106,7 +118,11 @@ public class InputManager : MonoBehaviour
             DistanceThisDrag += normalizedDragDistance;
             if (Pressed && DistanceThisDrag >= MinDistanceForDrag)
             {
-                Drag?.Invoke(position - PressLatestPosition);
+                var dragSubDivision = (position - PressLatestPosition) / subDivisions;
+                for(int i = 0; i < subDivisions; i++)
+                {
+                    Drag?.Invoke(dragSubDivision);
+                }
             }
             PressLatestPosition = position;
             if (!Pressed)
@@ -129,14 +145,6 @@ public class InputManager : MonoBehaviour
                     Tap?.Invoke(PressLatestPosition);
                 }
             }
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Escape) && OnBackStack.Any())
-        {
-            OnBackStack.Last().action();
         }
     }
 
