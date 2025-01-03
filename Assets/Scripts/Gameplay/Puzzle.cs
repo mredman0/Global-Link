@@ -676,6 +676,9 @@ public class Puzzle : MonoBehaviour
                 PuzzleCompletionManager.Instance.SetPuzzleCompleted(PuzzleConfig.Pack, PuzzleConfig.Id);
             }
             Completed = true;
+
+            CheckForAchievementsOnCompletion();
+
             if(PuzzleCompleteEffect)
             {
                 Instantiate(PuzzleCompleteEffect);
@@ -1348,9 +1351,10 @@ public class Puzzle : MonoBehaviour
         // Camera setup
         CameraController.SnapTo(cfg.CameraArmStart, cfg.CameraDistance, cfg.CameraFoV);
     }
-    #endregion
+	#endregion
 
-    public bool IsCameraPositionValid()
+	#region Camera Functionality
+	public bool IsCameraPositionValid()
     {
         if(!ActiveNode)
         {
@@ -1441,9 +1445,10 @@ public class Puzzle : MonoBehaviour
         }
         return true;
     }
+	#endregion
 
-    #region Line Smoothing
-    public float DISTANCE_TO_ASSUME_WARP = 0.1f;
+	#region Line Smoothing
+	public float DISTANCE_TO_ASSUME_WARP = 0.1f;
 
 	[Header("Line Smoothing")]
     public float LineSmoothDistanceWeight = 1f;
@@ -1597,5 +1602,34 @@ public class Puzzle : MonoBehaviour
             NotifyWaypointsOfLinePointDrawn(resultingP3, lineColor);
         }
     }
-    #endregion
+	#endregion
+
+	#region Achievements
+    private void CheckForAchievementsOnCompletion()
+    {
+        var totalTunnels = Warps.Count / 2;
+        var tunnelCountsByColor = new Dictionary<int, int>();
+        foreach(var color in NodesByColor.Keys)
+        {
+            tunnelCountsByColor.Add(color, Warps.Count(w => w.Color == color) / 2);
+        }
+
+        var manyTunnels = tunnelCountsByColor.Values.Sum() >= 4;
+        var multiTunnelLine = tunnelCountsByColor.Values.Any(num => num > 1);
+        var tunnelAvoider = (totalTunnels > 0) && tunnelCountsByColor.Values.Sum() == 0;
+
+        if(manyTunnels)
+        {
+            AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.ManyTunnels);
+        }
+        if (multiTunnelLine)
+        {
+            AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.MultiTunnelLine);
+        }
+        if (tunnelAvoider)
+        {
+            AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.TunnelAvoider);
+        }
+    }
+	#endregion
 }

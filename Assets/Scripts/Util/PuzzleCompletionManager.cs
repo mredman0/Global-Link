@@ -42,6 +42,11 @@ public class PuzzleCompletionManager : MonoBehaviour
         SaveAll();
     }
 
+    public bool IsPackCompleted(string packId)
+    {
+        var (completed, total) = GetPackStats(packId);
+        return completed >= total;
+    }
     public (int completed, int total) GetPackStats(string packId) => (CompletionData[packId].CompletedPuzzles.Count, TotalPuzzles[packId]);
 
     public bool IsPuzzleCompleted(string packId, string puzzleId)
@@ -85,11 +90,46 @@ public class PuzzleCompletionManager : MonoBehaviour
         {
             CompletionData.Add(packId, new PackPuzzleCompletionData() { PackName = packId });
         }
-        if(!CompletionData[packId].CompletedPuzzles.Contains(puzzleId))
+        var wasAlreadyCompleted = CompletionData[packId].CompletedPuzzles.Contains(puzzleId);
+        if (!wasAlreadyCompleted)
         {
             CompletionData[packId].CompletedPuzzles.Add(puzzleId);
         }
         SavePack(packId);
+        HandlePuzzleCompletionAchievements(packId, puzzleId, wasAlreadyCompleted);
+    }
+
+    private void HandlePuzzleCompletionAchievements(string packId, string puzzleId, bool wasAlreadyCompleted)
+    {
+        if(packId == "Daily" && !wasAlreadyCompleted)
+        {
+            AchievementManager.Instance.Increment(AchievementManager.Achievement.DailyNovice);
+            AchievementManager.Instance.Increment(AchievementManager.Achievement.DailyAdept);
+            AchievementManager.Instance.Increment(AchievementManager.Achievement.DailyGuru);
+            return;
+        }
+
+        var packGrouping = packId.Replace("+", "");
+        var packGroupIds = CompletionData.Keys.Where(id => id.Contains(packGrouping));
+        if(packGroupIds.All(id => IsPackCompleted(id)))
+        {
+            if(packGrouping == "Beginner")
+            {
+                AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.PacksBeginner);
+            }
+            else if (packGrouping == "Intermediate")
+            {
+                AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.PacksIntermediate);
+            }
+            else if (packGrouping == "Expert")
+            {
+                AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.PacksExpert);
+            }
+            else if (packGrouping == "Grandmaster")
+            {
+                AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.PacksGrandmaster);
+            }
+        }
     }
 
     public void ResetAllProgress()
