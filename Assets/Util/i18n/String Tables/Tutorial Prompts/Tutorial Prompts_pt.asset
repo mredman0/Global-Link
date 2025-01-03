@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Tutorial Prompts_pt
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: 6b586f43c96c0614982e5d354f1e02dd, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 440582557696
+    m_Localized: 'Bem-vindo ao ChromaSphere.
+
+
+      (Toque para continuar)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7603900141568
+    m_Localized: "Voc\xEA pode alterar as configura\xE7\xF5es aqui, incluindo controles
+      invertidos e op\xE7\xF5es de acessibilidade.\n\n(Toque para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8543478763520
+    m_Localized: Arraste a tela para girar o ChromaSphere.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9257491910656
+    m_Localized: "As pequenas Bolas Vermelhas s\xE3o Chromas. Elas devem ser conectadas
+      a outras Chromas da mesma cor.\n\nPara come\xE7ar, selecione um Chroma tocando
+      nele."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10487182151680
+    m_Localized: "Enquanto voc\xEA tiver um Chroma selecionado, girar o ChromaSphere
+      desenhar\xE1 uma linha.\n\nConecte os dois Chromas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13148308656128
+    m_Localized: "Paredes e outras cores bloquear\xE3o o caminho.\n\n(Toque para
+      continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997376521785344
+    m_Localized: "Se voc\xEA ficar preso, toque no Bot\xE3o de Dica para resolver
+      uma cor automaticamente!\n\n(Toque para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9997419748282368
+    m_Localized: "Se voc\xEA ficar sem Dicas, pode assistir a um An\xFAncio para
+      ganhar mais uma ou ir para a Loja.\n\n(Toque para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13943146041344
+    m_Localized: "Uma dessas cores bloqueia completamente a outra. Para modific\xE1-la,
+      toque em um desses Chromas OU toque na linha."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13978390777856
+    m_Localized: "Use o espa\xE7o dispon\xEDvel dentro das paredes para conectar
+      ambas as cores."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18077219835904
+    m_Localized: "Regi\xF5es coloridas delineadas s\xE3o Pontos de Controle.\n\nTodos
+      os Pontos de Controle devem ser atravessados pela linha da mesma cor.\n\n(Toque
+      para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18134677606400
+    m_Localized: "O canto superior direito mostra quais cores t\xEAm Pontos de Controle
+      e quais est\xE3o conectadas.\n\n(Toque para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18170949947392
+    m_Localized: "Use o bot\xE3o Desfazer para reverter a \xFAltima a\xE7\xE3o.\n\n(Toque
+      para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18192487698432
+    m_Localized: "Use o bot\xE3o Redefinir para restaurar o ChromaSphere ao seu estado
+      original.\n\n(Toque para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18219264135168
+    m_Localized: "Use o bot\xE3o Desfazer ou Redefinir para apagar a linha incorreta."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18247978340352
+    m_Localized: "Agora selecione um Chroma e desenhe uma linha que passe pela \xE1rea
+      do Ponto de Controle."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18281008484352
+    m_Localized: Com a linha passando pelo Ponto de Controle, conecte a linha ao
+      outro Chroma.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23355290046464
+    m_Localized: "T\xFAneis permitem que as linhas atravessem o ChromaSphere para
+      alcan\xE7ar outra parte da superf\xEDcie.\n\n(Toque para continuar)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23402526298112
+    m_Localized: "As Paredes bloqueiam completamente o caminho entre esses Chromas
+      na superf\xEDcie. Desenhe uma linha at\xE9 uma das entradas do T\xFAnel."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23441927589888
+    m_Localized: Agora conecte a linha ao outro Chroma.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

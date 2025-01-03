@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Packs_ko
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ko
+  m_SharedData: {fileID: 11400000, guid: fe498780169c5e24b8cd112ece6d617e, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 11865968640
+    m_Localized: "\uCD08\uAE09"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29863727104
+    m_Localized: "\uCD08\uAE09+"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 58317885440
+    m_Localized: "\uCD08\uAE09++"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92119781376
+    m_Localized: "\uC911\uAE09"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 107408019456
+    m_Localized: "\uC911\uAE09+"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125556772864
+    m_Localized: "\uC911\uAE09++"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148323454976
+    m_Localized: "\uC804\uBB38\uAC00"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 163053850624
+    m_Localized: "\uC804\uBB38\uAC00+"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 176601452544
+    m_Localized: "\uC804\uBB38\uAC00++"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 188156760064
+    m_Localized: "\uADF8\uB79C\uB4DC\uB9C8\uC2A4\uD130"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 201071022080
+    m_Localized: "\uADF8\uB79C\uB4DC\uB9C8\uC2A4\uD130+"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 212471140352
+    m_Localized: "\uADF8\uB79C\uB4DC\uB9C8\uC2A4\uD130++"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4362672033792
+    m_Localized: "\uD29C\uD1A0\uB9AC\uC5BC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2938658751795200
+    m_Localized: "\uC77C\uC77C"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

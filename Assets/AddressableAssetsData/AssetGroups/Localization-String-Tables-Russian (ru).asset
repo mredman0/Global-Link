@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Russian (ru)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Russian (ru)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e7aa0c2dce4dcc2459ea3b4b144094bb
+  m_SerializeEntries:
+  - m_GUID: 3327a547b6ac15344b840f5fbbe48de9
+    m_Address: UI Text_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e5936b3535d7bd42a21b4f4286c971c
+    m_Address: Packs_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4659146e109066241ac035b2e55d1f7f
+    m_Address: Locales_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc38a40c962fcaa4ba8073f6271088fe
+    m_Address: Tutorial Prompts_ru
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 1fd48023c694cc7478d3fb82d6fc52a4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bdacd77955a271c47bdd9bf4b2efed28, type: 2}
+    - {fileID: 11400000, guid: 929e79b1723af0a45b8a87d5981532bc, type: 2}

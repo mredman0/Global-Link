@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Text_pt
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: 0f9102db8f7e5ec489dc09a590c5d9d4, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 311767093248
+    m_Localized: JOGAR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337843981242368
+    m_Localized: "Configura\xE7\xF5es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337867020554240
+    m_Localized: Acessibilidade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337884267532288
+    m_Localized: "R\xF3tulos de Cor"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337937887514624
+    m_Localized: Geral
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1337998264520704
+    m_Localized: Silenciar Som
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338057681031168
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1338076857389056
+    m_Localized: Idioma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342468381757440
+    m_Localized: Controles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342476963303424
+    m_Localized: Alinhado ao Eixo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342478313869312
+    m_Localized: "Inverter (Visualiza\xE7\xE3o Livre)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342479689601024
+    m_Localized: Inverter (Desenho)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1342530189021184
+    m_Localized: Sensibilidade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343012957605888
+    m_Localized: Zona de Perigo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1343037125185536
+    m_Localized: Redefinir Progresso
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1449234134224896
+    m_Localized: Pacotes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2066254181715968
+    m_Localized: Loja
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2066574857228288
+    m_Localized: "Sem An\xFAncios"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2067589576806400
+    m_Localized: Dicas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2080706729889792
+    m_Localized: Tem certeza de que deseja redefinir o progresso?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2083994254725120
+    m_Localized: "N\xEDvel Completo!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2084075561308160
+    m_Localized: Fim do Pacote
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2480565890863104
+    m_Localized: "ChromaSphere: Quebra-Cabe\xE7a de Linhas 3D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2483161061937152
+    m_Localized: ChromaSphere
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3112474463457280
+    m_Localized: Esquema de Cores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113218084196352
+    m_Localized: "Padr\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113565456453632
+    m_Localized: Quente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3113576621690880
+    m_Localized: Frio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4287186535206912
+    m_Localized: "DI\xC1RIO"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4575552354930688
+    m_Localized: "Desbloquear Mais Quebra-Cabe\xE7as Di\xE1rios"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6533887371268096
+    m_Localized: Fim do Tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10807342920912896
+    m_Localized: "Ocorreu um erro durante a compra e ela n\xE3o p\xF4de ser conclu\xEDda."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12005776692629504
+    m_Localized: "Mais Quebra-Cabe\xE7as Di\xE1rios"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12008259829649408
+    m_Localized: TODOS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16543813208395776
+    m_Localized: "Bem-vindo!\n\nParece que voc\xEA \xE9 novo aqui. Gostaria de visitar
+      o tutorial?"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

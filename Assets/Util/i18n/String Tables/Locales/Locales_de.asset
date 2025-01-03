@@ -54,6 +54,18 @@ MonoBehaviour:
     m_Localized: Deutsch
     m_Metadata:
       m_Items: []
+  - m_Id: 18015262523805696
+    m_Localized: Koreanisch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18015293586821120
+    m_Localized: Russisch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18056146392993792
+    m_Localized: Portugiesisch
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
