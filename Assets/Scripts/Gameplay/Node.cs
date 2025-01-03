@@ -6,6 +6,7 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public List<Material> ColorIconMaterials;
+    public Material HintedColorIconMaterial;
 
     public Puzzle Puzzle;
     public int Color;
@@ -39,7 +40,7 @@ public class Node : MonoBehaviour
     {
         if (setting == SHOW_COLOR_ICONS_KEY)
         {
-            ColorIconArm.SetActive(value);
+            ColorIconArm.SetActive(value || IsSolvedByHint());
         }
     }
 
@@ -74,7 +75,7 @@ public class Node : MonoBehaviour
         {
             Path.Color = mappedColor;
         }
-        ColorIconRenderer.material = ColorIconMaterials[Color];
+        ColorIconRenderer.material = IsSolvedByHint() ? HintedColorIconMaterial : ColorIconMaterials[Color];
     }
 
     public void SetPairedNode(Node other)
@@ -90,4 +91,22 @@ public class Node : MonoBehaviour
     {
         GetComponent<Animator>().SetBool("Selected", false);
     }
+
+
+	#region Hint Display
+	public bool IsSolvedByHint() => Puzzle != null && Puzzle.HintedColors.Contains(Color);
+
+    public void SetSolvedByHint()
+    {
+        ColorIconRenderer.material = HintedColorIconMaterial;
+        ColorIconArm.SetActive(true);
+    }
+
+    public void SetHintSolutionRemoved()
+    {
+        var showIcon = SettingsManager.Instance.GetBool(SHOW_COLOR_ICONS_KEY);
+        ColorIconRenderer.material = ColorIconMaterials[Color];
+        ColorIconArm.SetActive(showIcon);
+    }
+	#endregion
 }

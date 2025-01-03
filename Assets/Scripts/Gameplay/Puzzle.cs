@@ -64,6 +64,7 @@ public class Puzzle : MonoBehaviour
     public int LastModifiedColor = -1;
     public bool LastModifiedConnected;
     public List<Vector3[]> LastModifiedPathState;
+    public bool LastModifiedColorWasHintSolved;
 
     public int InputLocks = 0;
     public bool Completed;
@@ -704,6 +705,9 @@ public class Puzzle : MonoBehaviour
         a.Connected = false;
         a.PairedNode.Connected = false;
         HintedColors.Remove(a.Color);
+        a.SetHintSolutionRemoved();
+        a.PairedNode.SetHintSolutionRemoved();
+
         if(wasConnected)
         {
             NodesDisconnected?.Invoke(a, a.PairedNode);
@@ -823,6 +827,12 @@ public class Puzzle : MonoBehaviour
             var nodeB = nodeA.PairedNode;
 
             SetConnected(nodeA, nodeB);
+            if(LastModifiedColorWasHintSolved)
+            {
+                HintedColors.Add(LastModifiedColor);
+                nodeA.SetSolvedByHint();
+                nodeB.SetSolvedByHint();
+            }
         }
 
 
@@ -846,6 +856,7 @@ public class Puzzle : MonoBehaviour
         LastModifiedColor = color;
         LastModifiedConnected = connected;
         LastModifiedPathState = points;
+        LastModifiedColorWasHintSolved = HintedColors.Contains(color);
         var undoIsAvailable = LastModifiedColor >= 0;
         if(!undoWasAvailable && undoIsAvailable)
         {
@@ -1003,6 +1014,8 @@ public class Puzzle : MonoBehaviour
             DrawPointsDetectingWarp(nodeA.GridCell, nodeB.GridCell, color, nodeA.Path);
             SetConnected(nodeA, nodeB);
             HintedColors.Add(color);
+            nodeA.SetSolvedByHint();
+            nodeB.SetSolvedByHint();
 
             return true;
         }
@@ -1082,6 +1095,8 @@ public class Puzzle : MonoBehaviour
 
         SetConnected(nodeA, nodeB);
         HintedColors.Add(color);
+        nodeA.SetSolvedByHint();
+        nodeB.SetSolvedByHint();
 
         return true;
     }

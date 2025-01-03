@@ -210,6 +210,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 86eef245060df53488b02cf57cc4e231, type: 2}
   - {fileID: 2100000, guid: eaca19b9b4ea0714d896ad11b4570300, type: 2}
   - {fileID: 2100000, guid: 38232194852d8c041b425262013bb889, type: 2}
+  HintedColorIconMaterial: {fileID: 2100000, guid: e189e2d1b0016014187b00e4a437bb98,
+    type: 2}
   Puzzle: {fileID: 0}
   Color: 0
   Connected: 0
