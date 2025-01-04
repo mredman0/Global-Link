@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2627451, g: 0.2627451, b: 0.2627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -685,6 +685,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuManager: {fileID: 0}
+  OnShown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHidden:
+    m_PersistentCalls:
+      m_Calls: []
   PreviousPage: {fileID: 0}
   PreviousScene: 
 --- !u!114 &8392522070707556483
