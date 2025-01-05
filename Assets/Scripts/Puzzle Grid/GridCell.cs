@@ -10,6 +10,7 @@ public class GridCell : MonoBehaviour
     public int Cell;
 
     public List<GridCell> Neighbors = new List<GridCell>();
+    public List<GridCell> Neighborhood = new List<GridCell>();
     public float DistanceToClosestNeighbor = float.MaxValue;
 
     public float LatitudeMin;

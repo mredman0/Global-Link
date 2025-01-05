@@ -30,6 +30,7 @@ public class PuzzleGrid : MonoBehaviour
     {
         AddCells(cellsPerRow);
         SetCellNeighbors();
+        SetCellNeighborhoods();
 
         DrawCellConnections();
 
@@ -191,6 +192,22 @@ public class PuzzleGrid : MonoBehaviour
 
         AddneighborsForRow(rowAbove, isAbove: true);
         AddneighborsForRow(rowBelow, isAbove: false);
+    }
+
+    private void SetCellNeighborhoods()
+    {
+        foreach (var cell in Cells)
+        {
+            SetCellNeighborhood(cell);
+        }
+    }
+
+    private void SetCellNeighborhood(GridCell cell)
+    {
+        var nearbyCells = new List<GridCell>();
+        nearbyCells.Add(cell);
+        nearbyCells.AddRange(cell.Neighbors);
+        cell.Neighborhood = nearbyCells.SelectMany(c => c.Neighbors).Distinct().ToList();
     }
 	#endregion
 

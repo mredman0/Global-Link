@@ -58,6 +58,7 @@ public class Puzzle : MonoBehaviour
     public List<Warp> Warps;
     public Dictionary<GridCell, Warp> WarpsByGridCell = new Dictionary<GridCell, Warp>();
     public Dictionary<int, MultiLineRenderer> Paths = new Dictionary<int, MultiLineRenderer>();
+    public Dictionary<GridCell, List<Vector3>[]> DrawnPointsByGridCell = new Dictionary<GridCell, List<Vector3>[]>();
     public List<Wall> Walls;
     public List<int> HintedColors = new List<int>();
 
@@ -209,10 +210,9 @@ public class Puzzle : MonoBehaviour
             {
                 for(int i = mergeLoop + 1; i < path.PositionCount; i++)
                 {
-                    NotifyWaypointsOfLinePointRemoved(path.GetPosition(i));
-                    NotifyWarpsOfLinePointRemoved(path.GetPosition(i));
+                    InternalHandleLinePointRemoved(path.GetPosition(i), node.Color);
                 }
-                mergedOutOfWarp = NotifyWarpsOfLineMerge(path, point, mergeOrigin);
+                mergedOutOfWarp = NotifyWarpsOfLineMerge(path, node.Color, point, mergeOrigin);
                 if(!mergedOutOfWarp)
                 {
                     path.PositionCount = mergeLoop + 1;
@@ -225,8 +225,7 @@ public class Puzzle : MonoBehaviour
         {
             path.PositionCount++;
             path.SetPosition(path.PositionCount - 1, point);
-            NotifyWaypointsOfLinePointDrawn(point, node.Color);
-            NotifyWarpsOfLinePointDrawn(path, point, node.Color);
+            InternalHandleLinePointDrawn(path, point, node.Color);
         }
 
         if(!mergedOutOfWarp)
@@ -234,9 +233,21 @@ public class Puzzle : MonoBehaviour
             var pointsRemoved = path.CleanupCurrentLinePoints();
             foreach(var removedPoint in pointsRemoved)
             {
-                NotifyWaypointsOfLinePointRemoved(removedPoint);
-                NotifyWarpsOfLinePointRemoved(removedPoint);
+                InternalHandleLinePointRemoved(removedPoint, node.Color);
             }
+        }
+    }
+
+    private void InternalHandleLinePointDrawn(MultiLineRenderer path, Vector3 point, int color, bool notifyWaypoints = true, bool notifyWarps = true, bool applyWarpToPath = true, bool moveCamera = true)
+    {
+        DrawnPointsByGridCell[Grid.GetLookingAtCell(point.ToPolar())][color].Add(point);
+        if(notifyWaypoints)
+        {
+            NotifyWaypointsOfLinePointDrawn(point, color);
+        }
+        if(notifyWarps)
+        {
+            NotifyWarpsOfLinePointDrawn(path, point, color, applyWarpToPath, moveCamera);
         }
     }
 
@@ -291,7 +302,7 @@ public class Puzzle : MonoBehaviour
         //}
     }
 
-    private bool NotifyWarpsOfLineMerge(MultiLineRenderer path, Vector3 drawnPoint, Vector3 mergeOrigin)
+    private bool NotifyWarpsOfLineMerge(MultiLineRenderer path, int color, Vector3 drawnPoint, Vector3 mergeOrigin)
     {
         // Both the drawn point and the merge origin have to be in the warp cell to go back
         var drawnPointCell = Grid.GetLookingAtCell(drawnPoint.ToPolar());
@@ -349,7 +360,7 @@ public class Puzzle : MonoBehaviour
 
         var source = warp.PairedWarp;
         var pathTrimPoint = source.PointDrawnInCell.Value;
-        TrimPathToPoint(path, pathTrimPoint, includePoint: false);
+        TrimPathToPoint(path, color, pathTrimPoint, includePoint: false);
 
         if (path.PositionCount > 0)
         {
@@ -357,6 +368,19 @@ public class Puzzle : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void InternalHandleLinePointRemoved(Vector3 point, int color, bool notifyWaypoints = true, bool notifyWarps = true)
+    {
+        DrawnPointsByGridCell[Grid.GetLookingAtCell(point.ToPolar())][color].Remove(point);
+        if (notifyWaypoints)
+        {
+            NotifyWaypointsOfLinePointRemoved(point);
+        }
+        if(notifyWarps)
+        {
+            NotifyWarpsOfLinePointRemoved(point);
+        }
     }
 
     public void NotifyWaypointsOfLinePointRemoved(Vector3 point)
@@ -520,7 +544,7 @@ public class Puzzle : MonoBehaviour
             SetDisconnected(n);
         }
 
-        TrimPathToPoint(n.Path, tappedPoint, includePoint: true);
+        TrimPathToPoint(n.Path, n.Color, tappedPoint, includePoint: true);
 
         SetActiveNode(n, fromExistingLine: true);
     }
@@ -618,7 +642,7 @@ public class Puzzle : MonoBehaviour
         n.Path.EndWidth = n.transform.localScale.x * PATH_SIZE_RELATIVE_TO_NODE_SIZE;
     }
 
-    private void TrimPathToPoint(MultiLineRenderer path, Vector3 point, bool includePoint)
+    private void TrimPathToPoint(MultiLineRenderer path, int color, Vector3 point, bool includePoint)
     {
         var numPoints = path.PositionCount;
         var points = new Vector3[numPoints];
@@ -640,8 +664,7 @@ public class Puzzle : MonoBehaviour
         path.PositionCount = i;
         for(; i< numPoints; i++)
         {
-            NotifyWaypointsOfLinePointRemoved(points[i]);
-            NotifyWarpsOfLinePointRemoved(points[i]);
+            InternalHandleLinePointRemoved(points[i], color);
         }
     }
 
@@ -653,8 +676,7 @@ public class Puzzle : MonoBehaviour
         {
             for (int i = 0; i < node.Path.PositionCount; i++)
             {
-                NotifyWaypointsOfLinePointRemoved(node.Path.GetPosition(i));
-                NotifyWarpsOfLinePointRemoved(node.Path.GetPosition(i));
+                InternalHandleLinePointRemoved(node.Path.GetPosition(i), node.Color);
             }
             Destroy(node.Path.gameObject);
             Paths.Remove(node.Color);
@@ -733,6 +755,10 @@ public class Puzzle : MonoBehaviour
                 Destroy(kvp.Value.gameObject);
             }
             Paths.Clear();
+        }
+        if(DrawnPointsByGridCell != null)
+        {
+            DrawnPointsByGridCell.Clear();
         }
         if(Waypoints != null)
         {
@@ -815,8 +841,7 @@ public class Puzzle : MonoBehaviour
                     path.PositionCount++;
                     path.SetPosition(path.PositionCount - 1, point);
 
-                    NotifyWaypointsOfLinePointDrawn(point, LastModifiedColor);
-                    NotifyWarpsOfLinePointDrawn(nodeToStartFrom.Path, point, LastModifiedColor, applyWarpToPath: false, moveCamera: false);
+                    InternalHandleLinePointDrawn(nodeToStartFrom.Path, point, LastModifiedColor, applyWarpToPath: false, moveCamera: false);
                 }
             }
         }
@@ -1062,7 +1087,7 @@ public class Puzzle : MonoBehaviour
                     var pathTrimPoint = source.PointDrawnInCell.Value;
 
                     SetDisconnected(NodesByColor[warp.Color][0]);
-                    TrimPathToPoint(Paths[warp.Color], pathTrimPoint, includePoint: false);
+                    TrimPathToPoint(Paths[warp.Color], warp.Color, pathTrimPoint, includePoint: false);
                 }
             }
         }
@@ -1090,7 +1115,7 @@ public class Puzzle : MonoBehaviour
         foreach (var tuple in toTrim)
         {
             SetDisconnected(NodesByColor[tuple.color][0]);
-            TrimPathToPoint(Paths[tuple.color], tuple.point, includePoint: true);
+            TrimPathToPoint(Paths[tuple.color], tuple.color, tuple.point, includePoint: true);
         }
 
         SetConnected(nodeA, nodeB);
@@ -1121,6 +1146,7 @@ public class Puzzle : MonoBehaviour
         {
             path.PositionCount++;
             path.SetPosition(path.PositionCount - 1, point);
+            InternalHandleLinePointDrawn(path, point, color, notifyWaypoints: false, notifyWarps: false);
             NotifyWaypointsOfLinePointDrawn(point, color);
             bool takingWarp = NotifyWarpsOfLinePointDrawn(path, point, color, applyWarpToPath: true, moveCamera: false);
             if(takingWarp)
@@ -1209,6 +1235,14 @@ public class Puzzle : MonoBehaviour
         Nodes = new List<Node>();
         NodesByColor = new Dictionary<int, List<Node>>();
         Paths = new Dictionary<int, MultiLineRenderer>();
+
+        foreach(var cell in Grid.Cells)
+        {
+            DrawnPointsByGridCell.Add(cell, new List<Vector3>[6]
+            {
+                new List<Vector3>(),new List<Vector3>(),new List<Vector3>(),new List<Vector3>(),new List<Vector3>(),new List<Vector3>(),
+            });
+        }
 
         float nodeVisualScale = NodeCollisionDistance * NODE_VISUAL_SCALE_FACTOR;
 
@@ -1379,9 +1413,8 @@ public class Puzzle : MonoBehaviour
         return IsPositionFree(position, ActiveNode.Color);
     }
 
-    private PolarVector3[] PositionsToTest = new PolarVector3[3]
+    private PolarVector3[] PositionsToTest = new PolarVector3[2]
     {
-        new PolarVector3(),
         new PolarVector3(),
         new PolarVector3(),
     };
@@ -1394,14 +1427,11 @@ public class Puzzle : MonoBehaviour
         var cellPathCollisionPadding = PathCollisionDistance * Mathf.Rad2Deg * 0.9f;
         var lonCellPathCollisionPadding = cellPathCollisionPadding * paddingLatFactor;
 
-        // Test versions of the point +/- 360 longitude to handle the vertical seam at 0/360
         PositionsToTest[0] = pointPolar;
+        // Test a version of the point +/- 360 longitude to handle the vertical seam at 0/360
         PositionsToTest[1].Radius = pointPolar.Radius;
         PositionsToTest[1].Latitude = pointPolar.Latitude;
-        PositionsToTest[1].Longitude = pointPolar.Longitude - 360f;
-        PositionsToTest[2].Radius = pointPolar.Radius;
-        PositionsToTest[2].Latitude = pointPolar.Latitude;
-        PositionsToTest[2].Longitude = pointPolar.Longitude + 360f;
+        PositionsToTest[1].Longitude = pointPolar.Longitude + (pointPolar.Longitude < 180 ? 360f : -360f);
 
         var nodePathCollisionDistance = NodeCollisionDistance + PathCollisionDistance;
         foreach (var node in Nodes.Where(n => n.Color != excludeColor))
@@ -1413,14 +1443,22 @@ public class Puzzle : MonoBehaviour
         }
 
         var pathPathCollisionDistance = PathCollisionDistance * 2;
-        foreach (var kvp in Paths)
+        // Get current cell + neighbors + neighbors of neighbors
+        var nearbyCells = new List<GridCell>();
+        var currentCell = Grid.GetLookingAtCell(pointPolar);
+        var neighborhood = currentCell.Neighborhood;
+
+        foreach(var cell in neighborhood)
         {
-            if (kvp.Key != excludeColor)
+            for(int i = 0; i < 6; i++)
             {
-                var path = kvp.Value;
-                for (int i = 0; i < path.PositionCount; i++)
+                if(i == excludeColor)
                 {
-                    if (Vector3.Distance(position, path.GetPosition(i)) < pathPathCollisionDistance)
+                    continue;
+                }
+                foreach(var drawnPoint in DrawnPointsByGridCell[cell][i])
+                {
+                    if (Vector3.Distance(position, drawnPoint) < pathPathCollisionDistance)
                     {
                         return false;
                     }
@@ -1530,9 +1568,9 @@ public class Puzzle : MonoBehaviour
                     $"Line smoothing resulted in bad point {resultingP2}\nLine smoothing input that resulted in bad output:\n{p1}\n{p2}\n{p3}\n{Environment.StackTrace}\n\n\n");
             }
 
-            NotifyWaypointsOfLinePointRemoved(p2);
+            InternalHandleLinePointRemoved(p2, lineColor, notifyWarps: false);
             renderer.SetPosition(positionCount - 2, resultingP2);
-            NotifyWaypointsOfLinePointDrawn(resultingP2, lineColor);
+            InternalHandleLinePointDrawn(renderer, resultingP2, lineColor, notifyWarps: false);
         }
     }
 
@@ -1609,12 +1647,12 @@ public class Puzzle : MonoBehaviour
                     $"Line dejittering resulted in bad output {resultingP2}, {resultingP3}\nLine dejittering input that resulted in bad output:\n{p1}\n{p2}\n{p3}\n{p4}\n{Environment.StackTrace}\n\n\n");
             }
 
-            NotifyWaypointsOfLinePointRemoved(p2);
+            InternalHandleLinePointRemoved(p2, lineColor, notifyWarps: false);
             renderer.SetPosition(positionCount - 3, resultingP2);
-            NotifyWaypointsOfLinePointDrawn(resultingP2, lineColor);
-            NotifyWaypointsOfLinePointRemoved(p3);
+            InternalHandleLinePointDrawn(renderer, resultingP2, lineColor, notifyWarps: false);
+            InternalHandleLinePointRemoved(p3, lineColor, notifyWarps: false);
             renderer.SetPosition(positionCount - 2, resultingP3);
-            NotifyWaypointsOfLinePointDrawn(resultingP3, lineColor);
+            InternalHandleLinePointDrawn(renderer, resultingP3, lineColor, notifyWarps: false);
         }
     }
 	#endregion
