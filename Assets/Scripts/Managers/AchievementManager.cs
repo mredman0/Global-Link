@@ -1,4 +1,6 @@
+#if UNITY_ANDROID
 using GooglePlayGames;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

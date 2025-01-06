@@ -167,7 +167,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.redprismgames.chromasphere
     Standalone: com.Red-Prism-Games.ChromaSphere
-    iPhone: com.Red-Prism-Games.ChromaSphere
+    iPhone: com.redprismgames.chromasphere
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -202,7 +202,7 @@ PlayerSettings:
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
-  uIStatusBarHidden: 1
+  uIStatusBarHidden: 0
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
   appleTVSplashScreen: {fileID: 0}
@@ -601,7 +601,7 @@ PlayerSettings:
   actionOnDotNetUnhandledException: 1
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
-  enableCrashReportAPI: 0
+  enableCrashReportAPI: 1
   cameraUsageDescription: 
   locationUsageDescription: 
   microphoneUsageDescription: 
@@ -859,6 +859,7 @@ PlayerSettings:
     Server: SERVER
     Standalone: LEVELPLAY_DEPENDENCIES_INSTALLED
     WebGL: DEMO;LEVELPLAY_DEPENDENCIES_INSTALLED
+    iPhone: LEVELPLAY_DEPENDENCIES_INSTALLED
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
