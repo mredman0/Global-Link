@@ -24,6 +24,6 @@ public class Tutorial2Script : MonoBehaviour
         puzzle.SetUndoState(ColorToConnectNaively);
 
         var pathToDraw = puzzle.Grid.GetShortestPath(cellStart, cellEnd);
-        puzzle.DrawPathForColor(ColorToConnectNaively, pathToDraw);
+        puzzle.DrawPathForColor(ColorToConnectNaively, pathToDraw, isHint: false);
     }
 }

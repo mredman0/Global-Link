@@ -1022,7 +1022,7 @@ public class Puzzle : MonoBehaviour
         return DrawPathForColor(color, solution);
     }
 
-    public bool DrawPathForColor(int color, List<GridCell> cells)
+    public bool DrawPathForColor(int color, List<GridCell> cells, bool isHint = true)
     {
         // Reset the state for this color
         foreach (var node in NodesByColor[color])
@@ -1038,9 +1038,12 @@ public class Puzzle : MonoBehaviour
             StartPathFromNode(nodeA);
             DrawPointsDetectingWarp(nodeA.GridCell, nodeB.GridCell, color, nodeA.Path);
             SetConnected(nodeA, nodeB);
-            HintedColors.Add(color);
-            nodeA.SetSolvedByHint();
-            nodeB.SetSolvedByHint();
+            if(isHint)
+            {
+                HintedColors.Add(color);
+                nodeA.SetSolvedByHint();
+                nodeB.SetSolvedByHint();
+            }
 
             return true;
         }
@@ -1119,9 +1122,12 @@ public class Puzzle : MonoBehaviour
         }
 
         SetConnected(nodeA, nodeB);
-        HintedColors.Add(color);
-        nodeA.SetSolvedByHint();
-        nodeB.SetSolvedByHint();
+        if (isHint)
+        {
+            HintedColors.Add(color);
+            nodeA.SetSolvedByHint();
+            nodeB.SetSolvedByHint();
+        }
 
         return true;
     }
