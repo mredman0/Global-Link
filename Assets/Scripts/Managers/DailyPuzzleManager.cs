@@ -396,6 +396,11 @@ public class DailyPuzzleManager : MonoBehaviour
             return null;
         }
     }
+#elif UNITY_IOS
+    private string GetTokenFromReceipt(string receiptStr)
+    {
+        throw new NotImplementedException();
+    }
 #endif
 }
 
