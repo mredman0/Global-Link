@@ -111,6 +111,7 @@ public class HintManager : MonoBehaviour
     }
     public async Task GainHints(int amount)
     {
+        Debug.Log($"Attempting to increase hints by {amount}");
         if(amount < 1)
         {
             Debug.LogWarning("Do not use GainHints to reduce number of hints.");
@@ -133,8 +134,9 @@ public class HintManager : MonoBehaviour
             await CloudSaveService.Instance.Data.Player.SaveAsync(data);
             return true;
         }
-        catch
+        catch(Exception e)
         {
+            Debug.LogException(e);
             return false;
         }
     }
@@ -147,8 +149,9 @@ public class HintManager : MonoBehaviour
             Hints = data[HINTS_KEY].Value.GetAs<int>();
             return true;
         }
-        catch
+        catch(Exception e)
         {
+            Debug.LogException(e);
             return false;
         }
     }
