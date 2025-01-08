@@ -15,6 +15,21 @@ MonoBehaviour:
   IsEnabled: 0
   AllowGetCurrentUser: 0
   AllowRunsAsCurrentUser: 0
+--- !u!114 &-1884052764842851052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e6011bb95664520aa4858e4c359e06, type: 3}
+  m_Name: AppleGameKitBuildStep
+  m_EditorClassIdentifier: 
+  IsEnabled: 1
+  FriendListUsageDescription: 
+  SavedGameContainerIdentifier: 
 --- !u!114 &-925215770923616425
 MonoBehaviour:
   m_ObjectHideFlags: 0

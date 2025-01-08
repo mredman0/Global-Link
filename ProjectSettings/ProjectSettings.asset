@@ -245,7 +245,7 @@ PlayerSettings:
   iOSRenderExtraFrameOnPause: 0
   iosCopyPluginsCodeInsteadOfSymlink: 0
   appleDeveloperTeamID: 
-  iOSManualSigningProvisioningProfileID: 9480e410-91ee-47ae-b002-ed660408b83e
+  iOSManualSigningProvisioningProfileID: 5be737e2-0c4d-4525-9c2e-158dc3d72552
   tvOSManualSigningProvisioningProfileID: 
   VisionOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 1
@@ -889,7 +889,7 @@ PlayerSettings:
     WebGL: 1
     Windows Store Apps: 1
     XboxOne: 1
-    iPhone: 1
+    iPhone: 4
     tvOS: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
