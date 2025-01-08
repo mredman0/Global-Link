@@ -15050,6 +15050,7 @@ GameObject:
   - component: {fileID: 681081578}
   - component: {fileID: 681081577}
   - component: {fileID: 681081579}
+  - component: {fileID: 681081580}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -15089,8 +15090,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 85}
-  m_SizeDelta: {x: 0, y: -170}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &681081577
 MonoBehaviour:
@@ -15144,6 +15145,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BannerAdAware: 1
   BannerAdBackground: {fileID: 965623000}
+--- !u!114 &681081580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681081575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1bac92b23d7794a9ffef5f7cb83854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edgeToAdjust: 2
+  mode: 0
 --- !u!1001 &692225450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74020,6 +74035,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4817288630305667972, guid: d4dae0363eacf6e43b2ac110177045b0,
+        type: 3}
+      propertyPath: mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7659155000935064507, guid: d4dae0363eacf6e43b2ac110177045b0,
         type: 3}
       propertyPath: m_Name
@@ -74206,8 +74226,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1625237370578576848, guid: 4bf0077d79848724aa5332f2345e1339,
         type: 3}
-      propertyPath: AllowAdsInDevelopmentBuild
+      propertyPath: ForceBannerSpace
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625237370578576848, guid: 4bf0077d79848724aa5332f2345e1339,
+        type: 3}
+      propertyPath: AllowAdsInDevelopmentBuild
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7531302522029063632, guid: 4bf0077d79848724aa5332f2345e1339,
         type: 3}

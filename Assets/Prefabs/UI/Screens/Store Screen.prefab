@@ -120,8 +120,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4928482399155825821}
   m_HandleRect: {fileID: 5720326365567033488}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.84126985
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -172,6 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3833962621184523072}
   - component: {fileID: 1735401921257162868}
+  - component: {fileID: 179259850640734788}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -191,7 +192,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8082841328286055971}
   - {fileID: 6676694684469295974}
   - {fileID: 4139958402026426609}
   - {fileID: 7051559616684020422}
@@ -199,8 +199,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 85}
-  m_SizeDelta: {x: 0, y: -170}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1735401921257162868
 MonoBehaviour:
@@ -216,6 +216,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BannerAdAware: 1
   BannerAdBackground: {fileID: 5411062402047415229}
+--- !u!114 &179259850640734788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145165555510899134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1bac92b23d7794a9ffef5f7cb83854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edgeToAdjust: 2
+  mode: 0
 --- !u!1 &3835538350806238132
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,6 +616,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8082841328286055971}
   - {fileID: 3833962621184523072}
   - {fileID: 5411062402047415229}
   m_Father: {fileID: 0}
@@ -717,7 +732,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3833962621184523072}
+  m_Father: {fileID: 4843095335540274256}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1147,6 +1162,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3833962621184523072}
     m_Modifications:
+    - target: {fileID: 5282476875324193744, guid: 53735f23c0356de409a3cb6e56d75301,
+        type: 3}
+      propertyPath: CancelButton
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5282476875324193744, guid: 53735f23c0356de409a3cb6e56d75301,
+        type: 3}
+      propertyPath: ConfirmButton
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5587988212253845970, guid: 53735f23c0356de409a3cb6e56d75301,
         type: 3}
       propertyPath: m_AnchoredPosition.x

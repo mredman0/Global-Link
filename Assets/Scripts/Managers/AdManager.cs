@@ -26,6 +26,7 @@ public class AdManager : MonoBehaviour
 
     [Header("GLOBAL DO ADS")]
     public bool GLOBAL_DO_ADS = true;
+    public bool PROCEED_WITHOUT_STORE = false;
 
     [Header("App Keys")]
     public string AndroidAppKey;
@@ -52,6 +53,7 @@ public class AdManager : MonoBehaviour
     public bool TestSuiteMode;
     public bool DoValidation;
     public bool AllowAdsInDevelopmentBuild;
+    public bool ForceBannerSpace;
 
     private bool AllAdsDisabled = false;
     private string AppKey = null;
@@ -74,11 +76,18 @@ public class AdManager : MonoBehaviour
         SetAdFree(true);
 #endif
 
-        if(PurchaseManager.Instance.IsInitialized)
+        if(PROCEED_WITHOUT_STORE)
         {
             OnPurchaseManagerInitialized();
         }
-        PurchaseManager.Instance.Initialized += OnPurchaseManagerInitialized;
+        else
+        {
+            if (PurchaseManager.Instance.IsInitialized)
+            {
+                OnPurchaseManagerInitialized();
+            }
+            PurchaseManager.Instance.Initialized += OnPurchaseManagerInitialized;
+        }
         PurchaseManager.Instance.AdFreeChanged += SetAdFree;
     }
 
@@ -112,19 +121,30 @@ public class AdManager : MonoBehaviour
         RewardedHintAdUnitId = AndroidRewardedHintAdUnitId;
 #endif
 
+        void SetBannerHeight()
+        {
+            float density = Screen.dpi / 160f;
+            float projectedBannerHeight = 50f * density;
+            BannerAdHeight = (int)projectedBannerHeight;
+        }
+
         if (AllAdsDisabled || string.IsNullOrWhiteSpace(AppKey))
         {
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+            if(ForceBannerSpace)
+            {
+                SetBannerHeight();
+            }
+#endif
             return;
         }
 
-        if (TestSuiteMode)
+            if (TestSuiteMode)
         {
             IronSource.Agent.setMetaData("is_test_suite", "enable");
         }
 
-        float density = Screen.dpi / 160f;
-        float projectedBannerHeight = 50f * density;
-        BannerAdHeight = (int)projectedBannerHeight;
+        SetBannerHeight();
 
         LevelPlay.OnInitFailed += OnSdkInitFailed;
         LevelPlay.OnInitSuccess += OnSdkInitSuccess;
