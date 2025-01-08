@@ -303,6 +303,47 @@ public class Build
     }
     #endregion
 
+
+    #region iOS Actions
+    [MenuItem("Build/iOS/Build DEV")]
+    public static void BuildiOSDev() => BuildiOS(dev: true, clean: false);
+    [MenuItem("Build/iOS/Build RELEASE")]
+    public static void BuildiOSRelease() => BuildiOS(dev: false, clean: false);
+    [MenuItem("Build/iOS/Clean Build DEV")]
+    public static void CleanBuildiOSDev() => BuildiOS(dev: true, clean: true);
+    [MenuItem("Build/iOS/Clean Build RELEASE")]
+    public static void CleanBuildiOSRelease() => BuildiOS(dev: false, clean: true);
+    #endregion
+
+    public static void BuildiOS(bool dev, bool clean = false)
+    {
+        SelectiOS(); // Make sure we're in iOS player mode
+
+        var scriptingDefines = new List<string>();
+
+        var buildOptions = BuildOptions.None;
+        if (dev)
+        {
+            buildOptions |= BuildOptions.Development;
+        }
+
+        var outputPath = $"Builds/iOS/ChromaSphere";
+        var options = new BuildPlayerOptions()
+        {
+            scenes = scenes,
+            locationPathName = outputPath,
+            target = BuildTarget.iOS,
+            options = buildOptions,
+            extraScriptingDefines = scriptingDefines.ToArray()
+        };
+
+        var success = _Build(options, isDedicatedServer: false, clean);
+        if (!success)
+        {
+            return;
+        }
+    }
+
     #region Build Player Target Actions
     private const string PLAYER_MENU_PATH = "Build/_Player/";
 
