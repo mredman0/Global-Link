@@ -72,3 +72,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /DailyPuzzleServer/Global-Link-DailyPuzzleServer/bin
 /DailyPuzzleServer/Global-Link-DailyPuzzleServer/obj
+
+# VS Code Prefs
+.vscode/
+
+# Mac files
+*.DS_Store
