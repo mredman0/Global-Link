@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.apple.unityplugin.core": "file:../External Packages/com.apple.unityplugin.core-3.1.7.tgz",
+    "com.apple.unityplugin.gamekit": "file:../External Packages/com.apple.unityplugin.gamekit-3.0.1.tgz",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ads.ios-support": "1.0.0",
     "com.unity.burst": "1.8.18",
