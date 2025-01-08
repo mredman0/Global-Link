@@ -196,8 +196,9 @@ public class PlayerAuthManager : MonoBehaviour
                 Debug.Log("AppleGameCenter player already logged in.");
             }
         }
-        catch
+        catch(Exception e)
         {
+            Debug.LogException(e);
             SignInAnonymously();
         }
     }
