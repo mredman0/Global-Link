@@ -146,6 +146,11 @@ public class HintManager : MonoBehaviour
         try
         {
             var data = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>() { HINTS_KEY });
+            if(!data.ContainsKey(HINTS_KEY))
+            {
+                Debug.Log($"Player does not have hints stored in cloud");
+                return false;
+            }
             Hints = data[HINTS_KEY].Value.GetAs<int>();
             return true;
         }
