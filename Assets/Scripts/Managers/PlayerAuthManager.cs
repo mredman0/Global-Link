@@ -11,6 +11,9 @@ using System.Linq;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 #endif
+#if UNITY_IOS
+using Apple.GameKit;
+#endif
 
 public class PlayerAuthManager : MonoBehaviour
 {
@@ -53,6 +56,8 @@ public class PlayerAuthManager : MonoBehaviour
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         Action onStartup = LoginGooglePlayGames;
+#elif UNITY_IOS
+        Action onStartup = LoginAppleGameCenter;
 #else
         Action onStartup = SignInAnonymously;
 #endif
@@ -73,6 +78,8 @@ public class PlayerAuthManager : MonoBehaviour
         Action onStartup = SignInAnonymously;
 #elif (UNITY_ANDROID)
         Action onStartup = LoginGooglePlayGames;
+#elif UNITY_IOS
+        Action onStartup = LoginAppleGameCenter;
 #else
         Action onStartup = SignInAnonymously;
 #endif
@@ -140,8 +147,75 @@ public class PlayerAuthManager : MonoBehaviour
     }
 #endif
 
-	#region Anonymous
-    private void SignInAnonymously()
+#region iOS
+#if UNITY_IOS
+    private void LoginAppleGameCenter()
+    {
+        _ = LoginAppleGameCenterAsync();
+    }
+    private async Task LoginAppleGameCenterAsync()
+    {
+        if (SynchronizationContext.Current != MainThreadContext)
+        {
+            MainThreadContext.Post(_ => LoginAppleGameCenterAsync(), null);
+            return;
+        }
+
+        try
+        {
+            if (!GKLocalPlayer.Local.IsAuthenticated)
+            {
+                // Perform the authentication.
+                var player = await GKLocalPlayer.Authenticate();
+                Debug.Log($"GameKit Authentication: player {player}");
+
+                // Grab the display name.
+                var localPlayer = GKLocalPlayer.Local;
+                Debug.Log($"Local Player: {localPlayer.DisplayName}");
+
+                // Fetch the items.
+                var fetchItemsResponse = await GKLocalPlayer.Local.FetchItems();
+
+                var signature = Convert.ToBase64String(fetchItemsResponse.GetSignature());
+                var teamPlayerId = localPlayer.TeamPlayerId;
+                Debug.Log($"Team Player ID: {teamPlayerId}");
+
+                var salt = Convert.ToBase64String(fetchItemsResponse.GetSalt());
+                var publicKeyURL = fetchItemsResponse.PublicKeyUrl;
+                var timestamp = fetchItemsResponse.Timestamp;
+
+                Debug.Log($"GameKit Authentication: signature => {signature}");
+                Debug.Log($"GameKit Authentication: publickeyurl => {publicKeyURL}");
+                Debug.Log($"GameKit Authentication: salt => {salt}");
+                Debug.Log($"GameKit Authentication: Timestamp => {timestamp}");
+
+                SignInWithAppleGameCenter(signature, teamPlayerId, publicKeyURL, salt, timestamp);
+            }
+            else
+            {
+                Debug.Log("AppleGameCenter player already logged in.");
+            }
+        }
+        catch
+        {
+            SignInAnonymously();
+        }
+    }
+
+    private void SignInWithAppleGameCenter(string signature, string teamPlayerId, string publicKeyURL, string salt, ulong timestamp)
+    {
+        _ = SignInWithAppleGameCenterAsync(signature, teamPlayerId, publicKeyURL, salt, timestamp);
+    }
+    private async Task SignInWithAppleGameCenterAsync(string signature, string teamPlayerId, string publicKeyURL, string salt, ulong timestamp)
+    {
+        Debug.Log("Signing in with Apple Game Center...");
+        await SignInAsync(async () => await AuthenticationService.Instance.SignInWithAppleGameCenterAsync(signature, teamPlayerId, publicKeyURL, salt, timestamp), onFailure: SignInAnonymously);
+    }
+#endif
+#endregion
+
+#region Anonymous
+	private void SignInAnonymously()
     {
         _ = SignInAnonymouslyAsync();
     }
@@ -150,7 +224,7 @@ public class PlayerAuthManager : MonoBehaviour
         Debug.Log("Signing in anonymously...");
         await SignInAsync(async () => await AuthenticationService.Instance.SignInAnonymouslyAsync());
     }
-	#endregion
+#endregion
 
     private async Task SignInAsync(Func<Task> signInFunction, Action onSuccess = null, Action onFailure = null)
     {
@@ -226,7 +300,7 @@ public class PlayerAuthManager : MonoBehaviour
         }
     }
 
-	#region Auth Service Notifications Read Time
+#region Auth Service Notifications Read Time
 	private void ReadNextNotification(ConfirmationDialog dialog)
     {
         if(UnreadNotifications != null && UnreadNotifications.Any())
@@ -272,5 +346,5 @@ public class PlayerAuthManager : MonoBehaviour
         }
         return 0;
     }
-	#endregion
+#endregion
 }

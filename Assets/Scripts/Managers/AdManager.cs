@@ -150,8 +150,8 @@ public class AdManager : MonoBehaviour
         LevelPlay.OnInitSuccess += OnSdkInitSuccess;
 #if UNITY_ANDROID
         var userId = GooglePlayGames.PlayGamesPlatform.Instance?.GetUserId() ?? "";
-#else
-        var userId = "TestUserId";
+#elif UNITY_IOS
+        var userId = Apple.GameKit.GKLocalPlayer.Local?.GamePlayerId ?? "";
 #endif
         Debug.Log($"Initializing LevelPlay with userId: {userId}");
         LevelPlay.Init(AppKey, userId);
