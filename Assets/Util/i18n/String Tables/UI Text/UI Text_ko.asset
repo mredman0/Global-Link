@@ -161,6 +161,12 @@ MonoBehaviour:
       \uAC19\uB124\uC694. \uD29C\uD1A0\uB9AC\uC5BC\uC744 \uBC29\uBB38\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
     m_Metadata:
       m_Items: []
+  - m_Id: 19870318709723136
+    m_Localized: "\uC774 \uC571\uC740 \uADC0\uD558\uC758 \uAE30\uAE30\uC758 \uAD11\uACE0
+      ID\uB97C \uC0AC\uC6A9\uD558\uC5EC \uBCF4\uB2E4 \uAD00\uB828\uC131 \uB192\uC740
+      \uB9DE\uCDA4\uD615 \uAD11\uACE0\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

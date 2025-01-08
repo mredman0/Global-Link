@@ -160,6 +160,11 @@ MonoBehaviour:
       Sie das Tutorial besuchen?"
     m_Metadata:
       m_Items: []
+  - m_Id: 19870318709723136
+    m_Localized: "Diese App verwendet die Werbe-ID Ihres Ger\xE4ts, um personalisierte
+      und relevantere Anzeigen bereitzustellen."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

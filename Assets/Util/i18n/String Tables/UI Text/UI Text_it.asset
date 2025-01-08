@@ -159,8 +159,13 @@ MonoBehaviour:
     m_Localized: 'Benvenuto!
 
 
-      Sembra che tu sia nuovo qui. Vuoi visitare
-      il tutorial?'
+      Sembra che tu sia nuovo qui. Vuoi visitare il
+      tutorial?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19870318709723136
+    m_Localized: "Questa app utilizza l'ID pubblicitario del tuo dispositivo per
+      mostrarti annunci personalizzati pi\xF9 pertinenti."
     m_Metadata:
       m_Items: []
   references:

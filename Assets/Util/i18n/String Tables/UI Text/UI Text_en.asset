@@ -162,6 +162,11 @@ MonoBehaviour:
       to visit the tutorial?'
     m_Metadata:
       m_Items: []
+  - m_Id: 19870318709723136
+    m_Localized: "This app uses your device\u2019s advertising ID to serve personalized
+      ads that are more relevant to you."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

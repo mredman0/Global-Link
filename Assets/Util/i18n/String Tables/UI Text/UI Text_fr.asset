@@ -161,6 +161,11 @@ MonoBehaviour:
       visiter le tutoriel ?"
     m_Metadata:
       m_Items: []
+  - m_Id: 19870318709723136
+    m_Localized: "Cette application utilise l'identifiant publicitaire de votre appareil
+      pour vous proposer des publicit\xE9s personnalis\xE9es plus pertinentes."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

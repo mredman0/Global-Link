@@ -159,6 +159,11 @@ MonoBehaviour:
       visitar el tutorial?"
     m_Metadata:
       m_Items: []
+  - m_Id: 19870318709723136
+    m_Localized: "Esta aplicaci\xF3n utiliza el ID de publicidad de tu dispositivo
+      para mostrar anuncios personalizados m\xE1s relevantes para ti."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
