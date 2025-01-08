@@ -17,11 +17,13 @@ public class DailyPuzzleHttpServer
 	private DailyPuzzleGenManager DailyPuzzleGenManager;
 
 	private GoogleStoreTokenValidator GoogleStoreTokenValidator;
+	private AppleStoreTokenValidator AppleStoreTokenValidator;
 
 	public DailyPuzzleHttpServer()
 	{
 		DailyPuzzleGenManager = new DailyPuzzleGenManager();
 		GoogleStoreTokenValidator = new GoogleStoreTokenValidator();
+		AppleStoreTokenValidator = new AppleStoreTokenValidator();
 	}
 
 	public void StartServer()
@@ -65,14 +67,19 @@ public class DailyPuzzleHttpServer
 			await response.WriteAsync("Invalid Store-Type.");
 			return;
 		}
-		if(storeTypeStr.ToString() == "Google")
+		var storeType = storeTypeStr.ToString();
+		if (storeType == "Google")
 		{
 			purchaseValidator = GoogleStoreTokenValidator;
+		}
+		else if(storeType == "iOS" || storeType == "Apple")
+		{
+			purchaseValidator = AppleStoreTokenValidator;
 		}
 		else
 		{
 			response.StatusCode = 400;
-			await response.WriteAsync("Invalid Store-Type.");
+			await response.WriteAsync($"Invalid Store-Type: \"{storeType}\"");
 			return;
 		}
 
