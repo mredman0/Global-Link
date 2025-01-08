@@ -184,6 +184,6 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		Controller.InitiatePurchase(productId);
 	}
 
-	public Product GetProduct(string productId) => Controller.products.WithID(productId);
+	public Product GetProduct(string productId) => Controller?.products?.WithID(productId);
 #endregion
 }

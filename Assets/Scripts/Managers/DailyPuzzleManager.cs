@@ -174,12 +174,19 @@ public class DailyPuzzleManager : MonoBehaviour
             {
 #if UNITY_EDITOR
                 devProducts.Add(productId);
-#else
+#elif UNITY_ANDROID
                 var token = GetTokenFromReceipt(product.receipt);
                 if(!string.IsNullOrEmpty(token))
                 {
                     productIds.Add(productId);
                     tokens.Add(token);
+                }
+#elif UNITY_IOS
+                var tid = product.transactionID;
+                if(!string.IsNullOrEmpty(tid))
+                {
+                    productIds.Add(productId);
+                    tokens.Add(tid);
                 }
 #endif
             }
