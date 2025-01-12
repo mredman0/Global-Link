@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GLOBAL_DO_ADS: 0
+  PROCEED_WITHOUT_STORE: 0
   AndroidAppKey: 2057e49c5
   iOSAppKey: 20a6855b5
   AndroidBannerAdUnitId: 96u3d5n12qqljpko
@@ -53,6 +54,8 @@ MonoBehaviour:
   iOSInterstitialAdUnitId: k7pfhr613bt10e45
   AndroidRewardedHintAdUnitId: ae8qpvrglvywjwh0
   iOSRewardedHintAdUnitId: dln1qf3rzdo9vyol
+  AndroidRewardedHintPlacementId: Ad_For_Hint
+  iOSRewardedHintPlacementId: Ad_For_Hint
   PuzzlesPerInterstitial: 2
   RetryLoadInterstitialDelay: 185
   RewardedHintAvailable: 0
@@ -61,3 +64,4 @@ MonoBehaviour:
   TestSuiteMode: 0
   DoValidation: 1
   AllowAdsInDevelopmentBuild: 1
+  ForceBannerSpace: 0

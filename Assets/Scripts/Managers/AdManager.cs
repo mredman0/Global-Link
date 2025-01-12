@@ -40,6 +40,10 @@ public class AdManager : MonoBehaviour
     public string AndroidRewardedHintAdUnitId;
     public string iOSRewardedHintAdUnitId;
 
+    [Header("Placement Ids")]
+    public string AndroidRewardedHintPlacementId;
+    public string iOSRewardedHintPlacementId;
+
     [Header("Interstitial Settings")]
     public uint PuzzlesPerInterstitial = 2;
     public float RetryLoadInterstitialDelay;
@@ -60,6 +64,8 @@ public class AdManager : MonoBehaviour
     private string BannerAdUnitId;
     private string InterstitialAdUnitId;
     private string RewardedHintAdUnitId;
+
+    private string RewardedHintPlacementId;
 
     // Start is called before the first frame update
     void Start()
@@ -114,11 +120,13 @@ public class AdManager : MonoBehaviour
         BannerAdUnitId = iOSBannerAdUnitId;
         InterstitialAdUnitId = iOSInterstitialAdUnitId;
         RewardedHintAdUnitId = iOSRewardedHintAdUnitId;
+        RewardedHintPlacementId = iOSRewardedHintPlacementId;
 #elif UNITY_ANDROID
         AppKey = AndroidAppKey;
         BannerAdUnitId = AndroidBannerAdUnitId;
         InterstitialAdUnitId = AndroidInterstitialAdUnitId;
         RewardedHintAdUnitId = AndroidRewardedHintAdUnitId;
+        RewardedHintPlacementId = AndroidRewardedHintPlacementId;
 #endif
 
         void SetBannerHeight()
@@ -397,7 +405,7 @@ public class AdManager : MonoBehaviour
         {
             return false;
         }
-        RewardedHintAd.ShowAd();
+        RewardedHintAd.ShowAd(RewardedHintPlacementId);
         return true;
     }
 
