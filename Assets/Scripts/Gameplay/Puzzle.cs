@@ -200,23 +200,43 @@ public class Puzzle : MonoBehaviour
 
         var path = node.Path;
         var loopMergeDistance = path.EndWidth * 0.8f;
-        int mergeLoop;
+        int mergeLoop = 0;
         int mergeIgnoreMostRecent = Mathf.FloorToInt(loopMergeDistance / MINIMUM_DRAW_STEP);
+        bool merged = false;
         bool mergedOutOfWarp = false;
-        for (mergeLoop = 0; mergeLoop < path.PositionCount - mergeIgnoreMostRecent; mergeLoop++)
+        var lines = path.GetPositionsInLines();
+        foreach(var line in lines)
         {
-            var mergeOrigin = path.GetPosition(mergeLoop);
-            if ((point - mergeOrigin).magnitude < loopMergeDistance)
+            for(int i = 0; i < line.Length; i++)
             {
-                for(int i = mergeLoop + 1; i < path.PositionCount; i++)
+                if (mergeLoop >= path.PositionCount - mergeIgnoreMostRecent)
                 {
-                    InternalHandleLinePointRemoved(path.GetPosition(i), node.Color);
+                    break;
                 }
-                mergedOutOfWarp = NotifyWarpsOfLineMerge(path, node.Color, point, mergeOrigin);
-                if(!mergedOutOfWarp)
+
+                if(i < line.Length - 5)
                 {
-                    path.PositionCount = mergeLoop + 1;
+                    var mergeOrigin = line[i];
+                    if ((point - mergeOrigin).magnitude < loopMergeDistance)
+                    {
+                        for (int j = mergeLoop + 1; j < path.PositionCount; j++)
+                        {
+                            InternalHandleLinePointRemoved(path.GetPosition(j), node.Color);
+                        }
+                        mergedOutOfWarp = NotifyWarpsOfLineMerge(path, node.Color, point, mergeOrigin);
+                        if (!mergedOutOfWarp)
+                        {
+                            path.PositionCount = mergeLoop + 1;
+                        }
+                        merged = true;
+                        break;
+                    }
                 }
+
+                mergeLoop++;
+            }
+            if(merged)
+            {
                 break;
             }
         }
@@ -1502,6 +1522,16 @@ public class Puzzle : MonoBehaviour
                 }
             }
         }
+
+        var nodeWarpCollisionDistance = NodeCollisionDistance + PathCollisionDistance;
+        foreach (var warp in Warps.Where(w => w.Color >= 0 && w.Color != excludeColor))
+        {
+            if (Vector3.Distance(position, warp.transform.position) < nodePathCollisionDistance)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 	#endregion
