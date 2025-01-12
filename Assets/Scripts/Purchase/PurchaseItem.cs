@@ -16,6 +16,9 @@ public class PurchaseItem : MonoBehaviour
     public string ProductIdPrefix;
     public string ProductId;
 
+    [Header("Debug")]
+    public string FakeStorePrice = "$";
+
     void Start()
     {
         if(string.IsNullOrWhiteSpace(ProductId) || !PriceText || !PurchaseButton)
@@ -29,7 +32,7 @@ public class PurchaseItem : MonoBehaviour
         {
             SetOwned(product?.hasReceipt ?? false);
         }
-        PriceText.text = product.metadata.localizedPriceString;
+        PriceText.text = PurchaseManager.Instance.UseFakeStore ? FakeStorePrice : product.metadata.localizedPriceString;
         PurchaseManager.Instance.PurchaseProcessed += OnPurchaseProcessed;
     }
 

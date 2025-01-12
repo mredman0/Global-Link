@@ -1345,6 +1345,11 @@ PrefabInstance:
       propertyPath: ProductId
       value: hints_large
       objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $4.99
+      objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: productId
@@ -1719,6 +1724,11 @@ PrefabInstance:
       propertyPath: ProductId
       value: daily_puzzles_grandmaster
       objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $2.99
+      objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: productId
@@ -1888,6 +1898,11 @@ PrefabInstance:
       propertyPath: ProductId
       value: daily_puzzles_beginner
       objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $2.99
+      objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: productId
@@ -2056,6 +2071,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ProductId
       value: daily_puzzles_intermediate
+      objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $2.99
       objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
@@ -2614,6 +2634,11 @@ PrefabInstance:
       propertyPath: ProductId
       value: ad_free
       objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $5.99
+      objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: productId
@@ -2777,6 +2802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ProductId
       value: daily_puzzles_all
+      objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $4.99
       objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
@@ -2947,6 +2977,11 @@ PrefabInstance:
       propertyPath: ProductId
       value: daily_puzzles_expert
       objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $2.99
+      objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: productId
@@ -3115,6 +3150,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ProductId
       value: hints_small
+      objectReference: {fileID: 0}
+    - target: {fileID: 546402097886873306, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: FakeStorePrice
+      value: $0.99
       objectReference: {fileID: 0}
     - target: {fileID: 894094445738585502, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
