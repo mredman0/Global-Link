@@ -454,6 +454,16 @@ public class AdManager : MonoBehaviour
 
     void RewardedHintOnAdRewarded(LevelPlayAdInfo adInfo, LevelPlayReward reward)
     {
+        Debug.Log($"SANITY CHECK!!! reward name:{reward.Name}, reward amount:{reward.Amount}");
+
+        // TEMPORARY iOS BUG WORKAROUND
+#if UNITY_IOS
+        Debug.Log("iOS ad reward bug fix... forcing reward amount to be 1...");
+        AdRewarded?.Invoke(reward.Name, 1);
+#else
+        AdRewarded?.Invoke(reward.Name, reward.Amount);
+#endif
+
         RewardedHintAvailable = false;
         if (RewardedHintAd != null)
         {
@@ -461,7 +471,6 @@ public class AdManager : MonoBehaviour
             RewardedHintAd = null;
             RewardedHintClosed?.Invoke();
         }
-        AdRewarded?.Invoke(reward.Name, reward.Amount);
     }
 #endregion
 
