@@ -80,7 +80,7 @@ namespace Global_Link_DailyPuzzleServer
 				}
 			}
 
-			Console.WriteLine($"Hash {tokenHash} not found");
+			Log($"Hash {tokenHash} not found");
 			validUntil = null;
 			timesValidated = null;
 			return null; // Return null if the record does not exist
