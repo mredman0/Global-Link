@@ -44,7 +44,6 @@ public class AdAwarePanel : MonoBehaviour
             bannerAdOffsetMax.y += AdManager.Instance.BannerAdHeight - previouslyAppliedOffset;
             BannerAdBackground.offsetMax = bannerAdOffsetMax;
         }
-        Debug.Log($"AdAwarePanel adjusted by: {AdManager.Instance.BannerAdHeight}");
 
         previouslyAppliedOffset = AdManager.Instance.BannerAdHeight;
     }

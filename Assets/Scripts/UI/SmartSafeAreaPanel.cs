@@ -14,9 +14,6 @@ public class SmartSafeAreaPanel : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"SCREEN: {new Rect(0, 0, Screen.width, Screen.height)}");
-        Debug.Log($"SCREEN SAFE AREA: {Screen.safeArea}");
-
         rectTransform = GetComponent<RectTransform>();
         AdjustBasedOnSafeArea();
     }
@@ -45,15 +42,12 @@ public class SmartSafeAreaPanel : MonoBehaviour
         switch (edgeToAdjust)
         {
             case SafeAreaEdge.Top:
-                Debug.Log($"SafeAreaPanel top resize: {topUnsafeArea}");
                 AdjustBottomUpward(topUnsafeArea*-1);
                 break;
             case SafeAreaEdge.Bottom:
-                Debug.Log($"SafeAreaPanel bottom resize: {bottomUnsafeArea}");
                 AdjustTopDownward(bottomUnsafeArea*-1);
                 break;
             case SafeAreaEdge.Both:
-                Debug.Log($"SafeAreaPanel bottom/top resize: {bottomUnsafeArea}/{topUnsafeArea}");
                 AdjustTopDownward(topUnsafeArea);
                 AdjustBottomUpward(bottomUnsafeArea);
                 break;
@@ -66,11 +60,9 @@ public class SmartSafeAreaPanel : MonoBehaviour
         switch (edgeToAdjust)
         {
             case SafeAreaEdge.Top:
-                Debug.Log($"SafeAreaPanel top move: {topUnsafeArea}");
                 position.y -= topUnsafeArea / 2;  // Move down
                 break;
             case SafeAreaEdge.Bottom:
-                Debug.Log($"SafeAreaPanel bottom move: {topUnsafeArea}");
                 position.y += bottomUnsafeArea / 2;  // Move up
                 break;
             case SafeAreaEdge.Both:
