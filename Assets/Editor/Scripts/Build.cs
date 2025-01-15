@@ -181,6 +181,7 @@ public class Build
             PlayerSettings.Android.bundleVersionCode++;
             Debug.Log($"Android bundle version code incremented to {PlayerSettings.Android.bundleVersionCode}");
             PlayerSettings.bundleVersion = IncrementVersionNumber(PlayerSettings.bundleVersion);
+            PlayerSettings.iOS.buildNumber = IncrementVersionNumber(PlayerSettings.iOS.buildNumber);
             Debug.Log($"Version number incremented to {PlayerSettings.bundleVersion}");
         }
         if (runAfterBuild)
