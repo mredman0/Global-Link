@@ -21,6 +21,10 @@ public class CameraController : MonoBehaviour
     public int InputLocks = 0;
     public bool DoPuzzleCompleteSpin;
 
+    [Header("Compatibility Settings")]
+    // Represents the W/H of the most "square" aspect ratio before the puzzle would appear too big
+    public float MaxAspectRatio = 0.58514f;
+
     private int DragInputsToStore = 5;
 
     [Header("Locked Roll Settings")]
@@ -370,6 +374,17 @@ public class CameraController : MonoBehaviour
         {
             // Safe value
             cameraFoV = 22.2f;
+        }
+
+        var aspectRatio = (float)Screen.width / Screen.height;
+        if(aspectRatio > MaxAspectRatio)
+        {
+            var adjustment = (aspectRatio / MaxAspectRatio - 1) / -3f;
+            var cameraRect = Camera.rect;
+            cameraRect.yMin = adjustment;
+            cameraRect.size = new Vector2(1, 1);
+            Camera.rect = cameraRect;
+            Debug.Log($"Shifted camera render down by {adjustment}");
         }
 
         Camera.transform.localPosition = Vector3.forward * cameraDistance;
