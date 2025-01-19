@@ -146,6 +146,11 @@ public class AdManager : MonoBehaviour
                 projectedBannerHeight += 20;
             }
 #endif
+            // Round up to next multiple of 10
+            projectedBannerHeight /= 10f;
+            projectedBannerHeight = Mathf.Ceil(projectedBannerHeight);
+            projectedBannerHeight *= 10f;
+
             BannerAdHeight = (int)projectedBannerHeight;
         }
 
