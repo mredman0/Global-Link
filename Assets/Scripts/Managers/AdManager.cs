@@ -139,12 +139,10 @@ public class AdManager : MonoBehaviour
 #endif
             float projectedBannerHeight = 50f * density; // actual height, may need conversion to canvas reference height
 #if UNITY_IOS
-            // On iOS, if there is no bottom safe area, assume a hardware nav button which the ads SDK might give a 20px? buffer to prevent accidental clicks
-            // MAYBE ALSO DO THIS ON ANDROID
-            if(Screen.safeArea.y < 1f)
-            {
-                projectedBannerHeight += 20;
-            }
+            // On iOS, assume a hardware nav button which the ads SDK might give a dynamic buffer (based on dpi?) to prevent accidental clicks
+            
+            // This is a guess
+            projectedBannerHeight += Mathf.Floor(Screen.dpi / 150f) * 10f; // 10px for every 150dpi
 #endif
             // Round up to next multiple of 10
             projectedBannerHeight /= 10f;
