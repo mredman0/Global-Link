@@ -35,16 +35,20 @@ public class AdAwarePanel : MonoBehaviour
     {
         var rect = GetComponent<RectTransform>();
         var offsetMin = rect.offsetMin;
-        offsetMin.y += AdManager.Instance.BannerAdHeight - previouslyAppliedOffset;
+        var bannerHeight = AdManager.Instance.BannerAdHeight; // actual height
+        var canvas = GetComponentInParent<Canvas>();
+        bannerHeight = (int)(bannerHeight / canvas.scaleFactor); // reference height
+        offsetMin.y += bannerHeight - previouslyAppliedOffset;
         rect.offsetMin = offsetMin;
 
         if(BannerAdBackground)
         {
             var bannerAdOffsetMax = BannerAdBackground.offsetMax;
-            bannerAdOffsetMax.y += AdManager.Instance.BannerAdHeight - previouslyAppliedOffset;
+            bannerAdOffsetMax.y += bannerHeight - previouslyAppliedOffset;
             BannerAdBackground.offsetMax = bannerAdOffsetMax;
         }
+        Debug.Log($"AdAwarePanel adjusted by: {bannerHeight} (actual: {AdManager.Instance.BannerAdHeight})");
 
-        previouslyAppliedOffset = AdManager.Instance.BannerAdHeight;
+        previouslyAppliedOffset = bannerHeight;
     }
 }

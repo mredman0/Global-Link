@@ -58,6 +58,7 @@ public class AdManager : MonoBehaviour
     public bool DoValidation;
     public bool AllowAdsInDevelopmentBuild;
     public bool ForceBannerSpace;
+    public int DpiOverride = -1;
 
     private bool AllAdsDisabled = false;
     private string AppKey = null;
@@ -131,8 +132,20 @@ public class AdManager : MonoBehaviour
 
         void SetBannerHeight()
         {
+#if UNITY_EDITOR
+            float density = DpiOverride > 0 ? DpiOverride / 160f : Screen.dpi / 160f;
+#else
             float density = Screen.dpi / 160f;
-            float projectedBannerHeight = 50f * density;
+#endif
+            float projectedBannerHeight = 50f * density; // actual height, may need conversion to canvas reference height
+#if UNITY_IOS
+            // On iOS, if there is no bottom safe area, assume a hardware nav button which the ads SDK might give a 20px? buffer to prevent accidental clicks
+            // MAYBE ALSO DO THIS ON ANDROID
+            if(Screen.safeArea.y < 1f)
+            {
+                projectedBannerHeight += 20;
+            }
+#endif
             BannerAdHeight = (int)projectedBannerHeight;
         }
 
