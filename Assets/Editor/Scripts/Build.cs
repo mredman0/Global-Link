@@ -168,10 +168,20 @@ public class Build
         if (string.IsNullOrEmpty(PlayerSettings.keystorePass) || string.IsNullOrEmpty(PlayerSettings.keyaliasPass))
         {
             Debug.LogError("Please make sure UNITY_ANDROID_KEYSTORE_PASS and UNITY_ANDROID_KEYSTORE_ALIAS_PASS are defined!");
+            // Reset player settings to standard values to prevent version control churn
+            EditorUserBuildSettings.buildAppBundle = true;
+            EditorUserBuildSettings.androidCreateSymbols = AndroidCreateSymbols.Public;
+            PlayerSettings.Android.useAPKExpansionFiles = true;
             return;
         }
 
         var success = _Build(options, isDedicatedServer: false, clean);
+
+        // Reset player settings to standard values to prevent version control churn
+        EditorUserBuildSettings.buildAppBundle = true;
+        EditorUserBuildSettings.androidCreateSymbols = AndroidCreateSymbols.Public;
+        PlayerSettings.Android.useAPKExpansionFiles = true;
+
         if (!success)
         {
             return;
