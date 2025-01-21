@@ -167,6 +167,19 @@ MonoBehaviour:
       ads that are more relevant to you."
     m_Metadata:
       m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: Extend your daily streak by completing any 3 daily puzzles each
+      day.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: 'Completed:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: 'Streak:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

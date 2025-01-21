@@ -164,6 +164,18 @@ MonoBehaviour:
       ID \u6765\u63D0\u4F9B\u66F4\u7B26\u5408\u60A8\u5174\u8DA3\u7684\u4E2A\u6027\u5316\u5E7F\u544A\u3002"
     m_Metadata:
       m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: "\u8FDE\u7EED\u8BB0\u5F55:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: "\u5DF2\u5B8C\u6210:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: "\u6BCF\u5929\u5B8C\u6210\u4EFB\u610F 3 \u4E2A\u6BCF\u65E5\u8C1C\u9898\u53EF\u5EF6\u957F\u60A8\u7684\u8FDE\u7EED\u5B8C\u6210\u5929\u6570\u3002"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -14,7 +14,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 	public event Action Initialized;
 	public event Action InitializationFailed;
 
-	public event Action<PurchaseEventArgs> PurchaseProcessed;
+	public event Action<string, PurchaseEventArgs> PurchaseProcessed;
 	public event Action<Product, PurchaseFailureReason> PurchaseFailed;
 	public event Action<bool> AdFreeChanged;
 	public event Action<int> HintsPurchased;
@@ -123,15 +123,15 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 	{
 		PurchaseProcessingResult result;
 		var payouts = purchaseEvent.purchasedProduct.definition.payouts;
+		var id = purchaseEvent.purchasedProduct.definition.id.Replace(ID_PREFIX, "");
 		if (payouts != null && payouts.Any())
 		{
 			result = ProcessPurchaseByPayouts(payouts);
-			PurchaseProcessed?.Invoke(purchaseEvent);
+			PurchaseProcessed?.Invoke(id, purchaseEvent);
 			return result;
 		}
-		var id = purchaseEvent.purchasedProduct.definition.id.Replace(ID_PREFIX, "");
 		result = ProcessPurchaseById(id);
-		PurchaseProcessed?.Invoke(purchaseEvent);
+		PurchaseProcessed?.Invoke(id, purchaseEvent);
 		return result;
 	}
 	private PurchaseProcessingResult ProcessPurchaseByPayouts(IEnumerable<PayoutDefinition> payouts)
@@ -168,6 +168,20 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		return PurchaseProcessingResult.Complete;
 	}
 
+	public int CountAccessibleDailyPuzzles()
+	{
+		if(GetProduct("daily_puzzles_all")?.hasReceipt ?? false)
+		{
+			return 12;
+		}
+		var accessible = 4;
+		if (GetProduct("daily_puzzles_beginner")?.hasReceipt ?? false) { accessible += 2; }
+		if (GetProduct("daily_puzzles_intermediate")?.hasReceipt ?? false) { accessible += 2; }
+		if (GetProduct("daily_puzzles_expert")?.hasReceipt ?? false) { accessible += 2; }
+		if (GetProduct("daily_puzzles_grandmaster")?.hasReceipt ?? false) { accessible += 2; }
+		return accessible;
+	}
+
 	public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
 	{
 		PurchaseFailed?.Invoke(product, failureDescription.reason);
@@ -179,11 +193,8 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 #endregion
 
 #region API
-	public void InitiatePurchase(string productId)
-	{
-		Controller.InitiatePurchase(productId);
-	}
+	public void InitiatePurchase(string productId) => Controller.InitiatePurchase($"{ID_PREFIX}{productId}");
 
-	public Product GetProduct(string productId) => Controller?.products?.WithID(productId);
+	public Product GetProduct(string productId) => Controller?.products?.WithID($"{ID_PREFIX}{productId}");
 #endregion
 }

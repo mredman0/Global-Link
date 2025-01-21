@@ -108,13 +108,12 @@ public class DailyPuzzleManager : MonoBehaviour
         {
             return false;
         }
-        PopulateDailyPuzzles(puzzles);
+        PopulateDailyPuzzles(puzzles, today);
         if(RefetchPuzzlesWhenReady)
         {
             RefetchPuzzlesWhenReady = false;
             RefetchPuzzles();
         }
-        LoadedDate = today;
         return true;
     }
 
@@ -158,14 +157,13 @@ public class DailyPuzzleManager : MonoBehaviour
         var productIds = new List<string>();
         var tokens = new List<string>();
 
-        var idPrefix = PurchaseManager.ID_PREFIX;
         var relevantProductIds = new List<string>()
         {
-            $"{idPrefix}daily_puzzles_beginner",
-            $"{idPrefix}daily_puzzles_intermediate",
-            $"{idPrefix}daily_puzzles_expert",
-            $"{idPrefix}daily_puzzles_grandmaster",
-            $"{idPrefix}daily_puzzles_all",
+            $"daily_puzzles_beginner",
+            $"daily_puzzles_intermediate",
+            $"daily_puzzles_expert",
+            $"daily_puzzles_grandmaster",
+            $"daily_puzzles_all",
         };
         foreach(var productId in relevantProductIds)
         {
@@ -245,8 +243,7 @@ public class DailyPuzzleManager : MonoBehaviour
             {
                 PuzzleCompletionManager.Instance.ResetDailyPuzzleCompletion();
             }
-            PopulateDailyPuzzles(payload);
-            LoadedDate = requestDate;
+            PopulateDailyPuzzles(payload, requestDate);
             if (UseCache)
             {
                 CachePuzzles(payload, requestDate);
@@ -287,9 +284,9 @@ public class DailyPuzzleManager : MonoBehaviour
     }
 
     private string CacheDirectory;
-    private string DateFormat = "yyyy-MM-dd";
+    private readonly string DateFormat = "yyyy-MM-dd";
 
-    private void PopulateDailyPuzzles(PuzzlesPayload payload)
+    private void PopulateDailyPuzzles(PuzzlesPayload payload, DateTime puzzlesDate)
     {
         if(payload is null)
         {
@@ -319,6 +316,10 @@ public class DailyPuzzleManager : MonoBehaviour
         }
         Initializing = false;
         PuzzlesAreReady = true;
+        LoadedDate = puzzlesDate;
+
+        PuzzleCompletionManager.Instance.CheckForDailyPuzzleStreakLoss();
+
         DailyPuzzlesReady?.Invoke();
     }
 #endif

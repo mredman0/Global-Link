@@ -10,12 +10,20 @@ public class PuzzleCompletionManager : MonoBehaviour
 {
     public static PuzzleCompletionManager Instance;
 
+    public event Action<string> PackCompletionCountUpdated;
+    public event Action<int> DailyPuzzleStreakUpdated;
+
     public List<PackInfo> PacksToManage;
 
     public Dictionary<string, PackInfo> PackInfo = new Dictionary<string, PackInfo>();
+
+    public int DailyPuzzleStreak;
+    public DateTime DailyPuzzleStreakLastCompletedDay;
+
     private Dictionary<string, int> TotalPuzzles = new Dictionary<string, int>();
     private readonly Dictionary<string, PackPuzzleCompletionData> CompletionData = new Dictionary<string, PackPuzzleCompletionData>();
     private string CompletionFolder;
+    private string DailyPuzzleStreakFilePath;
 
     // Start is called before the first frame update
     void Start()
@@ -30,11 +38,13 @@ public class PuzzleCompletionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         CompletionFolder = Path.Combine(Application.persistentDataPath, "puzzle");
+        DailyPuzzleStreakFilePath = Path.Combine(Application.persistentDataPath, "DPS.dat");
         if(!Directory.Exists(CompletionFolder))
         {
             Directory.CreateDirectory(CompletionFolder);
         }
         LoadAll();
+        LoadDailyPuzzleStreak();
     }
 
     private void OnApplicationQuit()
@@ -97,6 +107,14 @@ public class PuzzleCompletionManager : MonoBehaviour
         }
         SavePack(packId);
         HandlePuzzleCompletionAchievements(packId, puzzleId, wasAlreadyCompleted);
+        if(!wasAlreadyCompleted)
+        {
+            PackCompletionCountUpdated?.Invoke(packId);
+            if (packId == "Daily")
+            {
+                CheckForDailyPuzzleStreakIncrement();
+            }
+        }
     }
 
     private void HandlePuzzleCompletionAchievements(string packId, string puzzleId, bool wasAlreadyCompleted)
@@ -132,6 +150,39 @@ public class PuzzleCompletionManager : MonoBehaviour
         }
     }
 
+    private void CheckForDailyPuzzleStreakIncrement()
+    {
+        var dailyPuzzleDate = DailyPuzzleManager.Instance.LoadedDate ?? DateTime.Today;
+        if(CompletionData["Daily"].CompletedPuzzles.Count == 3 && DailyPuzzleStreakLastCompletedDay < dailyPuzzleDate)
+        {
+            // On the 3rd completed puzzle, increment and save
+            DailyPuzzleStreak++;
+            DailyPuzzleStreakLastCompletedDay = DailyPuzzleManager.Instance.LoadedDate ?? DateTime.Today;
+            SaveDailyPuzzleStreak();
+            DailyPuzzleStreakUpdated?.Invoke(DailyPuzzleStreak);
+        }
+    }
+
+    public void CheckForDailyPuzzleStreakLoss()
+    {
+        var dailyPuzzleDate = DailyPuzzleManager.Instance.LoadedDate ?? DateTime.Today;
+        if(DailyPuzzleStreakLastCompletedDay < dailyPuzzleDate.AddDays(-1))
+        {
+            if (CompletionData["Daily"].CompletedPuzzles.Count < 3)
+            {
+                DailyPuzzleStreak = 0;
+                SaveDailyPuzzleStreak();
+                DailyPuzzleStreakUpdated?.Invoke(DailyPuzzleStreak);
+            }
+            else
+            {
+                // In case something weird happens, update the day to today so they don't lose the streak when opening the app at a later date
+                DailyPuzzleStreakLastCompletedDay = dailyPuzzleDate;
+                SaveDailyPuzzleStreak();
+            }
+        }
+    }
+
     public void ResetAllProgress()
     {
         foreach(var pack in PacksToManage)
@@ -139,6 +190,7 @@ public class PuzzleCompletionManager : MonoBehaviour
             if (CompletionData.ContainsKey(pack.Id))
             {
                 CompletionData[pack.Id].CompletedPuzzles.Clear();
+                PackCompletionCountUpdated?.Invoke(pack.Id);
             }
         }
         SaveAll();
@@ -149,6 +201,7 @@ public class PuzzleCompletionManager : MonoBehaviour
         if (CompletionData.ContainsKey("Daily"))
         {
             CompletionData["Daily"].CompletedPuzzles.Clear();
+            PackCompletionCountUpdated?.Invoke("Daily");
         }
         SaveAll();
     }
@@ -200,6 +253,7 @@ public class PuzzleCompletionManager : MonoBehaviour
         {
             CompletionData[pack] = data;
         }
+        PackCompletionCountUpdated?.Invoke(pack);
     }
 
     private void SaveAll()
@@ -218,6 +272,45 @@ public class PuzzleCompletionManager : MonoBehaviour
             var output = JsonUtility.ToJson(CompletionData[pack]);
             File.WriteAllText(path, output);
         }
+    }
+
+    private const string DATE_FORMAT = "yyyy-MM-dd";
+    private void LoadDailyPuzzleStreak()
+    {
+        if(!File.Exists(DailyPuzzleStreakFilePath))
+        {
+            DailyPuzzleStreak = 0;
+            DailyPuzzleStreakLastCompletedDay = DateTime.MinValue;
+            return;
+        }
+        var fileText = File.ReadAllText(DailyPuzzleStreakFilePath);
+        (DailyPuzzleStreak, DailyPuzzleStreakLastCompletedDay) = DecodeStreak(fileText);
+        DailyPuzzleStreakUpdated?.Invoke(DailyPuzzleStreak);
+    }
+    private static (int, DateTime) DecodeStreak(string data)
+    {
+        try
+        {
+            var base64EncodedBytes = Convert.FromBase64String(data);
+            var decoded = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            var parts = decoded.Split(',');
+            return (int.Parse(parts[0]), DateTime.ParseExact(parts[1], DATE_FORMAT, null));
+        }
+        catch(Exception e)
+        {
+            Debug.LogException(e);
+            return (0, DateTime.MinValue);
+        }
+    }
+
+    private void SaveDailyPuzzleStreak()
+    {
+        File.WriteAllText(DailyPuzzleStreakFilePath, EncodeStreak(DailyPuzzleStreak, DailyPuzzleStreakLastCompletedDay));
+    }
+    private static string EncodeStreak(int streak, DateTime puzzleDate)
+    {
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{streak.ToString()},{puzzleDate.ToString(DATE_FORMAT)}");
+        return Convert.ToBase64String(plainTextBytes);
     }
 
     [Serializable]

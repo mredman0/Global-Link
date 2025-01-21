@@ -166,6 +166,19 @@ MonoBehaviour:
       pour vous proposer des publicit\xE9s personnalis\xE9es plus pertinentes."
     m_Metadata:
       m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: "S\xE9rie:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: "Termin\xE9:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: "Prolongez votre s\xE9rie quotidienne en terminant 3 puzzles quotidiens
+      par jour."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

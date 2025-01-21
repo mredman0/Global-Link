@@ -168,6 +168,19 @@ MonoBehaviour:
       mostrarti annunci personalizzati pi\xF9 pertinenti."
     m_Metadata:
       m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: 'Serie:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: 'Completati:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: Estendi la tua serie giornaliera completando 3 puzzle giornalieri
+      al giorno.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

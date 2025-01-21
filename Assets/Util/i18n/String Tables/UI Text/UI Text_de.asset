@@ -165,6 +165,19 @@ MonoBehaviour:
       und relevantere Anzeigen bereitzustellen."
     m_Metadata:
       m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: 'Serie:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: 'Abgeschlossen:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: "Verl\xE4ngern Sie Ihre t\xE4gliche Serie, indem Sie jeden Tag 3
+      t\xE4gliche R\xE4tsel abschlie\xDFen."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

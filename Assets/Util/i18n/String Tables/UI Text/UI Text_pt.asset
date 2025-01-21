@@ -164,6 +164,19 @@ MonoBehaviour:
       exibir an\xFAncios personalizados mais relevantes para voc\xEA."
     m_Metadata:
       m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: "Sequ\xEAncia:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: "Conclu\xEDdo:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: "Estenda sua sequ\xEAncia di\xE1ria completando 3 quebra-cabe\xE7as
+      di\xE1rios por dia."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

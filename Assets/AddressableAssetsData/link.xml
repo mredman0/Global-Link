@@ -13,6 +13,7 @@
     <type fullname="DailyPuzzlesPage" preserve="all" />
     <type fullname="DailyPuzzlesPageButton" preserve="all" />
     <type fullname="DailyPuzzlesSection" preserve="all" />
+    <type fullname="DailyPuzzleStreakDisplay" preserve="all" />
     <type fullname="DemoNotice" preserve="all" />
     <type fullname="EffectSpawner" preserve="all" />
     <type fullname="GameManager" preserve="all" />
@@ -40,6 +41,7 @@
     <type fullname="PackPage" preserve="all" />
     <type fullname="PageNavigator" preserve="all" />
     <type fullname="PlayerAuthManager" preserve="all" />
+    <type fullname="PopupShower" preserve="all" />
     <type fullname="PurchaseItem" preserve="all" />
     <type fullname="PurchaseManager" preserve="all" />
     <type fullname="PurchaseUIController" preserve="all" />

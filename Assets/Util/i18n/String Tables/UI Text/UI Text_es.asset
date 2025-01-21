@@ -164,6 +164,19 @@ MonoBehaviour:
       para mostrar anuncios personalizados m\xE1s relevantes para ti."
     m_Metadata:
       m_Items: []
+  - m_Id: 24236018148593664
+    m_Localized: 'Racha:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236030270132224
+    m_Localized: 'Completado:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24236072167034880
+    m_Localized: "Extiende tu racha diaria completando 3 rompecabezas diarios cada
+      d\xEDa."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

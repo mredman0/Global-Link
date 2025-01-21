@@ -13,7 +13,6 @@ public class PurchaseItem : MonoBehaviour
 
     public TMP_Text PriceText;
 
-    public string ProductIdPrefix;
     public string ProductId;
 
     [Header("Debug")]
@@ -26,8 +25,7 @@ public class PurchaseItem : MonoBehaviour
             Debug.LogError($"PurchaseItem \"{gameObject.name}\" incorrectly configured");
             return;
         }
-        ProductIdPrefix ??= "";
-        var product = PurchaseManager.Instance.GetProduct($"{ProductIdPrefix}{ProductId}");
+        var product = PurchaseManager.Instance.GetProduct(ProductId);
         if(product?.definition.type != ProductType.Consumable)
         {
             SetOwned(product?.hasReceipt ?? false);
@@ -43,16 +41,16 @@ public class PurchaseItem : MonoBehaviour
 
     public void InitiatePurchase()
     {
-        if (string.IsNullOrWhiteSpace($"{ProductIdPrefix}{ProductId}"))
+        if (string.IsNullOrWhiteSpace(ProductId))
         {
             Debug.LogError($"Cannot initiate purchase from IAPButtonView {gameObject.name}, no ProductId specified");
         }
-        PurchaseManager.Instance.InitiatePurchase($"{ProductIdPrefix}{ProductId}");
+        PurchaseManager.Instance.InitiatePurchase(ProductId);
     }
 
-    private void OnPurchaseProcessed(PurchaseEventArgs purchaseEvent)
+    private void OnPurchaseProcessed(string productId, PurchaseEventArgs purchaseEvent)
     {
-        if(purchaseEvent.purchasedProduct.definition.id == $"{ProductIdPrefix}{ProductId}" &&
+        if(purchaseEvent.purchasedProduct.definition.id == ProductId &&
             purchaseEvent.purchasedProduct.definition.type != ProductType.Consumable)
         {
             SetOwned(true);
