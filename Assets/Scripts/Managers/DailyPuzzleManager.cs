@@ -121,10 +121,12 @@ public class DailyPuzzleManager : MonoBehaviour
     {
         if(Initializing)
         {
+            Debug.Log($"Will refetch daily puzzles when ready due to access change");
             RefetchPuzzlesWhenReady = true;
         }
         else
         {
+            Debug.Log($"Refetching daily puzzles due to access change");
             RefetchPuzzles(resetCompletion: false);
         }
     }
@@ -171,19 +173,19 @@ public class DailyPuzzleManager : MonoBehaviour
             if (product != null && product.hasReceipt)
             {
 #if UNITY_EDITOR
-                devProducts.Add(productId);
+                devProducts.Add(product.definition.id);
 #elif UNITY_ANDROID
                 var token = GetTokenFromReceipt(product.receipt);
                 if(!string.IsNullOrEmpty(token))
                 {
-                    productIds.Add(productId);
+                    productIds.Add(product.definition.id);
                     tokens.Add(token);
                 }
 #elif UNITY_IOS
                 var tid = product.transactionID;
                 if(!string.IsNullOrEmpty(tid))
                 {
-                    productIds.Add(productId);
+                    productIds.Add(product.definition.id);
                     tokens.Add(tid);
                 }
 #endif

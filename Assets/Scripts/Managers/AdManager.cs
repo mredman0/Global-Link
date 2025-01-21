@@ -505,8 +505,8 @@ public class AdManager : MonoBehaviour
             {
                 BannerAd.DestroyAd();
                 BannerAd = null;
-                BannerAdHeight = 0;
             }
+            BannerAdHeight = 0;
         }
         else
         {

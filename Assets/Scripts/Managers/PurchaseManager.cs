@@ -161,6 +161,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 			id == "daily_puzzles_grandmaster" ||
 			id == "daily_puzzles_all")
 		{
+			Debug.Log($"Daily puzzle access changed due to purchase");
 			DailyPuzzleAccessChanged?.Invoke();
 			return PurchaseProcessingResult.Complete;
 		}

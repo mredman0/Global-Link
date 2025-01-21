@@ -38,6 +38,10 @@ public class AdAwarePanel : MonoBehaviour
         var bannerHeight = AdManager.Instance.BannerAdHeight; // actual height
         var canvas = GetComponentInParent<Canvas>();
         bannerHeight = (int)(bannerHeight / canvas.scaleFactor); // reference height
+        if(AdManager.Instance.AdFreeMode)
+        {
+            bannerHeight = 0;
+        }
         offsetMin.y += bannerHeight - previouslyAppliedOffset;
         rect.offsetMin = offsetMin;
 

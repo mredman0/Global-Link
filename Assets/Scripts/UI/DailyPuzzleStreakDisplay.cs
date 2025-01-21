@@ -36,6 +36,8 @@ public class DailyPuzzleStreakDisplay : MonoBehaviour
     {
         PuzzleCompletionManager.Instance.PackCompletionCountUpdated -= OnPackCompletionCountUpdated;
         PuzzleCompletionManager.Instance.DailyPuzzleStreakUpdated -= OnDailyPuzzleStreakUpdated;
+        PurchaseManager.Instance.DailyPuzzleAccessChanged -= OnDailyPuzzleAccessChanged;
+
         PurchaseManager.Instance.Initialized -= OnPurchaseManagerInitialized;
     }
 

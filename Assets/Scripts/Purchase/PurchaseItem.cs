@@ -50,7 +50,7 @@ public class PurchaseItem : MonoBehaviour
 
     private void OnPurchaseProcessed(string productId, PurchaseEventArgs purchaseEvent)
     {
-        if(purchaseEvent.purchasedProduct.definition.id == ProductId &&
+        if(productId == ProductId &&
             purchaseEvent.purchasedProduct.definition.type != ProductType.Consumable)
         {
             SetOwned(true);
