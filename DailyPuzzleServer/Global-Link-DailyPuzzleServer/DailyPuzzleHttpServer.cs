@@ -184,8 +184,10 @@ public class DailyPuzzleHttpServer
 		}
 
 		// Development backdoor
+		bool allowOnDemand = false;
 		if(request.Headers.TryGetValue("h8921rgh893wihgvi8w390hy9h2i389o3tr", out var devProductsStr))
 		{
+			allowOnDemand = true;
 			var devProducts = devProductsStr.ToString().Split(',', StringSplitOptions.RemoveEmptyEntries);
 			foreach(var product in devProducts)
 			{
@@ -216,7 +218,7 @@ public class DailyPuzzleHttpServer
 			requestedDate = DateTime.Today;
 		}
 
-		var puzzleList = DailyPuzzleGenManager.GetDailyPuzzles(requestedDate, puzzleAvailabilityKeys);
+		var puzzleList = DailyPuzzleGenManager.GetDailyPuzzles(requestedDate, puzzleAvailabilityKeys, allowOnDemand);
 
 		// Prepare the response
 		var payload = new PuzzlesPayload(puzzleList);

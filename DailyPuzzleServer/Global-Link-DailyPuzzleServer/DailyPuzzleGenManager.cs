@@ -224,7 +224,7 @@ public class DailyPuzzleGenManager
 		return puzzleSet;
 	}
 
-	public List<PuzzleConfigPayload> GetDailyPuzzles(DateTime dateTime, ISet<int> availabilityKeys)
+	public List<PuzzleConfigPayload> GetDailyPuzzles(DateTime dateTime, ISet<int> availabilityKeys, bool allowOnDemand = false)
 	{
 		var results = new List<PuzzleConfigPayload>();
 		DailyPuzzles puzzleSet;
@@ -239,6 +239,10 @@ public class DailyPuzzleGenManager
 		else if (dateTime.Date == Tomorrow)
 		{
 			puzzleSet = PuzzlesTomorrow;
+		}
+		else if (allowOnDemand)
+		{
+			puzzleSet = GeneratePuzzles(GetSeed(dateTime));
 		}
 		else
 		{
