@@ -211,9 +211,9 @@ public class DailyPuzzleHttpServer
 			out DateTime requestedDate
 		);
 
-		if (!couldParse ||
+		if (!allowOnDemand && (!couldParse ||
 			requestedDate.Date < DateTime.Today.Date.AddDays(-1) ||
-			requestedDate.Date > DateTime.Today.Date.AddDays(1))
+			requestedDate.Date > DateTime.Today.Date.AddDays(1)))
 		{
 			requestedDate = DateTime.Today;
 		}
@@ -233,6 +233,10 @@ public class DailyPuzzleHttpServer
 			var d when d == DateTime.Today.Date.AddDays(1) => "tomorrow's",
 			_ => "today's"
 		};
+		if (allowOnDemand)
+		{
+			dayStr = requestedDateStr;
+		}
 
 		Console.WriteLine($"Served {dayStr} daily puzzles, including products: {string.Join(',', unlockedProducts)}");
 	}
