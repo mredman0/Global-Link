@@ -159,7 +159,7 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("Store-Type", "iOS");
 #endif
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || ON_DEMAND_DAILY_PUZZLES
         var devProducts = new List<string>();
 #endif
 
