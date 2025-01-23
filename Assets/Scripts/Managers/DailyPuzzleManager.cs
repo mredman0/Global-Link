@@ -131,18 +131,25 @@ public class DailyPuzzleManager : MonoBehaviour
         }
     }
 
-    private void RefetchPuzzles(bool resetCompletion = true)
+    private void RefetchPuzzles(bool resetCompletion = true, DateTime? dateOverride = null)
     {
         ClearCache();
         Initializing = true;
         PuzzlesAreReady = false;
         DailyPuzzlesUnready?.Invoke();
-        StartCoroutine(FetchJsonCoroutine(resetCompletion));
+        StartCoroutine(FetchJsonCoroutine(resetCompletion, dateOverride));
     }
 
-    private IEnumerator FetchJsonCoroutine(bool resetCompletion = true)
+#if ON_DEMAND_DAILY_PUZZLES
+    public void OnDemandFetchPuzzles(DateTime requestDate)
     {
-        var requestDate = DateTime.Now.Date;
+        RefetchPuzzles(true, requestDate);
+    }
+#endif
+
+    private IEnumerator FetchJsonCoroutine(bool resetCompletion = true, DateTime? dateOverride = null)
+    {
+        var requestDate = dateOverride ?? DateTime.Now.Date;
         var url = $"{FetchPuzzlesAddress}:{FetchPuzzlesPort}/{FetchPuzzlesPath}";
         using UnityWebRequest request = UnityWebRequest.Get(url);
 
@@ -195,8 +202,11 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("Product-Ids", string.Join(',', productIds));
         request.SetRequestHeader("Purchase-Tokens", string.Join(',', tokens));
 
-#if UNITY_EDITOR
-        if(EditorIncludeBeginner)
+#if ON_DEMAND_DAILY_PUZZLES
+        devProducts.Add($"{PurchaseManager.ID_PREFIX}daily_puzzles_all");
+        request.SetRequestHeader("h8921rgh893wihgvi8w390hy9h2i389o3tr", string.Join(',', devProducts.Distinct()));
+#elif UNITY_EDITOR
+        if (EditorIncludeBeginner)
         {
             devProducts.Add($"{PurchaseManager.ID_PREFIX}daily_puzzles_beginner");
         }
@@ -219,7 +229,7 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("h8921rgh893wihgvi8w390hy9h2i389o3tr", string.Join(',', devProducts.Distinct()));
 #endif
 
-        request.SetRequestHeader("Request-Date", DateTime.Now.ToString(REQUEST_DATE_FORMAT));
+        request.SetRequestHeader("Request-Date", requestDate.ToString(REQUEST_DATE_FORMAT));
 
         // Send the GET request
         yield return request.SendWebRequest();

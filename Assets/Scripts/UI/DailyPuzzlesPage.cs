@@ -24,6 +24,56 @@ public class DailyPuzzlesPage : MonoBehaviour
             OnDailyPuzzlesReady();
         }
         DailyPuzzleManager.Instance.DailyPuzzlesReady += OnDailyPuzzlesReady;
+
+#if ON_DEMAND_DAILY_PUZZLES
+        DefaultControls.Resources uiResources = new DefaultControls.Resources();
+        GameObject uiInputField = DefaultControls.CreateInputField(uiResources);
+        uiInputField.transform.SetParent(transform, false);
+        uiInputField.transform.GetChild(0).GetComponent<Text>().font = (Font)Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf");
+        var dayInput = uiInputField.GetComponent<InputField>();
+        dayInput.textComponent.fontSize = 38;
+        dayInput.text = DateTime.Today.ToString(DailyPuzzleManager.REQUEST_DATE_FORMAT);
+
+        GameObject uiButton = DefaultControls.CreateButton(uiResources);
+        uiButton.transform.SetParent(transform, false);
+        var onDemandButton = uiButton.GetComponent<Button>();
+        onDemandButton.onClick.AddListener(() =>
+        {
+            var dateParsed = DateTime.TryParseExact(dayInput.text, DailyPuzzleManager.REQUEST_DATE_FORMAT, null, System.Globalization.DateTimeStyles.None, out DateTime requestDate);
+            if (!dateParsed)
+            {
+                Debug.LogError($"Could not parse date {dayInput.text} to request daily puzzles for");
+                return;
+            }
+            DailyPuzzleManager.Instance.OnDemandFetchPuzzles(requestDate);
+        });
+
+        // Position the UI
+        RectTransform inputFieldRect = uiInputField.GetComponent<RectTransform>();
+        RectTransform buttonRect = uiButton.GetComponent<RectTransform>();
+
+        // Set the anchors to the top-right
+        inputFieldRect.anchorMin = new Vector2(1, 1);
+        inputFieldRect.anchorMax = new Vector2(1, 1);
+        buttonRect.anchorMin = new Vector2(1, 1);
+        buttonRect.anchorMax = new Vector2(1, 1);
+
+        // Set the pivot to the top-right for easier positioning
+        inputFieldRect.pivot = new Vector2(1, 1);
+        buttonRect.pivot = new Vector2(1, 1);
+
+        // Set size
+        inputFieldRect.sizeDelta = new Vector2(250, 60);
+        buttonRect.sizeDelta = new Vector2(250, 60);
+
+        // Set positions
+        inputFieldRect.anchoredPosition = new Vector2(-50, -50); // 50px left, 50px down
+        buttonRect.anchoredPosition = new Vector2(-50, -120); // 50px left, 120px down
+#endif
+
+        //var onDemandButtonGO = new GameObject("On Demand Button");
+        //onDemandButtonGO.transform.parent = transform;
+
     }
 
     private void OnDestroy()
