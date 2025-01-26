@@ -50,6 +50,36 @@ public class PuzzleUIController : MonoBehaviour
         Puzzle.PuzzleCompleted += OnPuzzleCompleted;
 
         InputManager.Instance.AddBackAction(this, GoBack);
+
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+        DefaultControls.Resources uiResources = new DefaultControls.Resources();
+
+        GameObject marketingSolveButtonGO = DefaultControls.CreateButton(uiResources);
+        marketingSolveButtonGO.transform.SetParent(NextPuzzleButton.transform.parent.parent, false);
+        var marketingSolveButton = marketingSolveButtonGO.GetComponent<Button>();
+        marketingSolveButton.onClick.AddListener(() =>
+        {
+            Puzzle.Current.StartSolutionSpin();
+        });
+
+        HideOnPuzzleComplete.Add(marketingSolveButtonGO);
+
+        // Position the UI
+        RectTransform buttonRect = marketingSolveButtonGO.GetComponent<RectTransform>();
+
+        // Set the anchors to the bottom-left
+        buttonRect.anchorMin = new Vector2(0, 0);
+        buttonRect.anchorMax = new Vector2(0, 0);
+
+        // Set the pivot to the bottom-left for easier positioning
+        buttonRect.pivot = new Vector2(0, 0);
+
+        // Set size
+        buttonRect.sizeDelta = new Vector2(120, 120);
+
+        // Set position
+        buttonRect.anchoredPosition = new Vector2(160, 20); // 150px right, 20px up
+#endif
     }
 
     private void OnDestroy()

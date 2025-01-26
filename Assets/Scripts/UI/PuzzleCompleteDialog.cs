@@ -61,6 +61,12 @@ public class PuzzleCompleteDialog : Dialog
 
     private void OnPuzzleCompleted()
     {
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+        if(Puzzle.CameraController.DoMarketingSpin)
+        {
+            return;
+        }
+#endif
         Show();
     }
 

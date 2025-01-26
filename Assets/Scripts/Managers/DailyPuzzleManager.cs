@@ -140,7 +140,7 @@ public class DailyPuzzleManager : MonoBehaviour
         StartCoroutine(FetchJsonCoroutine(resetCompletion, dateOverride));
     }
 
-#if ON_DEMAND_DAILY_PUZZLES
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
     public void OnDemandFetchPuzzles(DateTime requestDate)
     {
         RefetchPuzzles(true, requestDate);
@@ -159,7 +159,7 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("Store-Type", "iOS");
 #endif
 
-#if UNITY_EDITOR || ON_DEMAND_DAILY_PUZZLES
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
         var devProducts = new List<string>();
 #endif
 
@@ -202,7 +202,7 @@ public class DailyPuzzleManager : MonoBehaviour
         request.SetRequestHeader("Product-Ids", string.Join(',', productIds));
         request.SetRequestHeader("Purchase-Tokens", string.Join(',', tokens));
 
-#if ON_DEMAND_DAILY_PUZZLES
+#if ENABLE_MARKETING_TOOLSET
         devProducts.Add($"{PurchaseManager.ID_PREFIX}daily_puzzles_all");
         request.SetRequestHeader("h8921rgh893wihgvi8w390hy9h2i389o3tr", string.Join(',', devProducts.Distinct()));
 #elif UNITY_EDITOR

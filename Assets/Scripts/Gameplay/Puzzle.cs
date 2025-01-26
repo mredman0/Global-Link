@@ -1238,9 +1238,30 @@ public class Puzzle : MonoBehaviour
 
         return result;
     }
-	#endregion
 
-	#region Setup
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+    public void StartSolutionSpin()
+    {
+        CameraController.DoMarketingSpin = true;
+        CameraController.MarketingSpinStartTime = Time.time;
+        CameraController.AllowRoll = false;
+        CameraController.LockInput();
+        // Camera distance moves the sphere and nodes entirely within view which is good for making 1:1 aspect content
+        CameraController.SnapTo(PuzzleConfig.CameraArmStart, 6.05f, PuzzleConfig.CameraFoV);
+
+        SolveAllColors();
+    }
+    public void SolveAllColors()
+    {
+        foreach(var color in NodesByColor.Keys)
+        {
+            SolveColor(color);
+        }
+    }
+#endif
+    #endregion
+
+    #region Setup
 	public void SetupPuzzle(PuzzleConfig cfg)
     {
         SetupNodes(cfg);
@@ -1426,9 +1447,9 @@ public class Puzzle : MonoBehaviour
         // Camera setup
         CameraController.SnapTo(cfg.CameraArmStart, cfg.CameraDistance, cfg.CameraFoV);
     }
-	#endregion
+    #endregion
 
-	#region Camera Functionality
+    #region Camera Functionality
 	public bool IsCameraPositionValid()
     {
         if(!ActiveNode)
@@ -1534,9 +1555,9 @@ public class Puzzle : MonoBehaviour
 
         return true;
     }
-	#endregion
+    #endregion
 
-	#region Line Smoothing
+    #region Line Smoothing
 	public float DISTANCE_TO_ASSUME_WARP = 0.1f;
 
 	[Header("Line Smoothing")]
@@ -1691,9 +1712,9 @@ public class Puzzle : MonoBehaviour
             InternalHandleLinePointDrawn(renderer, resultingP3, lineColor, notifyWarps: false);
         }
     }
-	#endregion
+    #endregion
 
-	#region Achievements
+    #region Achievements
     private void CheckForAchievementsOnCompletion()
     {
         var totalTunnels = Warps.Count / 2;
@@ -1720,5 +1741,5 @@ public class Puzzle : MonoBehaviour
             AchievementManager.Instance.SetCompleted(AchievementManager.Achievement.TunnelAvoider);
         }
     }
-	#endregion
+    #endregion
 }

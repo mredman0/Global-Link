@@ -20,6 +20,10 @@ public class CameraController : MonoBehaviour
     public bool AllowMomentumWithActiveNode = false;
     public int InputLocks = 0;
     public bool DoPuzzleCompleteSpin;
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+    public bool DoMarketingSpin = false;
+    public float MarketingSpinStartTime;
+#endif
 
     [Header("Compatibility Settings")]
     // Represents the W/H of the most "square" aspect ratio before the puzzle would appear too big
@@ -213,6 +217,9 @@ public class CameraController : MonoBehaviour
     {
         DoPuzzleCompleteSpin = true;
         Panning = false;
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+        DoPuzzleCompleteSpin = false;
+#endif
     }
 
     private void HandleDrag(Vector2 drag)
@@ -314,6 +321,14 @@ public class CameraController : MonoBehaviour
         {
             Momentum = Vector2.right * Mathf.Sin(Time.time + Mathf.PI/2f) + Vector2.up * Mathf.Cos(Time.time/2f);
         }
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+        if(DoMarketingSpin)
+        {
+            var speed = 0.45f;
+            float timePerRotation = 360f / speed * Time.fixedDeltaTime; // Total time for 360 degrees
+            Momentum = Vector2.right * speed + Vector2.up * Mathf.Cos((Time.time - MarketingSpinStartTime) * 2f * Mathf.PI / timePerRotation) / 5f;
+        }
+#endif
         if (!Panning)
         {
             if ((AllowMomentumWithActiveNode || !Puzzle || !Puzzle.ActiveNode) && (Momentum.x != 0 || Momentum.y != 0))

@@ -25,7 +25,7 @@ public class DailyPuzzlesPage : MonoBehaviour
         }
         DailyPuzzleManager.Instance.DailyPuzzlesReady += OnDailyPuzzlesReady;
 
-#if ON_DEMAND_DAILY_PUZZLES
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
         DefaultControls.Resources uiResources = new DefaultControls.Resources();
         GameObject uiInputField = DefaultControls.CreateInputField(uiResources);
         uiInputField.transform.SetParent(transform, false);
