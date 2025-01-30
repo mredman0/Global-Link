@@ -179,6 +179,22 @@ MonoBehaviour:
       par jour."
     m_Metadata:
       m_Items: []
+  - m_Id: 27534971216613376
+    m_Localized: Restaurer les achats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27534710855192576
+    m_Localized: "Les achats n'ont pas pu \xEAtre restaur\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27538739295440896
+    m_Localized: "Achats restaur\xE9s !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27553899598860288
+    m_Localized: Gestion
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

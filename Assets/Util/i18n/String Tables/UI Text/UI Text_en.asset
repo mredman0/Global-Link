@@ -180,6 +180,22 @@ MonoBehaviour:
     m_Localized: 'Streak:'
     m_Metadata:
       m_Items: []
+  - m_Id: 27534710855192576
+    m_Localized: Purchases could not be restored
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27534971216613376
+    m_Localized: Restore Purchases
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27538739295440896
+    m_Localized: Purchases restored!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27553899598860288
+    m_Localized: Management
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

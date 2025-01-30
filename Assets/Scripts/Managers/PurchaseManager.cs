@@ -16,6 +16,10 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 
 	public event Action<string, PurchaseEventArgs> PurchaseProcessed;
 	public event Action<Product, PurchaseFailureReason> PurchaseFailed;
+
+	public event Action<string> RestoreSucceeded;
+	public event Action<string> RestoreFailed;
+
 	public event Action<bool> AdFreeChanged;
 	public event Action<int> HintsPurchased;
 	public event Action DailyPuzzleAccessChanged;
@@ -197,5 +201,51 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 	public void InitiatePurchase(string productId) => Controller.InitiatePurchase($"{ID_PREFIX}{productId}");
 
 	public Product GetProduct(string productId) => Controller?.products?.WithID($"{ID_PREFIX}{productId}");
-#endregion
+
+	public bool RestorePurchases()
+	{
+#if UNITY_EDITOR
+		var success = UnityEngine.Random.Range(0, 2) % 2 == 0;
+		if(success)
+		{
+			RestoreSucceeded?.Invoke("Success");
+		}
+		else
+		{
+			RestoreFailed?.Invoke("Failure");
+		}
+		return true;
+#elif UNITY_IOS
+		Extensions.GetExtension<IAppleExtensions>().RestoreTransactions((result, resultStr) => {
+			if (result)
+			{
+				Debug.LogError($"Transactions have been restored");
+				RestoreSucceeded?.Invoke(resultStr);
+			}
+			else
+			{
+				Debug.LogError($"Failed to restore transactions: {resultStr}");
+				RestoreFailed?.Invoke(resultStr);
+			}
+		});
+		return true;
+#elif UNITY_ANDROID
+		Extensions.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions((result, resultStr) => {
+			if (result)
+			{
+				Debug.LogError($"Transactions have been restored");
+				RestoreSucceeded?.Invoke(resultStr);
+			}
+			else
+			{
+				Debug.LogError($"Failed to restore transactions: {resultStr}");
+				RestoreFailed?.Invoke(resultStr);
+			}
+		});
+		return true;
+#else
+		return false;
+#endif
+	}
+	#endregion
 }

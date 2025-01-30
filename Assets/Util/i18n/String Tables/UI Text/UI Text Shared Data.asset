@@ -171,6 +171,22 @@ MonoBehaviour:
     m_Key: Streak Help Text
     m_Metadata:
       m_Items: []
+  - m_Id: 27534971216613376
+    m_Key: Restore Purchases
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27534710855192576
+    m_Key: Purchase Restore Error
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27538739295440896
+    m_Key: Purchase Restore Success
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27553899598860288
+    m_Key: Management
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

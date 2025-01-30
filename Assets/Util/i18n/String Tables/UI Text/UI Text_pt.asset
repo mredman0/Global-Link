@@ -177,6 +177,22 @@ MonoBehaviour:
       di\xE1rios por dia."
     m_Metadata:
       m_Items: []
+  - m_Id: 27534971216613376
+    m_Localized: Restaurar compras
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27534710855192576
+    m_Localized: "N\xE3o foi poss\xEDvel restaurar as compras"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27538739295440896
+    m_Localized: Compras restauradas!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27553899598860288
+    m_Localized: Gerenciamento
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

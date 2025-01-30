@@ -178,6 +178,22 @@ MonoBehaviour:
       t\xE4gliche R\xE4tsel abschlie\xDFen."
     m_Metadata:
       m_Items: []
+  - m_Id: 27534971216613376
+    m_Localized: "K\xE4ufe wiederherstellen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27534710855192576
+    m_Localized: "K\xE4ufe konnten nicht wiederhergestellt werden"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27538739295440896
+    m_Localized: "K\xE4ufe wiederhergestellt!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27553899598860288
+    m_Localized: Verwaltung
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -20,6 +20,10 @@ public class SettingsController : MonoBehaviour
     public SpecialOptionPicker ColorSchemeOptionPicker;
     public Toggle ColorLabelsToggle;
 
+    public ConfirmationDialog RestorePurchasesResultDialog;
+    public LocalizedString RestorePurchasesSucceededPrompt;
+    public LocalizedString RestorePurchasesFailedPrompt;
+
     public ConfirmationDialog ResetProgressConfirmDialog;
     public LocalizedString ResetProgressPrompt;
 
@@ -43,6 +47,9 @@ public class SettingsController : MonoBehaviour
         }
 
         InputManager.Instance.AddBackAction(this, HideSettings);
+
+        PurchaseManager.Instance.RestoreSucceeded += OnRestorePurchasesSucceeded;
+        PurchaseManager.Instance.RestoreFailed += OnRestorePurchasesFailed;
     }
 
     private void OnDestroy()
@@ -168,11 +175,30 @@ public class SettingsController : MonoBehaviour
     {
         SettingsManager.Instance.SetBool(COLOR_LABEL_SETTING_KEY, show);
     }
-    #endregion
+	#endregion
 
+	#region Restore Purchases
+    public void RestorePurchases()
+    {
+        var canRestore = PurchaseManager.Instance.RestorePurchases();
+        if(!canRestore)
+        {
+            Debug.LogWarning($"Restoring purchases is not valid for the current platform");
+        }
+    }
 
-    #region Progress Reset
-    public void RequestResetAllProgress()
+    private void OnRestorePurchasesSucceeded(string resultStr)
+    {
+        RestorePurchasesResultDialog.Show(RestorePurchasesSucceededPrompt);
+    }
+    private void OnRestorePurchasesFailed(string resultStr)
+    {
+        RestorePurchasesResultDialog.Show(RestorePurchasesFailedPrompt);
+    }
+	#endregion
+
+	#region Progress Reset
+	public void RequestResetAllProgress()
     {
         ResetProgressConfirmDialog.Show(ResetProgressPrompt, confirm: ResetAllProgress);
     }
