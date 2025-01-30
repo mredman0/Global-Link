@@ -208,10 +208,12 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		var success = UnityEngine.Random.Range(0, 2) % 2 == 0;
 		if(success)
 		{
+			Debug.Log($"Transactions have been restored");
 			RestoreSucceeded?.Invoke("Success");
 		}
 		else
 		{
+			Debug.LogError($"Failed to restore transactions");
 			RestoreFailed?.Invoke("Failure");
 		}
 		return true;
@@ -219,7 +221,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		Extensions.GetExtension<IAppleExtensions>().RestoreTransactions((result, resultStr) => {
 			if (result)
 			{
-				Debug.LogError($"Transactions have been restored");
+				Debug.Log($"Transactions have been restored");
 				RestoreSucceeded?.Invoke(resultStr);
 			}
 			else
@@ -233,7 +235,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 		Extensions.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions((result, resultStr) => {
 			if (result)
 			{
-				Debug.LogError($"Transactions have been restored");
+				Debug.Log($"Transactions have been restored");
 				RestoreSucceeded?.Invoke(resultStr);
 			}
 			else
