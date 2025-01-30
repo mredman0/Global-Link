@@ -526,6 +526,17 @@ public class Puzzle : MonoBehaviour
 
                 if (selectedNodeByLine)
                 {
+                    // Move tapped point away from source warp if needed
+                    var tappedPointGridCell = Grid.GetLookingAtCell(tappedPoint.Value.ToPolar());
+                    if(WarpsByGridCell.ContainsKey(tappedPointGridCell) && WarpsByGridCell[tappedPointGridCell].Role == Warp.WarpRole.Source)
+                    {
+                        var warp = WarpsByGridCell[tappedPointGridCell];
+                        if(warp.EntrancePath.Contains(tappedPoint.Value))
+                        {
+                            tappedPoint = warp.PointDrawnInCell;
+                        }
+                    }
+
                     OnPathTapped(selectedNodeByLine, tappedPoint.Value);
                 }
                 else if (ActiveNode)
