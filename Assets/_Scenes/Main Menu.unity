@@ -76627,12 +76627,12 @@ PrefabInstance:
     - target: {fileID: 5424208701883099648, guid: 5ee94ef79230fb94987bac5bc3029840,
         type: 3}
       propertyPath: FirstAskPuzzlesSolved
-      value: 1
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5424208701883099648, guid: 5ee94ef79230fb94987bac5bc3029840,
         type: 3}
       propertyPath: FirstAskPuzzlePlaytime
-      value: 1
+      value: 2400
       objectReference: {fileID: 0}
     - target: {fileID: 6130818079517163517, guid: 5ee94ef79230fb94987bac5bc3029840,
         type: 3}
