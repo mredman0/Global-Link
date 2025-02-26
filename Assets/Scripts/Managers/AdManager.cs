@@ -83,7 +83,7 @@ public class AdManager : MonoBehaviour
         SetAdFree(true);
 #endif
 
-        if(PROCEED_WITHOUT_STORE)
+        if (PROCEED_WITHOUT_STORE)
         {
             OnPurchaseManagerInitialized();
         }
@@ -155,7 +155,7 @@ public class AdManager : MonoBehaviour
         if (AllAdsDisabled || string.IsNullOrWhiteSpace(AppKey))
         {
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
-            if(ForceBannerSpace)
+            if (ForceBannerSpace)
             {
                 SetBannerHeight();
             }
@@ -163,7 +163,7 @@ public class AdManager : MonoBehaviour
             return;
         }
 
-            if (TestSuiteMode)
+        if (TestSuiteMode)
         {
             IronSource.Agent.setMetaData("is_test_suite", "enable");
         }
@@ -199,7 +199,7 @@ public class AdManager : MonoBehaviour
     }
     private void OnSdkInitSuccess(LevelPlayConfiguration config)
     {
-        if(DoValidation)
+        if (DoValidation)
         {
             IronSource.Agent.validateIntegration();
         }
@@ -210,7 +210,7 @@ public class AdManager : MonoBehaviour
             return;
         }
 
-        if(!AdFreeMode)
+        if (!AdFreeMode)
         {
             InitBannerAd();
             LoadInterstitial();
@@ -221,9 +221,9 @@ public class AdManager : MonoBehaviour
     }
 
 
-#region Banner
+    #region Banner
     private LevelPlayBannerAd BannerAd;
-	private void InitBannerAd()
+    private void InitBannerAd()
     {
         BannerAd = new LevelPlayBannerAd(BannerAdUnitId, LevelPlayAdSize.BANNER, LevelPlayBannerPosition.BottomCenter, respectSafeArea: false);
         BannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
@@ -254,16 +254,27 @@ public class AdManager : MonoBehaviour
     void BannerOnAdCollapsedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdCollapsedEvent"); }
     void BannerOnAdLeftApplicationEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLeftApplicationEvent"); }
     void BannerOnAdExpandedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdExpandedEvent"); }
-#endregion
+    #endregion
 
-#region Interstitial
+    #region Interstitial
     // Interstitial Ads being shown depends on how many puzzles have been opened
     private uint PuzzlesOpenedSinceLastInterstitial;
     public void PuzzleOpened()
     {
         PuzzlesOpenedSinceLastInterstitial++;
     }
-    private bool OpenedEnoughPuzzlesForInterstitial() => PuzzlesOpenedSinceLastInterstitial >= PuzzlesPerInterstitial;
+    private bool OpenedEnoughPuzzlesForInterstitial() => PuzzlesOpenedSinceLastInterstitial >= PuzzlesPerInterstitial + AdditionalPuzzlesPerInterstitial;
+    private int AdditionalPuzzlesPerInterstitial
+    {
+        get
+        {
+            var totalPuzzlesCompleted = StatsManager.Instance.PuzzlesSolved;
+            if (totalPuzzlesCompleted > 80) return 0;
+            if (totalPuzzlesCompleted > 55) return 1;
+            if (totalPuzzlesCompleted > 20) return 2;
+            return 3;
+        }
+    }
 
     private LevelPlayInterstitialAd InterstitialAd;
     public bool LoadInterstitial()

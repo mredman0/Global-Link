@@ -193,6 +193,28 @@ MonoBehaviour:
     m_Localized: "Gesti\xF3n"
     m_Metadata:
       m_Items: []
+  - m_Id: 37602962650189824
+    m_Localized: "\xBFTe est\xE1 gustando el juego?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37603949989351424
+    m_Localized: "\xA1Ser\xEDa un honor si dejaras una calificaci\xF3n o rese\xF1a!
+      Como desarrollador independiente, cualquier comentario me ayuda a mejorar el
+      juego y a seguir tray\xE9ndote acertijos \xFAnicos!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606061599117312
+    m_Localized: "Calificar / Rese\xF1ar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606314163326976
+    m_Localized: "Preguntar m\xE1s tarde"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606317611044864
+    m_Localized: No preguntar de nuevo
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

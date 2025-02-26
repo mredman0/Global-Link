@@ -88,13 +88,17 @@ public class Puzzle : MonoBehaviour
 
     void Start()
     {
-        // Handle a bit of ad related stuff
-        AdManager.Instance.PuzzleOpened();
-        AdManager.Instance.LoadInterstitial();
-        AdManager.Instance.LoadRewardedHint();
-
-
         InitializePuzzle(manual: false);
+
+        StatsManager.Instance.OnPuzzleStarted();
+
+        if (PuzzleConfig.Pack != "Tutorial")
+        {
+            // Handle a bit of ad related stuff
+            AdManager.Instance.PuzzleOpened();
+            AdManager.Instance.LoadInterstitial();
+            AdManager.Instance.LoadRewardedHint();
+        }
 
         InputManager.Instance.Tap += OnTap;
         ColorManager.Instance.ColorSchemeChanged += OnColorSchemeChanged;
@@ -121,6 +125,7 @@ public class Puzzle : MonoBehaviour
 
     private void OnDestroy()
     {
+        StatsManager.Instance.OnPuzzleClosed();
         ColorManager.Instance.ColorSchemeChanged -= OnColorSchemeChanged;
         InputManager.Instance.Tap -= OnTap;
     }
@@ -586,8 +591,22 @@ public class Puzzle : MonoBehaviour
         SetActiveNode(n, fromExistingLine: false);
     }
 
-    public void LockInput() => InputLocks++;
-    public void FreeInput() => InputLocks = Mathf.Max(InputLocks - 1, 0);
+    public void LockInput()
+    {
+        if(InputLocks == 0)
+        {
+            StatsManager.Instance.OnPuzzlePaused();
+        }
+        InputLocks++;
+    }
+    public void FreeInput()
+    {
+        if (InputLocks == 1)
+        {
+            StatsManager.Instance.OnPuzzleUnpaused();
+        }
+        InputLocks = Mathf.Max(InputLocks - 1, 0);
+    }
 
     public bool IsComplete()
     {
@@ -724,6 +743,11 @@ public class Puzzle : MonoBehaviour
 
         if(IsComplete())
         {
+            if(PuzzleConfig.Pack != "Tutorial")
+            {
+                StatsManager.Instance.OnPuzzleSolved();
+                ReviewRequestManager.Instance.OnPuzzleSolved();
+            }
             PuzzleCompleted?.Invoke();
             if(PuzzleCompletionManager.Instance)
             {

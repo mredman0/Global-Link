@@ -196,6 +196,27 @@ MonoBehaviour:
     m_Localized: Management
     m_Metadata:
       m_Items: []
+  - m_Id: 37602962650189824
+    m_Localized: Enjoying the Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37603949989351424
+    m_Localized: I would be honored if you a rating or review! As a solo developer,
+      any input helps me improve the game and keep bringing you unique puzzles!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606061599117312
+    m_Localized: Rate / Review
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606314163326976
+    m_Localized: Ask Later
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606317611044864
+    m_Localized: Don't Ask Again
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

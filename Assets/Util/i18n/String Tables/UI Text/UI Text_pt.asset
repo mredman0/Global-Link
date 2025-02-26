@@ -193,6 +193,28 @@ MonoBehaviour:
     m_Localized: Gerenciamento
     m_Metadata:
       m_Items: []
+  - m_Id: 37602962650189824
+    m_Localized: "Est\xE1 gostando do jogo?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37603949989351424
+    m_Localized: "Ficaria honrado se voc\xEA deixasse uma avalia\xE7\xE3o ou coment\xE1rio!
+      Como desenvolvedor solo, qualquer feedback me ajuda a melhorar o jogo e continuar
+      trazendo quebra-cabe\xE7as \xFAnicos para voc\xEA!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606061599117312
+    m_Localized: Avaliar / Comentar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606314163326976
+    m_Localized: Perguntar depois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606317611044864
+    m_Localized: "N\xE3o perguntar novamente"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

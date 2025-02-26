@@ -197,6 +197,28 @@ MonoBehaviour:
     m_Localized: Gestione
     m_Metadata:
       m_Items: []
+  - m_Id: 37602962650189824
+    m_Localized: Ti stai divertendo con il gioco?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37603949989351424
+    m_Localized: Sarei onorato se lasciassi una valutazione o una recensione! Essendo
+      uno sviluppatore indipendente, ogni suggerimento mi aiuta a migliorare il gioco
+      e a offrirti sempre nuovi rompicapi unici!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606061599117312
+    m_Localized: Valuta / Recensisci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606314163326976
+    m_Localized: "Chiedi pi\xF9 tardi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37606317611044864
+    m_Localized: "Non chiedere pi\xF9"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
