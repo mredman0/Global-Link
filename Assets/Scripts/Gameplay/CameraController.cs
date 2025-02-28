@@ -215,7 +215,11 @@ public class CameraController : MonoBehaviour
 
     private void OnPuzzleCompleted()
     {
+#if ENABLE_MARKETING_TOOLSET || UNITY_EDITOR
+        DoPuzzleCompleteSpin = !DoMarketingSpin;
+#else
         DoPuzzleCompleteSpin = true;
+#endif
         Panning = false;
     }
 
@@ -324,15 +328,6 @@ public class CameraController : MonoBehaviour
             var speed = 0.45f;
             float timePerRotation = 360f / speed * Time.fixedDeltaTime; // Total time for 360 degrees
             Momentum = Vector2.right * speed + Vector2.up * Mathf.Cos((Time.time - MarketingSpinStartTime) * 2f * Mathf.PI / timePerRotation) / 5f;
-        }
-        else if (DoPuzzleCompleteSpin)
-        {
-            Momentum = Vector2.right * Mathf.Sin(Time.time + Mathf.PI / 2f) + Vector2.up * Mathf.Cos(Time.time / 2f);
-        }
-#else
-        if(DoPuzzleCompleteSpin)
-        {
-            Momentum = Vector2.right * Mathf.Sin(Time.time + Mathf.PI/2f) + Vector2.up * Mathf.Cos(Time.time/2f);
         }
 #endif
         if (!Panning)
