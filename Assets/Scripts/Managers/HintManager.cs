@@ -21,6 +21,9 @@ public class HintManager : MonoBehaviour
     private int Hints;
     private int OfflineHintsUsed;
 
+    [Header("Debug")]
+    public int DebugGrantHintsOnStartup = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,10 +59,12 @@ public class HintManager : MonoBehaviour
 
     private void StartupSyncOnline()
     {
+        PlayerAuthManager.Instance.AuthenticationFailed -= StartupSyncOffline;
         _ = Startup(false);
     }
     private void StartupSyncOffline()
     {
+        PlayerAuthManager.Instance.AuthenticationComplete -= StartupSyncOnline;
         _ = Startup(true);
     }
     private async Task Startup(bool offline)
@@ -78,6 +83,11 @@ public class HintManager : MonoBehaviour
                 Debug.Log("No local hint data, granting default hints");
             }
             OfflineHintsUsed = PlayerPrefs.GetInt("HOU", 0);
+            if (DebugGrantHintsOnStartup > 0)
+            {
+                Hints += DebugGrantHintsOnStartup;
+                SaveHintsToLocal();
+            }
         }
         else
         {
@@ -104,7 +114,7 @@ public class HintManager : MonoBehaviour
             OfflineHintsUsed = PlayerPrefs.GetInt("HOU", 0);
             if (OfflineHintsUsed != 0)
             {
-                Hints -= Mathf.Max(0, Hints - OfflineHintsUsed);
+                Hints = Mathf.Max(0, Hints - OfflineHintsUsed);
                 SaveHintsToLocal();
                 var successfullySavedToCloud = await SaveHintsToCloud();
                 if (successfullySavedToCloud)
@@ -117,6 +127,13 @@ public class HintManager : MonoBehaviour
                     Hints += OfflineHintsUsed;
                     SaveHintsToLocal();
                 }
+            }
+
+            if (DebugGrantHintsOnStartup > 0)
+            {
+                Hints += DebugGrantHintsOnStartup;
+                SaveHintsToLocal();
+                SaveHintsToCloud();
             }
         }
         Initialized?.Invoke();

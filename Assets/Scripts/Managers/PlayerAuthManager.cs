@@ -51,6 +51,9 @@ public class PlayerAuthManager : MonoBehaviour
         return;
 #endif
 
+        // Setup a timeout to consider auth failed
+        Invoke("CheckForAuthTimeout", 6);
+
 #if UNITY_EDITOR
         Action onStartup = SignInAnonymously;
 #elif (UNITY_ANDROID)
@@ -227,6 +230,15 @@ public class PlayerAuthManager : MonoBehaviour
         await SignInAsync(async () => await AuthenticationService.Instance.SignInAnonymouslyAsync());
     }
 #endregion
+
+    private void CheckForAuthTimeout()
+    {
+        if(!IsAuthenticated)
+        {
+            HasAuthenticationFailed = true;
+            AuthenticationFailed?.Invoke();
+        }
+    }
 
     private async Task SignInAsync(Func<Task> signInFunction, Action onSuccess = null, Action onFailure = null)
     {

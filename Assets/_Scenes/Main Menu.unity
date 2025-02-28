@@ -76845,6 +76845,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hint Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 4427254053575809931, guid: 2494f7c978883594798be2dfdfe6248c,
+        type: 3}
+      propertyPath: DebugGrantHintsOnStartup
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6313754719314890821, guid: 2494f7c978883594798be2dfdfe6248c,
         type: 3}
       propertyPath: m_LocalPosition.x
