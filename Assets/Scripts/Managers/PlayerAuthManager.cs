@@ -30,6 +30,7 @@ public class PlayerAuthManager : MonoBehaviour
     public bool DebugTestDSANotification;
 
     public bool IsAuthenticated => UnityServicesManager.Instance.Initialized && AuthenticationService.Instance.IsSignedIn;
+    public bool HasAuthenticationFailed = false;
 
     private SynchronizationContext MainThreadContext;
     private List<Notification> UnreadNotifications;
@@ -260,12 +261,14 @@ public class PlayerAuthManager : MonoBehaviour
             UnreadNotifications = e.Notifications;
             // Notify the player with the proper error message
             Debug.LogException(e);
+            HasAuthenticationFailed = true;
             AuthenticationFailed?.Invoke();
         }
         catch (Exception e)
         {
             // Notify the player with the proper error message
             Debug.LogException(e);
+            HasAuthenticationFailed = true;
             AuthenticationFailed?.Invoke();
         }
 

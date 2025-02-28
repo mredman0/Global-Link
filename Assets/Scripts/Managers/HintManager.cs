@@ -15,11 +15,11 @@ public class HintManager : MonoBehaviour
     public event Action HintUsed;
 
     private const string HINTS_KEY = "Hints";
-    private const string OFFLINE_USED_HINTS_KEY = "Hints_OU";
-    private const string DEFAULT_HINTS_GRANTED_KEY = "Hints_DG";
     private const int DEFAULT_HINTS = 3;
 
+    private bool Offline;
     private int Hints;
+    private int OfflineHintsUsed;
 
     // Start is called before the first frame update
     void Start()
@@ -34,52 +34,89 @@ public class HintManager : MonoBehaviour
 
         if(PlayerAuthManager.Instance.IsAuthenticated)
         {
-            StartupSync();
+            StartupSyncOnline();
         }
-        PlayerAuthManager.Instance.AuthenticationComplete += StartupSync;
+        else if(PlayerAuthManager.Instance.HasAuthenticationFailed)
+        {
+            StartupSyncOffline();
+        }
+        PlayerAuthManager.Instance.AuthenticationComplete += StartupSyncOnline;
+        PlayerAuthManager.Instance.AuthenticationFailed += StartupSyncOffline;
 
         PurchaseManager.Instance.HintsPurchased += GainHintsSync;
     }
 
     private void OnDestroy()
     {
-        PlayerAuthManager.Instance.AuthenticationComplete -= StartupSync;
+        PlayerAuthManager.Instance.AuthenticationComplete -= StartupSyncOnline;
+        PlayerAuthManager.Instance.AuthenticationFailed -= StartupSyncOffline;
+
         PurchaseManager.Instance.HintsPurchased -= GainHintsSync;
     }
 
-    private void StartupSync()
+    private void StartupSyncOnline()
     {
-        _ = Startup();
+        _ = Startup(false);
     }
-    private async Task Startup()
+    private void StartupSyncOffline()
     {
-        var loaded = await LoadHints();
-        if(!loaded)
+        _ = Startup(true);
+    }
+    private async Task Startup(bool offline)
+    {
+        Offline = offline;
+
+        if(Offline)
         {
-            var defaultGranted = PlayerPrefs.GetInt(DEFAULT_HINTS_GRANTED_KEY, 0);
-            if(defaultGranted == 0)
+            Debug.Log("Initializing hint manager in offline mode");
+            var loadedFromLocal = LoadHintsFromLocal();
+            if(!loadedFromLocal)
             {
                 Hints = DEFAULT_HINTS;
-                var saved = await SaveHints();
-                if(saved)
-                {
-                    PlayerPrefs.SetInt(DEFAULT_HINTS_GRANTED_KEY, 1);
-                }
+                SaveHintsToLocal();
+                PlayerPrefs.SetInt("HCP", 1);
+                Debug.Log("No local hint data, granting default hints");
             }
+            OfflineHintsUsed = PlayerPrefs.GetInt("HOU", 0);
         }
-        var offlineUsed = PlayerPrefs.GetInt(OFFLINE_USED_HINTS_KEY, 0);
-        if (offlineUsed > 0)
+        else
         {
-            var previous = Hints;
-            Hints -= Mathf.Max(0, Hints - offlineUsed);
-            var saved = await SaveHints();
-            if(!saved)
+            Debug.Log("Initializing hint manager in online mode");
+            if (PlayerPrefs.GetInt("HCP", 0) > 0)
             {
-                Hints = previous;
+                await LoadHintsFromCloud();
+                SaveHintsToLocal();
+                PlayerPrefs.DeleteKey("HCP");
+            }
+            if(PlayerPrefs.GetInt("HLOC", -1) < 0)
+            {
+                var loadedFromCloud = await LoadHintsFromCloud();
+                if(!loadedFromCloud)
+                {
+                    Hints = DEFAULT_HINTS;
+                }
+                SaveHintsToLocal();
             }
             else
             {
-                PlayerPrefs.DeleteKey(OFFLINE_USED_HINTS_KEY);
+                LoadHintsFromLocal();
+            }
+            OfflineHintsUsed = PlayerPrefs.GetInt("HOU", 0);
+            if (OfflineHintsUsed != 0)
+            {
+                Hints -= Mathf.Max(0, Hints - OfflineHintsUsed);
+                SaveHintsToLocal();
+                var successfullySavedToCloud = await SaveHintsToCloud();
+                if (successfullySavedToCloud)
+                {
+                    PlayerPrefs.DeleteKey("HOU");
+                    OfflineHintsUsed = 0;
+                }
+                else
+                {
+                    Hints += OfflineHintsUsed;
+                    SaveHintsToLocal();
+                }
             }
         }
         Initialized?.Invoke();
@@ -87,20 +124,55 @@ public class HintManager : MonoBehaviour
 
     public bool UseHint()
     {
-#if !DEMO
-        if(Hints < 1)
+#if DEMO
+        return true;
+#else
+        if (Offline)
+        {
+            return UseHintOffline();
+        }
+
+
+        if (Hints < 1)
         {
             return false;
         }
-        Hints--;
-        SaveHints().ContinueWith((t =>
-        {
-            if(!t.Result)
-            {
-                PlayerPrefs.SetInt(OFFLINE_USED_HINTS_KEY, PlayerPrefs.GetInt(OFFLINE_USED_HINTS_KEY, 0) + 1);
-            }
-        }));
+        _ = UseHintOnline();
+        return true;
 #endif
+    }
+
+
+    private async Task<bool> UseHintOnline()
+    {
+        if (Hints < 1)
+        {
+            return false;
+        }
+
+        Hints--;
+        SaveHintsToLocal();
+        var successfullySavedToCloud = await SaveHintsToCloud();
+        if(!successfullySavedToCloud)
+        {
+            Hints++;
+            SaveHintsToLocal();
+            return UseHintOffline();
+        }
+        Debug.Log("Hint used online");
+        HintUsed?.Invoke();
+        return true;
+    }
+    private bool UseHintOffline()
+    {
+        if (Hints <= OfflineHintsUsed)
+        {
+            return false;
+        }
+
+        OfflineHintsUsed++;
+        PlayerPrefs.SetInt("HOU", OfflineHintsUsed);
+        Debug.Log("Hint used offline");
         HintUsed?.Invoke();
         return true;
     }
@@ -118,35 +190,59 @@ public class HintManager : MonoBehaviour
             return;
         }
 #if !DEMO
-        Hints += amount;
-        await SaveHints();
+        if(Offline)
+        {
+            GainHintsOffline(amount);
+        }
+        else
+        {
+            await GainHintsOnline(amount);
+        }
 #endif
         HintGained?.Invoke();
     }
 
-    public int GetHints() => Hints;
-
-    private async Task<bool> SaveHints()
+    private async Task GainHintsOnline(int amount)
     {
-        try
+        Hints += amount;
+        SaveHintsToLocal();
+        var successfullySavedToCloud = await SaveHintsToCloud();
+        if(!successfullySavedToCloud)
         {
-            var data = new Dictionary<string, object>() { { HINTS_KEY, Hints } };
-            await CloudSaveService.Instance.Data.Player.SaveAsync(data);
-            return true;
+            Hints -= amount;
+            SaveHintsToLocal();
+            GainHintsOffline(amount);
+            return;
         }
-        catch(Exception e)
-        {
-            Debug.LogException(e);
-            return false;
-        }
+        Debug.Log("Hint(s) gained online");
+    }
+    private void GainHintsOffline(int amount)
+    {
+        OfflineHintsUsed -= amount;
+        PlayerPrefs.SetInt("HOU", OfflineHintsUsed);
+        Debug.Log("Hint(s) gained offline");
     }
 
-    private async Task<bool> LoadHints()
+    public int GetHints() => Hints - OfflineHintsUsed;
+
+    private bool LoadHintsFromLocal()
+    {
+        var clientSideHints = PlayerPrefs.GetInt("HLOC", -1);
+        if (clientSideHints < 0)
+        {
+            Debug.Log("Player does not have local hints");
+            return false;
+        }
+        Hints = clientSideHints;
+        return true;
+    }
+
+    private async Task<bool> LoadHintsFromCloud()
     {
         try
         {
             var data = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string>() { HINTS_KEY });
-            if(!data.ContainsKey(HINTS_KEY))
+            if (!data.ContainsKey(HINTS_KEY))
             {
                 Debug.Log($"Player does not have hints stored in cloud");
                 return false;
@@ -154,7 +250,26 @@ public class HintManager : MonoBehaviour
             Hints = data[HINTS_KEY].Value.GetAs<int>();
             return true;
         }
-        catch(Exception e)
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+            return false;
+        }
+    }
+
+    private void SaveHintsToLocal()
+    {
+        PlayerPrefs.SetInt("HLOC", Hints);
+    }
+    private async Task<bool> SaveHintsToCloud()
+    {
+        try
+        {
+            var data = new Dictionary<string, object>() { { HINTS_KEY, Hints } };
+            await CloudSaveService.Instance.Data.Player.SaveAsync(data);
+            return true;
+        }
+        catch (Exception e)
         {
             Debug.LogException(e);
             return false;
