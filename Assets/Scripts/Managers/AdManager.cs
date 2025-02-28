@@ -57,6 +57,7 @@ public class AdManager : MonoBehaviour
     public bool TestSuiteMode;
     public bool DoValidation;
     public bool AllowAdsInDevelopmentBuild;
+    public bool IgnoreAdFreeInDevelopmentBuild;
     public bool ForceBannerSpace;
     public int DpiOverride = -1;
 
@@ -504,6 +505,12 @@ public class AdManager : MonoBehaviour
 #region Ad-Free Mode
     public void SetAdFree(bool adFree)
     {
+#if DEVELOPMENT_BUILD
+        if(IgnoreAdFreeInDevelopmentBuild)
+        {
+            return;
+        }
+#endif
         AdFreeMode = adFree;
         if(adFree)
         {
