@@ -62,9 +62,9 @@ public class ReviewRequestManager : MonoBehaviour
     private void AskPlayer()
     {
         // Immediately increment conditions so we could NEVER double-show
-        AskAfterSession += SubsequentAskSessions;
-        AskAfterPuzzlesSolved += SubsequentAskPuzzlesSolved;
-        AskAfterPuzzlePlaytime += SubsequentAskPuzzlePlaytime;
+        AskAfterSession = StatsManager.Instance.Sessions + SubsequentAskSessions;
+        AskAfterPuzzlesSolved = StatsManager.Instance.PuzzlesSolved + SubsequentAskPuzzlesSolved;
+        AskAfterPuzzlePlaytime = StatsManager.Instance.LivePuzzlePlaytime + SubsequentAskPuzzlePlaytime;
 
         PlayerPrefs.SetInt("RR_AskAfterSession", AskAfterSession);
         PlayerPrefs.SetInt("RR_AskAfterPuzzlesSolved", AskAfterPuzzlesSolved);
