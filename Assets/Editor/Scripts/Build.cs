@@ -149,7 +149,7 @@ public class Build
 
         EditorUserBuildSettings.buildAppBundle = buildAppBundle;
         EditorUserBuildSettings.androidCreateSymbols = buildAppBundle ? AndroidCreateSymbols.Public : AndroidCreateSymbols.Disabled;
-        PlayerSettings.Android.useAPKExpansionFiles = buildAppBundle;
+        PlayerSettings.Android.splitApplicationBinary = buildAppBundle;
 
         var extension = buildAppBundle ? "aab" : "apk";
         var apkPath = $"Builds/Android/ChromaSphere.{extension}";
@@ -162,16 +162,16 @@ public class Build
             extraScriptingDefines = scriptingDefines.ToArray()
         };
 
-        PlayerSettings.keystorePass = System.Environment.GetEnvironmentVariable("UNITY_ANDROID_KEYSTORE_PASS");
-        PlayerSettings.keyaliasPass = System.Environment.GetEnvironmentVariable("UNITY_ANDROID_KEYSTORE_ALIAS_PASS");
+        PlayerSettings.Android.keystorePass = System.Environment.GetEnvironmentVariable("UNITY_ANDROID_KEYSTORE_PASS");
+        PlayerSettings.Android.keyaliasPass = System.Environment.GetEnvironmentVariable("UNITY_ANDROID_KEYSTORE_ALIAS_PASS");
 
-        if (string.IsNullOrEmpty(PlayerSettings.keystorePass) || string.IsNullOrEmpty(PlayerSettings.keyaliasPass))
+        if (string.IsNullOrEmpty(PlayerSettings.Android.keystorePass) || string.IsNullOrEmpty(PlayerSettings.Android.keyaliasPass))
         {
             Debug.LogError("Please make sure UNITY_ANDROID_KEYSTORE_PASS and UNITY_ANDROID_KEYSTORE_ALIAS_PASS are defined!");
             // Reset player settings to standard values to prevent version control churn
             EditorUserBuildSettings.buildAppBundle = true;
             EditorUserBuildSettings.androidCreateSymbols = AndroidCreateSymbols.Public;
-            PlayerSettings.Android.useAPKExpansionFiles = true;
+            PlayerSettings.Android.splitApplicationBinary = true;
             return;
         }
 
@@ -180,7 +180,7 @@ public class Build
         // Reset player settings to standard values to prevent version control churn
         EditorUserBuildSettings.buildAppBundle = true;
         EditorUserBuildSettings.androidCreateSymbols = AndroidCreateSymbols.Public;
-        PlayerSettings.Android.useAPKExpansionFiles = true;
+        PlayerSettings.Android.splitApplicationBinary = true;
 
         if (!success)
         {

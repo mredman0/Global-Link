@@ -2674,11 +2674,28 @@ PrefabInstance:
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:0f9102db8f7e5ec489dc09a590c5d9d4
       objectReference: {fileID: 0}
+    - target: {fileID: 7557953198916817201, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7903446032485003415, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: productId
       value: com.redprismgames.chromasphere.ad_free
       objectReference: {fileID: 0}
+    - target: {fileID: 8045762003938252179, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4839fc7f4e8d1224a91e1a46b790e0f0,
+        type: 2}
+    - target: {fileID: 8045762003938252179, guid: d725511dec8505342bf9b619de7118a5,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -8350771479540242031, guid: 4839fc7f4e8d1224a91e1a46b790e0f0,
+        type: 2}
     - target: {fileID: 8214588452065230279, guid: d725511dec8505342bf9b619de7118a5,
         type: 3}
       propertyPath: m_Pivot.x

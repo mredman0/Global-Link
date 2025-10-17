@@ -226,7 +226,7 @@ public class AdManager : MonoBehaviour
     private LevelPlayBannerAd BannerAd;
     private void InitBannerAd()
     {
-        BannerAd = new LevelPlayBannerAd(BannerAdUnitId, LevelPlayAdSize.BANNER, LevelPlayBannerPosition.BottomCenter, respectSafeArea: false);
+        BannerAd = new LevelPlayBannerAd(BannerAdUnitId, LevelPlayAdSize.BANNER, LevelPlayBannerPosition.BottomCenter, respectSafeArea: true);
         BannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
         BannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
         BannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;

@@ -1,8 +1,14 @@
 <linker>
+  <assembly fullname="AdjustSdk.Scripts, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="AdjustSdk.Adjust" preserve="all" />
+    <type fullname="AdjustSdk.AdjustEnvironment" preserve="nothing" serialized="true" />
+    <type fullname="AdjustSdk.AdjustLogLevel" preserve="nothing" serialized="true" />
+  </assembly>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="AchievementManager" preserve="all" />
     <type fullname="AdAwarePanel" preserve="all" />
     <type fullname="AdForHint" preserve="all" />
+    <type fullname="AdjustManager" preserve="all" />
     <type fullname="AdManager" preserve="all" />
     <type fullname="AudioManager" preserve="all" />
     <type fullname="CameraController" preserve="all" />
@@ -55,12 +61,15 @@
     <type fullname="PuzzlePackButton" preserve="all" />
     <type fullname="PuzzleProvider" preserve="all" />
     <type fullname="PuzzleUIController" preserve="all" />
+    <type fullname="RequestReviewDialog" preserve="all" />
+    <type fullname="ReviewRequestManager" preserve="all" />
     <type fullname="SceneLoader" preserve="all" />
     <type fullname="ScreenshotUtility" preserve="all" />
     <type fullname="SettingsController" preserve="all" />
     <type fullname="SettingsManager" preserve="all" />
     <type fullname="SmartSafeAreaPanel" preserve="all" />
     <type fullname="SpecialOptionPicker" preserve="all" />
+    <type fullname="StatsManager" preserve="all" />
     <type fullname="StorePageButton" preserve="all" />
     <type fullname="TextOptionPicker" preserve="all" />
     <type fullname="Tutorial2Script" preserve="all" />
@@ -104,7 +113,6 @@
     <type fullname="UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider" preserve="all" />
     <type fullname="UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider" preserve="all" />
     <type fullname="UnityEngine.ResourceManagement.ResourceProviders.InstanceProvider" preserve="all" />
-    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.LegacyResourcesProvider" preserve="all" />
     <type fullname="UnityEngine.ResourceManagement.ResourceProviders.SceneProvider" preserve="all" />
   </assembly>
   <assembly fullname="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -116,9 +124,6 @@
     <type fullname="TMPro.TMP_Character" preserve="nothing" serialized="true" />
     <type fullname="TMPro.TMP_FontFeatureTable" preserve="nothing" serialized="true" />
     <type fullname="TMPro.TMP_FontWeightPair" preserve="nothing" serialized="true" />
-    <type fullname="TMPro.TMP_GlyphAdjustmentRecord" preserve="nothing" serialized="true" />
-    <type fullname="TMPro.TMP_GlyphPairAdjustmentRecord" preserve="nothing" serialized="true" />
-    <type fullname="TMPro.TMP_GlyphValueRecord" preserve="nothing" serialized="true" />
     <type fullname="TMPro.VertexGradient" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -138,7 +143,6 @@
   </assembly>
   <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.Camera" preserve="all" />
-    <type fullname="UnityEngine.Cubemap" preserve="all" />
     <type fullname="UnityEngine.GameObject" preserve="all" />
     <type fullname="UnityEngine.Light" preserve="all" />
     <type fullname="UnityEngine.LightmapSettings" preserve="all" />
@@ -160,6 +164,7 @@
     <type fullname="UnityEngine.Events.PersistentListenerMode" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.Events.UnityEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.RectOffset" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.RenderingLayerMask" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.CapsuleCollider" preserve="all" />
@@ -203,5 +208,8 @@
     <type fullname="UnityEngine.TextCore.Glyph" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.TextCore.GlyphMetrics" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.TextCore.GlyphRect" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.TextCore.LowLevel.GlyphAdjustmentRecord" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.TextCore.LowLevel.GlyphPairAdjustmentRecord" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.TextCore.LowLevel.GlyphValueRecord" preserve="nothing" serialized="true" />
   </assembly>
 </linker>

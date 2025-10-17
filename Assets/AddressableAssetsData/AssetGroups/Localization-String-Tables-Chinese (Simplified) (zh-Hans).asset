@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Chinese (Simplified) (zh-Hans)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Chinese (Simplified) (zh-Hans)
-  m_Data:
-    m_SerializedData: []
   m_GUID: a64152ec51f10894b96b8df8630fe6c5
   m_SerializeEntries:
   - m_GUID: 30ede55bf92af8842896877e97194ffe
