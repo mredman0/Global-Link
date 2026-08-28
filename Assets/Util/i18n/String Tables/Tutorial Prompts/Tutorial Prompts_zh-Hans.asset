@@ -103,8 +103,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9997419748282368
-    m_Localized: "\u5982\u679C\u60A8\u7684\u63D0\u793A\u7528\u5B8C\u4E86, \u53EF\u4EE5\u89C2\u770B\u5E7F\u544A\u6765\u83B7\u5F97\u4E00\u4E2A\u66F4\u591A,
-      \u6216\u8005\u524D\u5F80\u5546\u5E97\u3002\n\n(\u70B9\u51FB\u7EE7\u7EED)"
+    m_Localized: "\u5982\u679C\u60A8\u7684\u63D0\u793A\u7528\u5B8C\u4E86, \u53EF\u4EE5\u524D\u5F80\u5546\u5E97\u3002\n\n(\u70B9\u51FB\u7EE7\u7EED)"
     m_Metadata:
       m_Items: []
   references:

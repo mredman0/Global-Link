@@ -20,6 +20,11 @@ public class PurchaseItem : MonoBehaviour
 
     void Start()
     {
+        if (ProductId == "ad_free" && (AdManager.Instance == null || !AdManager.Instance.AdsEnabled))
+        {
+            HideAdFreeSection();
+            return;
+        }
         if(string.IsNullOrWhiteSpace(ProductId) || !PriceText || !PurchaseButton)
         {
             Debug.LogError($"PurchaseItem \"{gameObject.name}\" incorrectly configured");
@@ -61,5 +66,20 @@ public class PurchaseItem : MonoBehaviour
     {
         PurchaseButton.gameObject.SetActive(!owned);
         OwnedPanel.SetActive(owned);
+    }
+
+    private void HideAdFreeSection()
+    {
+        var section = transform;
+        while (section != null)
+        {
+            if (section.name == "Ad Free Section")
+            {
+                section.gameObject.SetActive(false);
+                return;
+            }
+            section = section.parent;
+        }
+        gameObject.SetActive(false);
     }
 }

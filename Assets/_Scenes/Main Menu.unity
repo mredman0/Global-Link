@@ -76540,7 +76540,7 @@ PrefabInstance:
     - target: {fileID: 1625237370578576848, guid: 4bf0077d79848724aa5332f2345e1339,
         type: 3}
       propertyPath: GLOBAL_DO_ADS
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625237370578576848, guid: 4bf0077d79848724aa5332f2345e1339,
         type: 3}

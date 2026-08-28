@@ -122,8 +122,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9997419748282368
-    m_Localized: "Si vous manquez d'indices, vous pouvez regarder une publicit\xE9
-      pour en obtenir un de plus ou aller \xE0 la boutique.\n\n(Appuyez pour continuer)"
+    m_Localized: "Si vous manquez d'indices, vous pouvez aller \xE0 la boutique.\n\n(Appuyez pour continuer)"
     m_Metadata:
       m_Items: []
   references:

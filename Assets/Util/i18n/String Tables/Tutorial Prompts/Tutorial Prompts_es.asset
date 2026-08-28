@@ -115,8 +115,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9997419748282368
-    m_Localized: "Si te quedas sin pistas, puedes ver un anuncio para conseguir una
-      m\xE1s o dirigirte a la tienda.\n\n(Pulse para continuar)"
+    m_Localized: "Si te quedas sin pistas, puedes dirigirte a la tienda.\n\n(Pulse para continuar)"
     m_Metadata:
       m_Items: []
   references:

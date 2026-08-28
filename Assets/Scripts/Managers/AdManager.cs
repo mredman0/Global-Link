@@ -25,7 +25,7 @@ public class AdManager : MonoBehaviour
     public event Action<string, int> AdRewarded;
 
     [Header("GLOBAL DO ADS")]
-    public bool GLOBAL_DO_ADS = true;
+    public bool GLOBAL_DO_ADS = false;
     public bool PROCEED_WITHOUT_STORE = false;
 
     [Header("App Keys")]
@@ -47,6 +47,8 @@ public class AdManager : MonoBehaviour
     [Header("Interstitial Settings")]
     public uint PuzzlesPerInterstitial = 2;
     public float RetryLoadInterstitialDelay;
+
+    public bool AdsEnabled => GLOBAL_DO_ADS;
 
     [Header("State")]
     public bool RewardedHintAvailable;
@@ -210,6 +212,10 @@ public class AdManager : MonoBehaviour
 
     private void OnApplicationPause(bool pause)
     {
+        if (AllAdsDisabled || !AdsEnabled)
+        {
+            return;
+        }
         LevelPlay.SetPauseGame(pause);
     }
 

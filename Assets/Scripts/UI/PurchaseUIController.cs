@@ -20,6 +20,7 @@ public class PurchaseUIController : MonoBehaviour
 
         InputManager.Instance.AddBackAction(this, HideStore);
         PurchaseManager.Instance.PurchaseFailed += OnPurchaseFailed;
+        HideAdFreeSectionIfAdsDisabled();
     }
 
     private void OnDestroy()
@@ -41,5 +42,22 @@ public class PurchaseUIController : MonoBehaviour
     private void OnPurchaseFailed(IEnumerable<Product> products, PurchaseFailureReason reason)
     {
         ErrorDialog.Show();
+    }
+
+    private static readonly string AdFreeSectionName = "Ad Free Section";
+    private void HideAdFreeSectionIfAdsDisabled()
+    {
+        if (AdManager.Instance != null && AdManager.Instance.AdsEnabled)
+        {
+            return;
+        }
+        foreach (var child in GetComponentsInChildren<Transform>(true))
+        {
+            if (child.name == AdFreeSectionName)
+            {
+                child.gameObject.SetActive(false);
+                return;
+            }
+        }
     }
 }

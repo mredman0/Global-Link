@@ -56,8 +56,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9997419748282368
-    m_Localized: "Se voc\xEA ficar sem Dicas, pode assistir a um An\xFAncio para
-      ganhar mais uma ou ir para a Loja.\n\n(Toque para continuar)"
+    m_Localized: "Se voc\xEA ficar sem Dicas, pode ir para a Loja.\n\n(Toque para continuar)"
     m_Metadata:
       m_Items: []
   - m_Id: 13943146041344

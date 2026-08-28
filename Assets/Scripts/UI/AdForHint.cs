@@ -10,6 +10,12 @@ public class AdForHint : MonoBehaviour
 
 	private void Start()
 	{
+		if (AdManager.Instance == null || !AdManager.Instance.AdsEnabled)
+		{
+			gameObject.SetActive(false);
+			return;
+		}
+
 		Button.interactable = AdManager.Instance.RewardedHintAvailable;
 
 		AdManager.Instance.AdRewarded += OnAdRewarded;
@@ -20,6 +26,10 @@ public class AdForHint : MonoBehaviour
 
 	private void OnDestroy()
 	{
+		if (AdManager.Instance == null)
+		{
+			return;
+		}
 		AdManager.Instance.AdRewarded -= OnAdRewarded;
 		AdManager.Instance.RewardedHintLoaded -= OnRewardedHintLoaded;
 		AdManager.Instance.RewardedHintLoadFailed -= OnRewardedHintLoadFailed;

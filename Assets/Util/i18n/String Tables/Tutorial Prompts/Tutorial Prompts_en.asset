@@ -144,8 +144,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9997419748282368
-    m_Localized: 'If you run out of Hints, you can watch an Ad for one more, or head
-      to the Store.
+    m_Localized: 'If you run out of Hints, you can head to the Store.
 
 
       (Tap to continue)'

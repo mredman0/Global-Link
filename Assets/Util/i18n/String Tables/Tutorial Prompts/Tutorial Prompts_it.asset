@@ -143,8 +143,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9997419748282368
-    m_Localized: 'Se finisci i suggerimenti, puoi guardare un annuncio per ottenerne
-      un altro o andare al negozio.
+    m_Localized: 'Se finisci i suggerimenti, puoi andare al negozio.
 
 
       (Tocca per continuare)'
