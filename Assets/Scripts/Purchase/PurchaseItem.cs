@@ -28,7 +28,7 @@ public class PurchaseItem : MonoBehaviour
         var product = PurchaseManager.Instance.GetProduct(ProductId);
         if(product?.definition.type != ProductType.Consumable)
         {
-            SetOwned(product?.hasReceipt ?? false);
+            SetOwned(PurchaseManager.Instance.NonConsumableOwned(ProductId));
         }
         PriceText.text = PurchaseManager.Instance.UseFakeStore ? FakeStorePrice : product.metadata.localizedPriceString;
         PurchaseManager.Instance.PurchaseProcessed += OnPurchaseProcessed;
@@ -48,10 +48,10 @@ public class PurchaseItem : MonoBehaviour
         PurchaseManager.Instance.InitiatePurchase(ProductId);
     }
 
-    private void OnPurchaseProcessed(string productId, PurchaseEventArgs purchaseEvent)
+    private void OnPurchaseProcessed(string productId, Product product)
     {
         if(productId == ProductId &&
-            purchaseEvent.purchasedProduct.definition.type != ProductType.Consumable)
+            product.definition.type != ProductType.Consumable)
         {
             SetOwned(true);
         }

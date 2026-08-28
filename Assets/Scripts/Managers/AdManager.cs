@@ -1,7 +1,7 @@
-using com.unity3d.mediation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.LevelPlay;
 using UnityEngine;
 
 public class AdManager : MonoBehaviour
@@ -59,6 +59,7 @@ public class AdManager : MonoBehaviour
     public bool AllowAdsInDevelopmentBuild;
     public bool IgnoreAdFreeInDevelopmentBuild;
     public bool ForceBannerSpace;
+    public bool PassUserIdToLevelPlayInit = true;
     public int DpiOverride = -1;
 
     private bool AllAdsDisabled = false;
@@ -166,7 +167,7 @@ public class AdManager : MonoBehaviour
 
         if (TestSuiteMode)
         {
-            IronSource.Agent.setMetaData("is_test_suite", "enable");
+            LevelPlay.SetMetaData("is_test_suite", "enable");
         }
 
         SetBannerHeight();
@@ -174,12 +175,37 @@ public class AdManager : MonoBehaviour
         LevelPlay.OnInitFailed += OnSdkInitFailed;
         LevelPlay.OnInitSuccess += OnSdkInitSuccess;
 #if UNITY_ANDROID
-        var userId = GooglePlayGames.PlayGamesPlatform.Instance?.GetUserId() ?? "";
+        var rawUserId = GooglePlayGames.PlayGamesPlatform.Instance?.GetUserId();
 #elif UNITY_IOS
-        var userId = Apple.GameKit.GKLocalPlayer.Local?.GamePlayerId ?? "";
+        var rawUserId = Apple.GameKit.GKLocalPlayer.Local?.GamePlayerId;
 #endif
-        Debug.Log($"Initializing LevelPlay with userId: {userId}");
-        LevelPlay.Init(AppKey, userId);
+        var userId = string.IsNullOrWhiteSpace(rawUserId) ? null : rawUserId;
+        if (!PassUserIdToLevelPlayInit)
+        {
+            userId = null;
+        }
+        Debug.Log(
+            "LevelPlay Init\n" +
+            $"  platform: {Application.platform}\n" +
+            $"  bundleId: {Application.identifier}\n" +
+            $"  appKey: '{AppKey}' (length {AppKey?.Length ?? 0})\n" +
+            $"  inspector AndroidAppKey: '{AndroidAppKey}'\n" +
+            $"  inspector iOSAppKey: '{iOSAppKey}'\n" +
+            $"  rawUserId: '{rawUserId}'\n" +
+            $"  PassUserIdToLevelPlayInit: {PassUserIdToLevelPlayInit}\n" +
+            $"  userId passed to Init: {(userId == null ? "(null)" : $"'{userId}'")}\n" +
+            $"  TestSuiteMode: {TestSuiteMode}\n" +
+            $"  GLOBAL_DO_ADS: {GLOBAL_DO_ADS}\n" +
+            $"  AllAdsDisabled: {AllAdsDisabled}\n" +
+            $"  AdFreeMode: {AdFreeMode}");
+        if (userId == null)
+        {
+            LevelPlay.Init(AppKey);
+        }
+        else
+        {
+            LevelPlay.Init(AppKey, userId);
+        }
     }
 
     private void OnApplicationPause(bool pause)
@@ -191,10 +217,16 @@ public class AdManager : MonoBehaviour
     {
         if (DoValidation)
         {
-            IronSource.Agent.validateIntegration();
+            LevelPlay.ValidateIntegration();
         }
         Debug.LogError("Ads SDK initialization failed, see following error for error code and message");
-        Debug.LogError($"{error.ErrorCode}\n{error.ErrorMessage}");
+        Debug.LogError(
+            $"LevelPlay OnInitFailed\n" +
+            $"  errorCode: {error.ErrorCode}\n" +
+            $"  errorMessage: {error.ErrorMessage}\n" +
+            $"  error.ToString(): {error}\n" +
+            $"  appKey used: '{AppKey}'\n" +
+            $"  bundleId: {Application.identifier}");
 
         SdkLoadFailed?.Invoke();
     }
@@ -202,12 +234,12 @@ public class AdManager : MonoBehaviour
     {
         if (DoValidation)
         {
-            IronSource.Agent.validateIntegration();
+            LevelPlay.ValidateIntegration();
         }
         if (TestSuiteMode)
         {
             //Launch test suite
-            IronSource.Agent.launchTestSuite();
+            LevelPlay.LaunchTestSuite();
             return;
         }
 
@@ -226,7 +258,12 @@ public class AdManager : MonoBehaviour
     private LevelPlayBannerAd BannerAd;
     private void InitBannerAd()
     {
-        BannerAd = new LevelPlayBannerAd(BannerAdUnitId, LevelPlayAdSize.BANNER, LevelPlayBannerPosition.BottomCenter, respectSafeArea: true);
+        var bannerConfig = new LevelPlayBannerAd.Config.Builder()
+            .SetSize(LevelPlayAdSize.BANNER)
+            .SetPosition(LevelPlayBannerPosition.BottomCenter)
+            .SetRespectSafeArea(true)
+            .Build();
+        BannerAd = new LevelPlayBannerAd(BannerAdUnitId, bannerConfig);
         BannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
         BannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
         BannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;
@@ -247,10 +284,10 @@ public class AdManager : MonoBehaviour
     }
     void BannerOnAdClickedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdClickedEvent"); }
     void BannerOnAdDisplayedEvent(LevelPlayAdInfo adInfo) { }
-    void BannerOnAdDisplayFailedEvent(LevelPlayAdDisplayInfoError adInfoError)
+    void BannerOnAdDisplayFailedEvent(LevelPlayAdInfo adInfo, LevelPlayAdError adError)
     {
         Debug.LogWarning("BannerOnAdDisplayFailedEvent");
-        Debug.LogWarning($"{adInfoError.LevelPlayError.ErrorCode}: {adInfoError.LevelPlayError.ErrorMessage}");
+        Debug.LogWarning($"{adError.ErrorCode}: {adError.ErrorMessage}");
     }
     void BannerOnAdCollapsedEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdCollapsedEvent"); }
     void BannerOnAdLeftApplicationEvent(LevelPlayAdInfo adInfo) { Debug.Log("BannerOnAdLeftApplicationEvent"); }
@@ -365,7 +402,7 @@ public class AdManager : MonoBehaviour
     {
     }
 
-    void InterstitialOnAdDisplayFailedEvent(LevelPlayAdDisplayInfoError infoError)
+    void InterstitialOnAdDisplayFailedEvent(LevelPlayAdInfo adInfo, LevelPlayAdError adError)
     {
         InterstitialAd?.DestroyAd();
         InterstitialAd = null;
@@ -453,7 +490,7 @@ public class AdManager : MonoBehaviour
     {
     }
 
-    void RewardedHintOnAdDisplayFailedEvent(LevelPlayAdDisplayInfoError infoError)
+    void RewardedHintOnAdDisplayFailedEvent(LevelPlayAdInfo adInfo, LevelPlayAdError adError)
     {
         RewardedHintAvailable = false;
         RewardedHintAd?.DestroyAd();

@@ -38,7 +38,7 @@ public class PurchaseUIController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
+    private void OnPurchaseFailed(IEnumerable<Product> products, PurchaseFailureReason reason)
     {
         ErrorDialog.Show();
     }

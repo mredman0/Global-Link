@@ -177,19 +177,23 @@ public class DailyPuzzleManager : MonoBehaviour
         foreach(var productId in relevantProductIds)
         {
             var product = PurchaseManager.Instance.GetProduct(productId);
-            if (product != null && product.hasReceipt)
+            if (product != null && PurchaseManager.Instance.NonConsumableOwned(productId))
             {
 #if UNITY_EDITOR
                 devProducts.Add(product.definition.id);
 #elif UNITY_ANDROID
-                var token = GetTokenFromReceipt(product.receipt);
+                var token = GetTokenFromReceipt(PurchaseManager.Instance.GetPurchaseReceipt(productId));
                 if(!string.IsNullOrEmpty(token))
                 {
                     productIds.Add(product.definition.id);
                     tokens.Add(token);
                 }
 #elif UNITY_IOS
-                var tid = product.transactionID;
+                var tid = PurchaseManager.Instance.GetTransactionId(productId);
+                if (string.IsNullOrEmpty(tid))
+                {
+                    tid = product.transactionID;
+                }
                 if(!string.IsNullOrEmpty(tid))
                 {
                     productIds.Add(product.definition.id);
@@ -396,19 +400,31 @@ public class DailyPuzzleManager : MonoBehaviour
 #if UNITY_ANDROID
     private string GetTokenFromReceipt(string receiptStr)
     {
+        if (string.IsNullOrEmpty(receiptStr))
+        {
+            return null;
+        }
         try
         {
-            // Parse the receipt as a JSON object
             var receipt = JObject.Parse(receiptStr);
+            if (receipt["purchaseToken"] != null)
+            {
+                return receipt["purchaseToken"].ToString();
+            }
 
-            // Extract the Payload (which is itself a JSON string)
-            var payload = JObject.Parse(receipt["Payload"].ToString());
-
-            // Extract the inner JSON object and find the purchaseToken
-            var json = JObject.Parse(payload["json"].ToString());
-            var purchaseToken = json["purchaseToken"].ToString();
-
-            return purchaseToken;
+            var payloadToken = receipt["Payload"];
+            if (payloadToken == null)
+            {
+                return null;
+            }
+            var payload = JObject.Parse(payloadToken.ToString());
+            var jsonToken = payload["json"];
+            if (jsonToken == null)
+            {
+                return null;
+            }
+            var json = JObject.Parse(jsonToken.ToString());
+            return json["purchaseToken"]?.ToString();
         }
         catch (Exception ex)
         {

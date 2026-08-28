@@ -41,15 +41,7 @@ public static class DevUtil
     public static string GetAndroidSdkPath()
     {
         // Fetch the SDK path using Unity's internal API
-        string sdkPath = EditorPrefs.GetString("AndroidSdkRoot");
-
-        // If the preference isn't set, check Unity's internal fallback
-#if UNITY_2022_1_OR_NEWER
-        if (string.IsNullOrEmpty(sdkPath))
-        {
-            sdkPath = UnityEditor.Android.AndroidExternalToolsSettings.sdkRootPath;
-        }
-#endif
+        string sdkPath = UnityEditor.Android.AndroidExternalToolsSettings.sdkRootPath;
 
         return sdkPath;
     }
